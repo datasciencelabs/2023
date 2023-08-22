@@ -1,0 +1,149 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "BST 260 Introduction to Data Science",
+    "section": "",
+    "text": "Preface\nThese are the class notes for BST 260 Introduction to Data Science."
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "Introduction",
+    "section": "",
+    "text": "The lectures for this course are mostly live coded. This book will keep the code we write and notes we take organized.\nWe also complete exercises and we will include the solutions here.\nWe strongly encourage you to keep your own notes in your own GitHub repository. Starting the second week of class you should update your class notes repository at least weekly.\nDuring the first week of class we will introduce RStudio, Quarto, Git, and GitHub so that you can do this. But only through steady practice will you learn to use these important tools."
+  },
+  {
+    "objectID": "01-quarto.html#r-and-rstudio",
+    "href": "01-quarto.html#r-and-rstudio",
+    "title": "1  Quarto",
+    "section": "1.1 R and RStudio",
+    "text": "1.1 R and RStudio\nBefore introducing Quarto we need R installed. We highly recommend using RStudio as an IDE for this course. We will be using it in lectures.\n\n1.1.1 Installation\n\nInstall the latest version (4.3.1) of R\nInstall RStudio\n\n\n\n\nrstudio\n\n\n\n\n1.1.2 Basics\nLet’s try a few things together:\n\nOpen a new R script file\nLearn tab complete\nRun commands while editing scripts\nRun the entire script\nMake a plot\nChange options to never save workspace.\n\n\n\n1.1.3 Projects\n\nStart new project in exciting directory.\nStart new project in new directory.\nChange projects."
+  },
+  {
+    "objectID": "01-quarto.html#markdown",
+    "href": "01-quarto.html#markdown",
+    "title": "1  Quarto",
+    "section": "1.2 Markdown",
+    "text": "1.2 Markdown\nStart a new Quarto.\n\n1.2.1 Type of editor\n\nSource - See the actual code (WYSIWYG).\nVisual - Partial preview of final document.\n\n\n\n1.2.2 The header\nAt the top you see:\n---\ntitle: \"Untitled\"\n---\nThe things between the --- is the YAML header.\nYou will see it used throughout the Quarto guide.\n\n\n1.2.3 Text formating\nitalics, bold, bold italics\nstrikethrough\ncode\n\n\n1.2.4 Headings\n# Header 1\n## Header 2\n### Header 3\nand so on\n\n\n1.2.5 Links\nJust the link: https://quarto.org/docs/guide/\nLinked text: This is the link to Quarto Guide\n\n\n1.2.6 Images\n\n\n\nFirst week of data science\n\n\nThe image can also be a local file.\n\n\n1.2.7 Lists\nBullets:\n\nbullet 1\n\nsub-bullet 1\nsub-bullet 2\n\nbullet 2\n\nOrdered list\n\nItem 1\nItem 2\n\n\n\n1.2.8 Equations\nInline: \\(Y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i\\)\nDisplay math:\n\\[\n\\mathbf{Y} = \\mathbf{X\\beta} + \\mathbf{\\varepsilon}\n\\]"
+  },
+  {
+    "objectID": "01-quarto.html#computations",
+    "href": "01-quarto.html#computations",
+    "title": "1  Quarto",
+    "section": "1.3 Computations",
+    "text": "1.3 Computations\nThe main reason we use Quarto is because we can include code and execute the code when compiling the document. In R we refer to them as R chunks.\nTo add your own R chunks, you can type the characters above quickly with the key binding command-option-I on the Mac and Ctrl-Alt-I on Windows.\nThis applies to plots as well; the plot will be placed in that position. We can write something like this:\n\nx &lt;- 1\ny &lt;- 2\nx + y\n\n[1] 3\n\n\nBy default, the code will show up as well. To avoid having the code show up, you can use an argument, which are annotated with |# To avoid showing code in the final document, you can use the argument echo: FALSE. For example:\n\n\n[1] 3\n\n\nWe recommend getting into the habit of adding a label to the R code chunks. This will be very useful when debugging, among other situations. You do this by adding a descriptive word like this:\n\nx &lt;- 1\ny &lt;- 2\nx + y\n\n[1] 3\n\n\n\n1.3.1 Academic reports\nQuarto has many nice features that facilitates publishing academic reports in this guide\n\n\n1.3.2 Global excecution options\nIf you want to apply an option globally, you can include in the header, under execute. For example adding the following line to the header make code not show up, by default:\nexecute:\n  echo: false\n\n\n1.3.3 More on markdown\nThere is a lot more you can do with R markdown. We highly recommend you continue learning as you gain more experience writing reports in R. There are many free resources on the internet including:\n\nRStudio’s tutorial: https://quarto.org/docs/get-started/hello/rstudio.html\nThe knitR book: https://yihui.name/knitr/\nPandoc’s Markdown in-depth documentation"
+  },
+  {
+    "objectID": "01-quarto.html#sec-knitr",
+    "href": "01-quarto.html#sec-knitr",
+    "title": "1  Quarto",
+    "section": "1.4 knitR",
+    "text": "1.4 knitR\nWe use the knitR package to compile Quarto. The specific function used to compile is the knit function, which takes a file name as input. RStudio provides the Render button that makes it easier to compile the document.\nNote that the first time you click on the Render button, a dialog box may appear asking you to install packages you need. Once you have installed the packages, clicking Render will compile your Quarto file and the resulting document will pop up.\nThis particular example produces an html document which you can see in your working directory. To view it, open a terminal and list the files. You can open the file in a browser and use this to present your analysis. You can also produce a PDF or Microsoft document by changing:\nformat: html to format: pdf or format: docx. We can also produce documents that render on GitHub using format: gfm, which stands for GitHub flavored markdown, a convenient way to share your reports."
+  },
+  {
+    "objectID": "01-unix.html#naming-convention",
+    "href": "01-unix.html#naming-convention",
+    "title": "2  Unix",
+    "section": "2.1 Naming convention",
+    "text": "2.1 Naming convention\nIn general you want to name your files in a way that is related to their contents and specifies how they relate to other files. The Smithsonian Data Management Best Practices has “five precepts of file naming and organization” and they are:\n\n\n\nHave a distinctive, human-readable name that gives an indication of the content.\nFollow a consistent pattern that is machine-friendly.\nOrganize files into directories (when necessary) that follow a consistent pattern.\nAvoid repetition of semantic elements among file and directory names.\nHave a file extension that matches the file format (no changing extensions!)\n\n\n\nFor specific recommendations we highly recommend you follow The Tidyverse Style Guide1."
+  },
+  {
+    "objectID": "01-unix.html#the-terminal",
+    "href": "01-unix.html#the-terminal",
+    "title": "2  Unix",
+    "section": "2.2 The terminal",
+    "text": "2.2 The terminal\n\necho \"Hello world\"\n\nHello world"
+  },
+  {
+    "objectID": "01-unix.html#sec-filesystem",
+    "href": "01-unix.html#sec-filesystem",
+    "title": "2  Unix",
+    "section": "2.3 The filesystem",
+    "text": "2.3 The filesystem\n\n2.3.1 Directories and subdirectories\n\n\n\nfilesystem\n\n\n\n\n2.3.2 The home directory\n\n\n\n\n\n\nHome directory in Windows\n\n\n\n\n\n\n\nHome directory in MacOS\n\n\n\n\n\nThe structure on Windows looks something like this:\n\nAnd on MacOS something like this:"
+  },
+  {
+    "objectID": "01-unix.html#working-directory",
+    "href": "01-unix.html#working-directory",
+    "title": "2  Unix",
+    "section": "2.4 Working directory",
+    "text": "2.4 Working directory\nThe working directory is the directly you are currently in. Later we will see that we can move to other directories using the command line. It’s similar to clicking on folders.\nYou can see your working directory like this:\n\npwd\n\n/Users/rafa/Documents/teaching/bst260/2023\n\n\nIn R we can use\n\ngetwd()\n\n[1] \"/Users/rafa/Documents/teaching/bst260/2023\""
+  },
+  {
+    "objectID": "01-unix.html#sec-paths",
+    "href": "01-unix.html#sec-paths",
+    "title": "2  Unix",
+    "section": "2.5 Paths",
+    "text": "2.5 Paths\nThis string returned in previous command is full path to working directory.\nThe full path to your home directory is stored in an environment variable, discussed in more detail later:\n\necho $HOME\n\n/Users/rafa\n\n\nIn Unix, we use the shorthand ~ as a nickname for your home directory\nExample: the full path for docs (in image above) can be written like this ~/docs.\nMost terminals will show the path to your working directory right on the command line.\nExercise: Open a terminal window and see if the working directory is listed."
+  },
+  {
+    "objectID": "01-unix.html#unix-commands",
+    "href": "01-unix.html#unix-commands",
+    "title": "2  Unix",
+    "section": "2.6 Unix commands",
+    "text": "2.6 Unix commands\n\n2.6.1 ls: Listing directory content\n\n\nls\n\n\n\n2.6.2 mkdir and rmdir: make and remove a directory\n\nmkdir projects\n\nIf you do this correctly, nothing will happen: no news is good news. If the directory already exists, you will get an error message and the existing directory will remain untouched.\nTo confirm that you created these directories, you can list the directories:\n\nls\n\nYou should see the directories we just created listed.\n\nmkdir docs teaching\n\nIf you made a mistake and need to remove the directory, you can use the command rmdir to remove it.\n\nmkdir junk\nrmdir junk\n\n\n\n2.6.3 cd: navigating the filesystem by changing directories\n\ncd projects\n\nTo check that the working directory changed, we can use a command we previously learned to see our location:\n\npwd"
+  },
+  {
+    "objectID": "01-unix.html#autocomplete",
+    "href": "01-unix.html#autocomplete",
+    "title": "2  Unix",
+    "section": "2.7 Autocomplete",
+    "text": "2.7 Autocomplete\nIn Unix you can auto-complete by hitting tab. This means that we can type cd d then hit tab. Unix will either auto-complete if docs is the only directory/file starting with d or show you the options. Try it out! Using Unix without auto-complete will make it unbearable.\n\n2.7.1 cd contined\nGoing back one:\n\ncd ..\n\nGoing home:\n\ncd ~\n\nor simply:\n\ncd\n\nStating put (later we see why useful)\n\ncd .\n\nGoing far:\n\ncd /c/Users/yourusername/projects\n\nUsing relative paths:\n\ncd ../..\n\nGoing to previous working directory\n\ncd -"
+  },
+  {
+    "objectID": "01-unix.html#practice",
+    "href": "01-unix.html#practice",
+    "title": "2  Unix",
+    "section": "2.8 Practice",
+    "text": "2.8 Practice\nLet’s explore some examples of navigating a filesystem using the command-line. Download and expand this file into a temporary directory and you will have the data struct in the following image.\n\n\n\nPractitce file system\n\n\n\nSuppose our working directory is ~/projects, move to figs in project-1.\n\n\n\n\n\nNow suppose our working directory is ~/projects. Move to reports in docs in two different ways:\n\n\n\n\n\n\n\n\nSuppose we are in ~/projects/project-1/figs and want to change to ~/projects/project-2. Show two different ways, one with relative path and one with full path."
+  },
+  {
+    "objectID": "01-unix.html#more-unix-commands",
+    "href": "01-unix.html#more-unix-commands",
+    "title": "2  Unix",
+    "section": "2.9 More Unix commands",
+    "text": "2.9 More Unix commands\n\n2.9.1 mv: moving files\n\nmv path-to-file path-to-destination-directory\n\nFor example, if we want to move the file cv.tex from resumes to reports, you could use the full paths like this:\n\nmv ~/docs/resumes/cv.tex ~/docs/reports/\n\nYou can also use relative paths. So you could do this:\n\ncd ~/docs/resumes\nmv cv.tex ../reports/\n\nor this:\n\ncd ~/docs/reports/\nmv ../resumes/cv.tex ./\n\nWe can also use mv to change the name of a file.\n\ncd ~/docs/resumes\nmv cv.tex resume.tex\n\nWe can also combine the move and a rename. For example:\n\ncd ~/docs/resumes\nmv cv.tex ../reports/resume.tex\n\nAnd we can move entire directories. To move the resumes directory into reports, we do as follows:\n\nmv ~/docs/resumes ~/docs/reports/\n\nIt is important to add the last / to make it clear you do not want to rename the resumes directory to reports, but rather move it into the reports directory.\n\n\n2.9.2 cp: copying files\nThe command cp behaves similar to mv except instead of moving, we copy the file, meaning that the original file stays untouched.\n\n\n2.9.3 rm: removing files\nIn point-and-click systems, we remove files by dragging and dropping them into the trash or using a special click on the mouse. In Unix, we use the rm command.\n\n\n\n\n\n\nWarning\n\n\n\nUnlike throwing files into the trash, rm is permanent. Be careful!\n\n\nThe general way it works is as follows:\n\nrm filename\n\nYou can actually list files as well like this:\n\nrm filename-1 filename-2 filename-3\n\nYou can use full or relative paths. To remove directories, you will have to learn about arguments, which we do later.\n\n\n2.9.4 less: looking at a file\nOften you want to quickly look at the content of a file. If this file is a text file, the quickest way to do is by using the command less. To look a the file cv.tex, you do this:\n\ncd ~/docs/resumes\nless cv.tex \n\nTo exit the viewer, you type q. If the files are long, you can use the arrow keys to move up and down. There are many other keyboard commands you can use within less to, for example, search or jump pages."
+  },
+  {
+    "objectID": "01-unix.html#sec-prep-project",
+    "href": "01-unix.html#sec-prep-project",
+    "title": "2  Unix",
+    "section": "2.10 Preparing for a data science project",
+    "text": "2.10 Preparing for a data science project\nWe are now ready to prepare a directory for a project. We will use the US murders project2 as an example.\nYou should start by creating a directory where you will keep all your projects. We recommend a directory called projects in your home directory. To do this you would type:\n\ncd ~\nmkdir projects\n\nOur project relates to gun violence murders so we will call the directory for our project murders. It will be a subdirectory in our projects directories. In the murders directory, we will create two subdirectories to hold the raw data and intermediate data. We will call these data and rda, respectively.\nOpen a terminal and make sure you are in the home directory:\n\ncd ~\n\nNow run the following commands to create the directory structure we want. At the end, we use ls and pwd to confirm we have generated the correct directories in the correct working directory:\n\ncd projects\nmkdir murders\ncd murders\nmkdir data rdas \nls\npwd\n\nNote that the full path of our murders dataset is ~/projects/murders.\nSo if we open a new terminal and want to navigate into that directory we type:\n\ncd projects/murders"
+  },
+  {
+    "objectID": "01-unix.html#text-editors",
+    "href": "01-unix.html#text-editors",
+    "title": "2  Unix",
+    "section": "2.11 Text editors",
+    "text": "2.11 Text editors\nIn the course we will be using RStudio to edit files. But there will be situations in where this is not the most efficient approach. You might also need to write R code on a server that does not have RStudio installed. For this reason you need to learn to use a command-line text editors or terminal-based text editors. A key feature of these is that you can do everything you need on a terminal without the need for graphical interface. This is often necessary when using remote servers or computers you are not sitting in front off.\nCertainly! Command-line text editors are essential tools, especially for system administrators, developers, and other users who frequently work in a terminal environment. Here are some of the most popular command-line text editors:\n\nNano - Easy to use and beginner-friendly.\n\nFeatures: Simple interface, easy-to-use command prompts at the bottom of the screen, syntax highlighting.\n\nPico - Originally part of the Pine email client (Pico = PIne COmposer). It’s a simple editor and was widely used before Nano came around.\nVi or Vim - Vi is one of the oldest text editors and comes pre-installed on many UNIX systems. It is harder to use than Nano and Pico but is much more powerful. Vim is an enhanced version of Vi.\nEmacs - Another old and powerful text editor. It’s known for being extremely extensible.\n\nTo use these to edit a file you type, for example,\n\nnano filenmae"
+  },
+  {
+    "objectID": "01-unix.html#advanced-unix",
+    "href": "01-unix.html#advanced-unix",
+    "title": "2  Unix",
+    "section": "2.12 Advanced Unix",
+    "text": "2.12 Advanced Unix\n\n2.12.1 Arguments\n\nrm -r directory-name\n\nall files, subdirectories, files in subdirectories, subdirectories in subdirectories, and so on, will be removed. This is equivalent to throwing a folder in the trash, except you can’t recover it. Once you remove it, it is deleted for good. Often, when you are removing directories, you will encounter files that are protected. In such cases, you can use the argument -f which stands for force.\nYou can also combine arguments. For instance, to remove a directory regardless of protected files, you type:\n\nrm -rf directory-name\n\n\n\n\n\n\n\nWarning\n\n\n\nRemember that once you remove there is no going back, so use this command very carefully.\n\n\nA command that is often called with argument is ls. Here are some examples:\n\nls -a \n\n\nls -l \n\nIt is often useful to see files in chronological order. For that we use:\n\nls -t \n\nand to reverse the order of how files are shown you can use:\n\nls -r \n\nWe can combine all these arguments to show more information for all files in reverse chronological order:\n\nls -lart \n\nEach command has a different set of arguments. In the next section, we learn how to find out what they each do.\n\n\n2.12.2 Getting help\n\nman ls\n\nor\n\nls --help\n\n\n\n2.12.3 Pipes\n\nman ls | less\n\nor in Git Bash:\n\nls --help | less \n\nThis is also useful when listing files with many files. We can type:\n\nls -lart | less \n\n\n\n2.12.4 Wild cards\n\nls *.html\n\nTo remove all html files in a directory, we would type:\n\nrm *.html\n\nThe other useful wild card is the ? symbol.\n\nrm file-???.html\n\nThis will only remove files with that format.\nWe can combine wild cards. For example, to remove all files with the name file-001 regardless of suffix, we can type:\n\nrm file-001.* \n\n\n\n\n\n\n\nWarning\n\n\n\nCombining rm with the * wild card can be dangerous. There are combinations of these commands that will erase your entire filesystem without asking “are you sure?”. Make sure you understand how it works before using this wild card with the rm command.**\n\n\n\n\n2.12.5 Environment variables\nEarlier we saw this:\n\necho $HOME \n\nYou can see them all by typing:\n\nenv\n\nYou can change some of these environment variables. But their names vary across different shells. We describe shells in the next section.\n\n\n2.12.6 Shells\n\necho $SHELL\n\nThe most common one is bash.\nOnce you know the shell, you can change environmental variables. In Bash Shell, we do it using export variable value. To change the path, described in more detail soon, type: (Don’t actually run this command though!)\n\nexport PATH = /usr/bin/\n\n\n\n2.12.7 Executables\n\nwhich git\n\nThat directory is probably full of program files. The directory /usr/bin usually holds many program files. If you type:\n\nls /usr/bin\n\nin your terminal, you will see several executable files.\nThere are other directories that usually hold program files. The Application directory in the Mac or Program Files directory in Windows are examples.\nTo see where your system looks:\n\necho $PATH\n\nyou will see a list of directories separated by :. The directory /usr/bin is probably one of the first ones on the list.\nIf your command is called my-ls, you can type:\n\n./my-ls\n\nOnce you have mastered the basics of Unix, you should consider learning to write your own executables as they can help alleviate repetitive work.\n\n\n2.12.8 Permissions and file types\nIf you type:\n\nls -l\n\nAt the beginning, you will see a series of symbols like this -rw-r--r--. This string indicates the type of file: regular file -, directory d, or executable x. This string also indicates the permission of the file: is it readable? writable? executable? Can other users on the system read the file? Can other users on the system edit the file? Can other users execute if the file is executable? This is more advanced than what we cover here, but you can learn much more in a Unix reference book.\n\n\n2.12.9 Commands you should learn\n\ncurl - download data from the internet.\ntar - archive files and subdirectories of a directory into one file.\nssh - connect to another computer.\nfind - search for files by filename in your system.\ngrep - search for patterns in a file.\nawk/sed - These are two very powerful commands that permit you to find specific strings in files and change them.\nln - create a symbolic link. We do not recommend its use, but you should be familiar with it."
+  },
+  {
+    "objectID": "01-unix.html#resources",
+    "href": "01-unix.html#resources",
+    "title": "2  Unix",
+    "section": "2.13 Resources",
+    "text": "2.13 Resources\nTo get started.\n\nhttps://www.codecademy.com/learn/learn-the-command-line\nhttps://www.edx.org/course/introduction-linux-linuxfoundationx-lfs101x-1\nhttps://www.coursera.org/learn/unix"
+  },
+  {
+    "objectID": "01-unix.html#exercises",
+    "href": "01-unix.html#exercises",
+    "title": "2  Unix",
+    "section": "2.14 Exercises",
+    "text": "2.14 Exercises\nYou are not allowed to use RStudio or point and click for any of the exercises below. Open a text file called commands.txt using a text editor and keep a log of the commands you use in the exercises below. If you want to take notes, you can use # to distinguish notes from commands.\n\nDecide on a directory where you will save your class materials. Navigate into the directory using a full path.\nMake a directory called project-1 and cd into that directory.\nMake directors called data: data, rdas, code, and docs.\nUse curl or wget to download the file https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/murders.csv and store it in rdas.\nCreate a R file in the code directory called code-1.R, write the following code in the file so that if the working directory is code it reads in the csv file you just downloaded. Use only relative paths.\n\n\nfilename &lt;- \"\"\ndat &lt;- read.csv(filename)\n\n\nAdd the following line to your R code so that it saves the file to the rdas directory. Use only relative paths.\n\n\nout &lt;- \"\"\ndat &lt;- save(dat, file = out)\n\n\nCreate a file code-2.R in the code directory. Use the following command to add a line to the file.\n\necho \"load('../rdas/murders.rda')\" &gt; code/code-2.R\nCheck to see if the line of code as added without opening a text editor.\n\nNavigate to the code directory and list all the files ending in .R.\nNavigate to the project-1 directory. Without navigating away, change the name of code-1.R to import.R, but keep the file in the same directory.\nChange the name of the project directory to murders. Describe what you have to change so the R script sill does the right thing and how this would be different if you had used full paths.\nBonus : Navigate to the murders directory. Read the man page for the find function. Use find to list all the files ending in .R."
+  },
+  {
+    "objectID": "01-unix.html#footnotes",
+    "href": "01-unix.html#footnotes",
+    "title": "2  Unix",
+    "section": "",
+    "text": "https://style.tidyverse.org/↩︎\nhttps://github.com/rairizarry/murders↩︎"
+  }
+]

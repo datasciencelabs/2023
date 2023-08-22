@@ -1,0 +1,5 @@
+# Preface {.unnumbered}
+
+These are the class notes for BST 260 Introduction to Data Science. 
+
+

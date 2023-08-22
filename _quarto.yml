@@ -1,0 +1,31 @@
+project:
+  type: book
+  output-dir: docs
+
+execute:
+  cache: true
+  
+book:
+  title: "BST 260 Introduction to Data Science"
+  subtitle: "2023 Notes"
+  author: "Rafael Irizarry"
+  date: "8/19/2023"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - 01-quarto.qmd
+    - 01-unix.qmd
+  reader-mode: true
+  site-url: http://datasciencelabs.github.io/2023
+  repo-url: https://github.com/datasciencelabs/2023
+  repo-branch: main
+  repo-actions: [source, issue]
+  sidebar:
+    collapse-level: 1
+ 
+format:
+  html:
+    theme: cosmo
+
+editor: source
+

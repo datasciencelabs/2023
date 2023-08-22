@@ -1,0 +1,10 @@
+# Introduction {.unnumbered}
+
+The lectures for this course are mostly live coded. This book will keep the code we write and notes we take organized. 
+
+We also complete exercises and we will include the solutions here.
+
+We strongly encourage you to keep your own notes in your own GitHub repository. Starting the second week of class you should update your class notes repository at least weekly.
+
+During the first week of class we will introduce RStudio, Quarto, Git, and GitHub so that you can do this. But only through steady practice will you learn to use these important tools.
+

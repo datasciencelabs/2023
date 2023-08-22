@@ -1,0 +1,180 @@
+# Quarto
+
+Your task is to produce a report in PDF that solves the quadratic equations $ax^2+bx+c=0$ for $a=1, b=-1, c=-2$ and shows a plot of the function to confirm the finding.
+
+But after you are done, I will discover I made a mistake and ask you to rewrite the report with $a=1, b=-1, c=-1$.
+
+Then once you are done, I will like the report so much I will ask you to make an html page displaying the result and showing and explaining the code you used.
+
+We will do all this using R, RStudio, Quarto, and knitr.
+
+## R and RStudio
+
+Before introducing Quarto we need R installed. We highly recommend using RStudio as an IDE for this course. We will be using it in lectures.
+
+### Installation
+
+-   [Install the latest version (4.3.1) of R](https://cloud.r-project.org/)
+-   [Install RStudio](https://posit.co/download/rstudio-desktop/)
+
+![rstudio](http://rafalab.dfci.harvard.edu/dsbook-part-1/R/img/rstudio.png)
+
+### Basics
+
+Let's try a few things together:
+
+* Open a new R script file
+* Learn tab complete
+* Run commands while editing scripts
+* Run the entire script
+* Make a plot
+* Change options to never save workspace.
+
+### Projects
+
+* Start new project in exciting directory.
+* Start new project in new directory.
+* Change projects.
+
+
+## Markdown
+
+Start a new Quarto.
+
+### Type of editor
+
+* Source - See the actual code (WYSIWYG).
+* Visual - Partial preview of final document.
+
+### The header
+
+At the top you see:
+
+```         
+---
+title: "Untitled"
+---
+```
+
+The things between the `---` is the *YAML* header.
+
+You will see it used throughout the [Quarto guide](https://quarto.org/docs/guide/).
+
+### Text formating
+
+*italics*, **bold**, ***bold italics***
+
+~strikethrough~
+
+`code`
+
+### Headings
+
+`# Header 1`
+
+`## Header 2`
+
+`### Header 3`
+
+and so on
+
+### Links
+
+Just the link: <https://quarto.org/docs/guide/>
+
+Linked text: [This is the link to Quarto Guide](https://quarto.org/docs/guide/)
+
+### Images
+
+![First week of data science](https://datasciencedojo.com/wp-content/uploads/11-1.jpg)
+
+The image can also be a local file.
+
+### Lists
+
+Bullets:
+
+-   bullet 1
+    -   sub-bullet 1
+    -   sub-bullet 2
+-   bullet 2
+
+Ordered list
+
+1.  Item 1
+2.  Item 2
+
+### Equations
+
+Inline: $Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$
+
+Display math:
+
+$$
+\mathbf{Y} = \mathbf{X\beta} + \mathbf{\varepsilon}
+$$
+
+## Computations
+
+The main reason we use Quarto is because we can include code and execute the code when compiling the document. In R we refer to them as R chunks.
+
+To add your own R chunks, you can type the characters above quickly with the key binding command-option-I on the Mac and Ctrl-Alt-I on Windows.
+
+This applies to plots as well; the plot will be placed in that position. We can write something like this:
+
+```{r}
+x <- 1
+y <- 2
+x + y
+```
+
+By default, the code will show up as well. To avoid having the code show up, you can use an argument, which are annotated with `|#` To avoid showing code in the final document, you can use the argument `echo: FALSE`. For example:
+
+```{r}
+#| echo: false
+
+x <- 1
+y <- 2
+x + y
+```
+
+We recommend getting into the habit of adding a label to the R code chunks. This will be very useful when debugging, among other situations. You do this by adding a descriptive word like this:
+
+```{r}
+#| label: one-plus-two
+
+x <- 1
+y <- 2
+x + y
+```
+
+### Academic reports
+
+Quarto has many nice features that facilitates publishing academic reports in [this guide](https://quarto.org/docs/authoring/front-matter.html)
+
+### Global excecution options
+
+If you want to apply an option globally, you can include in the header, under `execute`. For example adding the following line to the header make code not show up, by default:
+
+```         
+execute:
+  echo: false
+```
+
+### More on markdown
+
+There is a lot more you can do with R markdown. We highly recommend you continue learning as you gain more experience writing reports in R. There are many free resources on the internet including:
+
+-   RStudio's tutorial: <https://quarto.org/docs/get-started/hello/rstudio.html>
+-   The knitR book: <https://yihui.name/knitr/>
+-   Pandoc's Markdown [in-depth documentation](https://pandoc.org/MANUAL.html#pandocs-markdown)
+
+## knitR {#sec-knitr}
+
+We use the **knitR** package to compile Quarto. The specific function used to compile is the `knit` function, which takes a file name as input. RStudio provides the **Render** button that makes it easier to compile the document.
+
+Note that the first time you click on the *Render* button, a dialog box may appear asking you to install packages you need. Once you have installed the packages, clicking *Render* will compile your Quarto file and the resulting document will pop up.
+
+This particular example produces an html document which you can see in your working directory. To view it, open a terminal and list the files. You can open the file in a browser and use this to present your analysis. You can also produce a PDF or Microsoft document by changing:
+
+`format: html` to `format: pdf` or `format: docx`. We can also produce documents that render on GitHub using `format: gfm`, which stands for GitHub flavored markdown, a convenient way to share your reports.
