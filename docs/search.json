@@ -16,9 +16,9 @@
   {
     "objectID": "intro.html",
     "href": "intro.html",
-    "title": "Introduction",
+    "title": "Course description",
     "section": "",
-    "text": "The lectures for this course are mostly live coded. This book will keep the code we write and notes we take organized.\nWe also complete exercises and we will include the solutions here.\nWe strongly encourage you to keep your own notes in your own GitHub repository. Starting the second week of class you should update your class notes repository at least weekly.\nDuring the first week of class we will introduce RStudio, Quarto, Git, and GitHub so that you can do this. But only through steady practice will you learn to use these important tools."
+    "text": "This course introduces UNIX/Linux shell, version control with git and GitHub, R programming, data wrangling with dplyr and data.table, data visualization with ggplot2 and shiny, and reproducible document preparation with RStudio, knitr and markdown. We briefly introduce Monte Carlo simulations, statistical modeling, high-dimensional data techniques, and machine learning and how these are applied to real data. Throughout the course, we use motivating case studies and data analysis problem sets based on challenges similar to those you encounter in scientific research.\nLectures will be mostly live coding. We will go over exercises and challenges together but will pause 1-4 times per lectures so students can complete exercises on their own. The midterm questions will be selected from the exercises presented in class. Some time will be dedicated to answering problem set questions. Lectures will not be recorded.\nStudents are required to have a GitHub account and create a repository for the course.\nProblem sets are mostly composed of open ended questions. Submission should be in the form of a scientific report. Problem set submission need to be completely reproducible. Specifically, students are expected to upload a Quarto document to their GitHub class repository that graders can compile into a readable report."
   },
   {
     "objectID": "schedule.html",
