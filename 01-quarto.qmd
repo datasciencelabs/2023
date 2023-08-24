@@ -2,7 +2,7 @@
 
 Your task is to produce a report in PDF that solves the quadratic equations $ax^2+bx+c=0$ for $a=1, b=-1, c=-2$ and shows a plot of the function to confirm the finding.
 
-But after you are done, I will discover I made a mistake and ask you to rewrite the report with $a=1, b=-1, c=-1$.
+But after you are done, I will discover I made a mistake and ask you to rewrite the report with $a=1, b=3, c=-2$ (or any number).
 
 Then once you are done, I will like the report so much I will ask you to make an html page displaying the result and showing and explaining the code you used.
 
@@ -178,3 +178,19 @@ Note that the first time you click on the *Render* button, a dialog box may appe
 This particular example produces an html document which you can see in your working directory. To view it, open a terminal and list the files. You can open the file in a browser and use this to present your analysis. You can also produce a PDF or Microsoft document by changing:
 
 `format: html` to `format: pdf` or `format: docx`. We can also produce documents that render on GitHub using `format: gfm`, which stands for GitHub flavored markdown, a convenient way to share your reports.
+
+## Exercises
+
+(@) Write a Quarto document that defines variables $a=1, b=-1, c=-2$
+and print out the solutions to $f(x) = ax^2+bx+c=0$. Do not report complex solutions, only real numbers. 
+
+(@) Include a graph of $f(x)$ versus $x$ for $x \in (-5,5)$.
+
+(@) Generate a PDF report using knitr. Do not show the R code, only the solutions and explanations of what the reader is seeing.
+
+(@) Erase the PDF report and reproduce it but this time using $a=1, b=2, c=5$. 
+
+(@) Erase the PDF report and reproduce it but this time using $a=1, b=3, c=2$. 
+
+(@) Create an HTML page with the results for this last set of values, but this time showing the code. 
+ 

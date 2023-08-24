@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -121,6 +155,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
@@ -128,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-unix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+ <span class="menu-text">Unix</span></a>
   </div>
 </li>
     </ul>
@@ -142,6 +182,15 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#instructor" id="toc-instructor" class="nav-link" data-scroll-target="#instructor">Instructor</a></li>
+  <li><a href="#text-books" id="toc-text-books" class="nav-link" data-scroll-target="#text-books">Text books</a>
+  <ul class="collapse">
+  <li><a href="#downloading-course-materials-using-git" id="toc-downloading-course-materials-using-git" class="nav-link" data-scroll-target="#downloading-course-materials-using-git">Downloading course materials using Git</a>
+  <ul class="collapse">
+  <li><a href="#associating-an-existing-directory" id="toc-associating-an-existing-directory" class="nav-link" data-scroll-target="#associating-an-existing-directory">Associating an existing directory</a></li>
+  <li><a href="#forking-the-repository" id="toc-forking-the-repository" class="nav-link" data-scroll-target="#forking-the-repository">Forking the repository</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/index.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -180,9 +229,118 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
-<p>These are the class notes for BST 260 Introduction to Data Science.</p>
+<ul>
+<li>These are the class notes for BST 260 Introduction to Data Science.</li>
+<li>Schedule is subject to change.</li>
+<li>The GitHub repository is <a href="https://github.com/datasciencelabs/2023" class="uri">https://github.com/datasciencelabs/2023</a></li>
+<li>These notes are generated with a Quarto Book.</li>
+<li>Class notes will be updated regularly with material covered during class.</li>
+<li>New material is added approximately on a weekly basis.</li>
+<li>Questions for the midterm will be drawn from the exercises sections at the end of each lecture.</li>
+</ul>
+</section>
+<section id="instructor" class="level1">
+<h1>Instructor</h1>
+<ul>
+<li><a href="http://rafalab.github.io">Rafael A. Irizarry</a></li>
+<li><a href="http://rafalab.github.io">http://rafalab.github.io</a></li>
+</ul>
+</section>
+<section id="text-books" class="level1">
+<h1>Text books</h1>
+<ul>
+<li><a href="https://rafalab.github.io/dsbook-part-1/">Introduction to Data Science</a>, Data Wrangling and Visualization with R.</li>
+<li><a href="https://rafalab.github.io/dsbook-part-2/">Advanced Data Science</a>, Statistics and Prediction Algorithms Through Case Studies.</li>
+</ul>
+<section id="downloading-course-materials-using-git" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-course-materials-using-git">Downloading course materials using Git</h2>
+<p>You can download the quarto files used to create the course notes using Git. You can update files using <code>git pull</code> but <strong>you will not be able to change the course notes on the main repository</strong>. This means that if you edit the files and then try to update then using <code>git pull</code> you will encounter conflicts. For this reason recommend that you <strong>make a copy before editing files</strong>. We have edited the <code>.gitignore</code> file so that if you add the word <code>notes</code> to your filenames, git will not track the files. So we recommend that you before editing you make a copy of the file and <em>notes</em> to the filename. For example <code>01-unix.qmd</code> to <code>01-unix-notes.qmd</code>.</p>
+<p>You can download the files using <code>git clone</code> like this:</p>
+<ol type="1">
+<li>Open a terminal and navigate to the directory you want to keep these notes in.</li>
+<li>Type <code>git clone  https://github.com/datasciencelabs/2023.git</code></li>
+</ol>
+<p>or using RStudio like this:</p>
+<ol type="1">
+<li>Got to <a href="https://github.com/datasciencelabs/2023" class="uri">https://github.com/datasciencelabs/2023</a></li>
+<li>Click on the green “Clone or Download” on Github and copy the link.</li>
+<li>Open RStudio, and go to File &gt; New Project &gt; Version Control &gt; Git, and paste in the link you just copied. Under “Create Project as Sub-directory of”, browse and select a folder where you want the course materials to go.</li>
+<li>Press “Create Project”. This will create a folder called <code>2023</code> in the folder you selected in step 3.</li>
+<li>Now, you can open this project using the projects tab in the upper right of RStudio, or going to File &gt; Open Project and then navigating to the 2023 folder and opening the <code>.Rproj</code> file.</li>
+</ol>
+<p>Once you cloned the course repository and want to get updates, you must use <code>git pull</code> to get updates. You can do this in the terminal or on the RStudion <strong>Git</strong> pane.</p>
+<section id="associating-an-existing-directory" class="level3">
+<h3 class="anchored" data-anchor-id="associating-an-existing-directory">Associating an existing directory</h3>
+<p><strong>If you already cloned the repository outside of RStudio</strong>, you can associate the directory that was created in that step with RStudio. In RStudio, go to File &gt; New Project &gt; Existing Directory, and then navigate / click on the 2023 folder. Then click “Create Project”. Then you can follow step 5 above to open the project when you launch RStudio.</p>
+</section>
+<section id="forking-the-repository" class="level3">
+<h3 class="anchored" data-anchor-id="forking-the-repository">Forking the repository</h3>
+<p>An alternative <strong>more advanced</strong> way to cloning the directory is creating a <em>fork</em>. Forking a repository on GitHub allows you to create a copy of a project under your own GitHub account. This lets you make changes without affecting the original repository. Here’s how you can fork a repository on GitHub:</p>
+<ol type="1">
+<li><strong>Log In to GitHub</strong>:
+<ul>
+<li>Make sure you are logged in to your GitHub account.</li>
+</ul></li>
+<li><strong>Navigate to the Repository</strong>:
+<ul>
+<li>Go to the main page of the repository you want to fork: <a href="https://github.com/datasciencelabs/2023" class="uri">https://github.com/datasciencelabs/2023</a></li>
+</ul></li>
+<li><strong>Click the ‘Fork’ Button</strong>:
+<ul>
+<li>In the top-right corner of the repository’s page, you’ll find the “Fork” button. Click on it.</li>
+</ul></li>
+<li><strong>Choose an Account</strong>:
+<ul>
+<li>If you are a member of any organizations, GitHub will ask you where you’d like to fork the repository. Choose your personal account unless you want to fork it to an organization.</li>
+</ul></li>
+<li><strong>Wait for the Forking Process to Complete</strong>:
+<ul>
+<li>GitHub will then create a copy of the repository in your account. You’ll see an animation indicating the process, and once it’s done, you’ll be redirected to the forked repository under your account.</li>
+</ul></li>
+<li><strong>Clone Your Forked Repository</strong>:
+<ul>
+<li><p>To work with the forked repository on your local machine, you can clone it. Navigate to the main page of your forked repo, click on the green “Code” button, copy the URL, and then use the following command in your terminal or command prompt:</p>
+<pre><code>git clone [URL_you_copied]</code></pre></li>
+</ul></li>
+</ol>
+<p>You can continue to update the forked repository by doing the following:</p>
+<ol type="1">
+<li><strong>Navigate to Your Local Repository</strong>:
+<ul>
+<li>Open a terminal or command prompt.</li>
+<li>Navigate to the directory where you have your forked repository.</li>
+</ul></li>
+<li><strong>Add the Original Repository as an Upstream Remote</strong>:
+<ul>
+<li><p>Use the following command to add the original repository as an upstream remote:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add upstream <span class="pp">[</span><span class="ss">URL_of_original_repository</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>For example, if the original repository’s URL is <code>https://github.com/original-owner/original-repo.git</code>, the command would be:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add upstream https://github.com/original-owner/original-repo.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><strong>Fetch Changes from the Upstream</strong>:
+<ul>
+<li><p>Use the following command to fetch changes from the upstream:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch upstream</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><strong>Merge Changes into Your Local Branch</strong>:
+<ul>
+<li><p>First, ensure you are on the branch into which you want to merge the upstream changes, typically the <code>main</code> or <code>master</code> branch:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Then, merge the changes from the upstream’s <code>main</code> or <code>master</code> branch:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge upstream/main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+<li><strong>Push Changes to Your Forked Repository on GitHub (if needed)</strong>:
+<ul>
+<li><p>If you want these changes to reflect in your GitHub fork, push them:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul></li>
+</ol>
+<p>Now your fork is synchronized with the original repository. Whenever you want to pull in new changes from the original repository in the future, you just need to repeat steps 3-5.</p>
+<p><strong>To avoid conflicts you sill want to avoid editing the course notes files and instead make copies.</strong></p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

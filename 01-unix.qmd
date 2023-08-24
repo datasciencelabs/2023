@@ -1,4 +1,4 @@
-# Unix
+# Unix {.unnumbered}
 
 We are going to use Unix to create and prepare a dirctory for a data analysis project.
 

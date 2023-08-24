@@ -1,9 +1,4 @@
 # Welcome to BST 260: Introduction to Data Science 
 
-* Course materials for Fall 2023 can be found here. 
-
-# Instructor
-* [Rafael A. Irizarry](http://rafalab.github.io)
-* [http://rafalab.github.io](http://rafalab.github.io)
-
+* This repository provides the code for the [Fall 2023 course notes](https://datasciencelabs.github.io/2023/).
 

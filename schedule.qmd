@@ -1,0 +1,416 @@
+# Schedule {.unnumbered}
+
+The schedule is subject to change.
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 97.3301%;
+        height: 2123px;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+
+<table>
+    <tbody>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;"><strong>Date</strong></td>
+            <td style="width: 21.4355%; height: 29px;"><strong>Module</strong></td>
+            <td style="width: 54.6901%; height: 29px;"><strong>Topics</strong></td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Mon, Aug 28</td>
+            <td style="width: 21.4355%; height: 29px;">Productivity Tools</td>
+            <td style="width: 54.6901%; height: 29px;">
+                <p>&nbsp;RStudio, RStudio Projects, Quarto, Unix</p>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">Wed, Aug 30</td>
+            <td style="width: 21.4355%; height: 53px;">Productivity Tools</td>
+            <td style="width: 54.6901%; height: 53px;">
+                <p>Git and GitHub &nbsp; &nbsp; &nbsp;</p>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">Mon, Sep 4</td>
+            <td style="width: 21.4355%; height: 53px;">
+                <p><strong>No class</strong></p>
+            </td>
+            <td style="width: 54.6901%; height: 53px;"><span>Labor day</span></td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Wed, Sep 6</td>
+            <td style="width: 21.4355%; height: 29px;">
+                <p>R</p>
+            </td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li><span>R Basics: The workspace, </span><span>data types, </span><span>coercing, l</span><span>ists, </span><span>packages, </span><span>namespaces, </span><span>help, c</span><span>reating vectors, </span><span>object oriented programming.</span></li>
+                    <li><span>Vectorization: Vector arithmetics, sapply, split, cut, lapply, subsetting, sorting</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Mon, Sep 11</td>
+            <td style="width: 21.4355%; height: 29px;">R&nbsp;</td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li><span>Introduction to Tidyverse: </span><span>tidy data, mutate, select, filter, the pipe, summarize, group_by, sorting, and the purrr package</span></li>
+                    <li>Dates and time: Date class and the lubridate package</li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Wed, Sep 13</td>
+            <td style="width: 21.4355%; height: 29px;">R</td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li><span>Importing data</span><ul>
+                            <li><span>File types: binary, ascii, unicode</span></li>
+                            <li><span>Locales</span><span>Importing data</span></li>
+                            <li><span>Downloading files</span></li>
+                        </ul></li>
+                    <li><span>The data.table package</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Mon, Sep 18</td>
+            <td style="width: 21.4355%; height: 29px;"><span>Data visualization</span></td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li><span>Visualizing Distributions: </span><span>Summary statistics, distributions, histograms, smooth densities, the normal distribution, quantiles, percentiles, and boxplots.</span></li>
+                    <li><span>Grammar of graphics and the basics of the ggplot2 package</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Wed, Sep 20</td>
+            <td style="width: 21.4355%; height: 29px;"><span>Data visualization</span></td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li>Data visualization principles</li>
+                    <li><span>ggplot2 geometries</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Fri, Sep 22</td>
+            <td style="width: 21.4355%; height: 29px;"><span><strong>Problem set 1 due</strong></span></td>
+            <td style="width: 54.6901%; height: 29px;"></td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Mon, Sep 25</td>
+            <td style="width: 21.4355%; height: 29px;"><span>Data wrangling </span></td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li><span>Reshaping data</span></li>
+                    <li><span>Joining tables</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">Wed, Sep 27</td>
+            <td style="width: 21.4355%; height: 29px;"><span>Data wrangling </span></td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li><span>Web scraping</span></li>
+                    <li><span>String processing</span></li>
+                    <li><span>Text mining</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 29px;">
+            <td style="width: 23.7497%; height: 29px;">
+                <p>Mon, Oct 2</p>
+            </td>
+            <td style="width: 21.4355%; height: 29px;"><span>Probability</span></td>
+            <td style="width: 54.6901%; height: 29px;">
+                <ul>
+                    <li><span>Monte Carlo simulations</span></li>
+                    <li><span>Random Variables</span></li>
+                    <li><span>Central Limit Theorem</span></li>
+                    <li><span>Probability case studies: Roulette, Poker, Birthday problem, Monte Hall, insurance</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Wed, Oct 4</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Inference</span></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <ul>
+                    <li><span>Polls</span></li>
+                    <li><span>Guess the proportion of blue beads competition</span><span><br /></span></li>
+                    <li><span>Confidence intervals</span></li>
+                    <li><span>Data-driven models</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Fri, Oct 6</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><strong>Final project title due</strong></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <p><span>&nbsp;Submit title and a describe your plans to obtain data</span></p>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Mon, Oct 9</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><strong>No class</strong></td>
+            <td style="width: 54.6901%; height: 53px;"><span>Indigenous Peoples' Day</span></td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Wed, Oct 11</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Inference</span></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <ul>
+                    <li><span>Bayesian statistics</span></li>
+                    <li><span>Hierarchical Models</span></li>
+                    <li><span>Case study: election forecasting</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Mon, Oct 16</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span><strong>Midterm 1</strong><br /></span></td>
+            <td style="width: 54.6901%; height: 53px;"><span>Includes all topics covered by October&nbsp;11.</span></td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Wed, Oct 18</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Linear Models</span></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <ul>
+                    <li><span>Regression and correlation</span>
+                        <ul>
+                            <li><span>Case study: is height hereditary?</span></li>
+                            <li><span>Bivariate normal distribution, conditional expectations, least squares estimates</span></li></ul></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 125px;">
+            <td style="width: 23.7497%; height: 75px;">
+                <p>Mon, Oct 23</p>
+            </td>
+            <td style="width: 21.4355%; height: 75px;"><span>Linear Models</span></td>
+            <td style="width: 54.6901%; height: 75px;">
+                <ul>
+                    <li><span>Multivariable regression</span>
+                        <ul>
+                            <li><span>Case study: build a baseball team</span></li>
+                        </ul></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 89px;">
+            <td style="width: 23.7497%; height: 89px;">
+                <p>Wed, Oct 25</p>
+            </td>
+            <td style="width: 21.4355%; height: 89px;"><span>Linear Models</span></td>
+            <td style="width: 54.6901%; height: 89px;">
+                <ul>
+                    <li><span>Measurement error models</span></li>
+                    <li><span>Treatment effect models&nbsp;</span></li>
+                    <li><span>Case study: does a high-fat diet increase weight in mice?</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Mon, Oct 30</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Linear Models</span></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <ul>
+                    <li><span>Association tests</span></li>
+                    <li><span>Correlation is not causation</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 83px;">
+            <td style="width: 23.7497%; height: 83px;">
+                <p>Wed, Nov 1</p>
+            </td>
+            <td style="width: 21.4355%; height: 83px;"><span>High dimensional data</span></td>
+            <td style="width: 54.6901%; height: 83px;">
+                <ul>
+                    <li><span>Matrices in R&nbsp;</span></li>
+                    <li><span>Case study: handwritten digits</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Fri, Nov 3&nbsp;</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Problem set 2 due</span></td>
+            <td style="width: 54.6901%; height: 53px;"><span>One paragraph description of projects that includes what dataset will be used.</span></td>
+        </tr>
+        <tr style="height: 141px;">
+            <td style="width: 23.7497%; height: 141px;">
+                <p>Mon, Nov 6</p>
+            </td>
+            <td style="width: 21.4355%; height: 141px;"><span>High dimensional data</span></td>
+            <td style="width: 54.6901%; height: 141px;">
+                <p><span>Dimension reduction: Linear algebra, distance, PCA</span></p>
+            </td>
+        </tr>
+        <tr style="height: 119px;">
+            <td style="width: 23.7497%; height: 119px;">
+                <p>Wed, Nov 8</p>
+            </td>
+            <td style="width: 21.4355%; height: 119px;"><span>High dimensional data</span></td>
+            <td style="width: 54.6901%; height: 119px;">
+                <ul>
+                    <li><span>Dimension reduction continued</span></li>
+                    <li><span>Case study: gene expression differences between ethnic groups.</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Fri, Nov 10&nbsp;</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Project description due</span></td>
+            <td style="width: 54.6901%; height: 53px;"><span>One paragraph description of projects that includes what dataset will be used.</span></td>
+        </tr>
+        <tr style="height: 65px;">
+            <td style="width: 23.7497%; height: 65px;">
+                <p>Mon, Nov 13</p>
+            </td>
+            <td style="width: 21.4355%; height: 65px;">
+                <p><span>High dimensional data</span></p>
+            </td>
+            <td style="width: 54.6901%; height: 65px;">
+                <ul>
+                    <li><span>Regularization</span>
+                        <ul>
+                            <li><span>Case study: Recommendations systems in&nbsp; movie ratings</span></li></ul></li>
+                    <li><span>Matrix factorization</span></li></ul>
+            </td>
+        </tr>
+        <tr style="height: 83px;">
+            <td style="width: 23.7497%; height: 83px;">
+                <p>Wed, Nov 15</p>
+            </td>
+            <td style="width: 21.4355%; height: 83px;"><span>High dimensional data </span></td>
+            <td style="width: 54.6901%; height: 83px;">
+                <ul>
+                    <li><span>Introduction, definition of concepts, accuracy, test, training and validation sets</span></li>
+                    <li><span>Evaluation metrics: ROC curves, precision recall curves</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Mon, Nov 20</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span><strong>Midterm 2</strong><br /></span></td>
+            <td style="width: 54.6901%; height: 53px;"><span>Includes topics covered until Nov 15.</span></td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Wed, Nov 22</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><strong>No class</strong></td>
+            <td style="width: 54.6901%; height: 53px;"><span>&nbsp;Thanksgiving</span></td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Mon Nov 27</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Machine Learning</span></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <ul>
+                    <li><span>Smoothing</span></li>
+                    <li><span>Case study: Death rates after natural disasters</span><span><br /></span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 60px;">
+            <td style="width: 23.7497%; height: 60px;">
+                <p>Wed, Nov 29</p>
+            </td>
+            <td style="width: 21.4355%; height: 60px;"><span>Machine Learning</span></td>
+            <td style="width: 54.6901%; height: 60px;">
+                <ul>
+                    <li><span>Cross-Validation</span></li>
+                    <li><span>caret package</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Mon, Dec 4</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Machine Learning</span></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <p><span>&nbsp;</span><span>Example of algorithms&nbsp;</span></p>
+                <ul>
+                    <li><span>Case study: reading handwritten digits</span></li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 107px;">
+            <td style="width: 23.7497%; height: 95px;">
+                <p>Wed, Dec 6&nbsp;</p>
+            </td>
+            <td style="width: 21.4355%; height: 95px;"><span>Other topics</span></td>
+            <td style="width: 54.6901%; height: 95px;">
+                <p>Possible topcis (open to student requests)</p>
+                <ul style="list-style-type: disc;">
+                    <li>Shiny</li>
+                    <li>Interactive graphics: plotly</li>
+                    <li>Advanced Quarto</li>
+                    <li>Research topics</li>
+                    <li>Large language models</li>
+                    <li>Deep learning</li>
+                </ul>
+            </td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Fri Dec 8</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><strong>Problem set 3 due</strong></td>
+            <td style="width: 54.6901%; height: 53px;"></td>
+        </tr>
+        <tr style="height: 53px;">
+            <td style="width: 23.7497%; height: 53px;">
+                <p>Mon, Dec 11</p>
+            </td>
+            <td style="width: 21.4355%; height: 53px;"><span>Help with project</span></td>
+            <td style="width: 54.6901%; height: 53px;">
+                <p>&nbsp;</p>
+            </td>
+        </tr>
+        <tr style="height: 83px;">
+            <td style="width: 23.7497%; height: 83px;">
+                <p>Wed, Dec 13</p>
+            </td>
+            <td style="width: 21.4355%; height: 83px;"><span>Help with project</span></td>
+            <td style="width: 54.6901%; height: 83px;"></td>
+        </tr>
+        <tr style="height: 125px;">
+            <td style="width: 23.7497%; height: 10px;">
+                <p>Wed, Dec 15</p>
+            </td>
+            <td style="width: 21.4355%; height: 10px;"><strong>Final project due</strong></td>
+            <td style="width: 54.6901%; height: 10px;"></td>
+        </tr>
+    </tbody>
+</table>

@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./01-unix.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./schedule.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -156,6 +156,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./01-quarto.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
@@ -163,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-unix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+ <span class="menu-text">Unix</span></a>
   </div>
 </li>
     </ul>
@@ -200,6 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#more-on-markdown" id="toc-more-on-markdown" class="nav-link" data-scroll-target="#more-on-markdown"><span class="header-section-number">1.3.3</span> More on markdown</a></li>
   </ul></li>
   <li><a href="#sec-knitr" id="toc-sec-knitr" class="nav-link" data-scroll-target="#sec-knitr"><span class="header-section-number">1.4</span> knitR</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.5</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/01-quarto.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -224,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>Your task is to produce a report in PDF that solves the quadratic equations <span class="math inline">\(ax^2+bx+c=0\)</span> for <span class="math inline">\(a=1, b=-1, c=-2\)</span> and shows a plot of the function to confirm the finding.</p>
-<p>But after you are done, I will discover I made a mistake and ask you to rewrite the report with <span class="math inline">\(a=1, b=-1, c=-1\)</span>.</p>
+<p>But after you are done, I will discover I made a mistake and ask you to rewrite the report with <span class="math inline">\(a=1, b=3, c=-2\)</span> (or any number).</p>
 <p>Then once you are done, I will like the report so much I will ask you to make an html page displaying the result and showing and explaining the code you used.</p>
 <p>We will do all this using R, RStudio, Quarto, and knitr.</p>
 <section id="r-and-rstudio" class="level2" data-number="1.1">
@@ -391,6 +398,17 @@ title: "Untitled"
 <p>Note that the first time you click on the <em>Render</em> button, a dialog box may appear asking you to install packages you need. Once you have installed the packages, clicking <em>Render</em> will compile your Quarto file and the resulting document will pop up.</p>
 <p>This particular example produces an html document which you can see in your working directory. To view it, open a terminal and list the files. You can open the file in a browser and use this to present your analysis. You can also produce a PDF or Microsoft document by changing:</p>
 <p><code>format: html</code> to <code>format: pdf</code> or <code>format: docx</code>. We can also produce documents that render on GitHub using <code>format: gfm</code>, which stands for GitHub flavored markdown, a convenient way to share your reports.</p>
+</section>
+<section id="exercises" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.5</span> Exercises</h2>
+<ol class="example" type="1">
+<li><p>Write a Quarto document that defines variables <span class="math inline">\(a=1, b=-1, c=-2\)</span> and print out the solutions to <span class="math inline">\(f(x) = ax^2+bx+c=0\)</span>. Do not report complex solutions, only real numbers.</p></li>
+<li><p>Include a graph of <span class="math inline">\(f(x)\)</span> versus <span class="math inline">\(x\)</span> for <span class="math inline">\(x \in (-5,5)\)</span>.</p></li>
+<li><p>Generate a PDF report using knitr. Do not show the R code, only the solutions and explanations of what the reader is seeing.</p></li>
+<li><p>Erase the PDF report and reproduce it but this time using <span class="math inline">\(a=1, b=2, c=5\)</span>.</p></li>
+<li><p>Erase the PDF report and reproduce it but this time using <span class="math inline">\(a=1, b=3, c=2\)</span>.</p></li>
+<li><p>Create an HTML page with the results for this last set of values, but this time showing the code.</p></li>
+</ol>
 
 
 </section>
@@ -631,13 +649,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
+      <a href="./schedule.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Schedule</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./01-unix.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Unix</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

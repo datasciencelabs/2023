@@ -13,8 +13,10 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - schedule.qmd
     - 01-quarto.qmd
     - 01-unix.qmd
+
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023
   repo-url: https://github.com/datasciencelabs/2023

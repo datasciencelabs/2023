@@ -1,5 +1,127 @@
 # Preface {.unnumbered}
 
-These are the class notes for BST 260 Introduction to Data Science. 
+* These are the class notes for BST 260 Introduction to Data Science.
+* Schedule is subject to change.
+* The GitHub repository is <https://github.com/datasciencelabs/2023>
+* These notes are generated with a Quarto Book.
+* Class notes will be updated regularly with material covered during class.
+* New material is added approximately on a weekly basis.
+* Questions for the midterm will be drawn from the exercises sections at the end of each lecture.
+
+# Instructor
+
+* [Rafael A. Irizarry](http://rafalab.github.io)
+* [http://rafalab.github.io](http://rafalab.github.io)
+
+# Text books
+
+* [Introduction to Data Science](https://rafalab.github.io/dsbook-part-1/), Data Wrangling and
+ Visualization with R.
+* [Advanced Data Science](https://rafalab.github.io/dsbook-part-2/), Statistics and Prediction Algorithms Through Case Studies.
+
+
+## Downloading course materials using Git 
+
+You can download the quarto files used to create the course notes using Git. You can update files using `git pull` but **you will not be able to change the course notes on the main repository**. This means that if you edit the files and then try to update then using `git pull` you will encounter conflicts. For this reason
+recommend that you **make a copy before editing files**. We have edited the `.gitignore` file so that if you add the word `notes` to your filenames, git will not track the files. So we recommend that you before editing you make a copy of the file and  _notes_ to the filename. For example `01-unix.qmd` to `01-unix-notes.qmd`. 
+
+
+You can download the files using `git clone` like this:
+
+1. Open a terminal and navigate to the directory you want to keep these notes in.
+2. Type `git clone  https://github.com/datasciencelabs/2023.git`
+
+or using  RStudio like this:
+
+1. Got to <https://github.com/datasciencelabs/2023>
+2. Click on the green "Clone or Download" on Github and copy the link.
+3. Open RStudio, and go to File > New Project > Version Control > Git,
+and paste in the link you just copied. Under "Create Project as
+Sub-directory of", browse and select a folder where you want the course
+materials to go.
+4. Press "Create Project". This will create a folder called `2023`
+in the folder you selected in step 3.
+5. Now, you can open this project using the projects tab in the upper
+right of RStudio, or going to File > Open Project and then navigating
+to the 2023 folder and opening the `.Rproj` file.
+
+Once you cloned the course repository and want to get updates, you must
+use `git pull` to get updates. You can do this in the terminal or on the RStudion **Git** pane.
+
+### Associating an existing directory
+
+**If you already cloned the repository outside of RStudio**, you can associate the directory that was created in that
+step with RStudio. In RStudio, go to File > New Project > Existing Directory, and then navigate / click on the 2023 folder. Then click
+"Create Project". Then you can follow step 5 above to open the project
+when you launch RStudio. 
+
+### Forking the repository
+
+An  alternative **more advanced** way to cloning the directory is creating a  _fork_.
+Forking a repository on GitHub allows you to create a copy of a project under your own GitHub account. This lets you make changes without affecting the original repository. Here's how you can fork a repository on GitHub:
+
+1. **Log In to GitHub**:
+   - Make sure you are logged in to your GitHub account.
+
+2. **Navigate to the Repository**:
+   - Go to the main page of the repository you want to fork: <https://github.com/datasciencelabs/2023>
+
+3. **Click the 'Fork' Button**:
+   - In the top-right corner of the repository's page, you'll find the "Fork" button. Click on it.
+
+4. **Choose an Account**:
+   - If you are a member of any organizations, GitHub will ask you where you'd like to fork the repository. Choose your personal account unless you want to fork it to an organization.
+
+5. **Wait for the Forking Process to Complete**:
+   - GitHub will then create a copy of the repository in your account. You'll see an animation indicating the process, and once it's done, you'll be redirected to the forked repository under your account.
+
+6. **Clone Your Forked Repository**:
+   - To work with the forked repository on your local machine, you can clone it. Navigate to the main page of your forked repo, click on the green "Code" button, copy the URL, and then use the following command in your terminal or command prompt:
+     ```
+     git clone [URL_you_copied]
+     ```
+
+You can continue to update the forked repository by doing the following:
+
+1. **Navigate to Your Local Repository**:
+   - Open a terminal or command prompt.
+   - Navigate to the directory where you have your forked repository.
+
+2. **Add the Original Repository as an Upstream Remote**:
+   - Use the following command to add the original repository as an upstream remote:
+     ```bash
+     git remote add upstream [URL_of_original_repository]
+     ```
+   - For example, if the original repository's URL is `https://github.com/original-owner/original-repo.git`, the command would be:
+     ```bash
+     git remote add upstream https://github.com/original-owner/original-repo.git
+     ```
+
+3. **Fetch Changes from the Upstream**:
+   - Use the following command to fetch changes from the upstream:
+     ```bash
+     git fetch upstream
+     ```
+
+4. **Merge Changes into Your Local Branch**:
+   - First, ensure you are on the branch into which you want to merge the upstream changes, typically the `main` or `master` branch:
+     ```bash
+     git checkout main
+     ```
+   - Then, merge the changes from the upstream's `main` or `master` branch:
+     ```bash
+     git merge upstream/main
+     ```
+
+5. **Push Changes to Your Forked Repository on GitHub (if needed)**:
+   - If you want these changes to reflect in your GitHub fork, push them:
+     ```bash
+     git push origin main
+     ```
+
+Now your fork is synchronized with the original repository. Whenever you want to pull in new changes from the original repository in the future, you just need to repeat steps 3-5.
+
+**To avoid conflicts you sill want to avoid editing the course notes files and instead make copies.**
+
 
 
