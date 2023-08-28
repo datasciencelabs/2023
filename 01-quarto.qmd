@@ -186,6 +186,8 @@ and print out the solutions to $f(x) = ax^2+bx+c=0$. Do not report complex solut
 
 (@) Include a graph of $f(x)$ versus $x$ for $x \in (-5,5)$.
 
+This is how you make a plot of a quadratic function:
+
 ```{r}
 a <- 1 
 b <- -1
@@ -194,7 +196,6 @@ x <- seq(-5, 5, length = 300)
 plot(x, a*x^2 + b*x + c, type = "l")
 abline(h = 0, lty = 2)
 ```
-
 
 (@) Generate a PDF report using knitr. Do not show the R code, only the solutions and explanations of what the reader is seeing.
 
