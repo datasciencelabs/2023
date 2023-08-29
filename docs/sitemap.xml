@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://datasciencelabs.github.io/2023/index.html</loc>
-    <lastmod>2023-08-28T15:10:44.830Z</lastmod>
+    <lastmod>2023-08-29T14:06:46.814Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/intro.html</loc>
-    <lastmod>2023-08-28T15:10:44.832Z</lastmod>
+    <lastmod>2023-08-29T14:06:46.815Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/schedule.html</loc>
-    <lastmod>2023-08-28T15:10:44.837Z</lastmod>
+    <lastmod>2023-08-29T14:06:46.820Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/01-quarto.html</loc>
-    <lastmod>2023-08-28T15:10:44.842Z</lastmod>
+    <lastmod>2023-08-29T14:06:46.825Z</lastmod>
   </url>
   <url>
-    <loc>http://datasciencelabs.github.io/2023/01-unix.html</loc>
-    <lastmod>2023-08-28T15:10:44.852Z</lastmod>
+    <loc>http://datasciencelabs.github.io/2023/02-unix.html</loc>
+    <lastmod>2023-08-29T14:06:46.836Z</lastmod>
+  </url>
+  <url>
+    <loc>http://datasciencelabs.github.io/2023/03-git.html</loc>
+    <lastmod>2023-08-29T14:06:46.840Z</lastmod>
   </url>
 </urlset>

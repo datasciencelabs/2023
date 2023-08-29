@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - Unix</title>
+<title>BST 260 Introduction to Data Science - 2&nbsp; Unix</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./03-git.html" rel="next">
 <link href="./01-quarto.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -106,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-unix.html">Unix</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-unix.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -165,8 +166,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-unix.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Unix</span></a>
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
   </div>
 </li>
     </ul>
@@ -179,58 +186,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#naming-convention" id="toc-naming-convention" class="nav-link active" data-scroll-target="#naming-convention">Naming convention</a></li>
-  <li><a href="#the-terminal" id="toc-the-terminal" class="nav-link" data-scroll-target="#the-terminal">The terminal</a></li>
-  <li><a href="#sec-filesystem" id="toc-sec-filesystem" class="nav-link" data-scroll-target="#sec-filesystem">The filesystem</a>
+  <li><a href="#naming-convention" id="toc-naming-convention" class="nav-link active" data-scroll-target="#naming-convention"><span class="header-section-number">2.1</span> Naming convention</a></li>
+  <li><a href="#the-terminal" id="toc-the-terminal" class="nav-link" data-scroll-target="#the-terminal"><span class="header-section-number">2.2</span> The terminal</a></li>
+  <li><a href="#sec-filesystem" id="toc-sec-filesystem" class="nav-link" data-scroll-target="#sec-filesystem"><span class="header-section-number">2.3</span> The filesystem</a>
   <ul class="collapse">
-  <li><a href="#directories-and-subdirectories" id="toc-directories-and-subdirectories" class="nav-link" data-scroll-target="#directories-and-subdirectories">Directories and subdirectories</a></li>
-  <li><a href="#the-home-directory" id="toc-the-home-directory" class="nav-link" data-scroll-target="#the-home-directory">The home directory</a></li>
+  <li><a href="#directories-and-subdirectories" id="toc-directories-and-subdirectories" class="nav-link" data-scroll-target="#directories-and-subdirectories"><span class="header-section-number">2.3.1</span> Directories and subdirectories</a></li>
+  <li><a href="#the-home-directory" id="toc-the-home-directory" class="nav-link" data-scroll-target="#the-home-directory"><span class="header-section-number">2.3.2</span> The home directory</a></li>
   </ul></li>
-  <li><a href="#working-directory" id="toc-working-directory" class="nav-link" data-scroll-target="#working-directory">Working directory</a></li>
-  <li><a href="#sec-paths" id="toc-sec-paths" class="nav-link" data-scroll-target="#sec-paths">Paths</a></li>
-  <li><a href="#unix-commands" id="toc-unix-commands" class="nav-link" data-scroll-target="#unix-commands">Unix commands</a>
+  <li><a href="#working-directory" id="toc-working-directory" class="nav-link" data-scroll-target="#working-directory"><span class="header-section-number">2.4</span> Working directory</a></li>
+  <li><a href="#sec-paths" id="toc-sec-paths" class="nav-link" data-scroll-target="#sec-paths"><span class="header-section-number">2.5</span> Paths</a></li>
+  <li><a href="#unix-commands" id="toc-unix-commands" class="nav-link" data-scroll-target="#unix-commands"><span class="header-section-number">2.6</span> Unix commands</a>
   <ul class="collapse">
-  <li><a href="#ls-listing-directory-content" id="toc-ls-listing-directory-content" class="nav-link" data-scroll-target="#ls-listing-directory-content"><code>ls</code>: Listing directory content</a></li>
-  <li><a href="#mkdir-and-rmdir-make-and-remove-a-directory" id="toc-mkdir-and-rmdir-make-and-remove-a-directory" class="nav-link" data-scroll-target="#mkdir-and-rmdir-make-and-remove-a-directory"><code>mkdir</code> and <code>rmdir</code>: make and remove a directory</a></li>
-  <li><a href="#cd-navigating-the-filesystem-by-changing-directories" id="toc-cd-navigating-the-filesystem-by-changing-directories" class="nav-link" data-scroll-target="#cd-navigating-the-filesystem-by-changing-directories"><code>cd</code>: navigating the filesystem by changing directories</a></li>
+  <li><a href="#ls-listing-directory-content" id="toc-ls-listing-directory-content" class="nav-link" data-scroll-target="#ls-listing-directory-content"><span class="header-section-number">2.6.1</span> <code>ls</code>: Listing directory content</a></li>
+  <li><a href="#mkdir-and-rmdir-make-and-remove-a-directory" id="toc-mkdir-and-rmdir-make-and-remove-a-directory" class="nav-link" data-scroll-target="#mkdir-and-rmdir-make-and-remove-a-directory"><span class="header-section-number">2.6.2</span> <code>mkdir</code> and <code>rmdir</code>: make and remove a directory</a></li>
+  <li><a href="#cd-navigating-the-filesystem-by-changing-directories" id="toc-cd-navigating-the-filesystem-by-changing-directories" class="nav-link" data-scroll-target="#cd-navigating-the-filesystem-by-changing-directories"><span class="header-section-number">2.6.3</span> <code>cd</code>: navigating the filesystem by changing directories</a></li>
   </ul></li>
-  <li><a href="#autocomplete" id="toc-autocomplete" class="nav-link" data-scroll-target="#autocomplete">Autocomplete</a>
+  <li><a href="#autocomplete" id="toc-autocomplete" class="nav-link" data-scroll-target="#autocomplete"><span class="header-section-number">2.7</span> Autocomplete</a>
   <ul class="collapse">
-  <li><a href="#cd-contined" id="toc-cd-contined" class="nav-link" data-scroll-target="#cd-contined"><code>cd</code> contined</a></li>
+  <li><a href="#cd-contined" id="toc-cd-contined" class="nav-link" data-scroll-target="#cd-contined"><span class="header-section-number">2.7.1</span> <code>cd</code> contined</a></li>
   </ul></li>
-  <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice">Practice</a></li>
-  <li><a href="#more-unix-commands" id="toc-more-unix-commands" class="nav-link" data-scroll-target="#more-unix-commands">More Unix commands</a>
+  <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice"><span class="header-section-number">2.8</span> Practice</a></li>
+  <li><a href="#more-unix-commands" id="toc-more-unix-commands" class="nav-link" data-scroll-target="#more-unix-commands"><span class="header-section-number">2.9</span> More Unix commands</a>
   <ul class="collapse">
-  <li><a href="#mv-moving-files" id="toc-mv-moving-files" class="nav-link" data-scroll-target="#mv-moving-files"><code>mv</code>: moving files</a></li>
-  <li><a href="#cp-copying-files" id="toc-cp-copying-files" class="nav-link" data-scroll-target="#cp-copying-files"><code>cp</code>: copying files</a></li>
-  <li><a href="#rm-removing-files" id="toc-rm-removing-files" class="nav-link" data-scroll-target="#rm-removing-files"><code>rm</code>: removing files</a></li>
-  <li><a href="#less-looking-at-a-file" id="toc-less-looking-at-a-file" class="nav-link" data-scroll-target="#less-looking-at-a-file"><code>less</code>: looking at a file</a></li>
+  <li><a href="#mv-moving-files" id="toc-mv-moving-files" class="nav-link" data-scroll-target="#mv-moving-files"><span class="header-section-number">2.9.1</span> <code>mv</code>: moving files</a></li>
+  <li><a href="#cp-copying-files" id="toc-cp-copying-files" class="nav-link" data-scroll-target="#cp-copying-files"><span class="header-section-number">2.9.2</span> <code>cp</code>: copying files</a></li>
+  <li><a href="#rm-removing-files" id="toc-rm-removing-files" class="nav-link" data-scroll-target="#rm-removing-files"><span class="header-section-number">2.9.3</span> <code>rm</code>: removing files</a></li>
+  <li><a href="#less-looking-at-a-file" id="toc-less-looking-at-a-file" class="nav-link" data-scroll-target="#less-looking-at-a-file"><span class="header-section-number">2.9.4</span> <code>less</code>: looking at a file</a></li>
   </ul></li>
-  <li><a href="#sec-prep-project" id="toc-sec-prep-project" class="nav-link" data-scroll-target="#sec-prep-project">Preparing for a data science project</a></li>
-  <li><a href="#text-editors" id="toc-text-editors" class="nav-link" data-scroll-target="#text-editors">Text editors</a></li>
-  <li><a href="#advanced-unix" id="toc-advanced-unix" class="nav-link" data-scroll-target="#advanced-unix">Advanced Unix</a>
+  <li><a href="#sec-prep-project" id="toc-sec-prep-project" class="nav-link" data-scroll-target="#sec-prep-project"><span class="header-section-number">2.10</span> Preparing for a data science project</a></li>
+  <li><a href="#text-editors" id="toc-text-editors" class="nav-link" data-scroll-target="#text-editors"><span class="header-section-number">2.11</span> Text editors</a></li>
+  <li><a href="#advanced-unix" id="toc-advanced-unix" class="nav-link" data-scroll-target="#advanced-unix"><span class="header-section-number">2.12</span> Advanced Unix</a>
   <ul class="collapse">
-  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
-  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting help</a></li>
-  <li><a href="#pipes" id="toc-pipes" class="nav-link" data-scroll-target="#pipes">Pipes</a></li>
-  <li><a href="#wild-cards" id="toc-wild-cards" class="nav-link" data-scroll-target="#wild-cards">Wild cards</a></li>
-  <li><a href="#environment-variables" id="toc-environment-variables" class="nav-link" data-scroll-target="#environment-variables">Environment variables</a></li>
-  <li><a href="#shells" id="toc-shells" class="nav-link" data-scroll-target="#shells">Shells</a></li>
-  <li><a href="#executables" id="toc-executables" class="nav-link" data-scroll-target="#executables">Executables</a></li>
-  <li><a href="#permissions-and-file-types" id="toc-permissions-and-file-types" class="nav-link" data-scroll-target="#permissions-and-file-types">Permissions and file types</a></li>
-  <li><a href="#commands-you-should-learn" id="toc-commands-you-should-learn" class="nav-link" data-scroll-target="#commands-you-should-learn">Commands you should learn</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">2.12.1</span> Arguments</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help"><span class="header-section-number">2.12.2</span> Getting help</a></li>
+  <li><a href="#pipes" id="toc-pipes" class="nav-link" data-scroll-target="#pipes"><span class="header-section-number">2.12.3</span> Pipes</a></li>
+  <li><a href="#wild-cards" id="toc-wild-cards" class="nav-link" data-scroll-target="#wild-cards"><span class="header-section-number">2.12.4</span> Wild cards</a></li>
+  <li><a href="#environment-variables" id="toc-environment-variables" class="nav-link" data-scroll-target="#environment-variables"><span class="header-section-number">2.12.5</span> Environment variables</a></li>
+  <li><a href="#shells" id="toc-shells" class="nav-link" data-scroll-target="#shells"><span class="header-section-number">2.12.6</span> Shells</a></li>
+  <li><a href="#executables" id="toc-executables" class="nav-link" data-scroll-target="#executables"><span class="header-section-number">2.12.7</span> Executables</a></li>
+  <li><a href="#permissions-and-file-types" id="toc-permissions-and-file-types" class="nav-link" data-scroll-target="#permissions-and-file-types"><span class="header-section-number">2.12.8</span> Permissions and file types</a></li>
+  <li><a href="#commands-you-should-learn" id="toc-commands-you-should-learn" class="nav-link" data-scroll-target="#commands-you-should-learn"><span class="header-section-number">2.12.9</span> Commands you should learn</a></li>
   </ul></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">2.13</span> Resources</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.14</span> Exercises</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/01-unix.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/02-unix.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Unix</h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></h1>
 </div>
 
 
@@ -245,9 +252,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>We are going to use Unix to create and prepare a dirctory for a data analysis project.</p>
-<section id="naming-convention" class="level2">
-<h2 class="anchored" data-anchor-id="naming-convention">Naming convention</h2>
+<p>We are going to use Unix to create and prepare a directory for a data analysis project.</p>
+<section id="naming-convention" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="naming-convention"><span class="header-section-number">2.1</span> Naming convention</h2>
 <p>In general you want to name your files in a way that is related to their contents and specifies how they relate to other files. The <a href="https://library.si.edu/sites/default/files/tutorial/pdf/filenamingorganizing20180227.pdf">Smithsonian Data Management Best Practices</a> has “five precepts of file naming and organization” and they are:</p>
 <blockquote class="blockquote">
 <blockquote class="blockquote">
@@ -262,19 +269,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>For specific recommendations we highly recommend you follow The Tidyverse Style Guide<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 </section>
-<section id="the-terminal" class="level2">
-<h2 class="anchored" data-anchor-id="the-terminal">The terminal</h2>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-1_a68021dbd3eda2ade5a33e76c88e01ef">
+<section id="the-terminal" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="the-terminal"><span class="header-section-number">2.2</span> The terminal</h2>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-1_f068e4fbd81b81a5c14ccf48f9a7859f">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Hello world"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Hello world</code></pre>
 </div>
 </div>
 </section>
-<section id="sec-filesystem" class="level2">
-<h2 class="anchored" data-anchor-id="sec-filesystem">The filesystem</h2>
-<section id="directories-and-subdirectories" class="level3">
-<h3 class="anchored" data-anchor-id="directories-and-subdirectories">Directories and subdirectories</h3>
+<section id="sec-filesystem" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-filesystem"><span class="header-section-number">2.3</span> The filesystem</h2>
+<section id="directories-and-subdirectories" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="directories-and-subdirectories"><span class="header-section-number">2.3.1</span> Directories and subdirectories</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img//unix/filesystem.png" class="img-fluid figure-img"></p>
@@ -282,8 +289,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </section>
-<section id="the-home-directory" class="level3">
-<h3 class="anchored" data-anchor-id="the-home-directory">The home directory</h3>
+<section id="the-home-directory" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="the-home-directory"><span class="header-section-number">2.3.2</span> The home directory</h3>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -310,29 +317,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img//unix/mac-filesystem-from-root.png" class="img-fluid"></p>
 </section>
 </section>
-<section id="working-directory" class="level2">
-<h2 class="anchored" data-anchor-id="working-directory">Working directory</h2>
+<section id="working-directory" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="working-directory"><span class="header-section-number">2.4</span> Working directory</h2>
 <p>The working directory is the directly you are currently <em>in</em>. Later we will see that we can move to other directories using the command line. It’s similar to clicking on folders.</p>
 <p>You can see your working directory like this:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-2_d7b6c440cf514517cf26bbd6a4f3f2a3">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-2_d26e241de9bef55c95d48d86f1c2e4be">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/Users/rafa/Documents/teaching/bst260/2023</code></pre>
 </div>
 </div>
 <p>In R we can use</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-3_0781039fe3d49f6154d92fdca5065522">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-3_06a07b2f4e6847ff16ef3152578b0867">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "/Users/rafa/Documents/teaching/bst260/2023"</code></pre>
 </div>
 </div>
 </section>
-<section id="sec-paths" class="level2">
-<h2 class="anchored" data-anchor-id="sec-paths">Paths</h2>
+<section id="sec-paths" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-paths"><span class="header-section-number">2.5</span> Paths</h2>
 <p>This string returned in previous command is <em>full path</em> to working directory.</p>
 <p>The full path to your home directory is stored in an <em>environment</em> variable, discussed in more detail later:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-4_e03b70b34c52060cac9a368081a0d69d">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-4_a20c9f2cfc93e7089d428d11e76a7d61">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$HOME</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/Users/rafa</code></pre>
@@ -343,83 +350,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Most terminals will show the path to your working directory right on the command line.</p>
 <p>Exercise: Open a terminal window and see if the working directory is listed.</p>
 </section>
-<section id="unix-commands" class="level2">
-<h2 class="anchored" data-anchor-id="unix-commands">Unix commands</h2>
-<section id="ls-listing-directory-content" class="level3">
-<h3 class="anchored" data-anchor-id="ls-listing-directory-content"><code>ls</code>: Listing directory content</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-5_ac1c4726915b6129d6c4268fea7073e7">
+<section id="unix-commands" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="unix-commands"><span class="header-section-number">2.6</span> Unix commands</h2>
+<section id="ls-listing-directory-content" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="ls-listing-directory-content"><span class="header-section-number">2.6.1</span> <code>ls</code>: Listing directory content</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-5_c408e0766a7c34c57fceab7f172059e4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="mkdir-and-rmdir-make-and-remove-a-directory" class="level3">
-<h3 class="anchored" data-anchor-id="mkdir-and-rmdir-make-and-remove-a-directory"><code>mkdir</code> and <code>rmdir</code>: make and remove a directory</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-6_7152123ea148d37f65568e047a98a2d6">
+<section id="mkdir-and-rmdir-make-and-remove-a-directory" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="mkdir-and-rmdir-make-and-remove-a-directory"><span class="header-section-number">2.6.2</span> <code>mkdir</code> and <code>rmdir</code>: make and remove a directory</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-6_5a107600cd74ff0fcd2ab99e693dd95e">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> projects</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you do this correctly, nothing will happen: no news is good news. If the directory already exists, you will get an error message and the existing directory will remain untouched.</p>
 <p>To confirm that you created these directories, you can list the directories:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-7_66450297df345fc92bd2727671ec2511">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-7_f211b983ba40593bc9e878b59552defc">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You should see the directories we just created listed.</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-8_71c6611ed70028b70c8242c61630bd45">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-8_3bbd10019d003d494e6c935ac460d991">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> docs teaching</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you made a mistake and need to remove the directory, you can use the command <code>rmdir</code> to remove it.</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-9_5a3fb78156d91c8677b3e44a3c4ec53a">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-9_8ed0001fda66e31576d3218e3691295c">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> junk</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rmdir</span> junk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="cd-navigating-the-filesystem-by-changing-directories" class="level3">
-<h3 class="anchored" data-anchor-id="cd-navigating-the-filesystem-by-changing-directories"><code>cd</code>: navigating the filesystem by changing directories</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-10_68a7ad4727a9f76e669423209b93a0ff">
+<section id="cd-navigating-the-filesystem-by-changing-directories" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="cd-navigating-the-filesystem-by-changing-directories"><span class="header-section-number">2.6.3</span> <code>cd</code>: navigating the filesystem by changing directories</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-10_e5461b7edfb97ed9da70a14a703d3e39">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> projects</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To check that the working directory changed, we can use a command we previously learned to see our location:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-11_ba4c4e4f3cbfe33e8b718762f3e414cd">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-11_621ba8cbcdd9f1f56890580ce2e08fbb">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="autocomplete" class="level2">
-<h2 class="anchored" data-anchor-id="autocomplete">Autocomplete</h2>
+<section id="autocomplete" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="autocomplete"><span class="header-section-number">2.7</span> Autocomplete</h2>
 <p>In Unix you can auto-complete by hitting tab. This means that we can type <code>cd d</code> then hit tab. Unix will either auto-complete if <code>docs</code> is the only directory/file starting with <code>d</code> or show you the options. Try it out! Using Unix without auto-complete will make it unbearable.</p>
-<section id="cd-contined" class="level3">
-<h3 class="anchored" data-anchor-id="cd-contined"><code>cd</code> contined</h3>
+<section id="cd-contined" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="cd-contined"><span class="header-section-number">2.7.1</span> <code>cd</code> contined</h3>
 <p>Going back one:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-12_26d66722d891f9dfc4c49131503b8722">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-12_4b45fa25ed6d317dc5f637f05abc3abc">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Going home:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-13_93531cf0925072740f06bae1f3f52081">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-13_f86155b10475db25404117191434cd52">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>or simply:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-14_bb099a66fe7797dc989b86ef8788dd96">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-14_58b6e5c1f06cc42c137f1686f79199ab">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Stating put (later we see why useful)</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-15_385e21d517286b669ea12c9c8005bb2c">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-15_372231877e5369dce7257dcf8b3471f4">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Going far:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-16_bd87b3a509e42047fe87a2e5cc82c635">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-16_588f1c9f35a59776c8d016db667dcc34">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /c/Users/yourusername/projects</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using relative paths:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-17_ad58beafde16d5e4c67c19f0f427f3a6">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-17_a04b0800455557308601c20d8dd5638d">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Going to previous working directory</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-18_404d75e379a9d89ee6009707b1872596">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-18_c4be35fd2415449604d09fae1fb9c8e9">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">-</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="practice" class="level2">
-<h2 class="anchored" data-anchor-id="practice">Practice</h2>
+<section id="practice" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="practice"><span class="header-section-number">2.8</span> Practice</h2>
 <p>Let’s explore some examples of navigating a filesystem using the command-line. Download and expand <a href="https://raw.githubusercontent.com/datasciencelabs/2023/main/data/home.zip">this file</a> into a temporary directory and you will have the data struct in the following image.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -430,71 +437,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol class="example" type="1">
 <li>Suppose our working directory is <code>~/projects</code>, move to <code>figs</code> in <code>project-1</code>.</li>
 </ol>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-19_c248009d4fd4b55c0e12f9f90c19019a">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-19_9d64088c226bc9cb92766bae024c73ab">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" class="example" type="1">
 <li>Now suppose our working directory is <code>~/projects</code>. Move to <code>reports</code> in <code>docs</code> in two different ways:</li>
 </ol>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-20_2a1ad8670303a1df7c1ca780a4ae93fc">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-20_de47b08325d4775822751a62f0ebfdea">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-21_f2303ffd24cc63ffef01df711827c796">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-21_2cfbc5c0adc3203f6765d3e53ba367b1">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" class="example" type="1">
 <li>Suppose we are in <code>~/projects/project-1/figs</code> and want to change to <code>~/projects/project-2</code>. Show two different ways, one with relative path and one with full path.</li>
 </ol>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-22_77f6bfd06b8e726e6db03bcc3ffc25bb">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-22_15362146d94333588e1272bd51d72555">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-23_1ff55b0d0a4dddc97238a57d4be533c1">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-23_8693dc80c69cd3ff2109cc2ec0558e90">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="more-unix-commands" class="level2">
-<h2 class="anchored" data-anchor-id="more-unix-commands">More Unix commands</h2>
-<section id="mv-moving-files" class="level3">
-<h3 class="anchored" data-anchor-id="mv-moving-files"><code>mv</code>: moving files</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-24_2f364aa8bda7aa4d04e9256598013c12">
+<section id="more-unix-commands" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="more-unix-commands"><span class="header-section-number">2.9</span> More Unix commands</h2>
+<section id="mv-moving-files" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="mv-moving-files"><span class="header-section-number">2.9.1</span> <code>mv</code>: moving files</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-24_adec2a616da16afda9f673e32c5b3d3c">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> path-to-file path-to-destination-directory</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For example, if we want to move the file <code>cv.tex</code> from <code>resumes</code> to <code>reports</code>, you could use the full paths like this:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-25_2f6bb6a48767df1235d28bee419dd2c6">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-25_c27f2b1d895a2d28ee0a032214a419d9">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ~/docs/resumes/cv.tex ~/docs/reports/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can also use relative paths. So you could do this:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-26_75632bb6b6da0139ca92cdd66f6126e5">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-26_966a956835a9e68d9a1649166ccd62d6">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/docs/resumes</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> cv.tex ../reports/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>or this:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-27_a404592e30331b7a918f968e289d6a1f">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-27_8c4a3cc4734a816f1edae04318de9a91">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/docs/reports/</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ../resumes/cv.tex ./</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also use <code>mv</code> to change the name of a file.</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-28_8df0dba8522df17d8d4a2dae924a02e5">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-28_75ddff015901d8dd8a593f1353ff10c4">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/docs/resumes</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> cv.tex resume.tex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also combine the move and a rename. For example:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-29_ad862f3c4f20a0bbf5086517bdb4f2e9">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-29_2f1fdcdb5d9a3697d2de158d5ac9bcf4">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/docs/resumes</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> cv.tex ../reports/resume.tex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And we can move entire directories. To move the <code>resumes</code> directory into <code>reports</code>, we do as follows:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-30_1290c4dcfa4514b5249aabf95032e522">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-30_3699ef875fe66b793d27e5bb1e087b58">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ~/docs/resumes ~/docs/reports/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is important to add the last <code>/</code> to make it clear you do not want to rename the <code>resumes</code> directory to <code>reports</code>, but rather move it into the <code>reports</code> directory.</p>
 </section>
-<section id="cp-copying-files" class="level3">
-<h3 class="anchored" data-anchor-id="cp-copying-files"><code>cp</code>: copying files</h3>
+<section id="cp-copying-files" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="cp-copying-files"><span class="header-section-number">2.9.2</span> <code>cp</code>: copying files</h3>
 <p>The command <code>cp</code> behaves similar to <code>mv</code> except instead of moving, we copy the file, meaning that the original file stays untouched.</p>
 </section>
-<section id="rm-removing-files" class="level3">
-<h3 class="anchored" data-anchor-id="rm-removing-files"><code>rm</code>: removing files</h3>
+<section id="rm-removing-files" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="rm-removing-files"><span class="header-section-number">2.9.3</span> <code>rm</code>: removing files</h3>
 <p>In point-and-click systems, we remove files by dragging and dropping them into the trash or using a special click on the mouse. In Unix, we use the <code>rm</code> command.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -510,40 +517,40 @@ Warning
 </div>
 </div>
 <p>The general way it works is as follows:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-31_8f88be48e7637d0c0eb57213e77681bb">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-31_02381ec1c2207b283b20bcfc8ea5d818">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> filename</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can actually list files as well like this:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-32_076379fa2076c90afc319d0cca6d6593">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-32_5ca594acfeeea358e2810f60d5cf4848">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> filename-1 filename-2 filename-3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can use full or relative paths. To remove directories, you will have to learn about arguments, which we do later.</p>
 </section>
-<section id="less-looking-at-a-file" class="level3">
-<h3 class="anchored" data-anchor-id="less-looking-at-a-file"><code>less</code>: looking at a file</h3>
+<section id="less-looking-at-a-file" class="level3" data-number="2.9.4">
+<h3 data-number="2.9.4" class="anchored" data-anchor-id="less-looking-at-a-file"><span class="header-section-number">2.9.4</span> <code>less</code>: looking at a file</h3>
 <p>Often you want to quickly look at the content of a file. If this file is a text file, the quickest way to do is by using the command <code>less</code>. To look a the file <code>cv.tex</code>, you do this:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-33_cf88a7d2d55eb6f278c2d6ab0e39e178">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-33_6032ad5d754e4d10a49a379c06534936">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/docs/resumes</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> cv.tex </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To exit the viewer, you type <code>q</code>. If the files are long, you can use the arrow keys to move up and down. There are many other keyboard commands you can use within <code>less</code> to, for example, search or jump pages.</p>
 </section>
 </section>
-<section id="sec-prep-project" class="level2">
-<h2 class="anchored" data-anchor-id="sec-prep-project">Preparing for a data science project</h2>
+<section id="sec-prep-project" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="sec-prep-project"><span class="header-section-number">2.10</span> Preparing for a data science project</h2>
 <p>We are now ready to prepare a directory for a project. We will use the US murders project<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> as an example.</p>
 <p>You should start by creating a directory where you will keep all your projects. We recommend a directory called <em>projects</em> in your home directory. To do this you would type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-34_59950ef59193d7dcda743c8a82e070b7">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-34_691c628adda703abe8bc4c2cef7a3513">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> projects</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our project relates to gun violence murders so we will call the directory for our project <code>murders</code>. It will be a subdirectory in our projects directories. In the <code>murders</code> directory, we will create two subdirectories to hold the raw data and intermediate data. We will call these <code>data</code> and <code>rda</code>, respectively.</p>
 <p>Open a terminal and make sure you are in the home directory:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-35_37b8ab847b4538c6e496ec07149b0973">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-35_7fc2edf52289e1d8db1f6032ea3945e2">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now run the following commands to create the directory structure we want. At the end, we use <code>ls</code> and <code>pwd</code> to confirm we have generated the correct directories in the correct working directory:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-36_32018d0f4ae74e915035d00840ce5b60">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-36_050bc6f077a3a62b072d8850825d2d48">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> projects</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> murders</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> murders</span>
@@ -553,12 +560,12 @@ Warning
 </div>
 <p>Note that the full path of our <code>murders</code> dataset is <code>~/projects/murders</code>.</p>
 <p>So if we open a new terminal and want to navigate into that directory we type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-37_9fbdc32eabd5968bcfba6ebb4841f405">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-37_8e2a2eb56342aaf5705d051e82c34ec5">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> projects/murders</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="text-editors" class="level2">
-<h2 class="anchored" data-anchor-id="text-editors">Text editors</h2>
+<section id="text-editors" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="text-editors"><span class="header-section-number">2.11</span> Text editors</h2>
 <p>In the course we will be using RStudio to edit files. But there will be situations in where this is not the most efficient approach. You might also need to write R code on a server that does not have RStudio installed. For this reason you need to learn to use a <em>command-line text editors</em> or <em>terminal-based text editors</em>. A key feature of these is that you can do everything you need on a terminal without the need for graphical interface. This is often necessary when using remote servers or computers you are not sitting in front off.</p>
 <p>Certainly! Command-line text editors are essential tools, especially for system administrators, developers, and other users who frequently work in a terminal environment. Here are some of the most popular command-line text editors:</p>
 <ul>
@@ -571,20 +578,20 @@ Warning
 <li><p>Emacs - Another old and powerful text editor. It’s known for being extremely extensible.</p></li>
 </ul>
 <p>To use these to edit a file you type, for example,</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-38_0f7375ded8373793006e3002c565cb8c">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-38_b66dcde672ba02c360971b41c761c9ea">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> filenmae</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="advanced-unix" class="level2">
-<h2 class="anchored" data-anchor-id="advanced-unix">Advanced Unix</h2>
-<section id="arguments" class="level3">
-<h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-39_1be3063a8ee38dac07e679a3ddd042c4">
+<section id="advanced-unix" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="advanced-unix"><span class="header-section-number">2.12</span> Advanced Unix</h2>
+<section id="arguments" class="level3" data-number="2.12.1">
+<h3 data-number="2.12.1" class="anchored" data-anchor-id="arguments"><span class="header-section-number">2.12.1</span> Arguments</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-39_7b1427ce695e34de158073ba8251439b">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> directory-name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>all files, subdirectories, files in subdirectories, subdirectories in subdirectories, and so on, will be removed. This is equivalent to throwing a folder in the trash, except you can’t recover it. Once you remove it, it is deleted for good. Often, when you are removing directories, you will encounter files that are protected. In such cases, you can use the argument <code>-f</code> which stands for <code>force</code>.</p>
 <p>You can also combine arguments. For instance, to remove a directory regardless of protected files, you type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-40_65328a59dc3017bded3c269afc822d5c">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-40_3bfaa50badef81120b492c5d9c8884bf">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> directory-name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -601,66 +608,66 @@ Warning
 </div>
 </div>
 <p>A command that is often called with argument is <code>ls</code>. Here are some examples:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-41_bc6671597d26018874f6fca4aea3356f">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-41_5bfdc8fd56f8984247ae8c0352065f86">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-a</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-42_eca2850912e0a9343e727bd1f671d503">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-42_76d560af357d1642c92fe5c32f624987">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is often useful to see files in chronological order. For that we use:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-43_f514cfa2025468e8b1b909367f7fbf00">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-43_da61af5576202792f8efb745c0a5c42b">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-t</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and to reverse the order of how files are shown you can use:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-44_ab62387274be563afc0ebe05a899543c">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-44_5adc6cf7cfc09c969dc0ce528313b037">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-r</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can combine all these arguments to show more information for all files in reverse chronological order:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-45_e8d47f72f410a1c3ebbaeea34d09e4ab">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-45_ab49fef387abff620343dab9b2d1f4ec">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lart</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Each command has a different set of arguments. In the next section, we learn how to find out what they each do.</p>
 </section>
-<section id="getting-help" class="level3">
-<h3 class="anchored" data-anchor-id="getting-help">Getting help</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-46_a91dfa02339d895d48517d0082c12224">
+<section id="getting-help" class="level3" data-number="2.12.2">
+<h3 data-number="2.12.2" class="anchored" data-anchor-id="getting-help"><span class="header-section-number">2.12.2</span> Getting help</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-46_0a4f01600eccc1182460fe6fcad1f83e">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> ls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>or</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-47_0382f17dc921d53c3f8ea92530e570fa">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-47_fc0385688878e116d6bbf28fc3dde53d">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="pipes" class="level3">
-<h3 class="anchored" data-anchor-id="pipes">Pipes</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-48_419d57ac2d7234310d98b973a1825fb3">
+<section id="pipes" class="level3" data-number="2.12.3">
+<h3 data-number="2.12.3" class="anchored" data-anchor-id="pipes"><span class="header-section-number">2.12.3</span> Pipes</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-48_3a965e258ce7913b46c690702fe27ce0">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> ls <span class="kw">|</span> <span class="fu">less</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>or in Git Bash:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-49_38d526ec6d66bcfebf47e763653d20b8">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-49_064b3cf991c30526d3b3b69d1b1c567e">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">--help</span> <span class="kw">|</span> <span class="fu">less</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is also useful when listing files with many files. We can type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-50_237f6aa3d6e0762e34605dd25c0bc022">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-50_edfc61cae7fbd77065c7dd9779128ac5">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lart</span> <span class="kw">|</span> <span class="fu">less</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="wild-cards" class="level3">
-<h3 class="anchored" data-anchor-id="wild-cards">Wild cards</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-51_e27b048068641d34bca052bc132c7c21">
+<section id="wild-cards" class="level3" data-number="2.12.4">
+<h3 data-number="2.12.4" class="anchored" data-anchor-id="wild-cards"><span class="header-section-number">2.12.4</span> Wild cards</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-51_8e7618c1390335f55085fc8f1409bd18">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To remove all html files in a directory, we would type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-52_057e73cfd0ff9f3f4ce077d1ec24dfe3">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-52_13eae06701753d070917665e5c9eca8a">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="pp">*</span>.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The other useful wild card is the <code>?</code> symbol.</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-53_9eb56788b5c1036005e1466a3a41ade2">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-53_07a947595c6fe66cec449169b465844d">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> file-<span class="pp">???</span>.html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will only remove files with that format.</p>
 <p>We can combine wild cards. For example, to remove all files with the name <code>file-001</code> regardless of suffix, we can type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-54_d090fdd683abafcf53d1f2b5c6927977">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-54_982c1b2ca9aef7b17cdbd0f66558cfe7">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> file-001.<span class="pp">*</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -677,61 +684,62 @@ Warning
 </div>
 </div>
 </section>
-<section id="environment-variables" class="level3">
-<h3 class="anchored" data-anchor-id="environment-variables">Environment variables</h3>
+<section id="environment-variables" class="level3" data-number="2.12.5">
+<h3 data-number="2.12.5" class="anchored" data-anchor-id="environment-variables"><span class="header-section-number">2.12.5</span> Environment variables</h3>
 <p>Earlier we saw this:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-55_3ec9d8ad9e52b80e2e28f1a4cb772b19">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-55_8c2b3465fcea7fc435ac1e671f23cc91">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$HOME</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can see them all by typing:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-56_979488de299f9a04f5904048ee9aa942">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-56_497e1d004f6cac5a16e4694834ab9243">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">env</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can change some of these environment variables. But their names vary across different <em>shells</em>. We describe shells in the next section.</p>
 </section>
-<section id="shells" class="level3">
-<h3 class="anchored" data-anchor-id="shells">Shells</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-57_6b46a82f0aaa895bce26977b75cb2e42">
+<section id="shells" class="level3" data-number="2.12.6">
+<h3 data-number="2.12.6" class="anchored" data-anchor-id="shells"><span class="header-section-number">2.12.6</span> Shells</h3>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-57_e945102bb4786540ba3fd55d6a6caf1a">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$SHELL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The most common one is <code>bash</code>.</p>
 <p>Once you know the shell, you can change environmental variables. In Bash Shell, we do it using <code>export variable value</code>. To change the path, described in more detail soon, type: (<strong>Don’t actually run this command though!</strong>)</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-58_95cc1c3c9097375660095fd6f38d8904">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-58_82542a58dd11c990aac4447b5379259e">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span> <span class="op">=</span> /usr/bin/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="executables" class="level3">
-<h3 class="anchored" data-anchor-id="executables">Executables</h3>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-59_2b4d2d12b489120226fd9f170c369977">
+<section id="executables" class="level3" data-number="2.12.7">
+<h3 data-number="2.12.7" class="anchored" data-anchor-id="executables"><span class="header-section-number">2.12.7</span> Executables</h3>
+<p><img src="https://scontent.fsig3-1.fna.fbcdn.net/v/t1.6435-9/67414556_2807098415970185_328885896625520640_n.jpg?_nc_cat=107&amp;ccb=1-7&amp;_nc_sid=730e14&amp;_nc_ohc=d1NrUAZkYcoAX_AY9dz&amp;_nc_ht=scontent.fsig3-1.fna&amp;oh=00_AfBYfa1LqdC-1uZJvUz82qoVJ3ZoM2AcHxc18l7yzxgUNA&amp;oe=65157170" class="img-fluid"></p>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-59_864fcb67f4fd74168da875104a6ebce7">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>That directory is probably full of program files. The directory <code>/usr/bin</code> usually holds many program files. If you type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-60_a3293c01bdae444ada88a2be983edb2a">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-60_4a08bb7250bd76a80e3a9f878bf253d1">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /usr/bin</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>in your terminal, you will see several executable files.</p>
 <p>There are other directories that usually hold program files. The Application directory in the Mac or Program Files directory in Windows are examples.</p>
 <p>To see where your system looks:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-61_e4193eaa342e3a8a09c66562d2b79275">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-61_3167ebafe2ddaf7f9f20a99dde02d278">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>you will see a list of directories separated by <code>:</code>. The directory <code>/usr/bin</code> is probably one of the first ones on the list.</p>
 <p>If your command is called my-ls, you can type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-62_5bbc8ac8e9a7f3648b42b7462cf55a7e">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-62_5255df39bb98f9bb5942aa52ce3ddae0">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./my-ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once you have mastered the basics of Unix, you should consider learning to write your own executables as they can help alleviate repetitive work.</p>
 </section>
-<section id="permissions-and-file-types" class="level3">
-<h3 class="anchored" data-anchor-id="permissions-and-file-types">Permissions and file types</h3>
+<section id="permissions-and-file-types" class="level3" data-number="2.12.8">
+<h3 data-number="2.12.8" class="anchored" data-anchor-id="permissions-and-file-types"><span class="header-section-number">2.12.8</span> Permissions and file types</h3>
 <p>If you type:</p>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-63_e1d1bf95db9d1a64a94d36d20fffda20">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-63_b220aa7d4d3c672ce671326932d7ffba">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>At the beginning, you will see a series of symbols like this <code>-rw-r--r--</code>. This string indicates the type of file: regular file <code>-</code>, directory <code>d</code>, or executable <code>x</code>. This string also indicates the permission of the file: is it readable? writable? executable? Can other users on the system read the file? Can other users on the system edit the file? Can other users execute if the file is executable? This is more advanced than what we cover here, but you can learn much more in a Unix reference book.</p>
 </section>
-<section id="commands-you-should-learn" class="level3">
-<h3 class="anchored" data-anchor-id="commands-you-should-learn">Commands you should learn</h3>
+<section id="commands-you-should-learn" class="level3" data-number="2.12.9">
+<h3 data-number="2.12.9" class="anchored" data-anchor-id="commands-you-should-learn"><span class="header-section-number">2.12.9</span> Commands you should learn</h3>
 <ul>
 <li><p>curl - download data from the internet.</p></li>
 <li><p>tar - archive files and subdirectories of a directory into one file.</p></li>
@@ -743,8 +751,8 @@ Warning
 </ul>
 </section>
 </section>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<section id="resources" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="resources"><span class="header-section-number">2.13</span> Resources</h2>
 <p>To get started.</p>
 <ul>
 <li><a href="https://www.codecademy.com/learn/learn-the-command-line" class="uri">https://www.codecademy.com/learn/learn-the-command-line</a></li>
@@ -752,8 +760,8 @@ Warning
 <li><a href="https://www.coursera.org/learn/unix" class="uri">https://www.coursera.org/learn/unix</a></li>
 </ul>
 </section>
-<section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<section id="exercises" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.14</span> Exercises</h2>
 <p>You are not allowed to use RStudio or point and click for any of the exercises below. Open a text file called <code>commands.txt</code> using a text editor and keep a log of the commands you use in the exercises below. If you want to take notes, you can use <code>#</code> to distinguish notes from commands.</p>
 <ol start="4" class="example" type="1">
 <li><p>Decide on a directory where you will save your class materials. Navigate into the directory using a full path.</p></li>
@@ -762,14 +770,14 @@ Warning
 <li><p>Use <code>curl</code> or <code>wget</code> to download the file <code>https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/murders.csv</code> and store it in <code>rdas</code>.</p></li>
 <li><p>Create a R file in the <code>code</code> directory called <code>code-1.R</code>, write the following code in the file so that if the working directory is <code>code</code> it reads in the csv file you just downloaded. Use only relative paths.</p></li>
 </ol>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-64_e60d07be67d51c66756c71999afad01a">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-64_c25e6f03bf20b69d675e7af5354bc5b9">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">""</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(filename)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="9" class="example" type="1">
 <li>Add the following line to your R code so that it saves the file to the <code>rdas</code> directory. Use only relative paths.</li>
 </ol>
-<div class="cell" data-hash="01-unix_cache/html/unnamed-chunk-65_dc22bed3d4d93f730ad780cb85b3652b">
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-65_6b90658226f71407bd1d113fe9d511e3">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="st">""</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">save</span>(dat, <span class="at">file =</span> out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1036,6 +1044,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./03-git.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

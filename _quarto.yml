@@ -15,7 +15,8 @@ book:
     - intro.qmd
     - schedule.qmd
     - 01-quarto.qmd
-    - 01-unix.qmd
+    - 02-unix.qmd
+    - 03-git.qmd
 
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023
@@ -27,7 +28,9 @@ book:
  
 format:
   html:
-    theme: cosmo
+    theme: 
+    - cosmo
+    - r4ds.scss
 
 editor: source
 

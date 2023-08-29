@@ -1,0 +1,277 @@
+# Git and GitHub
+
+Before we start: everybody make sure you have Git installed. Open a terminal and type:
+
+```
+git -v
+```
+
+If not installed follow the instruction in textbook.
+
+**Goal for the day**: create a repository, push something to the repository, connect RStudio to GitHub, clone the class notes.
+
+
+We want to avoid this:
+
+![Posted by rjkb041 on r/ProgrammerHumor](https://preview.redd.it/02o1a7v23qf71.jpg?auto=webp&s=bb61f40a88e2940e4f4b20a56640fcf12a7b1a39)
+
+This is particularly true when more than one person is collaborating on editing the file. And even more important when there are multiple files, as there is in software development, and to some extend data analysis.
+
+Git is a version control system that provides a systematic approach to keeping versions of files. 
+
+![Posted on devrant.com/ by bhimanshukalra](https://img.devrant.com/devrant/rant/r_1840117_3JUPn.jpg)
+
+But we have to learn some things:
+
+![From Meme Git Compilation by Lulu Ilmaknun Qurotaini](https://miro.medium.com/v2/resize:fit:1200/format:webp/0*VcMPr1unIjAIHw2j.jpg)
+
+:::{.callout-note}
+I use `< >` to denote a placeholder. So if I say `<filename>` what you eventually type is the filename you want to use, without the `< >`
+:::
+
+## Why use Git and GitHub?
+
+1. Sharing.
+
+2. Collaborating.
+
+3. Version control.
+
+We focus on the sharing aspects of Git and GitHub, but introduce some of the basics that permit you to collaborate and version control.
+
+## What is Git?
+
+
+![Art by: Allison Horst](https://cdn.myportfolio.com/45214904-6a61-4e23-98d6-b140f8654a40/68739659-fb6f-41e8-9813-32e1de3d82c0_rw_3840.png?h=5c36d3c50c350a440567a1f8f72ac028)
+
+
+## What is GitHub?
+
+Basically, it's a service that hosts the _remote repository (repo)_ on the web. This facilitates collaboration and sharing greatly. 
+
+There many other features such as 
+
+* a recognition system: reward, badges and stars, for example.
+* hosting web pages, like the class notes for example.
+* _forks_ and _pull requests_, 
+* issue tracking 
+* automation tools  
+
+It has been describes a _social network for software developers_. 
+
+The main tool behind GitHub, is Git.
+
+Similar to how to how main tool behind RStudio, is R.
+
+
+## GitHub accounts
+
+Once you have a GitHub account, you are ready to connect Git and RStudio to this account. 
+
+A first step is to let Git know who we are. This will make it easier to connect with GitHub. We start by opening a terminal window in RStudio (remember you can get one through _Tools_ in the menu bar). Now we use the `git config` command to tell Git who we are. We will type the following two commands in our terminal window:
+
+
+```
+git config --global user.name "Your Name"
+git config --global user.mail "your@email.com"
+```
+
+Consider adding a profile `README.md`. Instructions are [here](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
+
+Looks like [this](https://github.com/rafalab)
+
+
+## Repositories
+
+You are now ready to create a GitHub repository (repo). This will be your remote repo.
+
+The general idea is that you will have at least two copies of your code: one on your computer and one on GitHub. If you add collaborators to this repo, then each will have a copy on their computer. The GitHub copy is usually considered the main (previously called master) copy that each collaborator syncs to. Git will help you keep all the different copies synced.
+
+Let's go make one on GitHub...
+
+Then create a directory on your computer, this will be the local repo, and connect it to the Github repository.
+
+First copy and paste the location of your git repository
+
+It should look something like this:
+```
+https://github.com/your-username/your-repo-name.git
+```
+
+```
+git init
+git remote add origin <remote-url>
+```
+
+Now the two are connected. 
+
+
+
+## Overview of Git {#sec-git-overview}
+
+
+The main actions in Git are to: 
+
+1. **pull** changes from the remote repo, in this case the GitHub repo
+2. **add** files, or as we say in the Git lingo _stage_ files
+3. **commit** changes to the local repo
+4. **push** changes to the _remote_ repo, in our case the GitHub repo
+
+![From Meme Git Compilation by Lulu Ilmaknun Qurotaini](https://miro.medium.com/v2/resize:fit:880/format:webp/0*cesFJY5JFpI0Rl4v.jpg)
+
+### The four areas of Git
+
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-layout.png)
+
+### Status
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-status.png)
+```
+git status filename
+```
+
+### Add 
+
+Use `git add` to move put file to staging area.
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-add.png)
+
+```
+git add <filename>
+git status <filename>
+```
+
+### Commit
+
+Use 
+
+```
+git commit -m "must add comment"
+``` 
+
+to move file to the local repository. This file is now _tracked_ and a copy of this version is kept going forward... this is like adding `V1` to your filename.
+
+You can commit specific files by adding it at the end
+
+```
+git commit -m "must add comment" <filename>
+``` 
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-commit.png)
+
+### Push
+
+To move to upstream repo we use 
+
+```
+git push origin main
+```
+
+Because we defined main above and origin defaults to current local branch, we usually can just type
+
+```
+git push
+```
+
+Here we need to be careful as if collaborating this will affect the work of others. It might also create a `conflict`.
+
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-push.png)
+
+
+### Fetch
+
+To update our local repository to the remote one we use
+
+```
+git fetch
+```
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-fetch.png)
+
+### Merge
+
+Once we are sure this is good, we can merge with our local files 
+
+```
+git merge
+```
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-merge.png)
+
+
+### Pull
+
+It is common to want to just skip the fetch step and just update everything. For this we use 
+
+```
+git pull
+```
+
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-pull.png)
+
+
+### Checkout
+
+![Posted by andortang on Nothing is Impossible!](https://andortang.files.wordpress.com/2017/05/winter-is-coming-brace-yourself-merge-conflicts-are-coming.jpg)
+If you want to pull down a specific file you from the remote repo you can use:
+
+```
+git checkout filename
+```
+
+But if you have a newer version in your local repository this will create a **_conflict_**. If you are sure you want to get rid of your local copy you can remove and then checkout.
+
+You can also use `checkout` to pull older version:
+
+```
+git checkout <commit-id> <filename>
+```
+
+You can get the `commit-id` either on the GitHub webpage or using
+
+```
+git log filename
+```
+
+:::{.callout-note}
+If you are asked for passwords when connecting or pushing things to  you want to read [this](https://docs.github.com/en/get-started/getting-started-with-git/why-is-git-always-asking-for-my-password) and avoid this. It will be impossible to use if you have to enter a password each time you push.
+:::
+
+## Branches
+
+Git can be even more complex. We can have several branches. These are useful for working in parallel or testing stuff out that might not make the main repo. 
+
+![Art by: Allison Horst](https://cdn.myportfolio.com/45214904-6a61-4e23-98d6-b140f8654a40/efae32ce-863f-4773-852c-4335e3ce4709_rw_3840.png?h=c54a2e5af240ec6e1332e2dcacbd7f33)
+
+We wont go over this. But you should at least now these three commands
+
+```
+git remote -v
+git brach 
+```
+
+## Clone
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-clone.png)
+
+If you 
+```
+git clone <repo-url>
+```
+
+```
+pwd
+mkdir git-example
+cd git-example
+git clone https://github.com/rairizarry/murders.git
+cd murders
+```
+## Using Git in RStudio
+
+Go to file, new project, version control, and follow the instructions. Then notice the `Git` tab.
+
+![From Meme Git Compilation by Lulu Ilmaknun Qurotaini](https://miro.medium.com/v2/resize:fit:820/format:webp/0*Gb3B1-Xk5qHaxU7v.jpg)
+For more memes see [Meme Git Compilation by Lulu Ilmaknun](https://medium.com/@lulu.ilmaknun.q/kompilasi-meme-git-e2fe49c6e33e)

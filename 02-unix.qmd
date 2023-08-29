@@ -1,6 +1,6 @@
-# Unix {.unnumbered}
+# Unix 
 
-We are going to use Unix to create and prepare a dirctory for a data analysis project.
+We are going to use Unix to create and prepare a directory for a data analysis project.
 
 ## Naming convention
 
@@ -619,6 +619,7 @@ export PATH = /usr/bin/
 
 ### Executables
 
+![](https://scontent.fsig3-1.fna.fbcdn.net/v/t1.6435-9/67414556_2807098415970185_328885896625520640_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=730e14&_nc_ohc=d1NrUAZkYcoAX_AY9dz&_nc_ht=scontent.fsig3-1.fna&oh=00_AfBYfa1LqdC-1uZJvUz82qoVJ3ZoM2AcHxc18l7yzxgUNA&oe=65157170)
 
 ```{bash}
 #| eval: false
