@@ -150,9 +150,9 @@ Use
 git commit -m "must add comment"
 ``` 
 
-to move file to the local repository. This file is now _tracked_ and a copy of this version is kept going forward... this is like adding `V1` to your filename.
+to move all the added files to the local repository. This file is now _tracked_ and a copy of this version is kept going forward... this is like adding `V1` to your filename.
 
-You can commit specific files by adding it at the end
+You can commit files directly without using `add` by explicitely writing the files at the end of the commit:
 
 ```
 git commit -m "must add comment" <filename>
@@ -165,10 +165,9 @@ git commit -m "must add comment" <filename>
 To move to upstream repo we use 
 
 ```
-git push origin main
+git push -u origin main
 ```
-
-Because we defined main above and origin defaults to current local branch, we usually can just type
+The `-u` flag sets the upstream, so in the future, you can simply use git push to push changes. So going forward we can just type:
 
 ```
 git push

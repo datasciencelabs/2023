@@ -218,38 +218,42 @@ Let's explore some examples of navigating a filesystem using the command-line. D
 ```{bash}
 #| eval: false
 
-
+cd project-1/figs
 ```
 
 
 (@) Now suppose our working directory is `~/projects`. Move to `reports` in `docs` in two different ways:
 
+This is a relative path:
 ```{bash}
 #| eval: false
 
-
+cd ../docs/reports
 ```
 
+The full path:
 ```{bash}
 #| eval: false
 
-
+cd ~/docs/reports ## assuming ~ is home
 ```
 
 
 
-(@) Suppose we are in `~/projects/project-1/figs` and want to change to `~/projects/project-2`. Show two different ways, one with relative path and one with full path.
+(@) Suppose we are in `~/projects/project-1/figs` and want to change to `~/projects/project-2`, show two different ways, one with relative path and one with full path.
 
+This is with relatative path
 ```{bash}
 #| eval: false
 
-
+cd ../../projects-2
 ```
 
+With a full path
 ```{bash}
 #| eval: false
 
-
+cd ~/projects/proejcts-2 ## asumming home is ~
 ```
 
 ## More Unix commands

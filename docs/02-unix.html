@@ -437,26 +437,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol class="example" type="1">
 <li>Suppose our working directory is <code>~/projects</code>, move to <code>figs</code> in <code>project-1</code>.</li>
 </ol>
-<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-19_9d64088c226bc9cb92766bae024c73ab">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-19_c6ceee5fa5a470d8afa373d7eceddf4b">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> project-1/figs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" class="example" type="1">
 <li>Now suppose our working directory is <code>~/projects</code>. Move to <code>reports</code> in <code>docs</code> in two different ways:</li>
 </ol>
-<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-20_de47b08325d4775822751a62f0ebfdea">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is a relative path:</p>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-20_81305b1dbc589a5e9d289f3d13d4f3cc">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../docs/reports</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-21_2cfbc5c0adc3203f6765d3e53ba367b1">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The full path:</p>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-21_3b425604ee435373e02ae8c0ff39baf7">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/docs/reports <span class="co">## assuming ~ is home</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" class="example" type="1">
-<li>Suppose we are in <code>~/projects/project-1/figs</code> and want to change to <code>~/projects/project-2</code>. Show two different ways, one with relative path and one with full path.</li>
+<li>Suppose we are in <code>~/projects/project-1/figs</code> and want to change to <code>~/projects/project-2</code>, show two different ways, one with relative path and one with full path.</li>
 </ol>
-<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-22_15362146d94333588e1272bd51d72555">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is with relatative path</p>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-22_1478d2d9738b01cee931cf52f52ba76f">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../../projects-2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-23_8693dc80c69cd3ff2109cc2ec0558e90">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With a full path</p>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-23_fbd9d0d10580d0ae8caecdbf060ebf8f">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/projects/proejcts-2 <span class="co">## asumming home is ~</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="more-unix-commands" class="level2" data-number="2.9">

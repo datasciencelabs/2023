@@ -323,16 +323,16 @@ git status &lt;filename&gt;</code></pre>
 <h3 data-number="3.6.4" class="anchored" data-anchor-id="commit"><span class="header-section-number">3.6.4</span> Commit</h3>
 <p>Use</p>
 <pre><code>git commit -m "must add comment"</code></pre>
-<p>to move file to the local repository. This file is now <em>tracked</em> and a copy of this version is kept going forward… this is like adding <code>V1</code> to your filename.</p>
-<p>You can commit specific files by adding it at the end</p>
+<p>to move all the added files to the local repository. This file is now <em>tracked</em> and a copy of this version is kept going forward… this is like adding <code>V1</code> to your filename.</p>
+<p>You can commit files directly without using <code>add</code> by explicitely writing the files at the end of the commit:</p>
 <pre><code>git commit -m "must add comment" &lt;filename&gt;</code></pre>
 <p><img src="http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-commit.png" class="img-fluid"></p>
 </section>
 <section id="push" class="level3" data-number="3.6.5">
 <h3 data-number="3.6.5" class="anchored" data-anchor-id="push"><span class="header-section-number">3.6.5</span> Push</h3>
 <p>To move to upstream repo we use</p>
-<pre><code>git push origin main</code></pre>
-<p>Because we defined main above and origin defaults to current local branch, we usually can just type</p>
+<pre><code>git push -u origin main</code></pre>
+<p>The <code>-u</code> flag sets the upstream, so in the future, you can simply use git push to push changes. So going forward we can just type:</p>
 <pre><code>git push</code></pre>
 <p>Here we need to be careful as if collaborating this will affect the work of others. It might also create a <code>conflict</code>.</p>
 <p><img src="http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img/git/git-push.png" class="img-fluid"></p>
