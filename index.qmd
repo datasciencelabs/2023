@@ -46,7 +46,7 @@ right of RStudio, or going to File > Open Project and then navigating
 to the 2023 folder and opening the `.Rproj` file.
 
 Once you cloned the course repository and want to get updates, you must
-use `git pull` to get updates. You can do this in the terminal or on the RStudion **Git** pane.
+use `git pull` to get updates. You can do this in the terminal or on the RStudio's **Git** pane.
 
 ### Associating an existing directory
 

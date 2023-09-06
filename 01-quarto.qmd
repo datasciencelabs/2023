@@ -152,7 +152,7 @@ x + y
 
 Quarto has many nice features that facilitates publishing academic reports in [this guide](https://quarto.org/docs/authoring/front-matter.html)
 
-### Global excecution options
+### Global execution options
 
 If you want to apply an option globally, you can include in the header, under `execute`. For example adding the following line to the header make code not show up, by default:
 

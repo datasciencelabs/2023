@@ -145,7 +145,7 @@ pwd
 
  In Unix you can auto-complete by hitting tab. This means that we can type `cd d` then hit tab. Unix will either auto-complete if `docs` is the only directory/file starting with `d` or show you the options. Try it out! Using Unix without auto-complete will make it unbearable.
 
-### `cd` contined
+### `cd` continued
 
 
 Going back one:
@@ -210,7 +210,7 @@ cd -
 Let's explore some examples of navigating a filesystem using the command-line. Download and expand [this file](https://raw.githubusercontent.com/datasciencelabs/2023/main/data/home.zip) into a temporary directory and you will have the data struct in the following image.  
 
 
-![Practitce file system](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img//unix/filesystem-vertical.png)
+![Practice file system](http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img//unix/filesystem-vertical.png)
 
 
 (@) Suppose our working directory is `~/projects`,  move to `figs` in `project-1`.
@@ -242,7 +242,7 @@ cd ~/docs/reports ## assuming ~ is hometo
 
 (@) Suppose we are in `~/projects/project-1/figs` and want to change to `~/projects/project-2`, show two different ways, one with relative path and one with full path.
 
-This is with relatative path
+This is with relative path
 ```{bash}
 #| eval: false
 
@@ -253,7 +253,7 @@ With a full path
 ```{bash}
 #| eval: false
 
-cd ~/projects/proejcts-2 ## asumming home is ~
+cd ~/projects/proejcts-2 ## assuming home is ~
 ```
 
 ## More Unix commands
@@ -427,7 +427,7 @@ To use these to edit a file you type, for example,
 ```{bash}
 #| eval: false
 
-nano filenmae
+nano filename
 ```
 
 
