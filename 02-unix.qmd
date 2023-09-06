@@ -235,7 +235,7 @@ The full path:
 ```{bash}
 #| eval: false
 
-cd ~/docs/reports ## assuming ~ is home
+cd ~/docs/reports ## assuming ~ is hometo
 ```
 
 

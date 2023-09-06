@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>BST 260 Introduction to Data Science - 4&nbsp; R Basics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05-vectorization.html" rel="next">
+<link href="./03-git.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-r-basics.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BST 260 Introduction to Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/datasciencelabs/2023" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course description</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-r-basics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#packages" id="toc-packages" class="nav-link active" data-scroll-target="#packages"><span class="header-section-number">4.1</span> Packages</a></li>
+  <li><a href="#prebuilt-functions" id="toc-prebuilt-functions" class="nav-link" data-scroll-target="#prebuilt-functions"><span class="header-section-number">4.2</span> Prebuilt functions</a></li>
+  <li><a href="#help-system" id="toc-help-system" class="nav-link" data-scroll-target="#help-system"><span class="header-section-number">4.3</span> Help system</a></li>
+  <li><a href="#the-workspace" id="toc-the-workspace" class="nav-link" data-scroll-target="#the-workspace"><span class="header-section-number">4.4</span> The workspace</a></li>
+  <li><a href="#variable-name-convention" id="toc-variable-name-convention" class="nav-link" data-scroll-target="#variable-name-convention"><span class="header-section-number">4.5</span> Variable name convention</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="header-section-number">4.6</span> Data types</a></li>
+  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames"><span class="header-section-number">4.7</span> Data frames</a></li>
+  <li><a href="#with" id="toc-with" class="nav-link" data-scroll-target="#with"><span class="header-section-number">4.8</span> with</a></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors"><span class="header-section-number">4.9</span> Vectors</a></li>
+  <li><a href="#factors" id="toc-factors" class="nav-link" data-scroll-target="#factors"><span class="header-section-number">4.10</span> Factors</a>
+  <ul class="collapse">
+  <li><a href="#categories-based-on-strata" id="toc-categories-based-on-strata" class="nav-link" data-scroll-target="#categories-based-on-strata"><span class="header-section-number">4.10.1</span> Categories based on strata</a></li>
+  <li><a href="#changing-levels" id="toc-changing-levels" class="nav-link" data-scroll-target="#changing-levels"><span class="header-section-number">4.10.2</span> changing levels</a></li>
+  </ul></li>
+  <li><a href="#nas" id="toc-nas" class="nav-link" data-scroll-target="#nas"><span class="header-section-number">4.11</span> NAs</a></li>
+  <li><a href="#coercing" id="toc-coercing" class="nav-link" data-scroll-target="#coercing"><span class="header-section-number">4.12</span> coercing</a></li>
+  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"><span class="header-section-number">4.13</span> lists</a></li>
+  <li><a href="#matrics" id="toc-matrics" class="nav-link" data-scroll-target="#matrics"><span class="header-section-number">4.14</span> matrics</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">4.15</span> functions</a></li>
+  <li><a href="#lexical-scope" id="toc-lexical-scope" class="nav-link" data-scroll-target="#lexical-scope"><span class="header-section-number">4.16</span> Lexical scope</a></li>
+  <li><a href="#namespaces" id="toc-namespaces" class="nav-link" data-scroll-target="#namespaces"><span class="header-section-number">4.17</span> Namespaces</a></li>
+  <li><a href="#object-oriented-programming" id="toc-object-oriented-programming" class="nav-link" data-scroll-target="#object-oriented-programming"><span class="header-section-number">4.18</span> object oriented programming</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.19</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/04-r-basics.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Before we get started with this analysis we are reviewing some basics.</p>
+<section id="packages" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="packages"><span class="header-section-number">4.1</span> Packages</h2>
+<p>Use <code>install.packages</code> to install the <strong>dslabs</strong> package.</p>
+<p>Tryout the following functions: <code>sessionInfo</code>, <code>installed.packages</code></p>
+</section>
+<section id="prebuilt-functions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="prebuilt-functions"><span class="header-section-number">4.2</span> Prebuilt functions</h2>
+<p>Much of what we do in R is called prebuilt functions. Today we are using: <code>ls</code>, <code>rm</code>, <code>library</code>, <code>search</code>, <code>factor</code>, <code>list</code>, <code>exists</code>, <code>str</code>, <code>typeof</code>, <code>class</code> and maybe more.</p>
+<p>You can see the code for a function by typing it without the parenthesis:</p>
+<p>Try this:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-1_d0534a8c2e4f43deea74093555cd83ef">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="help-system" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="help-system"><span class="header-section-number">4.3</span> Help system</h2>
+<p>In R you can use <code>?</code> or <code>help</code> to learn more about functions.</p>
+<p>You can learn about function using</p>
+<pre><code>help("ls")</code></pre>
+<p>or</p>
+<pre><code>?ls</code></pre>
+</section>
+<section id="the-workspace" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="the-workspace"><span class="header-section-number">4.4</span> The workspace</h2>
+<p>Define a variable.</p>
+<p>Use <code>ls</code> to see if it’s there. Also take a look at the <strong>Environment</strong> tab in RStudio.</p>
+<p>Use <code>rm</code> to remove the variable you defined.</p>
+</section>
+<section id="variable-name-convention" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="variable-name-convention"><span class="header-section-number">4.5</span> Variable name convention</h2>
+<p>A nice convention to follow is to use meaningful words that describe what is stored, use only lower case, and use underscores as a substitute for spaces.</p>
+<p>For more we recommend <a href="http://adv-r.had.co.nz/Style.html">this guide</a>.</p>
+</section>
+<section id="data-types" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="data-types"><span class="header-section-number">4.6</span> Data types</h2>
+<p>The main data types in R are:</p>
+<ul>
+<li><p>One dimensional vectors: numeric, integer, logical, complex, characters.</p></li>
+<li><p>Factors</p></li>
+<li><p>Lists: this includes data frames</p></li>
+<li><p>Arrays: Matrices are the most widely used</p></li>
+<li><p>Date and time</p></li>
+<li><p>tibble</p></li>
+<li><p>S4 objects</p></li>
+</ul>
+<p>Many errors in R come from confusing data types. Let’s learn what these data types are and useful tools to help us.</p>
+<p><code>str</code> stands for structure, gives us information about an object.</p>
+<p><code>typeof</code> gives you the basic data type of the object. It reveals the lower-level, more fundamental type of an object in R’s memory.</p>
+<p><code>class</code> This function returns the class attribute of an object. The class of an object is essentially <code>type_of</code> at a higher, often user-facing level.</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-2_3d682033421a2e05ae091297751da036">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-3_0ae0c0bce5e8329b993d4fd343d48e2a">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(murders)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "list"</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-4_1b9b6740a1b2c5d11c9f0707757a3458">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(murders)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-5_f13d45b65240c4a339c9d4b8f3b13db2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(murders)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   51 obs. of  5 variables:
+ $ state     : chr  "Alabama" "Alaska" "Arizona" "Arkansas" ...
+ $ abb       : chr  "AL" "AK" "AZ" "AR" ...
+ $ region    : Factor w/ 4 levels "Northeast","South",..: 2 4 4 2 4 4 1 2 2 2 ...
+ $ population: num  4779736 710231 6392017 2915918 37253956 ...
+ $ total     : num  135 19 232 93 1257 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="data-frames" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="data-frames"><span class="header-section-number">4.7</span> Data frames</h2>
+<p>Date frames are the most common class used in data analysis. It is like a spreadsheet. Rows represents observations and columns variables. Each variable can be a different data type.</p>
+<p>You can add columns like this:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-6_5159051270177e97f5a0853f976f811d">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>pop_rank <span class="ot">&lt;-</span> <span class="fu">rank</span>(murders<span class="sc">$</span>population)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(murders)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       state abb region population total pop_rank
+1    Alabama  AL  South    4779736   135       29
+2     Alaska  AK   West     710231    19        5
+3    Arizona  AZ   West    6392017   232       36
+4   Arkansas  AR  South    2915918    93       20
+5 California  CA   West   37253956  1257       51
+6   Colorado  CO   West    5029196    65       30</code></pre>
+</div>
+</div>
+<p>You can access columns with the <code>$</code></p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-7_bcaa5f6f429bdc52ea4d6343b73f5e04">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>population</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  4779736   710231  6392017  2915918 37253956  5029196  3574097   897934
+ [9]   601723 19687653  9920000  1360301  1567582 12830632  6483802  3046355
+[17]  2853118  4339367  4533372  1328361  5773552  6547629  9883640  5303925
+[25]  2967297  5988927   989415  1826341  2700551  1316470  8791894  2059179
+[33] 19378102  9535483   672591 11536504  3751351  3831074 12702379  1052567
+[41]  4625364   814180  6346105 25145561  2763885   625741  8001024  6724540
+[49]  1852994  5686986   563626</code></pre>
+</div>
+</div>
+<p>but also <code>[]</code></p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-8_4ce2f5fed0284497c07759724cb5f023">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>murders[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       state abb region population total pop_rank
+1    Alabama  AL  South    4779736   135       29
+2     Alaska  AK   West     710231    19        5
+3    Arizona  AZ   West    6392017   232       36
+4   Arkansas  AR  South    2915918    93       20
+5 California  CA   West   37253956  1257       51</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-9_53b945c58b76b68fcbdcb0e090441df2">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>murders[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       state abb
+1    Alabama  AL
+2     Alaska  AK
+3    Arizona  AZ
+4   Arkansas  AR
+5 California  CA</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-10_67e810a1b4752d9ee188044d4c368456">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>murders[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"abb"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       state abb
+1    Alabama  AL
+2     Alaska  AK
+3    Arizona  AZ
+4   Arkansas  AR
+5 California  CA</code></pre>
+</div>
+</div>
+</section>
+<section id="with" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="with"><span class="header-section-number">4.8</span> with</h2>
+<p>The function <code>with</code> let’s us use the column names as objects:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-11_323d32d96b54b9f698016e2a9f229162">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(murders, <span class="fu">length</span>(state))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51</code></pre>
+</div>
+</div>
+</section>
+<section id="vectors" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="vectors"><span class="header-section-number">4.9</span> Vectors</h2>
+<p>The columns of data frames are one dimensional (atomic) vectors.</p>
+<p>Here is an example:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-12_6a8670d6bda9129c23eea162397efdae">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(murders<span class="sc">$</span>population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51</code></pre>
+</div>
+</div>
+<p>How to create vectors:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-13_c121821670b1fddf4bdfc3c02c39d1bb">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b"</span>, <span class="st">"s"</span>, <span class="st">"t"</span>, <span class="st">" "</span>, <span class="st">"2"</span>, <span class="st">"6"</span>, <span class="st">"0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sequences are particularly useful:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-14_7cf1dd6e4a25bd228b4e30e098df822e">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-15_4f31818d341d10cb2ab10a9358b763a5">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 3 5 7 9</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-16_8211c0763dc5c28c6bd360ea2abb87de">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-17_0720a7ce1589bbbfe81553023546b5c0">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq_along</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5 6 7</code></pre>
+</div>
+</div>
+</section>
+<section id="factors" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="factors"><span class="header-section-number">4.10</span> Factors</h2>
+<p>One key data type distinction is factors versus characters:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-18_4da396e59795ba2ed7203c7ae55c2958">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(murders<span class="sc">$</span>state)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(murders<span class="sc">$</span>region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+</div>
+<p>Factors store levels and then the label of each level. They are very useful for categorical data.</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-19_9ab597f86a4904d29225b2b717d1f366">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> murders<span class="sc">$</span>region</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Northeast"     "South"         "North Central" "West"         </code></pre>
+</div>
+</div>
+<section id="categories-based-on-strata" class="level3" data-number="4.10.1">
+<h3 data-number="4.10.1" class="anchored" data-anchor-id="categories-based-on-strata"><span class="header-section-number">4.10.1</span> Categories based on strata</h3>
+<p>The function <code>cut</code> is useful for converting numbers into categories</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-20_cc827c4d5309d09f78a9bef4a685c7c3">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(murders, <span class="fu">cut</span>(population, <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>,<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>,<span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>,<span class="cn">Inf</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] (1e+06,1e+07] (1e+05,1e+06] (1e+06,1e+07] (1e+06,1e+07] (1e+07,Inf]  
+ [6] (1e+06,1e+07] (1e+06,1e+07] (1e+05,1e+06] (1e+05,1e+06] (1e+07,Inf]  
+[11] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07] (1e+07,Inf]   (1e+06,1e+07]
+[16] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07]
+[21] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07]
+[26] (1e+06,1e+07] (1e+05,1e+06] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07]
+[31] (1e+06,1e+07] (1e+06,1e+07] (1e+07,Inf]   (1e+06,1e+07] (1e+05,1e+06]
+[36] (1e+07,Inf]   (1e+06,1e+07] (1e+06,1e+07] (1e+07,Inf]   (1e+06,1e+07]
+[41] (1e+06,1e+07] (1e+05,1e+06] (1e+06,1e+07] (1e+07,Inf]   (1e+06,1e+07]
+[46] (1e+05,1e+06] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07] (1e+06,1e+07]
+[51] (1e+05,1e+06]
+Levels: (0,1e+05] (1e+05,1e+06] (1e+06,1e+07] (1e+07,Inf]</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-21_973619db101a8081d92a2e596659beae">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="fu">cut</span>(murders<span class="sc">$</span>population, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>, <span class="cn">Inf</span>), </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"medium"</span>, <span class="st">"large"</span>))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>murders[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="fu">c</span>(<span class="st">"state"</span>, <span class="st">"size"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       state   size
+1    Alabama medium
+2     Alaska  small
+3    Arizona medium
+4   Arkansas medium
+5 California  large
+6   Colorado medium</code></pre>
+</div>
+</div>
+</section>
+<section id="changing-levels" class="level3" data-number="4.10.2">
+<h3 data-number="4.10.2" class="anchored" data-anchor-id="changing-levels"><span class="header-section-number">4.10.2</span> changing levels</h3>
+<p>You can change the levels (this will come in handy when we learn linear models)</p>
+<p>Order levels alphabetically:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-22_6695ee8cb003cffdbbbd25d446b2915b">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="fu">sort</span>(<span class="fu">levels</span>(murders<span class="sc">$</span>region)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] South         West          West          South         West         
+ [6] West          Northeast     South         South         South        
+[11] South         West          West          North Central North Central
+[16] North Central North Central South         South         Northeast    
+[21] South         Northeast     North Central North Central South        
+[26] North Central West          North Central West          Northeast    
+[31] Northeast     West          Northeast     South         North Central
+[36] North Central South         West          Northeast     Northeast    
+[41] South         North Central South         South         West         
+[46] Northeast     South         West          South         North Central
+[51] West         
+Levels: North Central Northeast South West</code></pre>
+</div>
+</div>
+<p>Make west the first level:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-23_05c076eace38d74cb4f9f948dc8ecd3b">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">relevel</span>(x, <span class="at">ref =</span> <span class="st">"West"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Order levels by population size:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-24_2feb8e0cf7409f6990f4b1f986876994">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">reorder</span>(murders<span class="sc">$</span>region, murders<span class="sc">$</span>population, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Factors are more efficient:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-25_6023ceb804f6b7371d4e79b06ed7f7c8">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sample</span>(murders<span class="sc">$</span>state[<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">33</span>,<span class="dv">44</span>)], <span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">factor</span>(x)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>80000232 bytes</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>40000648 bytes</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-26_36716f892c39dc29519f49a7bd0008e4">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({x <span class="ot">&lt;-</span> <span class="fu">tolower</span>(x)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+  1.445   0.009   1.455 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({<span class="fu">levels</span>(y) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">levels</span>(y))})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+  0.018   0.000   0.018 </code></pre>
+</div>
+</div>
+<p>Factors can be confusing:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-27_4b74ceff052fbae6938b24547fca4098">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"3"</span>,<span class="st">"2"</span>,<span class="st">"1"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"3"</span>,<span class="st">"2"</span>,<span class="st">"1"</span>))</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-28_89c4b54680a6a4971cd50adde269e1b7">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3
+Levels: 3 2 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(x[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "3" "2" "1"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+3 2 1 
+1 0 0 </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-29_32beb5a53bbb48e4027078eb25780000">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"4"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in `[&lt;-.factor`(`*tmp*`, 1, value = "4"): invalid factor level, NA
+generated</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &lt;NA&gt; 2    1   
+Levels: 3 2 1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="nas" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="nas"><span class="header-section-number">4.11</span> NAs</h2>
+<p>NA stands for not available. We will see many NAs if we analyze data generally.</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-30_29f8f5583b7ad5ae85f8ac0f7f22132e">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-31_6ec00bef737cc36284402a3df357b56e">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-32_7bead5cf8d7b508a1a041d6f7fb7a175">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(<span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-33_83810931612415c05423837ce59ef0ed">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">+</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<p>When used with logicals behaves like FALSE</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-34_af411153948f9605981d1402abd2110c">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">&amp;</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">|</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>But is is not FALSE. Try this:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-35_5b97cb1ccd99c1f8c2b703dc574471e8">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="cn">NA</span>) <span class="fu">print</span>(<span class="dv">1</span>) <span class="cf">else</span> <span class="fu">print</span>(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="coercing" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="coercing"><span class="header-section-number">4.12</span> coercing</h2>
+<p>When you do something nonsensical with data types, R tries to figure out what you mean. This can cause confusion and unnoticed errors. So it’s important to understand how and when it happens. Here are some examples:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-36_1c84eecb11edbfc2a43c1360ab69b81e">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(1L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">1</span> <span class="sc">+</span> 1L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-37_9892aef22a18d24311d0c7e85358ab0b">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"a"</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "1" "2"</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-38_681008bf7debc507dc47c6c3f590e7a4">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">+</span> <span class="cn">FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-39_963f6a4bd2f5b89af50f076f4f232434">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">factor</span>(<span class="st">"a"</span>) <span class="sc">==</span> <span class="st">"a"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">factor</span>(<span class="st">"a"</span>), <span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>You want to avoid automatic coercion and instead explicitly do it. Most coercion functions start with <code>as.</code></p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-40_b04bc17a57a4b17d173c45c638b3544d">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>))</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "b" "b" "c"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 2 3</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-41_22d7af26c23876e41795c52e40f1ea27">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>))</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "b" "b" "c"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 2 3</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-42_8e11186ba8140326e5be84fa9393b507">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"12323"</span>, <span class="st">"12,323"</span>)</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12323    NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">parse_guess</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12323 12323</code></pre>
+</div>
+</div>
+</section>
+<section id="lists" class="level2" data-number="4.13">
+<h2 data-number="4.13" class="anchored" data-anchor-id="lists"><span class="header-section-number">4.13</span> lists</h2>
+<p>Data frames are a type of list. List permit components of different types and, unlike data frames, length</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-43_3eb4d76e471e4fe04171ebb7a960db77">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">name =</span> <span class="st">"John"</span>, <span class="at">id =</span> <span class="dv">112</span>, <span class="at">grades =</span> <span class="fu">c</span>(<span class="dv">95</span>, <span class="dv">87</span>, <span class="dv">92</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can access components in different ways:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-44_dbc4ee803a45f2a5857a44f01e01316d">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "John"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>x[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "John"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>x[[<span class="st">"name"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "John"</code></pre>
+</div>
+</div>
+</section>
+<section id="matrics" class="level2" data-number="4.14">
+<h2 data-number="4.14" class="anchored" data-anchor-id="matrics"><span class="header-section-number">4.14</span> matrics</h2>
+<p>Matrices are another widely used data type. They are similar to data frames except all entries need to be of the same type.</p>
+<p>We will learn more about matrices in the High Dimensional data Analysis part of the class.</p>
+</section>
+<section id="functions" class="level2" data-number="4.15">
+<h2 data-number="4.15" class="anchored" data-anchor-id="functions"><span class="header-section-number">4.15</span> functions</h2>
+<p>You can define your own function. The form is like this:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-45_589f7e1063fa9daf474335628b0572d4">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">z =</span> <span class="dv">0</span>){</span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">### do calculations with x, y, z to compute object</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## return(object)</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is an example of a function that sums <span class="math inline">\(1,2,\dots,n\)</span></p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-46_caf629de8106817e00030f3f1e04f803">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="cf">function</span>(n){</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span>n))</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lexical-scope" class="level2" data-number="4.16">
+<h2 data-number="4.16" class="anchored" data-anchor-id="lexical-scope"><span class="header-section-number">4.16</span> Lexical scope</h2>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-47_b6200e1d8e04be50cd0eefec7841d085">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"y is"</span>, y,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> x</span>
+<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"y is"</span>, y,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(y)</span>
+<span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb117-8"><a href="#cb117-8" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y is 2 
+y is 3 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">f</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y is 2 
+y is 3 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</section>
+<section id="namespaces" class="level2" data-number="4.17">
+<h2 data-number="4.17" class="anchored" data-anchor-id="namespaces"><span class="header-section-number">4.17</span> Namespaces</h2>
+<p>Look at this function.</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-48_05cb9838089de99699d6954604dee528">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>filter</span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>filter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note this is just the Global Environment.</p>
+<p>Use <code>search</code> to see other environments.</p>
+<p>Note all the functions in <code>stats</code></p>
+<p>You can explicitly say which you want:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-49_b3e1b74c9ce04dad0dccdba59062d445">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span>filter</span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span>filter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Try to understand this example:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-50_6b4b6668d7b559b7f7ab08d41feae337">
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">"murders"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">"murders"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>murders <span class="ot">&lt;-</span> murders</span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>murders2 <span class="ot">&lt;-</span> murders</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(murders)</span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">"murders"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(<span class="st">"package:dslabs"</span>)</span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">"murders"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">"murders2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="object-oriented-programming" class="level2" data-number="4.18">
+<h2 data-number="4.18" class="anchored" data-anchor-id="object-oriented-programming"><span class="header-section-number">4.18</span> object oriented programming</h2>
+<p>R uses object oriented programming. It uses to approaches referred to as S3 and S4. The original S3 is more common.</p>
+<p>What does this mean?</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-51_936ee178ef3c8ee3ecf5ac30e30ce30b">
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(co2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ts"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(co2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="04-r-basics_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-52_500308fc9b4b322f0af669857343c84b">
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.numeric</span>(co2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="04-r-basics_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>See the difference? The first one actually calls the function</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-53_8fc59332d4bb6c2bc01b529a073f6a01">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>plot.ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice all the plot functions that start with <code>plot.</code></p>
+<p>The function plot will call different functions depending on the class of the arguments:</p>
+<div class="cell" data-hash="04-r-basics_cache/html/unnamed-chunk-54_d83e59da4b6ac0dcca843b6149cc36b6">
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x, y, ...) 
+UseMethod("plot")
+&lt;bytecode: 0x117c11188&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="4.19">
+<h2 data-number="4.19" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.19</span> Exercises</h2>
+<ol class="example" type="1">
+<li><p>What is the sum of the first 100 positive integers? The formula for the sum of integers <span class="math inline">\(1\)</span> through <span class="math inline">\(n\)</span> is <span class="math inline">\(n(n+1)/2\)</span>. Define <span class="math inline">\(n=100\)</span> and then use R to compute the sum of <span class="math inline">\(1\)</span> through <span class="math inline">\(100\)</span> using the formula. What is the sum?</p></li>
+<li><p>Now use the same formula to compute the sum of the integers from 1 through 1,000.</p></li>
+<li><p>Now use the functions <code>seq</code> and <code>sum</code> to compute the sum with R for any <code>n</code>, rather than a formula.</p></li>
+<li><p>In math and programming, we say that we evaluate a function when we replace the argument with a given number. So if we type <code>sqrt(4)</code>, we evaluate the <code>sqrt</code> function. In R, you can evaluate a function inside another function. The evaluations happen from the inside out. Use one line of code to compute the log, in base 10, of the square root of 100.</p></li>
+<li><p>Make sure the US murders dataset is loaded. Use the function <code>str</code> to examine the structure of the <code>murders</code> object. What are the column names used by the data frame for these five variables?</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-git.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-vectorization.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

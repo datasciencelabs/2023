@@ -1,0 +1,489 @@
+# R Basics
+
+Before we get started with this analysis we are reviewing some basics.
+
+
+## Packages
+
+Use `install.packages` to install the **dslabs** package.
+
+Tryout the following functions: `sessionInfo`, `installed.packages`
+
+## Prebuilt functions
+
+Much of what we do in R is called prebuilt functions. Today we are using: `ls`, `rm`, `library`, `search`, `factor`, `list`, `exists`, `str`, `typeof`, `class` and maybe more.
+
+You can see the code for a function by typing it without the parenthesis:
+
+Try this:
+```{r}
+#| eval: false
+
+ls
+```
+
+## Help system
+
+In R you can use `?` or `help` to learn more about functions.
+
+You can learn about function using
+
+```
+help("ls")
+```
+
+or 
+
+```
+?ls
+```
+
+## The workspace
+
+Define a variable.
+
+Use `ls` to see if it's there. Also take a look at the **Environment** tab in RStudio.
+
+Use `rm` to remove the variable you defined.
+
+
+
+## Variable name convention
+
+A nice convention to follow is to use meaningful words that describe what is stored, use only lower case, and use underscores as a substitute for spaces. 
+
+For more we recommend [this guide](http://adv-r.had.co.nz/Style.html).
+
+## Data types
+
+The main data types in R are:
+
+* One dimensional vectors: numeric, integer, logical, complex, characters.
+
+
+* Factors
+
+* Lists: this includes data frames
+
+* Arrays: Matrices are the most widely used
+
+* Date and time
+
+* tibble
+
+* S4 objects
+
+Many errors in R come from confusing data types. Let's learn what these data types are and useful tools to help us.
+
+`str` stands for structure, gives us information about an object.
+
+`typeof` gives you the basic data type of the object. It reveals the lower-level, more fundamental type of an object in R's memory.
+
+`class` This function returns the class attribute of an object. The class of an object is essentially `type_of` at a higher, often user-facing level.
+
+```{r}
+library(dslabs)
+```
+
+
+```{r}
+typeof(murders)
+```
+
+
+```{r}
+class(murders)
+```
+
+
+```{r}
+str(murders)
+```
+
+
+## Data frames
+
+Date frames are the most common class used in data analysis. It is like a spreadsheet. Rows represents observations and columns variables. Each variable can be a different data type.
+
+You can add columns like this:
+
+```{r}
+murders$pop_rank <- rank(murders$population)
+head(murders)
+```
+
+You can access columns with the `$` 
+
+```{r}
+murders$population
+```
+
+but also `[]`
+```{r}
+murders[1:5,]
+```
+
+```{r}
+murders[1:5, 1:2]
+```
+
+```{r}
+murders[1:5, c("state", "abb")]
+```
+
+## with
+
+The function `with` let's us use the column names as objects:
+
+```{r}
+with(murders, length(state))
+```
+
+
+## Vectors
+
+The columns of data frames are one dimensional (atomic) vectors.
+
+
+Here is an example:
+```{r}
+length(murders$population)
+```
+
+
+How to create vectors:
+
+```{r}
+x <- c("b", "s", "t", " ", "2", "6", "0")
+```
+
+Sequences are particularly useful:
+
+```{r}
+seq(1, 10)
+```
+
+```{r}
+seq(1, 9, 2)
+```
+
+```{r}
+1:10
+```
+
+```{r}
+seq_along(x)
+```
+
+## Factors
+
+One key data type distinction is factors versus characters:
+
+```{r}
+typeof(murders$state)
+typeof(murders$region)
+```
+
+Factors store levels and then the label of each level.
+They are very useful for categorical data.
+
+```{r}
+x <- murders$region
+levels(x)
+```
+
+
+### Categories based on strata
+
+The function `cut` is useful for converting numbers into categories
+
+```{r}
+with(murders, cut(population, c(0,10^5,10^6,10^7,Inf)))
+```
+
+```{r}
+murders$size <- cut(murders$population, c(0, 10^6, 10^7, Inf), 
+            labels = c("small", "medium", "large"))
+murders[1:6,c("state", "size")]
+```
+
+
+### changing levels
+
+You can change the levels (this will come in handy when we learn linear models)
+
+Order levels alphabetically:
+```{r}
+factor(x, levels = sort(levels(murders$region)))
+```
+
+Make west the first level:
+```{r}
+x <- relevel(x, ref = "West")
+```
+
+Order levels by population size:
+```{r}
+x <- reorder(murders$region, murders$population, sum)
+```
+
+Factors are more efficient:
+
+```{r}
+x <- sample(murders$state[c(5,33,44)], 10^7, replace = TRUE)
+y <- factor(x)
+object.size(x)
+object.size(y)
+```
+
+```{r}
+system.time({x <- tolower(x)})
+system.time({levels(y) <- tolower(levels(y))})
+```
+
+Factors can be confusing:
+
+```{r}
+x <- factor(c("3","2","1"), levels = c("3","2","1"))
+as.numeric(x)
+```
+
+
+```{r}
+x[1]
+levels(x[1])
+
+table(x[1])
+```
+
+```{r}
+x[1] <- "4"
+x
+```
+
+
+## NAs
+
+NA stands for not available. We will see many NAs if we analyze data generally.
+
+```{r}
+x <- as.numeric("a")
+```
+
+```{r}
+is.na(x)
+```
+
+```{r}
+is.na("a")
+```
+
+```{r}
+1 + 2 + NA
+```
+
+When used with logicals behaves like FALSE
+```{r}
+TRUE & NA
+TRUE | NA
+```
+
+But is is not FALSE. Try this:
+
+```{r}
+#| eval: false
+if(NA) print(1) else print(0)
+```
+
+
+## coercing
+
+When you do something nonsensical with data types, R tries to figure out what you mean. This can cause confusion and unnoticed errors. So it's important to understand how and when it happens. 
+Here are some examples:
+
+```{r}
+typeof(1L)
+typeof(1)
+typeof(1 + 1L)
+```
+
+```{r}
+c("a", 1, 2)
+```
+
+```{r}
+TRUE + FALSE
+```
+
+```{r}
+factor("a") == "a"
+identical(factor("a"), "a")
+```
+
+You want to avoid automatic coercion and instead explicitly do it. Most coercion functions start with `as.`
+
+```{r}
+x <- factor(c("a","b","b","c"))
+as.character(x)
+as.numeric(x)
+```
+
+```{r}
+x <- factor(c("a","b","b","c"))
+as.character(x)
+as.numeric(x)
+```
+
+```{r}
+x <- c("12323", "12,323")
+as.numeric(x)
+readr::parse_guess(x)
+```
+
+## lists
+
+Data frames are a type of list. List permit components of different types and, unlike data frames, length
+
+```{r}
+x <- list(name = "John", id = 112, grades = c(95, 87, 92))
+```
+
+You can access components in different ways:
+
+```{r}
+x$name
+x[[1]]
+x[["name"]]
+```
+
+## matrics
+
+Matrices are another widely used data type. They are similar to data frames except all entries need to be of the same type.
+
+We will learn more about matrices in the High Dimensional data Analysis part of the class.
+
+## functions
+
+You can define your own function. The form is like this:
+
+```{r}
+#| eval: false
+f <- function(x, y, z = 0){
+  ### do calculations with x, y, z to compute object
+  ## return(object)
+}
+```
+
+Here is an example of a function that sums $1,2,\dots,n$
+
+```{r}
+s <- function(n){
+   return(sum(1:n))
+}
+```
+
+## Lexical scope
+
+```{r}
+f <- function(x){
+  cat("y is", y,"\n")
+  y <- x
+  cat("y is", y,"\n")
+  return(y)
+}
+y <- 2
+f(3)
+y <- f(3)
+y
+```
+
+
+## Namespaces 
+
+
+Look at this function.
+
+
+```{r}
+#| eval: false
+
+filter
+library(dplyr)
+filter
+```
+
+
+Note this is just the Global Environment.
+
+Use `search` to see other environments.
+
+Note all the functions in `stats`
+
+You can explicitly say which you want:
+
+```{r}
+#| eval: false
+stats::filter
+dplyr::filter
+```
+
+Try to understand this example:
+
+```{r}
+exists("murders")
+library(dslabs)
+exists("murders")
+murders <- murders
+murders2 <- murders
+rm(murders)
+exists("murders")
+detach("package:dslabs")
+exists("murders")
+exists("murders2")
+```
+
+## object oriented programming
+
+R uses object oriented programming. It uses to approaches referred to as S3 and S4. The original S3 is more common.
+
+What does this mean?
+
+```{r}
+class(co2)
+plot(co2)
+```
+
+```{r}
+plot(as.numeric(co2))
+```
+
+See the difference? The first one actually calls the function
+
+```{r}
+#| eval: false
+plot.ts
+```
+
+Notice all the plot functions that start with `plot.` 
+
+The function plot will call different functions depending on the class of the arguments:
+
+```{r}
+plot
+```
+
+
+## Exercises
+
+(@) What is the sum of the first 100 positive integers? The formula for the sum of integers $1$ through $n$ is $n(n+1)/2$. Define $n=100$ and then use R to compute the sum of $1$ through $100$ using the formula. What is the sum?
+
+(@) Now use the same formula to compute the sum of the integers from 1 through 1,000.
+
+(@) Now use the functions `seq` and `sum` to compute the sum with R for any `n`, rather than a formula.
+
+(@) In math and programming, we say that we evaluate a function when we replace the argument with a given number. So if we type `sqrt(4)`, we evaluate the `sqrt` function. In R, you can evaluate a function inside another function. The evaluations happen from the inside out. Use one line of code to compute the log, in base 10, of the square root of 100.
+
+
+(@) Make sure the US murders dataset is loaded. Use the function `str` to examine the structure of the `murders` object. What are the column names used by the data frame for these five variables?
+
+

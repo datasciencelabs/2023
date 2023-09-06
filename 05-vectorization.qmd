@@ -1,0 +1,167 @@
+# Vectorization 
+
+A European friend has a great job offer from USA but is concerned about gun violence. 
+
+The `murders` dataset in the **dslabs** package includes data on gun murders for the US 50 states and DC. Use this to prepare a report for your fried to help them decide where to live. Note your friend likes hiking so might prefer the west. Your friend does not like low population density.
+
+```{r}
+library(dslabs)
+```
+
+## Arithmetics
+
+```{r}
+heights <- c(69, 62, 66, 70, 70, 73, 67, 73, 67, 70)
+```
+
+Convert to meters:
+
+```{r}
+heights * 2.54 / 100
+```
+
+Difference from the average:
+
+```{r}
+avg <- mean(heights)
+heights - avg 
+```
+
+Exercise: compute the standardized inches.
+
+```{r}
+#| eval: false
+sd <- sd(heights)
+
+```
+
+
+If it's two vectors, it does it component wise:
+
+```{r}
+heights <- c(69, 62, 66, 70, 70, 73, 67, 73, 67, 70)
+error <- rnorm(length(heights), 0, 0.1)
+heights + error
+```
+
+
+Exercise:
+
+Add a column to the murders dataset with the murder rate.
+
+```{r}
+
+```
+
+
+## Functions that vectorize
+
+Most arithmetic functions work on vectors
+
+```{r}
+x <- 1:10
+sqrt(x)
+log(x)
+2^x
+```
+
+
+## Indexing
+
+
+Vectorization also works for logical relationships:
+
+```{r}
+ind <- murders$population < 10^6
+```
+
+
+You can subset a vector using these:
+
+```{r}
+murders$state[ind]
+```
+
+
+You can also use vectorization to apply logical operators:
+
+```{r}
+ind <- murders$population < 10^6 & murders$region == "West"
+murders$state[ind]
+```
+
+## split
+
+Split is a useful function to get indexes using a factor.
+```{r}
+with(murders, split(seq_along(region), region))
+```
+
+## Functions for subsetting
+
+The functions `which`, `match` and the operator `%in%` are 
+useful for sub-setting
+
+Here are some examples:
+
+```{r}
+ind <- which(murders$state == "California")
+ind
+murders[ind,]
+```
+
+
+```{r}
+ind <- match(c("New York", "Florida", "Texas"), murders$state)
+ind
+```
+
+```{r}
+c("Boston", "Dakota", "Washington") %in% murders$state
+```
+
+## sapply
+
+You can apply functions that don't vectorize. Like this one:
+
+```{r}
+s <- function(n){
+   return(sum(1:n))
+}
+```
+
+Try it on a vector:
+
+```{r}
+ns <- c(25, 100, 1000)
+s(ns)
+```
+
+We can use `sapply`
+```{r}
+sapply(ns, s)
+```
+
+`sapply` will work on any vector, including lists.
+
+
+## Exercises
+
+Now we are ready to help your friend. Let's give them options of places with low murders rates, mountains, and not too small.
+
+(@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths. Show all variables.
+
+(@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths and in the West of the US. Don't show the `region` variable.
+
+(@) Show the largest state with a rate less than 1 per 100,000.
+
+(@) Show the state with a population of more than 10 million with the lowest rate.
+
+(@) Compute the rate for each region of the US.
+
+
+
+
+
+
+
