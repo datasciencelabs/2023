@@ -60,7 +60,6 @@ The main data types in R are:
 
 * One dimensional vectors: numeric, integer, logical, complex, characters.
 
-
 * Factors
 
 * Lists: this includes data frames
@@ -199,7 +198,7 @@ The function `cut` is useful for converting numbers into categories
 
 ```{r}
 with(murders, cut(population, 
-                  c(0, 10^5, 10^6, 10^7, Inf)))
+                  c(0, 10^6, 10^7, Inf)))
 ```
 
 ```{r}
@@ -244,8 +243,7 @@ system.time({x <- tolower(x)})
 Exercise: How can we make this go much faster?
 
 ```{r}
-#| eval: false
-system.time()
+system.time({levels(y) <- tolower(levels(y))})
 ```
 
 Factors can be confusing:
@@ -261,6 +259,9 @@ x[1]
 levels(x[1])
 
 table(x[1])
+
+z <- x[1]
+z <- droplevels(z)
 ```
 
 ```{r}
@@ -337,12 +338,6 @@ identical(factor("a"), "a")
 ```
 
 You want to avoid automatic coercion and instead explicitly do it. Most coercion functions start with `as.`
-
-```{r}
-x <- factor(c("a","b","b","c"))
-as.character(x)
-as.numeric(x)
-```
 
 ```{r}
 x <- factor(c("a","b","b","c"))
@@ -495,13 +490,38 @@ plot
 
 (@) What is the sum of the first 100 positive integers? The formula for the sum of integers $1$ through $n$ is $n(n+1)/2$. Define $n=100$ and then use R to compute the sum of $1$ through $100$ using the formula. What is the sum?
 
+```{r}
+n <- 100
+n*(n + 1) / 2
+```
+
 (@) Now use the same formula to compute the sum of the integers from 1 through 1,000.
+
+```{r}
+n <- 1000
+n*(n + 1) / 2
+```
+
 
 (@) Now use the functions `seq` and `sum` to compute the sum with R for any `n`, rather than a formula.
 
+```{r}
+n <- 100
+x <- seq(1, 100)
+sum(x)
+```
+
 (@) In math and programming, we say that we evaluate a function when we replace the argument with a given number. So if we type `sqrt(4)`, we evaluate the `sqrt` function. In R, you can evaluate a function inside another function. The evaluations happen from the inside out. Use one line of code to compute the log, in base 10, of the square root of 100.
 
+```{r}
+log(sqrt(100), base = 10)
+log10(sqrt(100))
+```
 
 (@) Make sure the US murders dataset is loaded. Use the function `str` to examine the structure of the `murders` object. What are the column names used by the data frame for these five variables?
 
+```{r}
+library(dslabs)
+str(murders)
+```
 
