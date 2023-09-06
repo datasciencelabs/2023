@@ -159,9 +159,31 @@ Now we are ready to help your friend. Let's give them options of places with low
 
 (@) Compute the rate for each region of the US.
 
+More practice exercises:
+
+(@) Create a vector of numbers that starts at 6, does not pass 55, and adds numbers in increments of 4/7: 6, 6 + 4/7, 6 + 8/7, and so on. How many numbers does the list have? Hint: use `seq` and `length`.
+
+(@) Make this data frame:
+
+```{r}
+temp <- c(35, 88, 42, 84, 81, 30)
+city <- c("Beijing", "Lagos", "Paris", "Rio de Janeiro", 
+          "San Juan", "Toronto")
+city_temps <- data.frame(name = city, temperature = temp)
+```
+
+Convert the temperatures to Celsius.
+
+(@) Compute the following sum  
+
+$$
+S_n = 1+1/2^2 + 1/3^2 + \dots 1/n^2$
+$$
+
+Show that as $n$ gets bigger we get closer $\pi^2/6$.
+
+(@) Use the `%in%` operator and the predefined object `state.abb` to create a logical vector that answers the question: which of the following are actual abbreviations: MA, ME, MI, MO, MU?
 
 
-
-
-
+(@) Extend the code you used in exercise 7 to report the one entry that is **not** an actual abbreviation. Hint: use the `!` operator, which turns `FALSE` into `TRUE` and vice versa, then `which` to obtain an index.
 

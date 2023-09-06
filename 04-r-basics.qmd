@@ -198,7 +198,8 @@ levels(x)
 The function `cut` is useful for converting numbers into categories
 
 ```{r}
-with(murders, cut(population, c(0,10^5,10^6,10^7,Inf)))
+with(murders, cut(population, 
+                  c(0, 10^5, 10^6, 10^7, Inf)))
 ```
 
 ```{r}
@@ -238,7 +239,13 @@ object.size(y)
 
 ```{r}
 system.time({x <- tolower(x)})
-system.time({levels(y) <- tolower(levels(y))})
+```
+
+Exercise: How can we make this go much faster?
+
+```{r}
+#| eval: false
+system.time()
 ```
 
 Factors can be confusing:
@@ -292,7 +299,16 @@ But is is not FALSE. Try this:
 
 ```{r}
 #| eval: false
-if(NA) print(1) else print(0)
+if (NA) print(1) else print(0)
+```
+
+A related constant is `NaN` which stands for not a number. It is a numeric that is not a number.
+
+```{r}
+class(0/0)
+sqrt(-1)
+log(-1)
+0/0
 ```
 
 
@@ -449,11 +465,13 @@ R uses object oriented programming. It uses to approaches referred to as S3 and 
 What does this mean?
 
 ```{r}
+#| label: co2-plot
 class(co2)
 plot(co2)
 ```
 
 ```{r}
+#| label: wrong-co2-plot
 plot(as.numeric(co2))
 ```
 
