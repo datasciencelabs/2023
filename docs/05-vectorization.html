@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./06-tidyverse.html" rel="next">
 <link href="./04-r-basics.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -189,6 +190,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -270,8 +277,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>error <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(heights), <span class="dv">0</span>, <span class="fl">0.1</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">+</span> error</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 68.84618 61.98929 65.85485 70.01706 69.93486 72.89827 66.95417 73.00615
- [9] 66.90889 69.96774</code></pre>
+<pre><code> [1] 69.22731 61.96707 65.91319 69.97864 70.05011 73.06697 66.98434 72.99172
+ [9] 67.06568 69.73234</code></pre>
 </div>
 </div>
 <p>Exercise:</p>
@@ -301,16 +308,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code> [1]    2    4    8   16   32   64  128  256  512 1024</code></pre>
 </div>
 </div>
+<p>Note that the conditional function <code>if</code>-<code>else</code> does not vectorize. A particularly useful function is a vectorized version <code>ifelse</code>. Here is an example:</p>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-9_a24937298bfbf8603ef61844fe4ded33">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(a <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span><span class="sc">/</span>a, <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  NA 1.0 0.5  NA 0.2</code></pre>
+</div>
+</div>
+<p>Other conditional functions, such as <code>any</code> and <code>all</code>, do vectorize.</p>
 </section>
 <section id="indexing" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="indexing"><span class="header-section-number">5.3</span> Indexing</h2>
 <p>Vectorization also works for logical relationships:</p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-9_b86f201a319f158eff6ccdcf8f1c8a22">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> murders<span class="sc">$</span>population <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-10_61d5c79113f8ee2853bd43cba1b59784">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> murders<span class="sc">$</span>population <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can subset a vector using these:</p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-10_2d2e8a7fc6e526be99e64bda76cc1572">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[ind]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-11_a6c3d0c5f2d88b5edb22d68a81d1156c">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[ind]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Alaska"               "Delaware"             "District of Columbia"
 [4] "Montana"              "North Dakota"         "South Dakota"        
@@ -318,9 +334,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also use vectorization to apply logical operators:</p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-11_e6a04cb1800e3fe06c4d848a1e4f5d13">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> murders<span class="sc">$</span>population <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">&amp;</span> murders<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"West"</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[ind]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-12_855c0de2dff10277b24bb97f8f4cff5b">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> murders<span class="sc">$</span>population <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span> <span class="sc">&amp;</span> murders<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"West"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[ind]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Alaska"  "Montana" "Wyoming"</code></pre>
 </div>
@@ -329,9 +345,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="split" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="split"><span class="header-section-number">5.4</span> split</h2>
 <p>Split is a useful function to get indexes using a factor.</p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-12_130a15bc8222428ae3222923f7e6574c">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>inds <span class="ot">&lt;-</span> <span class="fu">with</span>(murders, <span class="fu">split</span>(<span class="fu">seq_along</span>(region), region))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[inds<span class="sc">$</span>West]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-13_892348c4351e001033d2757463eac289">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>inds <span class="ot">&lt;-</span> <span class="fu">with</span>(murders, <span class="fu">split</span>(<span class="fu">seq_along</span>(region), region))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>state[inds<span class="sc">$</span>West]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Alaska"     "Arizona"    "California" "Colorado"   "Hawaii"    
  [6] "Idaho"      "Montana"    "Nevada"     "New Mexico" "Oregon"    
@@ -343,27 +359,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.5" class="anchored" data-anchor-id="functions-for-subsetting"><span class="header-section-number">5.5</span> Functions for subsetting</h2>
 <p>The functions <code>which</code>, <code>match</code> and the operator <code>%in%</code> are useful for sub-setting</p>
 <p>Here are some examples:</p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-13_a114ddc7e5404b2f321cf8b6af10f764">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(murders<span class="sc">$</span>state <span class="sc">==</span> <span class="st">"California"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>ind</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-14_98d5a1cb2461c8e45aebc2cf32787ad7">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(murders<span class="sc">$</span>state <span class="sc">==</span> <span class="st">"California"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ind</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>murders[ind,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>murders[ind,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       state abb region population total
-5 California  CA   West   37253956  1257</code></pre>
+<pre><code>       state abb region population total     rate
+5 California  CA   West   37253956  1257 3.374138</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-14_0c033047976750852ea462cdbd04272b">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">c</span>(<span class="st">"New York"</span>, <span class="st">"Florida"</span>, <span class="st">"Texas"</span>), murders<span class="sc">$</span>state)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ind</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-15_151c724b7f93170c526e806c0f8b7c3c">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">c</span>(<span class="st">"New York"</span>, <span class="st">"Florida"</span>, <span class="st">"Texas"</span>), murders<span class="sc">$</span>state)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>ind</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 33 10 44</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-15_468915f8d2b5eafe45bb9e8e7a570f2b">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"Boston"</span>, <span class="st">"Dakota"</span>, <span class="st">"Washington"</span>) <span class="sc">%in%</span> murders<span class="sc">$</span>state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-16_6a63b57ae614038577b46d2d3d25e9fd">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"Boston"</span>, <span class="st">"Dakota"</span>, <span class="st">"Washington"</span>) <span class="sc">%in%</span> murders<span class="sc">$</span>state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE FALSE  TRUE</code></pre>
 </div>
@@ -372,15 +388,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sapply" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="sapply"><span class="header-section-number">5.6</span> sapply</h2>
 <p>You can apply functions that don’t vectorize. Like this one:</p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-16_7b7e523b481e39497d9c19b0bcf084fe">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="cf">function</span>(n){</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span>n))</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-17_3f975648b3f341e5b1de507469bf4727">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="cf">function</span>(n){</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span>n))</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Try it on a vector:</p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-17_f662a1b2c341620554d0322f8496ddac">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">1000</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">s</span>(ns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-18_00d5218ceb62e1b8a0c193bfde7aed8f">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">1000</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">s</span>(ns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in 1:n: numerical expression has 3 elements: only the first used</code></pre>
 </div>
@@ -389,8 +405,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We can use <code>sapply</code></p>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-18_aa3c07708219cda1f791f17b12621af1">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(ns, s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-19_a784289d20e2ae0c3636ac0ca5bce792">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(ns, s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]    325   5050 500500</code></pre>
 </div>
@@ -412,11 +428,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Create a vector of numbers that starts at 6, does not pass 55, and adds numbers in increments of 4/7: 6, 6 + 4/7, 6 + 8/7, and so on. How many numbers does the list have? Hint: use <code>seq</code> and <code>length</code>.</p></li>
 <li><p>Make this data frame:</p></li>
 </ol>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-19_53a3ca051a2185e679c4391b88958c8f">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">88</span>, <span class="dv">42</span>, <span class="dv">84</span>, <span class="dv">81</span>, <span class="dv">30</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>city <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Beijing"</span>, <span class="st">"Lagos"</span>, <span class="st">"Paris"</span>, <span class="st">"Rio de Janeiro"</span>, </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"San Juan"</span>, <span class="st">"Toronto"</span>)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>city_temps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> city, <span class="at">temperature =</span> temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-20_6dbdd204b1c50d4824de5d55cd7c09dd">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">88</span>, <span class="dv">42</span>, <span class="dv">84</span>, <span class="dv">81</span>, <span class="dv">30</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>city <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Beijing"</span>, <span class="st">"Lagos"</span>, <span class="st">"Paris"</span>, <span class="st">"Rio de Janeiro"</span>, </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"San Juan"</span>, <span class="st">"Toronto"</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>city_temps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> city, <span class="at">temperature =</span> temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Convert the temperatures to Celsius.</p>
 <ol start="8" class="example" type="1">
@@ -675,6 +691,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./06-tidyverse.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

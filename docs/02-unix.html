@@ -188,6 +188,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -215,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#autocomplete" id="toc-autocomplete" class="nav-link" data-scroll-target="#autocomplete"><span class="header-section-number">2.7</span> Autocomplete</a>
   <ul class="collapse">
-  <li><a href="#cd-contined" id="toc-cd-contined" class="nav-link" data-scroll-target="#cd-contined"><span class="header-section-number">2.7.1</span> <code>cd</code> contined</a></li>
+  <li><a href="#cd-continued" id="toc-cd-continued" class="nav-link" data-scroll-target="#cd-continued"><span class="header-section-number">2.7.1</span> <code>cd</code> continued</a></li>
   </ul></li>
   <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice"><span class="header-section-number">2.8</span> Practice</a></li>
   <li><a href="#more-unix-commands" id="toc-more-unix-commands" class="nav-link" data-scroll-target="#more-unix-commands"><span class="header-section-number">2.9</span> More Unix commands</a>
@@ -405,8 +411,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="autocomplete" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="autocomplete"><span class="header-section-number">2.7</span> Autocomplete</h2>
 <p>In Unix you can auto-complete by hitting tab. This means that we can type <code>cd d</code> then hit tab. Unix will either auto-complete if <code>docs</code> is the only directory/file starting with <code>d</code> or show you the options. Try it out! Using Unix without auto-complete will make it unbearable.</p>
-<section id="cd-contined" class="level3" data-number="2.7.1">
-<h3 data-number="2.7.1" class="anchored" data-anchor-id="cd-contined"><span class="header-section-number">2.7.1</span> <code>cd</code> contined</h3>
+<section id="cd-continued" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="cd-continued"><span class="header-section-number">2.7.1</span> <code>cd</code> continued</h3>
 <p>Going back one:</p>
 <div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-12_4b45fa25ed6d317dc5f637f05abc3abc">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -443,7 +449,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="http://rafalab.dfci.harvard.edu/dsbook-part-1/productivity/img//unix/filesystem-vertical.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Practitce file system</figcaption>
+<figcaption class="figure-caption">Practice file system</figcaption>
 </figure>
 </div>
 <ol class="example" type="1">
@@ -466,13 +472,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="3" class="example" type="1">
 <li>Suppose we are in <code>~/projects/project-1/figs</code> and want to change to <code>~/projects/project-2</code>, show two different ways, one with relative path and one with full path.</li>
 </ol>
-<p>This is with relatative path</p>
+<p>This is with relative path</p>
 <div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-22_1478d2d9738b01cee931cf52f52ba76f">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../../projects-2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With a full path</p>
-<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-23_fbd9d0d10580d0ae8caecdbf060ebf8f">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/projects/proejcts-2 <span class="co">## asumming home is ~</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-23_277a21e0f760579952c7ae6227dac60f">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/projects/proejcts-2 <span class="co">## assuming home is ~</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="more-unix-commands" class="level2" data-number="2.9">
@@ -594,8 +600,8 @@ Warning
 <li><p>Emacs - Another old and powerful text editor. It’s known for being extremely extensible.</p></li>
 </ul>
 <p>To use these to edit a file you type, for example,</p>
-<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-38_b66dcde672ba02c360971b41c761c9ea">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> filenmae</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="02-unix_cache/html/unnamed-chunk-38_12a9f5974e18c3dff82d5860da9422d3">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> filename</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="advanced-unix" class="level2" data-number="2.12">

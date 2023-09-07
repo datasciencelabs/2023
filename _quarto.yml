@@ -19,6 +19,7 @@ book:
     - 03-git.qmd
     - 04-r-basics.qmd
     - 05-vectorization.qmd
+    - 06-tidyverse.qmd
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023
   repo-url: https://github.com/datasciencelabs/2023

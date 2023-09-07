@@ -1,0 +1,256 @@
+# Tidyverse
+
+```{r}
+#| message: false
+library(tidyverse)
+library(dslabs)
+```
+
+The tidyverse makes data analysis simpler and code easier to read by sacrificing some flexibility. The general idea is define functions that perform the most common tasks and requiring that they take data frames as first argument and return a data frame: data frame in data frame out. 
+
+Another way it makes code more readable is using _non standard evaluation_. We will define when looking at examples.
+
+
+## Tidy data 
+
+This is tidy:
+
+```{r, echo=FALSE}
+tidy_data <- gapminder |> 
+  filter(country %in% c("South Korea", "Germany") & !is.na(fertility)) |>
+  select(country, year, fertility)
+head(tidy_data, 6)
+```
+
+Originally, the data was in the following format:
+
+```{r, echo=FALSE, message=FALSE}
+path <- system.file("extdata", package = "dslabs")
+filename <- file.path(path, "fertility-two-countries-example.csv")
+wide_data <- read_csv(filename)
+select(wide_data, country, `1960`:`1970`) |> as.data.frame()
+```
+
+Not tidy.
+
+Part of what we learn in the data wrangling part of the class is to make data tidy.
+
+
+## Adding a column with `mutate`
+
+
+```{r, message=FALSE}
+murders <- mutate(murders, rate = total/population*100000)
+```
+
+Notice that here we used `total` and `population` inside the function, which are objects that are **not** defined in our workspace. But why don't we get an error? This is non-standard evaluation where the context is used to know what variable names means.
+
+## Subsetting with `filter`
+
+```{r}
+filter(murders, rate <= 0.71)
+```
+
+
+## Selecting columns with `select`
+
+```{r}
+new_table <- select(murders, state, region, rate)
+filter(new_table, rate <= 0.71)
+```
+
+
+## The pipe: `|>` or `%>%`
+
+We use the pipe to chain a series of operations... for example if we want to select columns and then filter rows we chain like this:
+
+$$ \mbox{original data }
+\rightarrow \mbox{ select }
+\rightarrow \mbox{ filter } $$
+
+
+The code looks like this:
+
+```{r}
+murders |> select(state, region, rate) |> filter(rate <= 0.71)
+```
+
+The object on the left of the pipe is used as the first argument for the function on the right. 
+
+The second argument becomes the first, the third the second, and so on...
+
+```{r}
+16 |> sqrt() |> log(base = 2)
+```
+
+
+## Summarizing data
+
+Here is how it works:
+```{r}
+murders |> summarize(avg = mean(rate))
+```
+
+
+Let's compute murder rate for the US. Is the above it?
+
+No the rate is NOT the average of rates.
+
+```{r}
+murders |> summarize(rate = sum(total)/sum(population)*100000)
+```
+
+
+### Multiple summaries
+
+We want the median, minimum and max population size:
+
+```{r}
+murders |> summarize(median = median(population), min = min(population), max = max(population))
+```
+
+Why don't we use `quantiles`? 
+
+```{r}
+murders |> summarize(quantiles = quantile(population, c(0.5, 0, 1)))
+```
+
+For multiple summaries we use `reframe`
+
+```{r}
+murders |> reframe(quantiles = quantile(population, c(0.5, 0, 1)))
+```
+
+However, if we want a column per summary, as the `summarize` call above,
+we have to define a function that returns a data frame like this:
+
+```{r}
+median_min_max <- function(x){
+  qs <- quantile(x, c(0.5, 0, 1))
+  data.frame(median = qs[1], min = qs[2], max = qs[3])
+}
+```
+
+Then we can call `summarize` as above:
+
+```{r}
+murders |> summarize(median_min_max(population))
+```
+
+### Group then summarize with `group_by` {#sec-group-by}
+
+Let's compute murder rate by region.
+
+Take a close look at this output? How is it different than the original?
+```{r}
+murders |> group_by(region)
+```
+Note the `Groups: region [4]` when we print the object. Although not immediately obvious from its appearance, this is now a special data frame called a _grouped data frame_, and __dplyr__ functions, in particular `summarize`, will behave differently when acting on this object. 
+
+```{r}
+murders |> group_by(region) |> summarize(rate = sum(total) / sum(population) * 100000)
+```
+
+The `summarize` function applies the summarization to each group separately.
+
+For another example, let's compute the median, minimum, and maximum population in the four regions of the country using the `median_min_max` defined above:
+
+
+```{r}
+murders |> group_by(region) |> summarize(median_min_max(population))
+```
+
+
+## ungroup
+
+You can also summarize a variable but not collapse the dataset. We use `mutate` instead of `summarize`. Here is an example where we add a column with the population in each region and the number of states in the region, shown for each state. When we do this, we usually want to ungroup before continuing our analysis. 
+
+```{r}
+murders |> group_by(region) |> 
+  mutate(region_pop = sum(population), n = n()) |>
+  ungroup()
+```
+
+
+### `pull`
+
+
+Tidyverse function always returns a data frame. Even if its just one number.
+
+```{r}
+murders |> 
+  summarize(rate = sum(total)/sum(population)*100000) |>
+  class()
+```
+
+To get a number use pull
+```{r}
+murders |> 
+  summarize(rate = sum(total)/sum(population)*100000) |>
+  pull(rate) 
+```
+
+## Sorting data frames
+
+States order by rate
+
+```{r}
+murders |> arrange(rate) |> head()
+```
+
+If we want decreasing we can either use the negative or, for more readability, use `desc`:
+```{r}
+murders |> arrange(desc(rate)) |> head()
+```
+
+We can use two variables as well:
+
+
+```{r}
+murders |> arrange(region, desc(rate)) |> head(11)
+```
+
+## Exercises
+
+
+Let's redo the exercises from previous chapter but now with tidyverse:
+
+
+(@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths. Show all variables.
+
+(@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths and in the West of the US. Don't show the `region` variable.
+
+(@) Show the largest state with a rate less than 1 per 100,000.
+
+(@) Show the state with a population of more than 10 million with the lowest rate.
+
+(@) Compute the rate for each region of the US.
+
+For the next exercises we will be using the data from the survey collected by the United States National Center for Health Statistics (NCHS). This center has conducted a series of health and nutrition surveys since the 1960’s. Starting in 1999, about 5,000 individuals of all ages have been interviewed every year and they complete the health examination component of the survey. Part of the data is made available via the __NHANES__ package. Once you install the __NHANES__ package, you can load the data like this:
+
+```{r}
+library(NHANES)
+```
+
+
+(@) Check for consistency between `Race1` and `Race3`. Do any rows have different entries?
+
+
+
+(@) Define a new `race` variable that has as few `NA` and `Other` as possible. 
+
+
+(@) Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.
+
+
+(@) Create a new dataset that combines the `Mexican` and `Hispanic`, and removes the `Other` category. Hint: use the function `forcats::fct_collapse()`.
+
+(@) Recompute proportion of individuals that smoke now by  race category and gender. Order by rate of smokers.
+
+
+(@) Compute the median age by race category and gender order by Age.
+
+(@) Now redo the smoking rate calculation by age group. But first, remove individuals with no group and remove any
+age groups for which less than 10 people answered the question. Within each age group and Gender order by percent that smokes.
+
+
