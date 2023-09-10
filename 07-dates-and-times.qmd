@@ -1,0 +1,224 @@
+# Dates and times
+
+## The date data type
+
+We have described three main types of vectors: numeric, character, and logical. When analyzing data, we often encounter variables that are dates. Although we can represent a date with a string, for example `r format(lubridate::today(), "%B %d, %Y")``, once we pick a reference day, referred to as the _epoch_ by computer programmers, they can be converted to numbers by calculating the number of days since the epoch. In R and Unix, the epoch is defined as January 1, 1970. So, for example, January 2, 1970 is day 1, December 31, 1969 is day -1, and so on. 
+
+```{r}
+x <- as.Date("1970-01-01")
+typeof(x)
+class(x)
+as.numeric(x)
+```
+
+```{r}
+x <- Sys.Date()
+as.numeric(x)
+```
+
+
+The date class let's R know that it is data so you can extract year, months, days of the week etc...
+
+You can make them look good using the `format` function:
+
+```{r}
+format(x, "%B %d, %Y")
+```
+
+There are many formats:
+
+```{r}
+format(x, "%b %d %y")
+```
+
+To see all the possibilities you can consult the data and time formats [cheat sheet](https://devhints.io/datetime)
+
+## Predefined objects
+
+```{r}
+month.name
+month.abb
+```
+
+
+## The lubridate package {#sec-lubridate}
+
+The __lubridate__ package provides tools to work with date and times.
+
+```{r, warning=FALSE, message=FALSE, cache=FALSE}
+library(lubridate)
+```
+
+An example of the many useful functions is `as_date`
+
+```{r}
+as_date(0)
+```
+
+Another one is 
+
+```{r}
+today()
+```
+
+We can generate random dates like this:
+
+```{r}
+set.seed(2013 - 9 - 10)
+n <- 10 
+dates <- as_date(sample(0:as.numeric(today()), n, replace = TRUE))
+```
+
+The functions `year`, `month` and `day` extract those values:
+
+```{r}
+data.frame(date = dates, month = month(dates), day = day(dates), year = year(dates))
+```
+
+We can also extract the month labels:
+
+```{r}
+month(dates, label = TRUE)
+```
+
+
+Another useful set of functions are the _parsers_ that convert strings into dates. The function `ymd` assumes the dates are in the format YYYY-MM-DD and tries to parse as well as possible.
+
+```{r}
+x <- c(20090101, "2009-01-02", "2009 01 03", "2009-1-4",
+       "2009-1, 5", "Created on 2009 1 6", "200901 !!! 07")
+ymd(x)
+```
+
+A further complication comes from the fact that dates often come in different formats in which the order of year, month, and day are different. The preferred format is to show year (with all four digits), month (two digits), and then day, or what is called the ISO 8601. Specifically we use YYYY-MM-DD so that if we order the string, it will be ordered by date. You can see the function `ymd` returns them in this format.
+
+But, what if you encounter dates such as "09/01/02"? This could be September 1, 2002 or January 2, 2009 or January 9, 2002.  lubridate provides options:
+
+
+```{r}
+x <- "09/01/02"
+ymd(x)
+mdy(x)
+dmy(x)
+```
+
+The __lubridate__ package is also useful for dealing with times:
+
+```{r}
+now()
+```
+
+You can provide time zones too:
+```{r}
+now("GMT")
+```
+
+You can see all the available time zones with `OlsonNames()` function.
+
+We can extract hours, minutes, and seconds: 
+
+```{r}
+now() |> hour()
+now() |> minute()
+now() |> second()
+```
+
+The package also includes a function to parse strings into times as well as parsers for time objects that include dates:
+
+
+```{r}
+x <- c("12:34:56")
+hms(x)
+x <- "Nov/2/2012 12:34:56"
+mdy_hms(x)
+```
+
+## Sequences
+
+
+```{r}
+x <- seq(today(), today() + 7, by = "days")
+```
+
+
+## Rounding
+
+
+```{r}
+x <- seq(today() - 365 + 1, today(), by = "days")
+table(floor_date(x, unit = "week"))
+table(floor_date(x, unit = "year"))
+```
+
+What if I want to start counting on Mondays?
+
+```{r}
+x <- seq(today() - weeks(1) + 1, today(), by = "days")
+wday(x)
+data.frame(day = x, week = floor_date(x, unit = "week", week_start = "Sun"))
+```
+
+## day of the year or month
+
+```{r}
+yday(x)
+mday(x)
+```
+
+
+## Exercises
+
+
+In the previous exercise section, we wrangled data from a PDF file containing vital statistics from Puerto Rico. We did this for the month of September. Below we include code that does it for all 12 months.
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(lubridate)
+library(purrr)
+library(pdftools)
+library(dslabs)
+
+fn <- system.file("extdata", "RD-Mortality-Report_2015-18-180531.pdf",
+                  package="dslabs")
+dat <- map_df(str_split(pdf_text(fn), "\n"), function(s){
+  s <- str_trim(s)
+  header_index <- str_which(s, "2015")[1]
+  tmp <- str_split(s[header_index], "\\s+", simplify = TRUE)
+  month <- tmp[1]
+  header <- tmp[-1]
+  tail_index  <- str_which(s, "Total")
+  n <- str_count(s, "\\d+")
+  out <- c(1:header_index, which(n == 1), 
+           which(n >= 28), tail_index:length(s))
+  res <- s[-out] |>  str_remove_all("[^\\d\\s]") |> str_trim() |>
+    str_split_fixed("\\s+", n = 6) 
+  res <- data.frame(res[,1:5]) |> as_tibble() |> 
+    setNames(c("day", header)) |>
+    mutate(month = month, day = as.numeric(day)) |>
+    pivot_longer(-c(day, month), names_to = "year", values_to = "deaths") |>
+    mutate(deaths = as.numeric(deaths)) |>
+    mutate(month = str_to_title(month)) |>
+    mutate(month = if_else(month=="Ago", "Aug", month))
+}) 
+```
+
+
+
+1\. We want to make a plot of death counts versus date. A first step is to convert the month variable from characters to numbers. Hint: use `months.abb`.
+
+
+2\. Create a new column `date` with the date for each observation. Hint: use the `make_date` function.
+
+    
+3\. Plot deaths versus date. Hint: the plot function can take dates for either axis.
+
+    
+4\. Note that after May 31, 2018, the deaths are all 0. The data is probably not entered yet. We also see a drop off starting around May 1. Redefine `dat` to exclude observations taken on or after May 1, 2018. Then, remake the plot.
+
+5\. Repeat the plot but use the day of the year on the x-axis instead of date and different colors for the different year. Hint: Use the `col` argument in `plot`.
+ 
+6\. Compute the number deaths per day by month.
+
+7\. Show the deaths per day for July and for September. What do you notice?
+
+8\. Compute deaths per week and make a plot.

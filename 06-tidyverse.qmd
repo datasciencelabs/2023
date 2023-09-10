@@ -234,21 +234,21 @@ library(NHANES)
 
 
 (@) Check for consistency between `Race1` and `Race3`. Do any rows have different entries?
-
-
+ 
 
 (@) Define a new `race` variable that has as few `NA` and `Other` as possible. 
-
 
 (@) Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.
 
 
+
 (@) Create a new dataset that combines the `Mexican` and `Hispanic`, and removes the `Other` category. Hint: use the function `forcats::fct_collapse()`.
+
 
 (@) Recompute proportion of individuals that smoke now by  race category and gender. Order by rate of smokers.
 
-
 (@) Compute the median age by race category and gender order by Age.
+
 
 (@) Now redo the smoking rate calculation by age group. But first, remove individuals with no group and remove any
 age groups for which less than 10 people answered the question. Within each age group and Gender order by percent that smokes.

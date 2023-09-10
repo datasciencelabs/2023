@@ -159,6 +159,8 @@ sapply(ns, s)
 
 Now we are ready to help your friend. Let's give them options of places with low murders rates, mountains, and not too small.
 
+For the following exercises do no load any packages other than **dslabs**.
+
 (@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths. Show all variables.
 
 (@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths and in the West of the US. Don't show the `region` variable.
@@ -195,5 +197,6 @@ Show that as $n$ gets bigger we get closer $\pi^2/6$.
 (@) Use the `%in%` operator and the predefined object `state.abb` to create a logical vector that answers the question: which of the following are actual abbreviations: MA, ME, MI, MO, MU?
 
 
-(@) Extend the code you used in exercise 7 to report the one entry that is **not** an actual abbreviation. Hint: use the `!` operator, which turns `FALSE` into `TRUE` and vice versa, then `which` to obtain an index.
+(@) Extend the code you used in the previous exercise to report the one entry that is **not** an actual abbreviation. Hint: use the `!` operator, which turns `FALSE` into `TRUE` and viceversa, then `which` to obtain an index.
 
+(@) Show all variables for New York, California, and Texas, in that order.
