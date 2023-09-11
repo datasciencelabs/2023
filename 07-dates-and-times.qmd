@@ -17,7 +17,7 @@ as.numeric(x)
 ```
 
 
-The date class let's R know that it is data so you can extract year, months, days of the week etc...
+The date class let's R know that it is date so you can extract year, months, days of the week etc...
 
 You can make them look good using the `format` function:
 

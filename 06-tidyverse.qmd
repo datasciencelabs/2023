@@ -213,18 +213,43 @@ murders |> arrange(region, desc(rate)) |> head(11)
 ## Exercises
 
 
+## Exercises
+
+
 Let's redo the exercises from previous chapter but now with tidyverse:
 
 
 (@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths. Show all variables.
 
+```{r}
+murders <- mutate(murders, rate = total/population*10^5)
+filter(murders, rate < 1)
+```
+
+
 (@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths and in the West of the US. Don't show the `region` variable.
+
+```{r}
+filter(murders, rate < 1 & region == "West")
+```
 
 (@) Show the largest state with a rate less than 1 per 100,000.
 
+```{r}
+murders |> filter(rate < 1) |> slice_max(population)
+```
+
 (@) Show the state with a population of more than 10 million with the lowest rate.
 
+```{r}
+murders |> filter(population > 10^7) |> slice_min(rate)
+```
+
 (@) Compute the rate for each region of the US.
+
+```{r}
+murders |> group_by(region) |> summarize(rate = sum(total)/sum(population)*10^5)
+```
 
 For the next exercises we will be using the data from the survey collected by the United States National Center for Health Statistics (NCHS). This center has conducted a series of health and nutrition surveys since the 1960’s. Starting in 1999, about 5,000 individuals of all ages have been interviewed every year and they complete the health examination component of the survey. Part of the data is made available via the __NHANES__ package. Once you install the __NHANES__ package, you can load the data like this:
 
@@ -234,9 +259,21 @@ library(NHANES)
 
 
 (@) Check for consistency between `Race1` and `Race3`. Do any rows have different entries?
- 
 
+```{r}
+NHANES |> filter(!is.na(Race1) & !is.na(Race3)) |> 
+  filter(as.character(Race1) != as.character(Race3)) |>
+  count(Race1, Race3)
+```
+
+ 
 (@) Define a new `race` variable that has as few `NA` and `Other` as possible. 
+
+
+```{r}
+dat <- NHANES %>% mutate(Race = Race3) |>
+  mutate(Race = if_else(is.na(Race), Race1, Race))
+```
 
 (@) Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.
 

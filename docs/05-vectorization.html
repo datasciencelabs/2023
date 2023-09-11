@@ -424,22 +424,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now we are ready to help your friend. Let’s give them options of places with low murders rates, mountains, and not too small.</p>
 <p>For the following exercises do no load any packages other than <strong>dslabs</strong>.</p>
 <ol class="example" type="1">
-<li><p>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths. Show all variables.</p></li>
-<li><p>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths and in the West of the US. Don’t show the <code>region</code> variable.</p></li>
-<li><p>Show the largest state with a rate less than 1 per 100,000.</p></li>
-<li><p>Show the state with a population of more than 10 million with the lowest rate.</p></li>
-<li><p>Compute the rate for each region of the US.</p></li>
+<li>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths. Show all variables.</li>
 </ol>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-20_6fb4f9ee4ab65a8f86698fe248b7cbe8">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">"murders"</span>)) <span class="fu">rm</span>(murders)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>murders<span class="sc">$</span>rate <span class="ot">&lt;-</span> <span class="fu">with</span>(murders, total<span class="sc">/</span>population<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>murders[murders<span class="sc">$</span>rate <span class="sc">&lt;</span> <span class="dv">1</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           state abb        region population total      rate
+12        Hawaii  HI          West    1360301     7 0.5145920
+13         Idaho  ID          West    1567582    12 0.7655102
+16          Iowa  IA North Central    3046355    21 0.6893484
+20         Maine  ME     Northeast    1328361    11 0.8280881
+24     Minnesota  MN North Central    5303925    53 0.9992600
+30 New Hampshire  NH     Northeast    1316470     5 0.3798036
+35  North Dakota  ND North Central     672591     4 0.5947151
+38        Oregon  OR          West    3831074    36 0.9396843
+42  South Dakota  SD North Central     814180     8 0.9825837
+45          Utah  UT          West    2763885    22 0.7959810
+46       Vermont  VT     Northeast     625741     2 0.3196211
+51       Wyoming  WY          West     563626     5 0.8871131</code></pre>
+</div>
+</div>
+<ol start="2" class="example" type="1">
+<li>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths and in the West of the US. Don’t show the <code>region</code> variable.</li>
+</ol>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-21_6a8c6e8b7905f20daa43e9355a909a17">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>murders[murders<span class="sc">$</span>rate <span class="sc">&lt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> murders<span class="sc">$</span>region <span class="sc">==</span> <span class="st">"West"</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     state abb region population total      rate
+12  Hawaii  HI   West    1360301     7 0.5145920
+13   Idaho  ID   West    1567582    12 0.7655102
+38  Oregon  OR   West    3831074    36 0.9396843
+45    Utah  UT   West    2763885    22 0.7959810
+51 Wyoming  WY   West     563626     5 0.8871131</code></pre>
+</div>
+</div>
+<ol start="3" class="example" type="1">
+<li>Show the largest state with a rate less than 1 per 100,000.</li>
+</ol>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-22_02ff0bfa2b273df69730730321c592b2">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> murders[murders<span class="sc">$</span>rate <span class="sc">&lt;</span> <span class="dv">1</span>,]</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">which.max</span>(dat<span class="sc">$</span>population),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       state abb        region population total    rate
+24 Minnesota  MN North Central    5303925    53 0.99926</code></pre>
+</div>
+</div>
+<ol start="4" class="example" type="1">
+<li>Show the state with a population of more than 10 million with the lowest rate.</li>
+</ol>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-23_a1732a7fddc8fa102cfb3802c29e9dc4">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> murders[murders<span class="sc">$</span>population <span class="sc">&gt;=</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>,]</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">which.min</span>(dat<span class="sc">$</span>rate),]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      state abb    region population total    rate
+33 New York  NY Northeast   19378102   517 2.66796</code></pre>
+</div>
+</div>
+<ol start="5" class="example" type="1">
+<li>Compute the rate for each region of the US.</li>
+</ol>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-24_eeaac551d5107bed752a0ac60076ab1e">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>indexes <span class="ot">&lt;-</span> <span class="fu">split</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(murders), murders<span class="sc">$</span>region)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(indexes, <span class="cf">function</span>(ind) {</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(murders<span class="sc">$</span>total[ind])<span class="sc">/</span><span class="fu">sum</span>(murders<span class="sc">$</span>population[ind])<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Northeast         South North Central          West 
+     2.655592      3.626558      2.731334      2.656175 </code></pre>
+</div>
+</div>
 <p>More practice exercises:</p>
 <ol start="6" class="example" type="1">
 <li><p>Create a vector of numbers that starts at 6, does not pass 55, and adds numbers in increments of 4/7: 6, 6 + 4/7, 6 + 8/7, and so on. How many numbers does the list have? Hint: use <code>seq</code> and <code>length</code>.</p></li>
 <li><p>Make this data frame:</p></li>
 </ol>
-<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-20_6dbdd204b1c50d4824de5d55cd7c09dd">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">88</span>, <span class="dv">42</span>, <span class="dv">84</span>, <span class="dv">81</span>, <span class="dv">30</span>)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>city <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Beijing"</span>, <span class="st">"Lagos"</span>, <span class="st">"Paris"</span>, <span class="st">"Rio de Janeiro"</span>, </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"San Juan"</span>, <span class="st">"Toronto"</span>)</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>city_temps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> city, <span class="at">temperature =</span> temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="05-vectorization_cache/html/unnamed-chunk-25_c7379b3a892240fe2f181fd2a5c0e08f">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">88</span>, <span class="dv">42</span>, <span class="dv">84</span>, <span class="dv">81</span>, <span class="dv">30</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>city <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Beijing"</span>, <span class="st">"Lagos"</span>, <span class="st">"Paris"</span>, <span class="st">"Rio de Janeiro"</span>, </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"San Juan"</span>, <span class="st">"Toronto"</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>city_temps <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> city, <span class="at">temperature =</span> temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Convert the temperatures to Celsius.</p>
 <ol start="8" class="example" type="1">

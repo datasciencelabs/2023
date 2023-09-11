@@ -228,6 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#sorting-data-frames" id="toc-sorting-data-frames" class="nav-link" data-scroll-target="#sorting-data-frames"><span class="header-section-number">6.8</span> Sorting data frames</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6.9</span> Exercises</a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1"><span class="header-section-number">6.10</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/06-tidyverse.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -565,21 +566,107 @@ dplyr 1.1.0.
 </section>
 <section id="exercises" class="level2" data-number="6.9">
 <h2 data-number="6.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">6.9</span> Exercises</h2>
+</section>
+<section id="exercises-1" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="exercises-1"><span class="header-section-number">6.10</span> Exercises</h2>
 <p>Let’s redo the exercises from previous chapter but now with tidyverse:</p>
 <ol class="example" type="1">
-<li><p>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths. Show all variables.</p></li>
-<li><p>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths and in the West of the US. Don’t show the <code>region</code> variable.</p></li>
-<li><p>Show the largest state with a rate less than 1 per 100,000.</p></li>
-<li><p>Show the state with a population of more than 10 million with the lowest rate.</p></li>
-<li><p>Compute the rate for each region of the US.</p></li>
+<li>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths. Show all variables.</li>
 </ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-25_62e9be93231c3ad2adfd2a65ac4c3c7f">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>murders <span class="ot">&lt;-</span> <span class="fu">mutate</span>(murders, <span class="at">rate =</span> total<span class="sc">/</span>population<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(murders, rate <span class="sc">&lt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           state abb        region population total      rate
+1         Hawaii  HI          West    1360301     7 0.5145920
+2          Idaho  ID          West    1567582    12 0.7655102
+3           Iowa  IA North Central    3046355    21 0.6893484
+4          Maine  ME     Northeast    1328361    11 0.8280881
+5      Minnesota  MN North Central    5303925    53 0.9992600
+6  New Hampshire  NH     Northeast    1316470     5 0.3798036
+7   North Dakota  ND North Central     672591     4 0.5947151
+8         Oregon  OR          West    3831074    36 0.9396843
+9   South Dakota  SD North Central     814180     8 0.9825837
+10          Utah  UT          West    2763885    22 0.7959810
+11       Vermont  VT     Northeast     625741     2 0.3196211
+12       Wyoming  WY          West     563626     5 0.8871131</code></pre>
+</div>
+</div>
+<ol start="2" class="example" type="1">
+<li>Show the subset of <code>murders</code> showing states with less than 1 per 100,000 deaths and in the West of the US. Don’t show the <code>region</code> variable.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-26_c0239be4b12fdbb8402da4d2b917ff8e">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(murders, rate <span class="sc">&lt;</span> <span class="dv">1</span> <span class="sc">&amp;</span> region <span class="sc">==</span> <span class="st">"West"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    state abb region population total      rate
+1  Hawaii  HI   West    1360301     7 0.5145920
+2   Idaho  ID   West    1567582    12 0.7655102
+3  Oregon  OR   West    3831074    36 0.9396843
+4    Utah  UT   West    2763885    22 0.7959810
+5 Wyoming  WY   West     563626     5 0.8871131</code></pre>
+</div>
+</div>
+<ol start="3" class="example" type="1">
+<li>Show the largest state with a rate less than 1 per 100,000.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-27_1a9e5d4a6ac3b57413ad5026c562724e">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">filter</span>(rate <span class="sc">&lt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">slice_max</span>(population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      state abb        region population total    rate
+1 Minnesota  MN North Central    5303925    53 0.99926</code></pre>
+</div>
+</div>
+<ol start="4" class="example" type="1">
+<li>Show the state with a population of more than 10 million with the lowest rate.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-28_71da2a2479d90b0e273def0ecc6b8f8d">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">filter</span>(population <span class="sc">&gt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>) <span class="sc">|&gt;</span> <span class="fu">slice_min</span>(rate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     state abb    region population total    rate
+1 New York  NY Northeast   19378102   517 2.66796</code></pre>
+</div>
+</div>
+<ol start="5" class="example" type="1">
+<li>Compute the rate for each region of the US.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-29_ef83ea3e9132f0c0ce064ffbacd1c494">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">rate =</span> <span class="fu">sum</span>(total)<span class="sc">/</span><span class="fu">sum</span>(population)<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  region         rate
+  &lt;fct&gt;         &lt;dbl&gt;
+1 Northeast      2.66
+2 South          3.63
+3 North Central  2.73
+4 West           2.66</code></pre>
+</div>
+</div>
 <p>For the next exercises we will be using the data from the survey collected by the United States National Center for Health Statistics (NCHS). This center has conducted a series of health and nutrition surveys since the 1960’s. Starting in 1999, about 5,000 individuals of all ages have been interviewed every year and they complete the health examination component of the survey. Part of the data is made available via the <strong>NHANES</strong> package. Once you install the <strong>NHANES</strong> package, you can load the data like this:</p>
-<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-25_e2aa09c49741a4b81e2d8f68723be366">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(NHANES)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-30_2c5a13239b9767a16edee3a8220f5e9d">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(NHANES)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="6" class="example" type="1">
-<li><p>Check for consistency between <code>Race1</code> and <code>Race3</code>. Do any rows have different entries?</p></li>
-<li><p>Define a new <code>race</code> variable that has as few <code>NA</code> and <code>Other</code> as possible.</p></li>
+<li>Check for consistency between <code>Race1</code> and <code>Race3</code>. Do any rows have different entries?</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-31_2bb7aec9774d3155bfb375a7a08ef2ba">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>NHANES <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Race1) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Race3)) <span class="sc">|&gt;</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">as.character</span>(Race1) <span class="sc">!=</span> <span class="fu">as.character</span>(Race3)) <span class="sc">|&gt;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Race1, Race3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  Race1 Race3     n
+  &lt;fct&gt; &lt;fct&gt; &lt;int&gt;
+1 Other Asian   288</code></pre>
+</div>
+</div>
+<ol start="7" class="example" type="1">
+<li>Define a new <code>race</code> variable that has as few <code>NA</code> and <code>Other</code> as possible.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-32_7e1e396d483406db1c52c06d0914ef63">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> NHANES <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Race =</span> Race3) <span class="sc">|&gt;</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Race =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(Race), Race1, Race))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="8" class="example" type="1">
 <li><p>Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.</p></li>
 <li><p>Create a new dataset that combines the <code>Mexican</code> and <code>Hispanic</code>, and removes the <code>Other</code> category. Hint: use the function <code>forcats::fct_collapse()</code>.</p></li>
 <li><p>Recompute proportion of individuals that smoke now by race category and gender. Order by rate of smokers.</p></li>

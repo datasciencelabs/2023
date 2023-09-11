@@ -163,13 +163,45 @@ For the following exercises do no load any packages other than **dslabs**.
 
 (@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths. Show all variables.
 
+```{r}
+if (exists("murders")) rm(murders)
+library(dslabs)
+
+murders$rate <- with(murders, total/population*10^5)
+murders[murders$rate < 1,]
+```
+
+
 (@) Show the subset of `murders` showing states with less than 1 per 100,000 deaths and in the West of the US. Don't show the `region` variable.
+
+```{r}
+murders[murders$rate < 1 & murders$region == "West",]
+```
+
 
 (@) Show the largest state with a rate less than 1 per 100,000.
 
+```{r}
+dat <- murders[murders$rate < 1,]
+dat[which.max(dat$population),]
+```
+
 (@) Show the state with a population of more than 10 million with the lowest rate.
 
+```{r}
+dat <- murders[murders$population >= 10^7,]
+dat[which.min(dat$rate),]
+```
+
 (@) Compute the rate for each region of the US.
+
+```{r}
+indexes <- split(1:nrow(murders), murders$region)
+sapply(indexes, function(ind) {
+  sum(murders$total[ind])/sum(murders$population[ind])*10^5
+})
+```
+
 
 More practice exercises:
 
