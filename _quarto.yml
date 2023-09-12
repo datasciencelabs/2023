@@ -21,6 +21,8 @@ book:
     - 05-vectorization.qmd
     - 06-tidyverse.qmd
     - 07-dates-and-times.qmd
+    - 08-importing-data.qmd
+    - 09-data-table.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023
