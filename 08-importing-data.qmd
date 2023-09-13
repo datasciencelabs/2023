@@ -16,7 +16,7 @@ list.files(dir)
 ```
 
 
-Copy the one of them to your working directory:
+Copy one of them to your working directory:
 
 ```{r}
 file_path <- file.path(dir, "murders.csv")
@@ -26,10 +26,7 @@ file.copy(file_path, "murders.csv")
 
 The `file.path` function combines characters to form a complete path, ensuring compatibility with the respective operating system. Linux and Mac use forward slashes `/`, while Windows uses backslashes `\`, to separate directories. This function is useful because often you want to define paths using a variable.
 
-
-:::{.callout-warning}
-The function `file.copy` overwrites without warning. In the example above, if you have file called `murders.csv` in your working directory it will be overwritten.
-:::
+The `file.copy` function copies a file and returns `TRUE` if succesful. If the file exists it will not copy.
 
 What kind of file is it? Although the suffix usually tells us what type of file it is, there is no guarantee that these always match. 
 
@@ -155,7 +152,6 @@ guess_encoding("hw-submission-timestamps.csv")
 The first guess makes sense as Spanish is often saved using  `Latin-1` encoding, also known as `ISO-8859` encoding because it was the first to include accents and other characters used in Spanish. Once we figure this out we can read in the file correctly:
 
 ```{r}
-guess_encoding("hw-submission-timestamps.csv")
 read_csv("hw-submission-timestamps.csv", 
          locale = locale(encoding = "ISO-8859-1"))
 ```
@@ -173,12 +169,12 @@ files
 ```
 
   
-(@)  Note that the last one, the `olive` file, gives us a warning. This is because the first line of the file is missing the header for the first column. 
+(@)  Note that `olive.csv` gives us a warning. This is because the first line of the file is missing the header for the first column. 
 
 Read the help file for `read_csv` to figure out how to read in the file without reading this header. If you skip the header, you should not get this warning. Save the result to an object called `dat`.
 
   
-(@). A problem with the previous approach is that we don't know what the columns represent. Type:
+(@) A problem with the previous approach is that we don't know what the columns represent. Type:
 
 ```{r, eval=FALSE}
 names(dat)
@@ -189,4 +185,9 @@ to see that the names are not informative.
 Use the `readLines` function to read in just the first line.
 
 
+Finally let's remove the file we copied.
+
+```{r}
+file.remove("murders.csv")
+```
 

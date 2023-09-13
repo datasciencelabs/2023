@@ -279,28 +279,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [10] "ssa-death-probability.csv"                              </code></pre>
 </div>
 </div>
-<p>Copy the one of them to your working directory:</p>
+<p>Copy one of them to your working directory:</p>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-3_eef7b0f7a027c49f7292d7ed5b6a5e9d">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(dir, <span class="st">"murders.csv"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(file_path, <span class="st">"murders.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
+<pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 <p>The <code>file.path</code> function combines characters to form a complete path, ensuring compatibility with the respective operating system. Linux and Mac use forward slashes <code>/</code>, while Windows uses backslashes <code>\</code>, to separate directories. This function is useful because often you want to define paths using a variable.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The function <code>file.copy</code> overwrites without warning. In the example above, if you have file called <code>murders.csv</code> in your working directory it will be overwritten.</p>
-</div>
-</div>
+<p>The <code>file.copy</code> function copies a file and returns <code>TRUE</code> if succesful. If the file exists it will not copy.</p>
 <p>What kind of file is it? Although the suffix usually tells us what type of file it is, there is no guarantee that these always match.</p>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-4_24ad67069ebe8c424a95e2c44250d2d3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">"murders.csv"</span>, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -509,18 +497,9 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 </div>
 </div>
 <p>The first guess makes sense as Spanish is often saved using <code>Latin-1</code> encoding, also known as <code>ISO-8859</code> encoding because it was the first to include accents and other characters used in Spanish. Once we figure this out we can read in the file correctly:</p>
-<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-15_4f96c86c748279cbf11b6545b70d66d5">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">guess_encoding</span>(<span class="st">"hw-submission-timestamps.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  encoding   confidence
-  &lt;chr&gt;           &lt;dbl&gt;
-1 ISO-8859-1       0.9 
-2 ISO-8859-2       0.76
-3 ISO-8859-9       0.56</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"hw-submission-timestamps.csv"</span>, </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-15_e721a43b3ca32e48e0e752003227e23b">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"hw-submission-timestamps.csv"</span>, </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
 Rows: 7 Columns: 4
@@ -551,20 +530,29 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <li>Use the <code>read_csv</code> function to read each of the csv files that the following code saves in the <code>files</code> object:</li>
 </ol>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-16_57dada31d476d0d5358420b8766d7787">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(path)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(path)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" class="example" type="1">
-<li>Note that the last one, the <code>olive</code> file, gives us a warning. This is because the first line of the file is missing the header for the first column.</li>
+<li>Note that <code>olive.csv</code> gives us a warning. This is because the first line of the file is missing the header for the first column.</li>
 </ol>
 <p>Read the help file for <code>read_csv</code> to figure out how to read in the file without reading this header. If you skip the header, you should not get this warning. Save the result to an object called <code>dat</code>.</p>
-<p>(@). A problem with the previous approach is that we don’t know what the columns represent. Type:</p>
+<ol start="3" class="example" type="1">
+<li>A problem with the previous approach is that we don’t know what the columns represent. Type:</li>
+</ol>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-17_5ace55630c5d8c581cd9211165483593">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>to see that the names are not informative.</p>
 <p>Use the <code>readLines</code> function to read in just the first line.</p>
+<p>Finally let’s remove the file we copied.</p>
+<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-18_2a3ab2213699fce6859c54b6be15bd58">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.remove</span>(<span class="st">"murders.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
 
 
 </section>

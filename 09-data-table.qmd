@@ -1,9 +1,10 @@
 # data.table
 
-The __data.table__ package is very powerful and the best package for dealing with large datasets in R. In this course we use the__tidyverse__ because it is easier for begginers. But if you plan to analyze large datasets in the future we highly recommend learning this package.
+The __data.table__ package is very powerful and the best package for dealing with large datasets in R. In this course we use the __tidyverse__ because it is easier for begginers. But if you plan to analyze large datasets in the future we highly recommend learning this package.
 
 [This guide](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) is an excellent place to start.
 
+[This blog post](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) is really useful for those that already know tidyverse.
 Here we just show some examples.
 
 ## Manipulating data tables
@@ -242,7 +243,7 @@ murders_dt[order(region, rate)]
 ```
 
 
-## Optional exercises (not in the midterm)
+## Optional exercises (will not be included in the midterms)
 
 (@) Load the **data.table** package and the `murders` dataset and convert it to `data.table` object:
 

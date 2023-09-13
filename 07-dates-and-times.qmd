@@ -204,21 +204,21 @@ dat <- map_df(str_split(pdf_text(fn), "\n"), function(s){
 
 
 
-1\. We want to make a plot of death counts versus date. A first step is to convert the month variable from characters to numbers. Hint: use `months.abb`.
+(@) We want to make a plot of death counts versus date. A first step is to convert the month variable from characters to numbers. Hint: use `month.abb`.
 
 
-2\. Create a new column `date` with the date for each observation. Hint: use the `make_date` function.
-
-    
-3\. Plot deaths versus date. Hint: the plot function can take dates for either axis.
+(@) Create a new column `date` with the date for each observation. Hint: use the `make_date` function.
 
     
-4\. Note that after May 31, 2018, the deaths are all 0. The data is probably not entered yet. We also see a drop off starting around May 1. Redefine `dat` to exclude observations taken on or after May 1, 2018. Then, remake the plot.
+(@) Plot deaths versus date. Hint: the plot function can take dates for either axis.
 
-5\. Repeat the plot but use the day of the year on the x-axis instead of date and different colors for the different year. Hint: Use the `col` argument in `plot`.
+    
+(@) Note that after May 31, 2018, the deaths are all 0. The data is probably not entered yet. We also see a drop off starting around May 1. Redefine `dat` to exclude observations taken on or after May 1, 2018. Then, remake the plot.
+
+(@) Repeat the plot but use the day of the year on the x-axis instead of date and different colors for the different year. Hint: Use the `col` argument in `plot`.
  
-6\. Compute the number deaths per day by month.
+(@) Compute the number deaths per day by month. 
 
-7\. Show the deaths per day for July and for September. What do you notice?
+(@) Show the deaths per day for July and for September. What do you notice?
 
-8\. Compute deaths per week and make a plot.
+(@) Compute deaths per week and make a plot.
