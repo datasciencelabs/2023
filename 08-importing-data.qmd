@@ -70,13 +70,13 @@ The following functions are available to read-in spreadsheets:
 the  __readr__ equivalent of `readLines` is `read_lines`:
 
 ```{r}
-read_lines(file_path, n_max = 3)
+read_lines("murders.csv", n_max = 3)
 ```
 
 From the .csv suffix and the peek at the file, we know to use `read_csv`:
 
 ```{r}
-dat <- read_csv(file_path)
+dat <- read_csv("murders.csv")
 ```
 
 Note that we receive a message letting us know what data types were used for each column. Also note that `dat` is a `tibble`, not just a data frame. This is because `read_csv` is a __tidyverse__ parser. 
@@ -139,55 +139,83 @@ Try reading in this file:
 
 ```{r}
 url <- "https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/hw-submission-timestamps.csv"
-download.file(url, "hw-submission-timestamps.csv")
-read_csv("hw-submission-timestamps.csv")
+read_csv(url)
 ```
 
 When you see these weird characters the problem is almost always that you are assuming the wrong encoding. You need to be a hacker to figure out,  __readr__ has a function that tries:
 
 ```{r}
-guess_encoding("hw-submission-timestamps.csv")
+guess_encoding(url)
 ```
 
 The first guess makes sense as Spanish is often saved using  `Latin-1` encoding, also known as `ISO-8859` encoding because it was the first to include accents and other characters used in Spanish. Once we figure this out we can read in the file correctly:
 
 ```{r}
-read_csv("hw-submission-timestamps.csv", 
+read_csv(url, 
          locale = locale(encoding = "ISO-8859-1"))
+```
+
+
+```{r}
+#| echo: false
+file.remove("murders.csv")
 ```
 
 
 ## Exercises 
 
 
-(@) Use the `read_csv` function to read each of the csv files that the following code saves in the `files` object: 
+(@) Use the `read_csv` function to read each of the csv files that the following code saves in the `files` object. Hint: use the `pattern` in `list.files` to keep only the csv files.
 
-```{r, eval=FALSE}
+```{r}
+library(readr)
 path <- system.file("extdata", package = "dslabs")
-files <- list.files(path)
-files
+files <- list.files(path, pattern = ".csv")
+res <- lapply(files, function(fn) 
+  read_csv(file.path(path, fn), show_col_types = FALSE))
 ```
 
-  
-(@)  Note that `olive.csv` gives us a warning. This is because the first line of the file is missing the header for the first column. 
+
+(@)  Note that you get a warning. To see which one you can run it one-by-one in a loop:
+
+```{r}
+for (i in seq_along(files)) {
+  print(files[i])
+  read_csv(file.path(path, files[i]), show_col_types = FALSE)
+}
+```
+
+
+`olive.csv` gives us a `New names` warning. This is because the first line of the file is missing the header for the first column. 
+
+```{r}
+read_lines(file.path(path, "olive.csv"), n_max = 2)
+```
 
 Read the help file for `read_csv` to figure out how to read in the file without reading this header. If you skip the header, you should not get this warning. Save the result to an object called `dat`.
 
   
-(@) A problem with the previous approach is that we don't know what the columns represent. Type:
-
-```{r, eval=FALSE}
-names(dat)
+```{r}
+read_csv(file.path(path, "olive.csv"), col_names = FALSE, skip = 1)
 ```
 
-to see that the names are not informative.
+(@) A problem with the previous approach is that we don't know what the columns represent. Type `names(dat)` to see that the names are not informative.
+Use the `read_lines ` with argument `n_max=1` to read just the first line.
 
-Use the `readLines` function to read in just the first line.
-
-
-Finally let's remove the file we copied.
 
 ```{r}
-file.remove("murders.csv")
+read_lines(file.path(path, "olive.csv"), n_max = 1)
 ```
+
+Notice that you can use this to assign names to the data frame.
+
+```{r}
+colnames <- read_lines(file.path(path, "olive.csv"), n_max = 1) 
+colnames <- strsplit(colnames, ",") |> unlist()
+colnames[1] <- "row_number"
+names(dat) <- colnames
+```
+
+
+
 

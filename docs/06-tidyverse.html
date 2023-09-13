@@ -680,12 +680,131 @@ dplyr 1.1.0.
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Race =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(Race), Race1, Race))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="8" class="example" type="1">
-<li><p>Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.</p></li>
-<li><p>Create a new dataset that combines the <code>Mexican</code> and <code>Hispanic</code>, and removes the <code>Other</code> category. Hint: use the function <code>forcats::fct_collapse()</code>.</p></li>
-<li><p>Recompute proportion of individuals that smoke now by race category and gender. Order by rate of smokers.</p></li>
-<li><p>Compute the median age by race category and gender order by Age.</p></li>
-<li><p>Now redo the smoking rate calculation by age group. But first, remove individuals with no group and remove any age groups for which less than 10 people answered the question. Within each age group and Gender order by percent that smokes.</p></li>
+<li>Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.</li>
 </ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-33_29073cbd3154aa4ba2336865c47f15cc">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Gender, Race) <span class="sc">|&gt;</span> </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(Smoke100)), </span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">smoke =</span> <span class="fu">sum</span>(SmokeNow <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">smoke =</span> smoke<span class="sc">/</span>n) <span class="sc">|&gt;</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Gender'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 4
+# Groups:   Gender [2]
+   Gender Race         n  smoke
+   &lt;fct&gt;  &lt;fct&gt;    &lt;int&gt;  &lt;dbl&gt;
+ 1 female White     2472 0.185 
+ 2 male   White     2377 0.219 
+ 3 female Black      442 0.204 
+ 4 male   Black      379 0.301 
+ 5 male   Mexican    339 0.212 
+ 6 female Mexican    262 0.111 
+ 7 female Hispanic   218 0.0963
+ 8 male   Hispanic   198 0.278 
+ 9 female Other      177 0.203 
+10 male   Other      162 0.309 
+11 female Asian      112 0.0357
+12 male   Asian       97 0.175 </code></pre>
+</div>
+</div>
+<ol start="9" class="example" type="1">
+<li>Create a new dataset that combines the <code>Mexican</code> and <code>Hispanic</code>, and removes the <code>Other</code> category. Hint: use the function <code>forcats::fct_collapse()</code>.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-34_5d82fd1ffdc5fc0eb48dbd33dd69448c">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Race =</span> forcats<span class="sc">::</span><span class="fu">fct_collapse</span>(Race, <span class="at">Hispanic =</span> <span class="fu">c</span>(<span class="st">"Hispanic"</span>, <span class="st">"Mexican"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Race <span class="sc">!=</span> <span class="st">"Other"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Race =</span> <span class="fu">droplevels</span>(Race))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="10" class="example" type="1">
+<li>Recompute proportion of individuals that smoke now by race category and gender. Order by rate of smokers.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-35_ef7139b2da4d47033c6a6d855628cb08">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Gender, Race) <span class="sc">|&gt;</span> </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(Smoke100)), <span class="at">smoke =</span> <span class="fu">sum</span>(SmokeNow <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">smoke =</span> smoke<span class="sc">/</span>n) <span class="sc">|&gt;</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(smoke))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Gender'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+# Groups:   Gender [2]
+  Gender Race         n  smoke
+  &lt;fct&gt;  &lt;fct&gt;    &lt;int&gt;  &lt;dbl&gt;
+1 male   Black      379 0.301 
+2 male   Hispanic   537 0.236 
+3 male   White     2377 0.219 
+4 female Black      442 0.204 
+5 female White     2472 0.185 
+6 male   Asian       97 0.175 
+7 female Hispanic   480 0.104 
+8 female Asian      112 0.0357</code></pre>
+</div>
+</div>
+<ol start="11" class="example" type="1">
+<li>Compute the median age by race category and gender order by Age.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-36_4a515673c06a98e54b92288087b9fc29">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Gender, Race) <span class="sc">|&gt;</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Age =</span> <span class="fu">median</span>(Age)) <span class="sc">|&gt;</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Gender, Age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Gender'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+# Groups:   Gender [2]
+  Gender Race       Age
+  &lt;fct&gt;  &lt;fct&gt;    &lt;dbl&gt;
+1 female Hispanic    27
+2 female Black       33
+3 female Asian       37
+4 female White       42
+5 male   Hispanic    28
+6 male   Black       30
+7 male   Asian       31
+8 male   White       40</code></pre>
+</div>
+</div>
+<ol start="12" class="example" type="1">
+<li>Now redo the smoking rate calculation by age group. But first, remove individuals with no group and remove any age groups for which less than 10 people answered the question. Within each age group and Gender order by percent that smokes.</li>
+</ol>
+<div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-37_033ec2eed61bf519dc688604ebfd89fa">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(AgeDecade)) <span class="sc">|&gt;</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(AgeDecade) <span class="sc">|&gt;</span> </span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(Smoke100))) <span class="sc">|&gt;</span> </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(AgeDecade, Gender, Race) <span class="sc">|&gt;</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(Smoke100)), </span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">smoke =</span> <span class="fu">sum</span>(SmokeNow <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> <span class="do">## This is similar to running ungroup() in a next step</span></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">smoke =</span> smoke<span class="sc">/</span>n) <span class="sc">|&gt;</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(AgeDecade, Gender, <span class="fu">desc</span>(smoke))</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Bonus: a plot</span></span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>res <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(AgeDecade, smoke, <span class="at">color =</span> Race)) <span class="sc">+</span></span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?
+`geom_line()`: Each group consists of only one observation.
+ℹ Do you need to adjust the group aesthetic?</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="06-tidyverse_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>

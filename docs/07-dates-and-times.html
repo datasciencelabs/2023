@@ -504,46 +504,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="exercises" class="level2" data-number="7.7">
 <h2 data-number="7.7" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7.7</span> Exercises</h2>
 <p>In the previous exercise section, we wrangled data from a PDF file containing vital statistics from Puerto Rico. We did this for the month of September. Below we include code that does it for all 12 months.</p>
-<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-22_9f5c3f5ac1306f6bd90176ab7faf6092">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pdftools)</span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"RD-Mortality-Report_2015-18-180531.pdf"</span>,</span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">package=</span><span class="st">"dslabs"</span>)</span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="fu">str_split</span>(<span class="fu">pdf_text</span>(fn), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>), <span class="cf">function</span>(s){</span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(s)</span>
-<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>  header_index <span class="ot">&lt;-</span> <span class="fu">str_which</span>(s, <span class="st">"2015"</span>)[<span class="dv">1</span>]</span>
-<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">str_split</span>(s[header_index], <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>  month <span class="ot">&lt;-</span> tmp[<span class="dv">1</span>]</span>
-<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>  header <span class="ot">&lt;-</span> tmp[<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>  tail_index  <span class="ot">&lt;-</span> <span class="fu">str_which</span>(s, <span class="st">"Total"</span>)</span>
-<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">str_count</span>(s, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
-<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>header_index, <span class="fu">which</span>(n <span class="sc">==</span> <span class="dv">1</span>), </span>
-<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>           <span class="fu">which</span>(n <span class="sc">&gt;=</span> <span class="dv">28</span>), tail_index<span class="sc">:</span><span class="fu">length</span>(s))</span>
-<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> s[<span class="sc">-</span>out] <span class="sc">|&gt;</span>  <span class="fu">str_remove_all</span>(<span class="st">"[^</span><span class="sc">\\</span><span class="st">d</span><span class="sc">\\</span><span class="st">s]"</span>) <span class="sc">|&gt;</span> <span class="fu">str_trim</span>() <span class="sc">|&gt;</span></span>
-<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split_fixed</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">n =</span> <span class="dv">6</span>) </span>
-<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(res[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"day"</span>, header)) <span class="sc">|&gt;</span></span>
-<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> month, <span class="at">day =</span> <span class="fu">as.numeric</span>(day)) <span class="sc">|&gt;</span></span>
-<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(day, month), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"deaths"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">deaths =</span> <span class="fu">as.numeric</span>(deaths)) <span class="sc">|&gt;</span></span>
-<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">str_to_title</span>(month)) <span class="sc">|&gt;</span></span>
-<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">if_else</span>(month<span class="sc">==</span><span class="st">"Ago"</span>, <span class="st">"Aug"</span>, month))</span>
-<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>}) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-22_9c4df9505a03be199b526c6acf3cc2fc">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr   1.1.1     ✔ readr   2.1.4
+✔ forcats 1.0.0     ✔ stringr 1.5.0
+✔ ggplot2 3.4.2     ✔ tibble  3.2.1
+✔ purrr   1.0.1     ✔ tidyr   1.3.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pdftools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Using poppler version 22.02.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"RD-Mortality-Report_2015-18-180531.pdf"</span>,</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">package=</span><span class="st">"dslabs"</span>)</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="fu">str_split</span>(<span class="fu">pdf_text</span>(fn), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>), <span class="cf">function</span>(s){</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(s)</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>  header_index <span class="ot">&lt;-</span> <span class="fu">str_which</span>(s, <span class="st">"2015"</span>)[<span class="dv">1</span>]</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">str_split</span>(s[header_index], <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>  month <span class="ot">&lt;-</span> tmp[<span class="dv">1</span>]</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>  header <span class="ot">&lt;-</span> tmp[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>  tail_index  <span class="ot">&lt;-</span> <span class="fu">str_which</span>(s, <span class="st">"Total"</span>)</span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">str_count</span>(s, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>header_index, <span class="fu">which</span>(n <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>           <span class="fu">which</span>(n <span class="sc">&gt;=</span> <span class="dv">28</span>), tail_index<span class="sc">:</span><span class="fu">length</span>(s))</span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> s[<span class="sc">-</span>out] <span class="sc">|&gt;</span>  <span class="fu">str_remove_all</span>(<span class="st">"[^</span><span class="sc">\\</span><span class="st">d</span><span class="sc">\\</span><span class="st">s]"</span>) <span class="sc">|&gt;</span> <span class="fu">str_trim</span>() <span class="sc">|&gt;</span></span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split_fixed</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">n =</span> <span class="dv">6</span>) </span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(res[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"day"</span>, header)) <span class="sc">|&gt;</span></span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> month, <span class="at">day =</span> <span class="fu">as.numeric</span>(day)) <span class="sc">|&gt;</span></span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(day, month), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"deaths"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">deaths =</span> <span class="fu">as.numeric</span>(deaths)) <span class="sc">|&gt;</span></span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">str_to_title</span>(month)) <span class="sc">|&gt;</span></span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">if_else</span>(month<span class="sc">==</span><span class="st">"Ago"</span>, <span class="st">"Aug"</span>, month))</span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>}) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol class="example" type="1">
-<li><p>We want to make a plot of death counts versus date. A first step is to convert the month variable from characters to numbers. Hint: use <code>month.abb</code>.</p></li>
-<li><p>Create a new column <code>date</code> with the date for each observation. Hint: use the <code>make_date</code> function.</p></li>
-<li><p>Plot deaths versus date. Hint: the plot function can take dates for either axis.</p></li>
-<li><p>Note that after May 31, 2018, the deaths are all 0. The data is probably not entered yet. We also see a drop off starting around May 1. Redefine <code>dat</code> to exclude observations taken on or after May 1, 2018. Then, remake the plot.</p></li>
-<li><p>Repeat the plot but use the day of the year on the x-axis instead of date and different colors for the different year. Hint: Use the <code>col</code> argument in <code>plot</code>.</p></li>
-<li><p>Compute the number deaths per day by month.</p></li>
-<li><p>Show the deaths per day for July and for September. What do you notice?</p></li>
-<li><p>Compute deaths per week and make a plot.</p></li>
+<li>Make sure that year is a number.</li>
 </ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-23_f12ab17195043cbe086d967ca43abc36">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">mutate</span>(dat, <span class="at">year =</span> <span class="fu">as.numeric</span>(year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" class="example" type="1">
+<li>We want to make a plot of death counts versus date. A first step is to convert the month variable from characters to numbers. Hint: use <code>month.abb</code>.</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-24_32096fa9c44f0090366b356e0b6cd3ba">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">match</span>(month, month.abb))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" class="example" type="1">
+<li>Create a new column <code>date</code> with the date for each observation. Hint: use the <code>make_date</code> function.</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-25_289cde5a1bc3508f0ddd345ab995808f">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">make_date</span>(year, month, day))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" class="example" type="1">
+<li>Plot deaths versus date. Hint: the plot function can take dates for either axis.</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-26_0dd4fc6512f9d73fa3ec9aa47ab03b2c">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">plot</span>(date, deaths))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07-dates-and-times_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="5" class="example" type="1">
+<li>Note that after May 31, 2018, the deaths are all 0. The data is probably not entered yet. We also see a drop off starting around May 1. Redefine <code>dat</code> to exclude observations taken on or after May 1, 2018. Then, remake the plot.</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-27_776f875af81cd7cba18664da2dc2834d">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(date <span class="sc">&lt;</span> <span class="fu">make_date</span>(<span class="dv">2018</span>, <span class="dv">5</span>, <span class="dv">1</span>))</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">plot</span>(date, deaths))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07-dates-and-times_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="6" class="example" type="1">
+<li>Repeat the plot but use the day of the year on the x-axis instead of date and different colors for the different year. Hint: Use the <code>col</code> argument in <code>plot</code>.</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-28_225a093467a73e2bb99c6399e7de64dd">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">plot</span>(<span class="fu">yday</span>(date), deaths, <span class="at">col =</span> year <span class="sc">-</span> <span class="fu">min</span>(year) <span class="sc">+</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07-dates-and-times_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="7" class="example" type="1">
+<li>Compute the number deaths per day by month.</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-29_0eda1051dd8b738c713ebcefaeb6ebdb">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(<span class="at">date =</span> <span class="fu">floor_date</span>(date, <span class="at">unit =</span> <span class="st">"month"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(deaths))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="8" class="example" type="1">
+<li>Show the deaths per day for July and for September. What do you notice?</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-30_7e48a62684e678dd7331cae934ca3b77">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>res <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">month</span>(date) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">9</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date), <span class="at">year =</span> <span class="fu">year</span>(date)) <span class="sc">|&gt;</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(month, year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  date       `mean(deaths)` month  year
+  &lt;date&gt;              &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 2015-07-01           76.8     7  2015
+2 2016-07-01           79.2     7  2016
+3 2017-07-01           76.4     7  2017
+4 2015-09-01           75.1     9  2015
+5 2016-09-01           78.8     9  2016
+6 2017-09-01           98.4     9  2017</code></pre>
+</div>
+</div>
+<p>September 2017 is an outlier.</p>
+<ol start="9" class="example" type="1">
+<li>Compute deaths per week and make a plot.</li>
+</ol>
+<div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-31_2e4796135af6c7854bc1efd8aa00545b">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(<span class="at">date =</span> <span class="fu">floor_date</span>(date, <span class="at">unit =</span> <span class="st">"week"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">deaths =</span> <span class="fu">mean</span>(deaths))</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(res, <span class="fu">plot</span>(date, deaths))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="07-dates-and-times_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>

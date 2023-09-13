@@ -278,16 +278,65 @@ dat <- NHANES %>% mutate(Race = Race3) |>
 (@) Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.
 
 
+```{r}
+dat |> group_by(Gender, Race) |> 
+  summarize(n = sum(!is.na(Smoke100)), 
+            smoke = sum(SmokeNow == "Yes", na.rm = TRUE)) |>
+  mutate(smoke = smoke/n) |>
+  arrange(desc(n))
+```
+
 
 (@) Create a new dataset that combines the `Mexican` and `Hispanic`, and removes the `Other` category. Hint: use the function `forcats::fct_collapse()`.
 
 
+```{r}
+dat <- dat |> 
+  mutate(Race = forcats::fct_collapse(Race, Hispanic = c("Hispanic", "Mexican"))) |>
+  filter(Race != "Other") |>
+  mutate(Race = droplevels(Race))
+```
+
 (@) Recompute proportion of individuals that smoke now by  race category and gender. Order by rate of smokers.
 
+```{r}
+dat |> group_by(Gender, Race) |> 
+  summarize(n = sum(!is.na(Smoke100)), smoke = sum(SmokeNow == "Yes", na.rm = TRUE)) |>
+  mutate(smoke = smoke/n) |>
+  arrange(desc(smoke))
+```
+
 (@) Compute the median age by race category and gender order by Age.
+
+```{r}
+dat |> group_by(Gender, Race) |>
+  summarize(Age = median(Age)) |>
+  arrange(Gender, Age)
+```
 
 
 (@) Now redo the smoking rate calculation by age group. But first, remove individuals with no group and remove any
 age groups for which less than 10 people answered the question. Within each age group and Gender order by percent that smokes.
+
+```{r}
+res <- dat |> 
+  filter(!is.na(AgeDecade)) |>
+  group_by(AgeDecade) |> 
+  mutate(n = sum(!is.na(Smoke100))) |> 
+  ungroup() |>
+  filter(n >= 10) |>
+  group_by(AgeDecade, Gender, Race) |>
+  summarize(n = sum(!is.na(Smoke100)), 
+            smoke = sum(SmokeNow == "Yes", na.rm = TRUE), 
+            .groups = "drop") |> ## This is similar to running ungroup() in a next step
+  mutate(smoke = smoke/n) |>
+  arrange(AgeDecade, Gender, desc(smoke))
+
+## Bonus: a plot
+res |> ggplot(aes(AgeDecade, smoke, color = Race)) +
+  geom_point() + 
+  geom_line() + 
+  facet_wrap(~Gender)
+```
 
 

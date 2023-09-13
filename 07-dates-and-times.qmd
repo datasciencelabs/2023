@@ -171,7 +171,7 @@ mday(x)
 
 In the previous exercise section, we wrangled data from a PDF file containing vital statistics from Puerto Rico. We did this for the month of September. Below we include code that does it for all 12 months.
 
-```{r, eval=FALSE}
+```{r}
 library(tidyverse)
 library(lubridate)
 library(purrr)
@@ -203,22 +203,69 @@ dat <- map_df(str_split(pdf_text(fn), "\n"), function(s){
 ```
 
 
+(@) Make sure that year is a number.
+
+```{r}
+dat <- mutate(dat, year = as.numeric(year))
+```
 
 (@) We want to make a plot of death counts versus date. A first step is to convert the month variable from characters to numbers. Hint: use `month.abb`.
+
+```{r}
+dat <- dat |> mutate(month = match(month, month.abb))
+```
 
 
 (@) Create a new column `date` with the date for each observation. Hint: use the `make_date` function.
 
+```{r}
+dat <- dat |> mutate(date = make_date(year, month, day))
+```
+
     
 (@) Plot deaths versus date. Hint: the plot function can take dates for either axis.
 
+```{r}
+with(dat, plot(date, deaths))
+```
+
     
-(@) Note that after May 31, 2018, the deaths are all 0. The data is probably not entered yet. We also see a drop off starting around May 1. Redefine `dat` to exclude observations taken on or after May 1, 2018. Then, remake the plot.
+ (@) Note that after May 31, 2018, the deaths are all 0. The data is probably not entered yet. We also see a drop off starting around May 1. Redefine `dat` to exclude observations taken on or after May 1, 2018. Then, remake the plot.
+
+```{r}
+dat <- dat |> filter(date < make_date(2018, 5, 1))
+with(dat, plot(date, deaths))
+```
 
 (@) Repeat the plot but use the day of the year on the x-axis instead of date and different colors for the different year. Hint: Use the `col` argument in `plot`.
+
+```{r}
+with(dat, plot(yday(date), deaths, col = year - min(year) + 1))
+```
+
  
 (@) Compute the number deaths per day by month. 
 
+```{r}
+res <- dat |> group_by(date = floor_date(date, unit = "month")) |>
+  summarize(mean(deaths))
+```
+
 (@) Show the deaths per day for July and for September. What do you notice?
 
+```{r}
+res |> filter(month(date) %in% c(7,9)) |>
+  mutate(month = month(date), year = year(date)) |>
+  arrange(month, year)
+```
+
+September 2017 is an outlier.
+
 (@) Compute deaths per week and make a plot.
+
+```{r}
+res <- dat |> group_by(date = floor_date(date, unit = "week")) |>
+  summarize(deaths = mean(deaths))
+with(res, plot(date, deaths))
+```
+
