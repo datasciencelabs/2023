@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 10&nbsp; Problem Set 1</title>
+<title>BST 260 Introduction to Data Science - Problem Set 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pset1.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pset1.html">Problem Set 1</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -216,19 +216,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pset1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1</span></span></a>
+ <span class="menu-text">Problem Set 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
   </div>
 </li>
     </ul>
@@ -241,8 +241,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#measles" id="toc-measles" class="nav-link active" data-scroll-target="#measles"><span class="header-section-number">10.1</span> Measles</a></li>
-  <li><a href="#covid-19" id="toc-covid-19" class="nav-link" data-scroll-target="#covid-19"><span class="header-section-number">10.2</span> COVID-19</a></li>
+  <li><a href="#measles" id="toc-measles" class="nav-link active" data-scroll-target="#measles">Measles</a></li>
+  <li><a href="#covid-19" id="toc-covid-19" class="nav-link" data-scroll-target="#covid-19">COVID-19</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/pset1.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1</span></h1>
+<h1 class="title">Problem Set 1</h1>
 </div>
 
 
@@ -273,8 +273,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Add a label to the x and y axes when not obvious what they are showing.</li>
 <li>Think about transformations that convey the message in clearer fashion.</li>
 </ul>
-<section id="measles" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="measles"><span class="header-section-number">10.1</span> Measles</h2>
+<section id="measles" class="level2">
+<h2 class="anchored" data-anchor-id="measles">Measles</h2>
 <ol class="example" type="1">
 <li><p>Load the <strong>dslabs</strong> package and figure out what is in the <code>us_contagious_diseases</code> dataset. Create a data frame, call it <code>avg</code>, that has a column for <code>year</code>, and a <code>rate</code> column containing the cases of Measles per 10,000 people per year in the US. Because we start in 1928, exclude Alaska and Hawaii. Make sure to take into account the number of weeks reporting each year. If a week was not report, it should not be included in the calculation of the rate.</p></li>
 <li><p>Use the data frame <code>avg</code> to make a trend plot showing the cases rate for Measles per year. Add a vertical line showing the year the Measles vaccines was introduced. Write a short paragraph describing the graph to someone you are urging to take the Measles vaccines.</p></li>
@@ -282,8 +282,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>In the plot above we can’t tell which state is which curve. Using color would be challenging as it is hard if not impossible to find 48 colors we humans can distinguish. To make a plot where you can compare states knowing which is which, use one of the axis for state and the other for year, and then use hue or intensity as a visual cue for rates. Use a <code>sqrt</code> transformation to avoid the higher rates taking up all the color scale. Use grey to denote missing data. Order the states based on their highest peak.</p></li>
 </ol>
 </section>
-<section id="covid-19" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="covid-19"><span class="header-section-number">10.2</span> COVID-19</h2>
+<section id="covid-19" class="level2">
+<h2 class="anchored" data-anchor-id="covid-19">COVID-19</h2>
 <ol start="5" class="example" type="1">
 <li>The csv file shared <a href="https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-data.csv">here</a> includes weekly data on SARS-CoV-2 reported cases, tests, COVID-19 hospitalizations and deaths, and vaccination rates by state.</li>
 </ol>
@@ -598,7 +598,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./10-distributions.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

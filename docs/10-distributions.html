@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 11&nbsp; Distributions</title>
+<title>BST 260 Introduction to Data Science - 10&nbsp; Distributions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-distributions.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-distributions.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -216,19 +216,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pset1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></span></a>
+ <span class="menu-text">Problem Set 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-distributions.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
   </div>
 </li>
     </ul>
@@ -241,16 +241,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#case-study-describing-student-heights" id="toc-case-study-describing-student-heights" class="nav-link active" data-scroll-target="#case-study-describing-student-heights"><span class="header-section-number">11.1</span> Case study: describing student heights</a></li>
-  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="header-section-number">11.2</span> Distributions</a>
+  <li><a href="#case-study-describing-student-heights" id="toc-case-study-describing-student-heights" class="nav-link active" data-scroll-target="#case-study-describing-student-heights"><span class="header-section-number">10.1</span> Case study: describing student heights</a></li>
+  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="header-section-number">10.2</span> Distributions</a>
   <ul class="collapse">
-  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">11.2.1</span> Histograms</a></li>
-  <li><a href="#smoothed-density" id="toc-smoothed-density" class="nav-link" data-scroll-target="#smoothed-density"><span class="header-section-number">11.2.2</span> Smoothed density</a></li>
-  <li><a href="#sec-dataviz-normal-distribution" id="toc-sec-dataviz-normal-distribution" class="nav-link" data-scroll-target="#sec-dataviz-normal-distribution"><span class="header-section-number">11.2.3</span> The normal distribution</a></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">10.2.1</span> Histograms</a></li>
+  <li><a href="#smoothed-density" id="toc-smoothed-density" class="nav-link" data-scroll-target="#smoothed-density"><span class="header-section-number">10.2.2</span> Smoothed density</a></li>
+  <li><a href="#sec-dataviz-normal-distribution" id="toc-sec-dataviz-normal-distribution" class="nav-link" data-scroll-target="#sec-dataviz-normal-distribution"><span class="header-section-number">10.2.3</span> The normal distribution</a></li>
   </ul></li>
-  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">11.3</span> Boxplots</a></li>
-  <li><a href="#sec-dataviz-stratification" id="toc-sec-dataviz-stratification" class="nav-link" data-scroll-target="#sec-dataviz-stratification"><span class="header-section-number">11.4</span> Stratification</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">11.5</span> Exercises</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">10.3</span> Boxplots</a></li>
+  <li><a href="#sec-dataviz-stratification" id="toc-sec-dataviz-stratification" class="nav-link" data-scroll-target="#sec-dataviz-stratification"><span class="header-section-number">10.4</span> Stratification</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.5</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/10-distributions.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -259,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></h1>
 </div>
 
 
@@ -274,8 +274,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="case-study-describing-student-heights" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="case-study-describing-student-heights"><span class="header-section-number">11.1</span> Case study: describing student heights</h2>
+<section id="case-study-describing-student-heights" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="case-study-describing-student-heights"><span class="header-section-number">10.1</span> Case study: describing student heights</h2>
 <p>We will study self reported heights from studnets from past classes:</p>
 <div class="cell" data-hash="10-distributions_cache/html/load-heights_4923d55de40f156585014e46de37ec17">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -292,8 +292,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="distributions" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="distributions"><span class="header-section-number">11.2</span> Distributions</h2>
+<section id="distributions" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="distributions"><span class="header-section-number">10.2</span> Distributions</h2>
 <p>The most basic statistical summary of a list of objects or numbers is its <em>distribution</em>.</p>
 <div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-1_aa6294977beb6e4d277e30d8b7fe5bc9">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(heights<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -309,8 +309,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="10-distributions_files/figure-html/state-region-distribution-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="histograms" class="level3" data-number="11.2.1">
-<h3 data-number="11.2.1" class="anchored" data-anchor-id="histograms"><span class="header-section-number">11.2.1</span> Histograms</h3>
+<section id="histograms" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="histograms"><span class="header-section-number">10.2.1</span> Histograms</h3>
 <p>Cumulative distributions function shows everything you need to know the distribution.</p>
 <div class="cell" data-hash="10-distributions_cache/html/ecdf_875e5756640833f7024b9d0142b6e9f5">
 <div class="cell-output-display">
@@ -324,8 +324,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="smoothed-density" class="level3" data-number="11.2.2">
-<h3 data-number="11.2.2" class="anchored" data-anchor-id="smoothed-density"><span class="header-section-number">11.2.2</span> Smoothed density</h3>
+<section id="smoothed-density" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="smoothed-density"><span class="header-section-number">10.2.2</span> Smoothed density</h3>
 <p><em>Smooth density</em> plots relay the same information as a histogram but are aesthetically more appealing. Here is what a smooth density plot looks like for our heights data:</p>
 <div class="cell" data-hash="10-distributions_cache/html/example-of-smoothed-density_bda200b1c63324eb6e950d798cf376bc">
 <div class="cell-output-display">
@@ -340,8 +340,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>With the right argument, <code>ggplot</code> automatically shades the intersecting region with a different color.</p>
 </section>
-<section id="sec-dataviz-normal-distribution" class="level3" data-number="11.2.3">
-<h3 data-number="11.2.3" class="anchored" data-anchor-id="sec-dataviz-normal-distribution"><span class="header-section-number">11.2.3</span> The normal distribution</h3>
+<section id="sec-dataviz-normal-distribution" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="sec-dataviz-normal-distribution"><span class="header-section-number">10.2.3</span> The normal distribution</h3>
 <p>The normal distribution, also known as the bell curve and as the Gaussian distribution. Here is what the normal distribution looks like:</p>
 <div class="cell" data-hash="10-distributions_cache/html/normal-distribution-density_f7adc9f8e710c3e4552df83829dc8b8a">
 <div class="cell-output-display">
@@ -387,8 +387,8 @@ Note
 </div>
 </section>
 </section>
-<section id="boxplots" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">11.3</span> Boxplots</h2>
+<section id="boxplots" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">10.3</span> Boxplots</h2>
 <p>Boxplots provide a five number summary (and shows outliers):</p>
 <div class="cell" data-hash="10-distributions_cache/html/hist-non-normal-data_841feef0edeae68556d1bd0372a83e0e">
 <div class="cell-output-display">
@@ -402,8 +402,8 @@ Note
 </div>
 </div>
 </section>
-<section id="sec-dataviz-stratification" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="sec-dataviz-stratification"><span class="header-section-number">11.4</span> Stratification</h2>
+<section id="sec-dataviz-stratification" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="sec-dataviz-stratification"><span class="header-section-number">10.4</span> Stratification</h2>
 <p>Showing <em>conditional</em> distributions is often very informative</p>
 <div class="cell" data-hash="10-distributions_cache/html/female-male-boxplots_75e6a0419e694a3eef30d0c56496815d">
 <div class="cell-output-display">
@@ -427,8 +427,8 @@ Note
 </div>
 <p>Because these are reported heights, a possibility is that the student meant to enter <code>5'1"</code>, <code>5'2"</code>, <code>5'3"</code> or <code>5'5"</code>.</p>
 </section>
-<section id="exercises" class="level2" data-number="11.5">
-<h2 data-number="11.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">11.5</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.5</span> Exercises</h2>
 <ol class="example" type="1">
 <li><p>Suppose we can’t make a plot and want to compare the distributions side by side. We can’t just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing <code>female_percentiles</code> and <code>male_percentiles</code> with the 10th, 30th, 50th, 70th, &amp; 90th percentiles for each sex. Then create a data frame with these two as columns.</p></li>
 <li><p>Study the following boxplots showing population sizes by country:</p></li>
@@ -700,12 +700,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./pset1.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Problem Set 1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./11-ggplot2.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

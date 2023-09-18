@@ -1,7 +1,4 @@
----
-title: "Problem Set 1"
-format: html
----
+# Problem Set 1 {.unnumbered}
 
 This is a preliminary version of problem set 1. The final version will be shared through GitHub.
 

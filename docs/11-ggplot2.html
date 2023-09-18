@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 12&nbsp; ggplot2</title>
+<title>BST 260 Introduction to Data Science - 11&nbsp; ggplot2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-ggplot2.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-ggplot2.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -215,19 +215,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pset1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></span></a>
+ <span class="menu-text">Problem Set 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
   </div>
 </li>
     </ul>
@@ -240,32 +240,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-components-of-a-graph" id="toc-the-components-of-a-graph" class="nav-link active" data-scroll-target="#the-components-of-a-graph"><span class="header-section-number">12.1</span> The components of a graph</a></li>
-  <li><a href="#ggplot-objects" id="toc-ggplot-objects" class="nav-link" data-scroll-target="#ggplot-objects"><span class="header-section-number">12.2</span> <code>ggplot</code> objects</a></li>
-  <li><a href="#geometries" id="toc-geometries" class="nav-link" data-scroll-target="#geometries"><span class="header-section-number">12.3</span> Geometries</a></li>
-  <li><a href="#aesthetic-mappings" id="toc-aesthetic-mappings" class="nav-link" data-scroll-target="#aesthetic-mappings"><span class="header-section-number">12.4</span> Aesthetic mappings</a></li>
-  <li><a href="#layers" id="toc-layers" class="nav-link" data-scroll-target="#layers"><span class="header-section-number">12.5</span> Layers</a>
+  <li><a href="#the-components-of-a-graph" id="toc-the-components-of-a-graph" class="nav-link active" data-scroll-target="#the-components-of-a-graph"><span class="header-section-number">11.1</span> The components of a graph</a></li>
+  <li><a href="#ggplot-objects" id="toc-ggplot-objects" class="nav-link" data-scroll-target="#ggplot-objects"><span class="header-section-number">11.2</span> <code>ggplot</code> objects</a></li>
+  <li><a href="#geometries" id="toc-geometries" class="nav-link" data-scroll-target="#geometries"><span class="header-section-number">11.3</span> Geometries</a></li>
+  <li><a href="#aesthetic-mappings" id="toc-aesthetic-mappings" class="nav-link" data-scroll-target="#aesthetic-mappings"><span class="header-section-number">11.4</span> Aesthetic mappings</a></li>
+  <li><a href="#layers" id="toc-layers" class="nav-link" data-scroll-target="#layers"><span class="header-section-number">11.5</span> Layers</a>
   <ul class="collapse">
-  <li><a href="#tinkering-with-arguments" id="toc-tinkering-with-arguments" class="nav-link" data-scroll-target="#tinkering-with-arguments"><span class="header-section-number">12.5.1</span> Tinkering with arguments</a></li>
+  <li><a href="#tinkering-with-arguments" id="toc-tinkering-with-arguments" class="nav-link" data-scroll-target="#tinkering-with-arguments"><span class="header-section-number">11.5.1</span> Tinkering with arguments</a></li>
   </ul></li>
-  <li><a href="#global-versus-local-aesthetic-mappings" id="toc-global-versus-local-aesthetic-mappings" class="nav-link" data-scroll-target="#global-versus-local-aesthetic-mappings"><span class="header-section-number">12.6</span> Global versus local aesthetic mappings</a></li>
-  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">12.7</span> Scales</a></li>
-  <li><a href="#labels-and-titles" id="toc-labels-and-titles" class="nav-link" data-scroll-target="#labels-and-titles"><span class="header-section-number">12.8</span> Labels and titles</a></li>
-  <li><a href="#categories-as-colors" id="toc-categories-as-colors" class="nav-link" data-scroll-target="#categories-as-colors"><span class="header-section-number">12.9</span> Categories as colors</a></li>
-  <li><a href="#annotation-shapes-and-adjustments" id="toc-annotation-shapes-and-adjustments" class="nav-link" data-scroll-target="#annotation-shapes-and-adjustments"><span class="header-section-number">12.10</span> Annotation, shapes, and adjustments</a></li>
-  <li><a href="#sec-add-on-packages" id="toc-sec-add-on-packages" class="nav-link" data-scroll-target="#sec-add-on-packages"><span class="header-section-number">12.11</span> Add-on packages</a></li>
-  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together"><span class="header-section-number">12.12</span> Putting it all together</a></li>
-  <li><a href="#grids-of-plots" id="toc-grids-of-plots" class="nav-link" data-scroll-target="#grids-of-plots"><span class="header-section-number">12.13</span> Grids of plots</a></li>
-  <li><a href="#sec-other-geometries" id="toc-sec-other-geometries" class="nav-link" data-scroll-target="#sec-other-geometries"><span class="header-section-number">12.14</span> ggplot2 geometries</a>
+  <li><a href="#global-versus-local-aesthetic-mappings" id="toc-global-versus-local-aesthetic-mappings" class="nav-link" data-scroll-target="#global-versus-local-aesthetic-mappings"><span class="header-section-number">11.6</span> Global versus local aesthetic mappings</a></li>
+  <li><a href="#scales" id="toc-scales" class="nav-link" data-scroll-target="#scales"><span class="header-section-number">11.7</span> Scales</a></li>
+  <li><a href="#labels-and-titles" id="toc-labels-and-titles" class="nav-link" data-scroll-target="#labels-and-titles"><span class="header-section-number">11.8</span> Labels and titles</a></li>
+  <li><a href="#categories-as-colors" id="toc-categories-as-colors" class="nav-link" data-scroll-target="#categories-as-colors"><span class="header-section-number">11.9</span> Categories as colors</a></li>
+  <li><a href="#annotation-shapes-and-adjustments" id="toc-annotation-shapes-and-adjustments" class="nav-link" data-scroll-target="#annotation-shapes-and-adjustments"><span class="header-section-number">11.10</span> Annotation, shapes, and adjustments</a></li>
+  <li><a href="#sec-add-on-packages" id="toc-sec-add-on-packages" class="nav-link" data-scroll-target="#sec-add-on-packages"><span class="header-section-number">11.11</span> Add-on packages</a></li>
+  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together"><span class="header-section-number">11.12</span> Putting it all together</a></li>
+  <li><a href="#grids-of-plots" id="toc-grids-of-plots" class="nav-link" data-scroll-target="#grids-of-plots"><span class="header-section-number">11.13</span> Grids of plots</a></li>
+  <li><a href="#sec-other-geometries" id="toc-sec-other-geometries" class="nav-link" data-scroll-target="#sec-other-geometries"><span class="header-section-number">11.14</span> ggplot2 geometries</a>
   <ul class="collapse">
-  <li><a href="#barplots" id="toc-barplots" class="nav-link" data-scroll-target="#barplots"><span class="header-section-number">12.14.1</span> Barplots</a></li>
-  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">12.14.2</span> Histograms</a></li>
-  <li><a href="#density-plots" id="toc-density-plots" class="nav-link" data-scroll-target="#density-plots"><span class="header-section-number">12.14.3</span> Density plots</a></li>
-  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">12.14.4</span> Boxplots</a></li>
-  <li><a href="#qq-plots" id="toc-qq-plots" class="nav-link" data-scroll-target="#qq-plots"><span class="header-section-number">12.14.5</span> QQ-plots</a></li>
-  <li><a href="#images" id="toc-images" class="nav-link" data-scroll-target="#images"><span class="header-section-number">12.14.6</span> Images</a></li>
+  <li><a href="#barplots" id="toc-barplots" class="nav-link" data-scroll-target="#barplots"><span class="header-section-number">11.14.1</span> Barplots</a></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">11.14.2</span> Histograms</a></li>
+  <li><a href="#density-plots" id="toc-density-plots" class="nav-link" data-scroll-target="#density-plots"><span class="header-section-number">11.14.3</span> Density plots</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">11.14.4</span> Boxplots</a></li>
+  <li><a href="#qq-plots" id="toc-qq-plots" class="nav-link" data-scroll-target="#qq-plots"><span class="header-section-number">11.14.5</span> QQ-plots</a></li>
+  <li><a href="#images" id="toc-images" class="nav-link" data-scroll-target="#images"><span class="header-section-number">11.14.6</span> Images</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12.15</span> Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">11.15</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/11-ggplot2.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -274,7 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-ggplot2" class="quarto-section-identifier"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></span></h1>
+<h1 class="title"><span id="sec-ggplot2" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></h1>
 </div>
 
 
@@ -295,8 +295,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="the-components-of-a-graph" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="the-components-of-a-graph"><span class="header-section-number">12.1</span> The components of a graph</h2>
+<section id="the-components-of-a-graph" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="the-components-of-a-graph"><span class="header-section-number">11.1</span> The components of a graph</h2>
 <p>We will construct a graph that summarizes the US murders dataset that looks like this:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/ggplot-example-plot_a3ae98fa410ed54c348fc8cd88a3181c">
 <div class="cell-output-display">
@@ -317,8 +317,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>We will now construct the plot piece by piece.</p>
 </section>
-<section id="ggplot-objects" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="ggplot-objects"><span class="header-section-number">12.2</span> <code>ggplot</code> objects</h2>
+<section id="ggplot-objects" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="ggplot-objects"><span class="header-section-number">11.2</span> <code>ggplot</code> objects</h2>
 <p>Start by defining the dataset:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/ggplot-example-1_56ec340d2311d8c9b469fd056e2d92bf">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> murders)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -344,8 +344,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="geometries" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="geometries"><span class="header-section-number">12.3</span> Geometries</h2>
+<section id="geometries" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="geometries"><span class="header-section-number">11.3</span> Geometries</h2>
 <p>In <code>ggplot2</code> we create graphs by adding <em>layers</em>. Layers can define geometries, compute summary statistics, define what scales to use, or even change styles. To add layers, we use the symbol <code>+</code>. In general, a line of code will look like this:</p>
 <blockquote class="blockquote">
 <blockquote class="blockquote">
@@ -355,8 +355,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Usually, the first added layer defines the geometry. We want to make a scatterplot. What geometry do we use?</p>
 <p>Let’s look at the cheat sheet: <a href="https://rstudio.github.io/cheatsheets/data-visualization.pdf" class="uri">https://rstudio.github.io/cheatsheets/data-visualization.pdf</a></p>
 </section>
-<section id="aesthetic-mappings" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="aesthetic-mappings"><span class="header-section-number">12.4</span> Aesthetic mappings</h2>
+<section id="aesthetic-mappings" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="aesthetic-mappings"><span class="header-section-number">11.4</span> Aesthetic mappings</h2>
 <p>To make a scatter plot we use <code>geom_points</code>. Take a look at the help file and learn that this is how we use it:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-5_2c4350e00ba4f22f5e6c45c4a798f0df">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
@@ -370,8 +370,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="layers" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="layers"><span class="header-section-number">12.5</span> Layers</h2>
+<section id="layers" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="layers"><span class="header-section-number">11.5</span> Layers</h2>
 <p>To add text we use <code>geom_text</code>:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/ggplot-example-4_0ddd162590ddc9c5858aced204f4123f">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, total)) <span class="sc">+</span></span>
@@ -389,8 +389,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p_test <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="fu">aes</span>(population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, total), <span class="at">label =</span> abb) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>will give you an error since <code>abb</code> is not found because it is outside of the <code>aes</code> function. The layer <code>geom_text</code> does not know where to find <code>abb</code> since it is a column name and not a global variable.</p>
-<section id="tinkering-with-arguments" class="level3" data-number="12.5.1">
-<h3 data-number="12.5.1" class="anchored" data-anchor-id="tinkering-with-arguments"><span class="header-section-number">12.5.1</span> Tinkering with arguments</h3>
+<section id="tinkering-with-arguments" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="tinkering-with-arguments"><span class="header-section-number">11.5.1</span> Tinkering with arguments</h3>
 <div class="cell" data-hash="11-ggplot2_cache/html/ggplot-example-5_84a252275b8dee80c9a9be7e7f510179">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, total), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, total, <span class="at">label =</span> abb))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -407,8 +407,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="global-versus-local-aesthetic-mappings" class="level2" data-number="12.6">
-<h2 data-number="12.6" class="anchored" data-anchor-id="global-versus-local-aesthetic-mappings"><span class="header-section-number">12.6</span> Global versus local aesthetic mappings</h2>
+<section id="global-versus-local-aesthetic-mappings" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="global-versus-local-aesthetic-mappings"><span class="header-section-number">11.6</span> Global versus local aesthetic mappings</h2>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-8_6acdbcdae0697a325b6f3df379f44495">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">args</span>(ggplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -440,8 +440,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="scales" class="level2" data-number="12.7">
-<h2 data-number="12.7" class="anchored" data-anchor-id="scales"><span class="header-section-number">12.7</span> Scales</h2>
+<section id="scales" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="scales"><span class="header-section-number">11.7</span> Scales</h2>
 <div class="cell" data-hash="11-ggplot2_cache/html/ggplot-example-9_25c760d30de30755609f56b7941cd098">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_x =</span> <span class="fl">0.05</span>) <span class="sc">+</span> </span>
@@ -459,8 +459,8 @@ position_identity </code></pre>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="labels-and-titles" class="level2" data-number="12.8">
-<h2 data-number="12.8" class="anchored" data-anchor-id="labels-and-titles"><span class="header-section-number">12.8</span> Labels and titles</h2>
+<section id="labels-and-titles" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="labels-and-titles"><span class="header-section-number">11.8</span> Labels and titles</h2>
 <div class="cell" data-hash="11-ggplot2_cache/html/ggplot-example-10_e7a7b83b801a0257ae84fc0bc3fe9d61">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_x =</span> <span class="fl">0.05</span>) <span class="sc">+</span> </span>
@@ -485,8 +485,8 @@ position_identity </code></pre>
 </div>
 <p>We are almost there! All we have left to do is add color, a legend, and optional changes to the style.</p>
 </section>
-<section id="categories-as-colors" class="level2" data-number="12.9">
-<h2 data-number="12.9" class="anchored" data-anchor-id="categories-as-colors"><span class="header-section-number">12.9</span> Categories as colors</h2>
+<section id="categories-as-colors" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="categories-as-colors"><span class="header-section-number">11.9</span> Categories as colors</h2>
 <p>Let’s redefine <code>p</code> so we can test layers easilty:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-11_d58ac15d0eebb3464d28a0e4a0d2ddd4">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span>  murders <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(population<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, total, <span class="at">label =</span> abb)) <span class="sc">+</span>   </span>
@@ -512,8 +512,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="annotation-shapes-and-adjustments" class="level2" data-number="12.10">
-<h2 data-number="12.10" class="anchored" data-anchor-id="annotation-shapes-and-adjustments"><span class="header-section-number">12.10</span> Annotation, shapes, and adjustments</h2>
+<section id="annotation-shapes-and-adjustments" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="annotation-shapes-and-adjustments"><span class="header-section-number">11.10</span> Annotation, shapes, and adjustments</h2>
 <p>We want to add a line with intercept the us rate. So lets comput that</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-12_e828ec7208f711e26291f460de8deb44">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> murders <span class="sc">|&gt;</span> </span>
@@ -542,8 +542,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="sec-add-on-packages" class="level2" data-number="12.11">
-<h2 data-number="12.11" class="anchored" data-anchor-id="sec-add-on-packages"><span class="header-section-number">12.11</span> Add-on packages</h2>
+<section id="sec-add-on-packages" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="sec-add-on-packages"><span class="header-section-number">11.11</span> Add-on packages</h2>
 <p>The <strong>dslabs</strong> package can define the look used in the textbook:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-15_481d6f9b82245db94f01412a1baec8e8">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ds_theme_set</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -573,8 +573,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="putting-it-all-together" class="level2" data-number="12.12">
-<h2 data-number="12.12" class="anchored" data-anchor-id="putting-it-all-together"><span class="header-section-number">12.12</span> Putting it all together</h2>
+<section id="putting-it-all-together" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="putting-it-all-together"><span class="header-section-number">11.12</span> Putting it all together</h2>
 <p>Now that we are done testing, we can write one piece of code that produces our desired plot from scratch.</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/final-ggplot-example_b11205178694b04c2cfd135b53861f6f">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
@@ -600,8 +600,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="grids-of-plots" class="level2" data-number="12.13">
-<h2 data-number="12.13" class="anchored" data-anchor-id="grids-of-plots"><span class="header-section-number">12.13</span> Grids of plots</h2>
+<section id="grids-of-plots" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="grids-of-plots"><span class="header-section-number">11.13</span> Grids of plots</h2>
 <p>There are often reasons to graph plots next to each other. The <strong>gridExtra</strong> package permits us to do that:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/gridExtra-example_669a884f19c8d8ffb35c03fb391b36ac">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
@@ -613,11 +613,11 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="sec-other-geometries" class="level2" data-number="12.14">
-<h2 data-number="12.14" class="anchored" data-anchor-id="sec-other-geometries"><span class="header-section-number">12.14</span> ggplot2 geometries</h2>
+<section id="sec-other-geometries" class="level2" data-number="11.14">
+<h2 data-number="11.14" class="anchored" data-anchor-id="sec-other-geometries"><span class="header-section-number">11.14</span> ggplot2 geometries</h2>
 <p>We previously introduced the <strong>ggplot2</strong> package for data visualization. Here we demonstrate how to generate plots related to distributions, specifically the plots shown earlier in this chapter.</p>
-<section id="barplots" class="level3" data-number="12.14.1">
-<h3 data-number="12.14.1" class="anchored" data-anchor-id="barplots"><span class="header-section-number">12.14.1</span> Barplots</h3>
+<section id="barplots" class="level3" data-number="11.14.1">
+<h3 data-number="11.14.1" class="anchored" data-anchor-id="barplots"><span class="header-section-number">11.14.1</span> Barplots</h3>
 <p>To generate a barplot we can use the <code>geom_bar</code> geometry. The default is to count the number of each category and draw a bar. Here is the plot for the regions of the US.</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/barplot-geom_8935c758d7c5872948718e63094e0293">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(region)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -647,8 +647,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="histograms" class="level3" data-number="12.14.2">
-<h3 data-number="12.14.2" class="anchored" data-anchor-id="histograms"><span class="header-section-number">12.14.2</span> Histograms</h3>
+<section id="histograms" class="level3" data-number="11.14.2">
+<h3 data-number="11.14.2" class="anchored" data-anchor-id="histograms"><span class="header-section-number">11.14.2</span> Histograms</h3>
 <p>To generate histograms we use <code>geom_histogram</code>. By looking at the help file for this function, we learn that the only required argument is <code>x</code>, the variable for which we will construct a histogram. We dropped the <code>x</code> because we know it is the first argument. The code looks like this:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-20_8ee30e42f406a4fff7a18483b9c9e6c9">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> </span>
@@ -680,8 +680,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="density-plots" class="level3" data-number="12.14.3">
-<h3 data-number="12.14.3" class="anchored" data-anchor-id="density-plots"><span class="header-section-number">12.14.3</span> Density plots</h3>
+<section id="density-plots" class="level3" data-number="11.14.3">
+<h3 data-number="11.14.3" class="anchored" data-anchor-id="density-plots"><span class="header-section-number">11.14.3</span> Density plots</h3>
 <p>To create a smooth density, we use the <code>geom_density</code>. To make a smooth density plot with the data previously shown as a histogram we can use this code:</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-22_03af0e76f365b38c9c93b21ccda2793d">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> </span>
@@ -707,8 +707,8 @@ position_identity </code></pre>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">adjust =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="boxplots" class="level3" data-number="12.14.4">
-<h3 data-number="12.14.4" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">12.14.4</span> Boxplots</h3>
+<section id="boxplots" class="level3" data-number="11.14.4">
+<h3 data-number="11.14.4" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">11.14.4</span> Boxplots</h3>
 <p>The geometry for boxplot is <code>geom_boxplot</code>. As discussed, boxplots are useful for comparing distributions. For example, below are the previously shown heights for women, but compared to men. For this geometry, we need arguments <code>x</code> as the categories, and <code>y</code> as the values.</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/female-male-boxplots-geom_d2885ede4b28fa4b5d6d37e2177781e9">
 <div class="cell-output-display">
@@ -716,8 +716,8 @@ position_identity </code></pre>
 </div>
 </div>
 </section>
-<section id="qq-plots" class="level3" data-number="12.14.5">
-<h3 data-number="12.14.5" class="anchored" data-anchor-id="qq-plots"><span class="header-section-number">12.14.5</span> QQ-plots</h3>
+<section id="qq-plots" class="level3" data-number="11.14.5">
+<h3 data-number="11.14.5" class="anchored" data-anchor-id="qq-plots"><span class="header-section-number">11.14.5</span> QQ-plots</h3>
 <p>For qq-plots we use the <code>geom_qq</code> geometry. From the help file, we learn that we need to specify the <code>sample</code> (we will learn about samples in a later chapter). Here is the qqplot for men heights.</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/ggplot-qq_cbd12c884b1ac3f0ddca5193fe0007c6">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">|&gt;</span></span>
@@ -746,8 +746,8 @@ position_identity </code></pre>
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="images" class="level3" data-number="12.14.6">
-<h3 data-number="12.14.6" class="anchored" data-anchor-id="images"><span class="header-section-number">12.14.6</span> Images</h3>
+<section id="images" class="level3" data-number="11.14.6">
+<h3 data-number="11.14.6" class="anchored" data-anchor-id="images"><span class="header-section-number">11.14.6</span> Images</h3>
 <p>We introduce the two geometries used to create images: <strong>geom_tile</strong> and <strong>geom_raster</strong>. They behave similarly; to see how they differ, please consult the help file. To create an image in <strong>ggplot2</strong> we need a data frame with the x and y coordinates as well as the values associated with each of these. Here is a data frame.</p>
 <div class="cell" data-hash="11-ggplot2_cache/html/unnamed-chunk-24_086ef3e7828fdb93077e54673c676de8">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">y =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
@@ -769,8 +769,8 @@ position_identity </code></pre>
 </div>
 </section>
 </section>
-<section id="exercises" class="level2" data-number="12.15">
-<h2 data-number="12.15" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.15</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="11.15">
+<h2 data-number="11.15" class="anchored" data-anchor-id="exercises"><span class="header-section-number">11.15</span> Exercises</h2>
 <ol class="example" type="1">
 <li><p>Create a ggplot object using the pipe to assign the heights data to a ggplot object. Assign <code>height</code> to the <code>x</code> values through the <code>aes</code> function.</p></li>
 <li><p>Add a layer to actually make the histogram. Use the object created in the previous exercise and the <code>geom_histogram</code> function to make the histogram.</p></li>
@@ -1101,7 +1101,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./10-distributions.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
