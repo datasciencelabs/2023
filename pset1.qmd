@@ -1,5 +1,5 @@
 ---
-title: "Problem Set 1 Solution"
+title: "Problem Set 1"
 format: html
 ---
 
