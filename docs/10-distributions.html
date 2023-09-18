@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 1&nbsp; Quarto</title>
+<title>BST 260 Introduction to Data Science - 11&nbsp; Distributions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02-unix.html" rel="next">
-<link href="./schedule.html" rel="prev">
+<link href="./11-ggplot2.html" rel="next">
+<link href="./pset1.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -95,8 +95,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -110,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-quarto.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-distributions.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -163,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link active">
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
@@ -223,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
   </div>
 </li>
@@ -243,40 +241,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-and-rstudio" id="toc-r-and-rstudio" class="nav-link active" data-scroll-target="#r-and-rstudio"><span class="header-section-number">1.1</span> R and RStudio</a>
+  <li><a href="#case-study-describing-student-heights" id="toc-case-study-describing-student-heights" class="nav-link active" data-scroll-target="#case-study-describing-student-heights"><span class="header-section-number">11.1</span> Case study: describing student heights</a></li>
+  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="header-section-number">11.2</span> Distributions</a>
   <ul class="collapse">
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="header-section-number">1.1.1</span> Installation</a></li>
-  <li><a href="#basics" id="toc-basics" class="nav-link" data-scroll-target="#basics"><span class="header-section-number">1.1.2</span> Basics</a></li>
-  <li><a href="#projects" id="toc-projects" class="nav-link" data-scroll-target="#projects"><span class="header-section-number">1.1.3</span> Projects</a></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">11.2.1</span> Histograms</a></li>
+  <li><a href="#smoothed-density" id="toc-smoothed-density" class="nav-link" data-scroll-target="#smoothed-density"><span class="header-section-number">11.2.2</span> Smoothed density</a></li>
+  <li><a href="#sec-dataviz-normal-distribution" id="toc-sec-dataviz-normal-distribution" class="nav-link" data-scroll-target="#sec-dataviz-normal-distribution"><span class="header-section-number">11.2.3</span> The normal distribution</a></li>
   </ul></li>
-  <li><a href="#markdown" id="toc-markdown" class="nav-link" data-scroll-target="#markdown"><span class="header-section-number">1.2</span> Markdown</a>
-  <ul class="collapse">
-  <li><a href="#type-of-editor" id="toc-type-of-editor" class="nav-link" data-scroll-target="#type-of-editor"><span class="header-section-number">1.2.1</span> Type of editor</a></li>
-  <li><a href="#the-header" id="toc-the-header" class="nav-link" data-scroll-target="#the-header"><span class="header-section-number">1.2.2</span> The header</a></li>
-  <li><a href="#text-formating" id="toc-text-formating" class="nav-link" data-scroll-target="#text-formating"><span class="header-section-number">1.2.3</span> Text formating</a></li>
-  <li><a href="#headings" id="toc-headings" class="nav-link" data-scroll-target="#headings"><span class="header-section-number">1.2.4</span> Headings</a></li>
-  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links"><span class="header-section-number">1.2.5</span> Links</a></li>
-  <li><a href="#images" id="toc-images" class="nav-link" data-scroll-target="#images"><span class="header-section-number">1.2.6</span> Images</a></li>
-  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"><span class="header-section-number">1.2.7</span> Lists</a></li>
-  <li><a href="#equations" id="toc-equations" class="nav-link" data-scroll-target="#equations"><span class="header-section-number">1.2.8</span> Equations</a></li>
-  </ul></li>
-  <li><a href="#computations" id="toc-computations" class="nav-link" data-scroll-target="#computations"><span class="header-section-number">1.3</span> Computations</a>
-  <ul class="collapse">
-  <li><a href="#academic-reports" id="toc-academic-reports" class="nav-link" data-scroll-target="#academic-reports"><span class="header-section-number">1.3.1</span> Academic reports</a></li>
-  <li><a href="#global-execution-options" id="toc-global-execution-options" class="nav-link" data-scroll-target="#global-execution-options"><span class="header-section-number">1.3.2</span> Global execution options</a></li>
-  <li><a href="#more-on-markdown" id="toc-more-on-markdown" class="nav-link" data-scroll-target="#more-on-markdown"><span class="header-section-number">1.3.3</span> More on markdown</a></li>
-  </ul></li>
-  <li><a href="#sec-knitr" id="toc-sec-knitr" class="nav-link" data-scroll-target="#sec-knitr"><span class="header-section-number">1.4</span> knitR</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.5</span> Exercises</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">11.3</span> Boxplots</a></li>
+  <li><a href="#sec-dataviz-stratification" id="toc-sec-dataviz-stratification" class="nav-link" data-scroll-target="#sec-dataviz-stratification"><span class="header-section-number">11.4</span> Stratification</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">11.5</span> Exercises</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/01-quarto.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/10-distributions.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></h1>
 </div>
 
 
@@ -291,199 +274,191 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Your task is to produce a report in PDF that solves the quadratic equations <span class="math inline">\(ax^2+bx+c=0\)</span> for <span class="math inline">\(a=1, b=-1, c=-2\)</span> and shows a plot of the function to confirm the finding.</p>
-<p>But after you are done, I will discover I made a mistake and ask you to rewrite the report with <span class="math inline">\(a=1, b=3, c=-2\)</span> (or any number).</p>
-<p>Then once you are done, I will like the report so much I will ask you to make an html page displaying the result and showing and explaining the code you used.</p>
-<p>We will do all this using R, RStudio, Quarto, and knitr.</p>
-<section id="r-and-rstudio" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="r-and-rstudio"><span class="header-section-number">1.1</span> R and RStudio</h2>
-<p>Before introducing Quarto we need R installed. We highly recommend using RStudio as an IDE for this course. We will be using it in lectures.</p>
-<section id="installation" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="installation"><span class="header-section-number">1.1.1</span> Installation</h3>
-<ul>
-<li><a href="https://cloud.r-project.org/">Install the latest version (4.3.1) of R</a></li>
-<li><a href="https://posit.co/download/rstudio-desktop/">Install RStudio</a></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="http://rafalab.dfci.harvard.edu/dsbook-part-1/R/img/rstudio.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">rstudio</figcaption>
-</figure>
-</div>
-</section>
-<section id="basics" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="basics"><span class="header-section-number">1.1.2</span> Basics</h3>
-<p>Let’s try a few things together:</p>
-<ul>
-<li>Open a new R script file</li>
-<li>Learn tab complete</li>
-<li>Run commands while editing scripts</li>
-<li>Run the entire script</li>
-<li>Make a plot</li>
-<li>Change options to never save workspace.</li>
-</ul>
-</section>
-<section id="projects" class="level3" data-number="1.1.3">
-<h3 data-number="1.1.3" class="anchored" data-anchor-id="projects"><span class="header-section-number">1.1.3</span> Projects</h3>
-<ul>
-<li>Start new project in exciting directory.</li>
-<li>Start new project in new directory.</li>
-<li>Change projects.</li>
-</ul>
-</section>
-</section>
-<section id="markdown" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="markdown"><span class="header-section-number">1.2</span> Markdown</h2>
-<p>Start a new Quarto.</p>
-<section id="type-of-editor" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="type-of-editor"><span class="header-section-number">1.2.1</span> Type of editor</h3>
-<ul>
-<li>Source - See the actual code (WYSIWYG).</li>
-<li>Visual - Partial preview of final document.</li>
-</ul>
-</section>
-<section id="the-header" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="the-header"><span class="header-section-number">1.2.2</span> The header</h3>
-<p>At the top you see:</p>
-<pre><code>---
-title: "Untitled"
----</code></pre>
-<p>The things between the <code>---</code> is the <em>YAML</em> header.</p>
-<p>You will see it used throughout the <a href="https://quarto.org/docs/guide/">Quarto guide</a>.</p>
-</section>
-<section id="text-formating" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="text-formating"><span class="header-section-number">1.2.3</span> Text formating</h3>
-<p><em>italics</em>, <strong>bold</strong>, <strong><em>bold italics</em></strong></p>
-<p><sub>strikethrough</sub></p>
-<p><code>code</code></p>
-</section>
-<section id="headings" class="level3" data-number="1.2.4">
-<h3 data-number="1.2.4" class="anchored" data-anchor-id="headings"><span class="header-section-number">1.2.4</span> Headings</h3>
-<p><code># Header 1</code></p>
-<p><code>## Header 2</code></p>
-<p><code>### Header 3</code></p>
-<p>and so on</p>
-</section>
-<section id="links" class="level3" data-number="1.2.5">
-<h3 data-number="1.2.5" class="anchored" data-anchor-id="links"><span class="header-section-number">1.2.5</span> Links</h3>
-<p>Just the link: <a href="https://quarto.org/docs/guide/" class="uri">https://quarto.org/docs/guide/</a></p>
-<p>Linked text: <a href="https://quarto.org/docs/guide/">This is the link to Quarto Guide</a></p>
-</section>
-<section id="images" class="level3" data-number="1.2.6">
-<h3 data-number="1.2.6" class="anchored" data-anchor-id="images"><span class="header-section-number">1.2.6</span> Images</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://datasciencedojo.com/wp-content/uploads/11-1.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">First week of data science</figcaption>
-</figure>
-</div>
-<p>The image can also be a local file.</p>
-</section>
-<section id="lists" class="level3" data-number="1.2.7">
-<h3 data-number="1.2.7" class="anchored" data-anchor-id="lists"><span class="header-section-number">1.2.7</span> Lists</h3>
-<p>Bullets:</p>
-<ul>
-<li>bullet 1
-<ul>
-<li>sub-bullet 1</li>
-<li>sub-bullet 2</li>
-</ul></li>
-<li>bullet 2</li>
-</ul>
-<p>Ordered list</p>
-<ol type="1">
-<li>Item 1</li>
-<li>Item 2</li>
-</ol>
-</section>
-<section id="equations" class="level3" data-number="1.2.8">
-<h3 data-number="1.2.8" class="anchored" data-anchor-id="equations"><span class="header-section-number">1.2.8</span> Equations</h3>
-<p>Inline: <span class="math inline">\(Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i\)</span></p>
-<p>Display math:</p>
-<p><span class="math display">\[
-\mathbf{Y} = \mathbf{X\beta} + \mathbf{\varepsilon}
-\]</span></p>
-</section>
-</section>
-<section id="computations" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="computations"><span class="header-section-number">1.3</span> Computations</h2>
-<p>The main reason we use Quarto is because we can include code and execute the code when compiling the document. In R we refer to them as R chunks.</p>
-<p>To add your own R chunks, you can type the characters above quickly with the key binding command-option-I on the Mac and Ctrl-Alt-I on Windows.</p>
-<p>This applies to plots as well; the plot will be placed in that position. We can write something like this:</p>
-<div class="cell" data-hash="01-quarto_cache/html/unnamed-chunk-1_66999f46dcbf54e155119bb7b25bddfc">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="case-study-describing-student-heights" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="case-study-describing-student-heights"><span class="header-section-number">11.1</span> Case study: describing student heights</h2>
+<p>We will study self reported heights from studnets from past classes:</p>
+<div class="cell" data-hash="10-distributions_cache/html/load-heights_4923d55de40f156585014e46de37ec17">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(heights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code>     sex height
+1   Male     75
+2   Male     70
+3   Male     68
+4   Male     74
+5   Male     61
+6 Female     65</code></pre>
 </div>
 </div>
-<p>By default, the code will show up as well. To avoid having the code show up, you can use an argument, which are annotated with <code>|#</code> To avoid showing code in the final document, you can use the argument <code>echo: FALSE</code>. For example:</p>
-<div class="cell" data-hash="01-quarto_cache/html/unnamed-chunk-2_c5ef9bb036fd8e945942aadd52ed8283">
+</section>
+<section id="distributions" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="distributions"><span class="header-section-number">11.2</span> Distributions</h2>
+<p>The most basic statistical summary of a list of objects or numbers is its <em>distribution</em>.</p>
+<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-1_aa6294977beb6e4d277e30d8b7fe5bc9">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(heights<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code>
+   Female      Male 
+0.2266667 0.7733333 </code></pre>
 </div>
 </div>
-<p>We recommend getting into the habit of adding a label to the R code chunks. This will be very useful when debugging, among other situations. You do this by adding a descriptive word like this:</p>
-<div class="cell" data-hash="01-quarto_cache/html/one-plus-two_1f3587b75aab4073e836829c15435978">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
-</div>
-</div>
-<section id="academic-reports" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="academic-reports"><span class="header-section-number">1.3.1</span> Academic reports</h3>
-<p>Quarto has many nice features that facilitates publishing academic reports in <a href="https://quarto.org/docs/authoring/front-matter.html">this guide</a></p>
-</section>
-<section id="global-execution-options" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="global-execution-options"><span class="header-section-number">1.3.2</span> Global execution options</h3>
-<p>If you want to apply an option globally, you can include in the header, under <code>execute</code>. For example adding the following line to the header make code not show up, by default:</p>
-<pre><code>execute:
-  echo: false</code></pre>
-</section>
-<section id="more-on-markdown" class="level3" data-number="1.3.3">
-<h3 data-number="1.3.3" class="anchored" data-anchor-id="more-on-markdown"><span class="header-section-number">1.3.3</span> More on markdown</h3>
-<p>There is a lot more you can do with R markdown. We highly recommend you continue learning as you gain more experience writing reports in R. There are many free resources on the internet including:</p>
-<ul>
-<li>RStudio’s tutorial: <a href="https://quarto.org/docs/get-started/hello/rstudio.html" class="uri">https://quarto.org/docs/get-started/hello/rstudio.html</a></li>
-<li>The knitR book: <a href="https://yihui.name/knitr/" class="uri">https://yihui.name/knitr/</a></li>
-<li>Pandoc’s Markdown <a href="https://pandoc.org/MANUAL.html#pandocs-markdown">in-depth documentation</a></li>
-</ul>
-</section>
-</section>
-<section id="sec-knitr" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sec-knitr"><span class="header-section-number">1.4</span> knitR</h2>
-<p>We use the <strong>knitR</strong> package to compile Quarto. The specific function used to compile is the <code>knit</code> function, which takes a file name as input. RStudio provides the <strong>Render</strong> button that makes it easier to compile the document.</p>
-<p>Note that the first time you click on the <em>Render</em> button, a dialog box may appear asking you to install packages you need. Once you have installed the packages, clicking <em>Render</em> will compile your Quarto file and the resulting document will pop up.</p>
-<p>This particular example produces an html document which you can see in your working directory. To view it, open a terminal and list the files. You can open the file in a browser and use this to present your analysis. You can also produce a PDF or Microsoft document by changing:</p>
-<p><code>format: html</code> to <code>format: pdf</code> or <code>format: docx</code>. We can also produce documents that render on GitHub using <code>format: gfm</code>, which stands for GitHub flavored markdown, a convenient way to share your reports.</p>
-</section>
-<section id="exercises" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.5</span> Exercises</h2>
-<ol class="example" type="1">
-<li><p>Write a Quarto document that defines variables <span class="math inline">\(a=1, b=-1, c=-2\)</span> and print out the solutions to <span class="math inline">\(f(x) = ax^2+bx+c=0\)</span>. Do not report complex solutions, only real numbers.</p></li>
-<li><p>Include a graph of <span class="math inline">\(f(x)\)</span> versus <span class="math inline">\(x\)</span> for <span class="math inline">\(x \in (-5,5)\)</span>.</p></li>
-</ol>
-<p>This is how you make a plot of a quadratic function:</p>
-<div class="cell" data-hash="01-quarto_cache/html/unnamed-chunk-4_ef1992df9003e9233f981e1d2ed5d0e0">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length =</span> <span class="dv">300</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, a<span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> b<span class="sc">*</span>x <span class="sc">+</span> c, <span class="at">type =</span> <span class="st">"l"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here is the distribution for the regions in the <code>murders</code> dataset:</p>
+<div class="cell" data-hash="10-distributions_cache/html/state-region-distribution_24ac67168c2469d14b18d4a846e45461">
 <div class="cell-output-display">
-<p><img src="01-quarto_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="10-distributions_files/figure-html/state-region-distribution-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<ol start="3" class="example" type="1">
-<li><p>Generate a PDF report using knitr. Do not show the R code, only the solutions and explanations of what the reader is seeing.</p></li>
-<li><p>Erase the PDF report and reproduce it but this time using <span class="math inline">\(a=1, b=2, c=5\)</span>.</p></li>
-<li><p>Erase the PDF report and reproduce it but this time using <span class="math inline">\(a=1, b=3, c=2\)</span>.</p></li>
-<li><p>Create an HTML page with the results for this last set of values, but this time showing the code.</p></li>
+<section id="histograms" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="histograms"><span class="header-section-number">11.2.1</span> Histograms</h3>
+<p>Cumulative distributions function shows everything you need to know the distribution.</p>
+<div class="cell" data-hash="10-distributions_cache/html/ecdf_875e5756640833f7024b9d0142b6e9f5">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/ecdf-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Histograms lose a bit fo information but are easier to read:</p>
+<div class="cell" data-hash="10-distributions_cache/html/height-histogram_7416d4f87b5594dc71708b864ea3a40d">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/height-histogram-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="smoothed-density" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="smoothed-density"><span class="header-section-number">11.2.2</span> Smoothed density</h3>
+<p><em>Smooth density</em> plots relay the same information as a histogram but are aesthetically more appealing. Here is what a smooth density plot looks like for our heights data:</p>
+<div class="cell" data-hash="10-distributions_cache/html/example-of-smoothed-density_bda200b1c63324eb6e950d798cf376bc">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/example-of-smoothed-density-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>An advantage is that it is easy to show more than one:</p>
+<div class="cell" data-hash="10-distributions_cache/html/two-densities-one-plot_9c9cdd6d71e732a5fbf32b327b1bbf25">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/two-densities-one-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>With the right argument, <code>ggplot</code> automatically shades the intersecting region with a different color.</p>
+</section>
+<section id="sec-dataviz-normal-distribution" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="sec-dataviz-normal-distribution"><span class="header-section-number">11.2.3</span> The normal distribution</h3>
+<p>The normal distribution, also known as the bell curve and as the Gaussian distribution. Here is what the normal distribution looks like:</p>
+<div class="cell" data-hash="10-distributions_cache/html/normal-distribution-density_f7adc9f8e710c3e4552df83829dc8b8a">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/normal-distribution-density-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A useful characteristic of the normal distribution is that it is defined by just two numbers: the average (also called mean) and the standard deviation.</p>
+<p>So for the male height data we can define the average of standard deviation like this:</p>
+<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-2_c01e8317d74ba7587147006627f03356">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> heights<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"Male"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights<span class="sc">$</span>height[index]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">sum</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The pre-built functions <code>mean</code> and <code>sd</code> can be used here: :::</p>
+<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-3_a5ddbef35aeb6114633322be0323c537">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">average =</span> m, <span class="at">sd =</span> s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  average        sd 
+69.314755  3.611024 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The pre-built functions <code>mean</code> and <code>sd</code> (note that, for reasons explained in statistics textbooks,<code>sd</code> divides by <code>length(x)-1</code> rather than <code>length(x)</code>) can be used here:</p>
+</div>
+</div>
+<p>Here is a plot of the smooth density and the normal distribution with mean = 69.3 and SD = 3.6 plotted as a black line with our student height smooth density in blue:</p>
+<div class="cell" data-hash="10-distributions_cache/html/data-and-normal-densities_80b94e2b27341153ca51ce2fe4d918e4">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/data-and-normal-densities-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="boxplots" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">11.3</span> Boxplots</h2>
+<p>Boxplots provide a five number summary (and shows outliers):</p>
+<div class="cell" data-hash="10-distributions_cache/html/hist-non-normal-data_841feef0edeae68556d1bd0372a83e0e">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/hist-non-normal-data-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In this case, the histogram above or a smooth density plot would serve as a relatively succinct summary.</p>
+<div class="cell" data-hash="10-distributions_cache/html/first-boxplot_fd23749b7b1b959710feb120864c21ae">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/first-boxplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="sec-dataviz-stratification" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="sec-dataviz-stratification"><span class="header-section-number">11.4</span> Stratification</h2>
+<p>Showing <em>conditional</em> distributions is often very informative</p>
+<div class="cell" data-hash="10-distributions_cache/html/female-male-boxplots_75e6a0419e694a3eef30d0c56496815d">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/female-male-boxplots-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We also see the normal approximation might not be useful for females:</p>
+<div class="cell" data-hash="10-distributions_cache/html/histogram-qqplot-female-heights_eeb2abd0a1453049607df52f2fef41f6">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/histogram-qqplot-female-heights-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Regarding the five smallest values, note that these values are:</p>
+<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-4_4ae0198683ae86fb6563e3867d7461a7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"Female"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>, <span class="fu">desc</span>(height)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51 53 55 52 52</code></pre>
+</div>
+</div>
+<p>Because these are reported heights, a possibility is that the student meant to enter <code>5'1"</code>, <code>5'2"</code>, <code>5'3"</code> or <code>5'5"</code>.</p>
+</section>
+<section id="exercises" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">11.5</span> Exercises</h2>
+<ol class="example" type="1">
+<li><p>Suppose we can’t make a plot and want to compare the distributions side by side. We can’t just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing <code>female_percentiles</code> and <code>male_percentiles</code> with the 10th, 30th, 50th, 70th, &amp; 90th percentiles for each sex. Then create a data frame with these two as columns.</p></li>
+<li><p>Study the following boxplots showing population sizes by country:</p></li>
 </ol>
+<div class="cell" data-hash="10-distributions_cache/html/boxplot-exercise_7a4f5454bb58258682430adb0350d89b">
+<div class="cell-output-display">
+<p><img src="10-distributions_files/figure-html/boxplot-exercise-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Which continent has the country with the biggest population size?</p>
+<ol start="3" class="example" type="1">
+<li><p>What continent has the largest median population size?</p></li>
+<li><p>What is median population size for Africa to the nearest million?</p></li>
+<li><p>What proportion of countries in Europe have populations below 14 million?</p></li>
+</ol>
+<ol type="a">
+<li>0.99</li>
+<li>0.75</li>
+<li>0.50</li>
+<li>0.25</li>
+</ol>
+<ol start="6" class="example" type="1">
+<li><p>If we use a log transformation, which continent shown above has the largest interquartile range?</p></li>
+<li><p>Load the height data set and create a vector <code>x</code> with just the male heights:</p></li>
+</ol>
+<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-5_2758e5dcaf5205cdfa356ac8be6a0224">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights<span class="sc">$</span>height[heights<span class="sc">$</span>sex<span class="sc">==</span><span class="st">"Male"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>What proportion of the data is between 69 and 72 inches (taller than 69, but shorter or equal to 72)? Hint: use a logical operator and <code>mean</code>.</p>
 
 
 </section>
@@ -724,13 +699,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./schedule.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Schedule</span>
+      <a href="./pset1.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-unix.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./11-ggplot2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

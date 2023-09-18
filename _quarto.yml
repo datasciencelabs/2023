@@ -23,6 +23,9 @@ book:
     - 07-dates-and-times.qmd
     - 08-importing-data.qmd
     - 09-data-table.qmd
+    - pset1.qmd
+    - 10-distributions.qmd
+    - 11-ggplot2.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - Course description</title>
+<title>BST 260 Introduction to Data Science - 10&nbsp; Problem Set 1 Solution</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./schedule.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./10-distributions.html" rel="next">
+<link href="./09-data-table.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -74,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Course description</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pset1.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -115,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course description</span></a>
   </div>
 </li>
@@ -181,7 +215,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></span></a>
   </div>
 </li>
@@ -203,14 +237,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#measles" id="toc-measles" class="nav-link active" data-scroll-target="#measles"><span class="header-section-number">10.1</span> Measles</a></li>
+  <li><a href="#covid-19" id="toc-covid-19" class="nav-link" data-scroll-target="#covid-19"><span class="header-section-number">10.2</span> COVID-19</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/pset1.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Course description</h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></h1>
 </div>
 
 
@@ -225,12 +266,93 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>This course introduces UNIX/Linux shell, version control with git and GitHub, R programming, data wrangling with dplyr and data.table, data visualization with ggplot2 and shiny, and reproducible document preparation with RStudio, knitr and markdown. We briefly introduce Monte Carlo simulations, statistical modeling, high-dimensional data techniques, and machine learning and how these are applied to real data. Throughout the course, we use motivating case studies and data analysis problem sets based on challenges similar to those you encounter in scientific research.</p>
-<p>Lectures will be mostly live coding. We will go over exercises and challenges together but will pause 1-4 times per lectures so students can complete exercises on their own. The midterm questions will be selected from the exercises presented in class. Some time will be dedicated to answering problem set questions. Lectures will not be recorded.</p>
-<p>Students are required to have a GitHub account and create a repository for the course.</p>
-<p>Problem sets are mostly composed of open ended questions. Submission should be in the form of a scientific report. Problem set submission need to be completely reproducible. Specifically, students are expected to upload a Quarto document to their GitHub class repository that graders can compile into a readable report.</p>
+<p>Reminders:</p>
+<ul>
+<li>Add a title to all your graphs.</li>
+<li>Add a label to the x and y axes when not obvious what they are showing.</li>
+<li>Think about transformations that convey the message in clearer fashion.</li>
+</ul>
+<section id="measles" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="measles"><span class="header-section-number">10.1</span> Measles</h2>
+<ol class="example" type="1">
+<li><p>Load the <strong>dslabs</strong> package and figure out what is in the <code>us_contagious_diseases</code> dataset. Create a data frame, call it <code>avg</code>, that has a column for <code>year</code>, and a <code>rate</code> column containing the cases of Measles per 10,000 people per year in the US. Because we start in 1928, exclude Alaska and Hawaii. Make sure to take into account the number of weeks reporting each year. If a week was not report, it should not be included in the calculation of the rate.</p></li>
+<li><p>Use the data frame <code>avg</code> to make a trend plot showing the cases rate for Measles per year. Add a vertical line showing the year the Measles vaccines was introduced. Write a short paragraph describing the graph to someone you are urging to take the Measles vaccines.</p></li>
+<li><p>Is the pattern observed above the same for each state? Add a grey trend line for each state to the plot above. Use a transformation that keeps the high rates from dominating the figure.</p></li>
+<li><p>In the plot above we can’t tell which state is which curve. Using color would be challenging as it is hard if not impossible to find 48 colors we humans can distinguish. To make a plot where you can compare states knowing which is which, use one of the axis for state and the other for year, and then use hue or intensity as a visual cue for rates. Use a <code>sqrt</code> transformation to avoid the higher rates taking up all the color scale. Use grey to denote missing data. Order the states based on their highest peak.</p></li>
+</ol>
+</section>
+<section id="covid-19" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="covid-19"><span class="header-section-number">10.2</span> COVID-19</h2>
+<ol start="5" class="example" type="1">
+<li>The csv file shared <a href="https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-data.csv">here</a> includes weekly data on SARS-CoV-2 reported cases, tests, COVID-19 hospitalizations and deaths, and vaccination rates by state.</li>
+</ol>
+<ul>
+<li>Import the file into R without making a copy on your computer.</li>
+<li>Examine the dataset.</li>
+<li>Write a sentence describing each variable in the dataset.</li>
+</ul>
+<ol start="6" class="example" type="1">
+<li><p>One of these columns could benefit from being a factor. Identify the column and convert it to factor.</p></li>
+<li><p>Rather than providing a date, the dataset provides MMWR year and week. Read <a href="https://ndc.services.cdc.gov/wp-content/uploads/MMWR_Week_overview.pdf">this document</a> and write a function to convert these to the start of the MMWR week in ISO-8601.</p></li>
+<li><p>Add a columns <code>start_date</code> and <code>end_date</code> with the start and end of the MMWR week. Confirm that it worked by computing the MMWR week and year for both start and end date and comparing it to the MMWR week and year provided.</p></li>
+<li><p>Make a trend plot similar to the one we made for Measles:</p></li>
+</ol>
+<ul>
+<li>Include a trend line for the US cases rate. Use per 100,000 person per week as the unit.</li>
+<li>Add a trend for each state, with color representing region.</li>
+<li>Use the end of the week date for your x-axis.</li>
+<li>Add a vertical dashed line on the day COVID-19 vaccination started being delivered in the US.</li>
+</ul>
+<p>Write a paragraph describing the COVID-19 pandemic by describing the plot.</p>
+<ol start="10" class="example" type="1">
+<li>The number of cases depends on testing capacity. Note that during the start of the pandemic, when we know many people died, there are not that many cases reported. Also notice somewhat large variability across states that might not be consistent with actual prevalence. The <code>tests</code> columns provides the cumulative number of tests performed by the data represented by the week. This data is not official CDC data. It was provided by Johns Hopkins Coronavirus Resource Center. Before using the data, explore the data for each state carefully looking for potential problems.</li>
+</ol>
+<p>For each state compute and plot the number of tests perforemd each week. Look at the plot for each state and look for possible problems. No need to make this plot pretty since we are just using it for data exploration. Report any inconsistencies if any.</p>
+<ol start="11" class="example" type="1">
+<li><p>To see if the inconsistencies seen in the previous plot are a problem if we are only going to look at the total number of tests at the end, plot the cumulative tests for each of the states with inconsistencies and see if the results are sensible. Explain your answer in 1-2 sentences.</p></li>
+<li><p>JHU stopped reporting some time in 2020. What was that date? Show the day in the format September 18, 2022.</p></li>
+<li><p>Compute the number of tests per capita for the last day JHU reported these statistics. Make a boxplot of these values for each region and include the state level data with the state abbreviation as a label. Write a sentences describing these differences you see and how this could affect our interpretation of differences in cases rates across states.</p></li>
+<li><p>Although JHU stopped collecting testing data from the states, the CDC collected data from a few laboratories. We provide these date in <a href="https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt">this url</a>.</p></li>
+</ol>
+<ul>
+<li>Import the data into R without downloading the file.</li>
+<li>Make sure that you create a data frame with a column with dates in <code>Dates</code> format and tests as numbers.</li>
+</ul>
+<ol start="15" class="example" type="1">
+<li>Plot the tests per week to see the trend in time. Write a sentence of the pattern you see.</li>
+</ol>
+<p>At the start of the pandemic there were few tests conducted and now we are also seeing a drop.</p>
+<ol start="16" class="example" type="1">
+<li>The analysis on tests points to cases as not being a good measure of the state of the pandemic. Remake the trend plot but using death rates instead of cases rates. Write a sentence on how this plot better shows about the start of the pandemic that the cases plot did not.</li>
+</ol>
+<p>We see that the highest death rates were actually at the start of the pandemic and that is was particularly bad in the northeast.</p>
+<ol start="17" class="example" type="1">
+<li>We want to examine the percent of the population that completed the first series of vaccines, received the booster, and received the bivalent booster, respectively. First run this line of code and examine what it does.</li>
+</ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-1_48866c6e118ece4e38cf10b831478ae7">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(series_complete, booster, bivalent), <span class="at">names_to =</span> <span class="st">"series"</span>, <span class="at">values_to =</span> <span class="st">"percent"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, region, population, end_date, series, percent) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(percent)) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> percent<span class="sc">/</span>population,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">series =</span> <span class="fu">factor</span>(series, <span class="fu">c</span>(<span class="st">"series_complete"</span>, <span class="st">"booster"</span>, <span class="st">"bivalent"</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then make a plot showing the percent of population vaccination for each state. Use color to represent region.</p>
+<ul>
+<li>Show the dates on the x axis with the month abbreviation and year.</li>
+<li>Place the three plots vertically, on top of each other.</li>
+<li>Show percentages on the y axis. Hint: use <code>scales::percent</code>.</li>
+</ul>
+<ol start="18" class="example" type="1">
+<li><p>For each period used to make the trend plot for the three series, make a boxplot showing the maximum percentage reached by every state stratified by region. Let the range of the y axis adapt to the range of each group.</p></li>
+<li><p>Use the plot above to define four periods: No vaccine, First vaccine, Booster, and Bivalent. Get the dates when each vaccine series starts (these don’t have to be exact). Create a version of your data frame with a column called period that keeps the period associated with the week contained in each row.</p></li>
+<li><p>Define a new variable that stores the maximum vaccination percentage reached during each period. But for the first vaccine period use <code>series_complete</code>, for the booster period use the <code>booster</code> column, and for the bivalent period use the bivalent percentages. Remove data from the no vaccine period. The make a plot comparing the COVID-19 death rate to the percent vaccinated. Use color to denote region. You should produce three plots, each with it’s own axes range. Put the three plots in three entries of a 2x2 layout. Comment on what you observe.</p></li>
+<li><p>Does population density have an effect on infections? Use the <code>state.area</code> predefined variable to add compute population density. Make a histogram and density plot of state densities. Note that you will have to add the geographical area for Puerto Rico and DC as it is not included in <code>state.area</code></p></li>
+<li><p>Plot death rates versus density for the four periods defined above.</p></li>
+</ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -466,15 +588,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./09-data-table.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./schedule.html" class="pagination-link">
-        <span class="nav-page-text">Schedule</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./10-distributions.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -482,4 +605,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/intro.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
+</body></html>

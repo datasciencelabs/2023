@@ -1,0 +1,216 @@
+# Distributions 
+
+## Case study: describing student heights
+
+We will study self reported heights from studnets from past classes:
+
+```{r load-heights, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(dslabs)
+head(heights)
+```
+
+
+## Distributions
+
+The most basic statistical summary of a list of objects or numbers is its *distribution*. 
+
+
+```{r}
+prop.table(table(heights$sex))
+```
+
+Here is the distribution for the regions in the `murders` dataset:
+
+
+```{r state-region-distribution, echo=FALSE}
+murders |> group_by(region) |>
+  summarize(n = n()) |>
+  mutate(Proportion = n/sum(n), 
+         region = reorder(region, Proportion)) |>
+  ggplot(aes(x = region, y = Proportion, fill = region)) + 
+  geom_col(show.legend = FALSE) + 
+  xlab("")
+```
+
+
+### Histograms
+
+Cumulative distributions function shows everything you need to know the distribution.
+
+```{r ecdf, echo=FALSE}
+ds_theme_set()
+heights |> filter(sex == "Male") |> ggplot(aes(height)) + 
+  stat_ecdf() +
+  ylab("Proportion of heights less than or equal to a") + 
+  xlab("a")
+```
+
+Histograms lose a bit fo information but are easier to read:
+
+```{r height-histogram, echo=FALSE}
+heights |> 
+  filter(sex == "Male") |> 
+  ggplot(aes(height)) + 
+  geom_histogram(binwidth = 1, color = "black")
+```
+
+
+### Smoothed density
+
+*Smooth density* plots relay the same information as a histogram but are aesthetically more appealing. Here is what a smooth density plot looks like for our heights data:
+
+```{r example-of-smoothed-density, echo=FALSE}
+heights |> 
+  filter(sex == "Male") |> 
+  ggplot(aes(height)) + 
+  geom_density(alpha = .2, fill = "#00BFC4", color = 0)  +
+  geom_line(stat = 'density')
+```
+
+An advantage is that it is easy to show more than one:
+
+```{r two-densities-one-plot, echo=FALSE}
+heights |> 
+  ggplot(aes(height, fill = sex)) + 
+  geom_density(alpha = 0.2, color = 0) +
+  geom_line(stat = 'density')
+```
+
+With the right argument, `ggplot` automatically shades the intersecting region with a different color. 
+
+### The normal distribution {#sec-dataviz-normal-distribution}
+
+
+The normal distribution, also known as the bell curve and as the Gaussian distribution. Here is what the normal distribution looks like:
+
+```{r normal-distribution-density, echo=FALSE}
+mu <- 0; s <- 1
+norm_dist <- data.frame(x = seq(-4,4, len = 50)*s + mu) |> mutate(density = dnorm(x, mu, s))
+norm_dist |> ggplot(aes(x,density)) + geom_line()
+```
+
+A useful characteristic of the normal distribution is that it is defined by just two numbers: the average (also called mean) and the standard deviation.
+
+So for the male height data we can define the average of standard deviation like this:
+
+```{r}
+index <- heights$sex == "Male"
+x <- heights$height[index]
+m <- sum(x) / length(x)
+s <- sqrt(sum((x - mu)^2)/length(x))
+```
+
+The pre-built functions `mean` and `sd` can be used here:
+:::
+
+```{r}
+m <- mean(x)
+s <- sd(x)
+c(average = m, sd = s)
+```
+
+:::{.callout-note}
+The pre-built functions `mean` and `sd` (note that, for reasons explained in statistics textbooks,`sd` divides by `length(x)-1` rather than `length(x)`) can be used here:
+:::
+
+Here is a plot of the smooth density and the normal distribution with mean = `r round(m,1)` and SD = `r round(s,1)` plotted as a black line with our student height smooth density in blue:
+
+```{r data-and-normal-densities, echo=FALSE}
+norm_dist <- data.frame(x = seq(-4, 4, len = 50)*s + m) |> 
+  mutate(density = dnorm(x, m, s))
+
+heights |> filter(sex == "Male") |> ggplot(aes(height)) +
+  geom_density(fill = "#0099FF") +
+  geom_line(aes(x, density),  data = norm_dist, lwd = 1.5) 
+```
+
+## Boxplots
+
+Boxplots provide a five number summary (and shows outliers):
+
+```{r hist-non-normal-data, echo=FALSE, message=FALSE}
+murders <- murders |> mutate(rate = total/population*100000)
+library(gridExtra)
+murders |> ggplot(aes(x = rate)) + geom_histogram(binwidth = 0.5, color = "black") + ggtitle("Histogram")
+```
+
+In this case, the histogram above or a smooth density plot would serve as a relatively succinct summary.
+
+
+```{r first-boxplot, echo=FALSE}
+murders |> ggplot(aes("",rate)) + geom_boxplot() +
+  coord_cartesian(xlim = c(0, 2)) + xlab("")
+```
+
+
+## Stratification {#sec-dataviz-stratification}
+
+Showing _conditional_ distributions is often very informative
+
+```{r female-male-boxplots, echo=FALSE}
+heights |> ggplot(aes(x = sex, y = height, fill = sex)) +
+  geom_boxplot()
+```
+
+
+We also see the normal approximation might not be useful for females:
+
+```{r histogram-qqplot-female-heights, echo=FALSE}
+heights |> filter(sex == "Female") |>
+  ggplot(aes(height)) +
+  geom_density(fill = "#F8766D") 
+```
+
+
+Regarding the five smallest values, note that these values are:
+
+```{r}
+heights |> filter(sex == "Female") |> 
+  top_n(5, desc(height)) |>
+  pull(height)
+```
+
+Because these are reported heights, a possibility is that the student meant to enter `5'1"`, `5'2"`, `5'3"` or `5'5"`.
+
+## Exercises
+
+
+(@) Suppose we can't make a plot and want to compare the distributions side by side. We can't just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing `female_percentiles` and `male_percentiles` with the 10th, 30th, 50th, 70th, & 90th percentiles for each sex. Then create a data frame with these two as columns.
+
+(@) Study the following boxplots showing population sizes by country:
+
+```{r boxplot-exercise, echo=FALSE, message = FALSE}
+library(tidyverse)
+library(dslabs)
+ds_theme_set()
+tab <- gapminder |> filter(year == 2010) |> group_by(continent) |> select(continent, population)  
+tab |> ggplot(aes(x = continent, y = population/10^6)) + 
+  geom_boxplot() + 
+  scale_y_continuous(trans = "log10", breaks = c(1,10,100,1000)) + ylab("Population in millions")
+```
+
+Which continent has the country with the biggest population size?
+
+(@) What continent has the largest median population size?
+
+(@) What is median population size for Africa to the nearest million?
+
+(@) What proportion of countries in Europe have populations below 14 million?
+
+a.  0.99
+b.  0.75
+c.  0.50
+d.  0.25
+
+(@) If we use a log transformation, which continent shown above has the largest interquartile range?
+
+(@) Load the height data set and create a vector `x` with just the male heights:
+
+```{r, eval=FALSE}
+library(dslabs)
+x <- heights$height[heights$sex=="Male"]
+```
+
+What proportion of the data is between 69 and 72 inches (taller than 69, but shorter or equal to 72)? Hint: use a logical operator and `mean`.
+

@@ -215,6 +215,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Problem Set 1 Solution</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -284,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(dir, <span class="st">"murders.csv"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(file_path, <span class="st">"murders.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
+<pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 <p>The <code>file.path</code> function combines characters to form a complete path, ensuring compatibility with the respective operating system. Linux and Mac use forward slashes <code>/</code>, while Windows uses backslashes <code>\</code>, to separate directories. This function is useful because often you want to define paths using a variable.</p>
@@ -496,9 +514,8 @@ dttm (1): stamp
 </div>
 </div>
 <p>The first guess makes sense as Spanish is often saved using <code>Latin-1</code> encoding, also known as <code>ISO-8859</code> encoding because it was the first to include accents and other characters used in Spanish. Once we figure this out we can read in the file correctly:</p>
-<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-15_1f934b19be398384338587b51f3c4d8d">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(url, </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-15_20e404e1c6f08a4521930b6ddac9b60a">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(url, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 7 Columns: 3
 ── Column specification ────────────────────────────────────────────────────────
