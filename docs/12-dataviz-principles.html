@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>BST 260 Introduction to Data Science - 12&nbsp; Data visualization principles</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11-ggplot2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./12-dataviz-principles.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BST 260 Introduction to Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/datasciencelabs/2023" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course description</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-dates-and-times.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dates and times</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-importing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-dataviz-principles.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#encoding-data-using-visual-cues" id="toc-encoding-data-using-visual-cues" class="nav-link active" data-scroll-target="#encoding-data-using-visual-cues"><span class="header-section-number">12.1</span> Encoding data using visual cues</a></li>
+  <li><a href="#know-when-to-include-0" id="toc-know-when-to-include-0" class="nav-link" data-scroll-target="#know-when-to-include-0"><span class="header-section-number">12.2</span> Know when to include 0</a></li>
+  <li><a href="#do-not-distort-quantities" id="toc-do-not-distort-quantities" class="nav-link" data-scroll-target="#do-not-distort-quantities"><span class="header-section-number">12.3</span> Do not distort quantities</a></li>
+  <li><a href="#order-categories-by-a-meaningful-value" id="toc-order-categories-by-a-meaningful-value" class="nav-link" data-scroll-target="#order-categories-by-a-meaningful-value"><span class="header-section-number">12.4</span> Order categories by a meaningful value</a></li>
+  <li><a href="#show-the-data" id="toc-show-the-data" class="nav-link" data-scroll-target="#show-the-data"><span class="header-section-number">12.5</span> Show the data</a></li>
+  <li><a href="#ease-comparisons" id="toc-ease-comparisons" class="nav-link" data-scroll-target="#ease-comparisons"><span class="header-section-number">12.6</span> Ease comparisons</a>
+  <ul class="collapse">
+  <li><a href="#use-common-axes" id="toc-use-common-axes" class="nav-link" data-scroll-target="#use-common-axes"><span class="header-section-number">12.6.1</span> Use common axes</a></li>
+  <li><a href="#align-plots-vertically-to-see-horizontal-changes-and-horizontally-to-see-vertical-changes" id="toc-align-plots-vertically-to-see-horizontal-changes-and-horizontally-to-see-vertical-changes" class="nav-link" data-scroll-target="#align-plots-vertically-to-see-horizontal-changes-and-horizontally-to-see-vertical-changes"><span class="header-section-number">12.6.2</span> Align plots vertically to see horizontal changes and horizontally to see vertical changes</a></li>
+  <li><a href="#consider-transformations" id="toc-consider-transformations" class="nav-link" data-scroll-target="#consider-transformations"><span class="header-section-number">12.6.3</span> Consider transformations</a></li>
+  <li><a href="#visual-cues-to-be-compared-should-be-adjacent" id="toc-visual-cues-to-be-compared-should-be-adjacent" class="nav-link" data-scroll-target="#visual-cues-to-be-compared-should-be-adjacent"><span class="header-section-number">12.6.4</span> Visual cues to be compared should be adjacent</a></li>
+  <li><a href="#use-color" id="toc-use-color" class="nav-link" data-scroll-target="#use-color"><span class="header-section-number">12.6.5</span> Use color</a></li>
+  </ul></li>
+  <li><a href="#think-of-the-color-blind" id="toc-think-of-the-color-blind" class="nav-link" data-scroll-target="#think-of-the-color-blind"><span class="header-section-number">12.7</span> Think of the color blind</a></li>
+  <li><a href="#plots-for-two-variables" id="toc-plots-for-two-variables" class="nav-link" data-scroll-target="#plots-for-two-variables"><span class="header-section-number">12.8</span> Plots for two variables</a>
+  <ul class="collapse">
+  <li><a href="#slope-charts" id="toc-slope-charts" class="nav-link" data-scroll-target="#slope-charts"><span class="header-section-number">12.8.1</span> Slope charts</a></li>
+  <li><a href="#bland-altman-plot" id="toc-bland-altman-plot" class="nav-link" data-scroll-target="#bland-altman-plot"><span class="header-section-number">12.8.2</span> Bland-Altman plot</a></li>
+  </ul></li>
+  <li><a href="#encoding-a-third-variable" id="toc-encoding-a-third-variable" class="nav-link" data-scroll-target="#encoding-a-third-variable"><span class="header-section-number">12.9</span> Encoding a third variable</a></li>
+  <li><a href="#avoid-pseudo-three-dimensional-plots" id="toc-avoid-pseudo-three-dimensional-plots" class="nav-link" data-scroll-target="#avoid-pseudo-three-dimensional-plots"><span class="header-section-number">12.10</span> Avoid pseudo-three-dimensional plots</a></li>
+  <li><a href="#avoid-too-many-significant-digits" id="toc-avoid-too-many-significant-digits" class="nav-link" data-scroll-target="#avoid-too-many-significant-digits"><span class="header-section-number">12.11</span> Avoid too many significant digits</a></li>
+  <li><a href="#know-your-audience" id="toc-know-your-audience" class="nav-link" data-scroll-target="#know-your-audience"><span class="header-section-number">12.12</span> Know your audience</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12.13</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/12-dataviz-principles.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="encoding-data-using-visual-cues" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="encoding-data-using-visual-cues"><span class="header-section-number">12.1</span> Encoding data using visual cues</h2>
+<p>We start by describing some principles for encoding data. There are several approaches at our disposal including position, aligned lengths, angles, area, brightness, and color hue.</p>
+<p>To illustrate how some of these strategies compare, let’s suppose we want to report the results from two hypothetical polls regarding browser preference taken in 2000 and then 2015. For each year, we are simply comparing five quantities – the five percentages. A widely used graphical representation of percentages, popularized by Microsoft Excel, is the pie chart:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/piechart_e32907b4286138be1b482513c09c027c">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/piechart-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here we are representing quantities with both areas and angles, since both the angle and area of each pie slice are proportional to the quantity the slice represents. This turns out to be a sub-optimal choice since, as demonstrated by perception studies, humans are not good at precisely quantifying angles and are even worse when area is the only available visual cue. The donut chart is an example of a plot that uses only area:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/donutchart_b2382ddccba86dda777686cbe6c4a83f">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/donutchart-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>To see how hard it is to quantify angles and area, note that the rankings and all the percentages in the plots above changed from 2000 to 2015. Can you determine the actual percentages and rank the browsers’ popularity? Can you see how the percentages changed from 2000 to 2015? It is not easy to tell from the plot. In this case, simply showing the numbers is not only clearer, but would also save on printing costs if printing a paper copy:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-4_a2bf03c2090390e8abdad08aa9bd380d">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Browser</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2000</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2015</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Opera</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Safari</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Firefox</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chrome</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IE</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">27</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>The preferred way to plot these quantities is to use length and position as visual cues, since humans are much better at judging linear measures. The barplot uses this approach by using bars of length proportional to the quantities of interest. By adding horizontal lines at strategically chosen values, in this case at every multiple of 10, we ease the visual burden of quantifying through the position of the top of the bars. Compare and contrast the information we can extract from the two figures.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/two-barplots_4caa71bc1e009f917c8a9c7412613162">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/two-barplots-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>Notice how much easier it is to see the differences in the barplot. In fact, we can now determine the actual percentages by following a horizontal line to the x-axis.</p>
+<p>If for some reason you need to make a pie chart, label each pie slice with its respective percentage so viewers do not have to infer them from the angles or area:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/excel-barplot_3c4b708fcfeb34f65c5dc5e25bb29c0e">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/excel-barplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In general, when displaying quantities, position and length are preferred over angles and/or area. Brightness and color are even harder to quantify than angles. But, as we will see later, they are sometimes useful when more than two dimensions must be displayed at once.</p>
+</section>
+<section id="know-when-to-include-0" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="know-when-to-include-0"><span class="header-section-number">12.2</span> Know when to include 0</h2>
+<p>When using barplots, it is misinformative not to start the bars at 0. This is because, by using a barplot, we are implying the length is proportional to the quantities being displayed. By avoiding 0, relatively small differences can be made to look much bigger than they actually are. This approach is often used by politicians or media organizations trying to exaggerate a difference.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-5_ba18163aef8fb71e97135a2fa1966293">
+<div class="cell-output-display">
+<p><img src="https://raw.githubusercontent.com/rafalab/dsbook-part-1/main/dataviz/img/class2_8.jpg" class="img-fluid"></p>
+</div>
+</div>
+<p>(Source: Fox News, via Media Matters<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.)</p>
+<p>From the plot above, it appears that apprehensions have almost tripled when, in fact, they have only increased by about 16%. Starting the graph at 0 illustrates this clearly:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/barplot-from-zero-1_0dc5d58db5f1c1dec768c812849fd6c7">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/barplot-from-zero-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here is another example:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-6_cc70b9a3f3d7a694e1e17869b97d227d">
+<div class="cell-output-display">
+<p><img src="https://raw.githubusercontent.com/rafalab/dsbook-part-1/main/dataviz/img/Bush-cuts.png" class="img-fluid"></p>
+</div>
+</div>
+<p>(Source: Fox News, via Flowing Data<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.)</p>
+<p>This plot makes a 13% increase look like a five fold change. Here is the appropriate plot:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/barplot-from-zero-2_768a99a3a240eab673fddccd9bf82df9">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/barplot-from-zero-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Finally, here is an extreme example that makes a very small difference of under 2% look like a 10-100 fold change:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-7_e07ab5533e4d1ede6aef819044960b85">
+<div class="cell-output-display">
+<p><img src="https://raw.githubusercontent.com/rafalab/dsbook-part-1/main/dataviz/img/venezuela-election.png" class="img-fluid"></p>
+</div>
+</div>
+<p>(Source: Venezolana de Televisión via Pakistan Today<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and Diego Mariano.)</p>
+<p>Here is the appropriate plot:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/barplot-from-zero-3_47007aee7fd6386ff409b6a5ca115d9a">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/barplot-from-zero-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>When using position rather than length, it is then not necessary to include 0. This is particularly the case when we want to compare differences between groups relative to the within-group variability. Here is an illustrative example showing country average life expectancy stratified across continents in 2012:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/points-plot-not-from-zero_b92bd182b19753c1ece0840801c8618f">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/points-plot-not-from-zero-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>Note that in the plot on the left, which includes 0, the space between 0 and 43 adds no information and makes it harder to compare the between and within group variability.</p>
+</section>
+<section id="do-not-distort-quantities" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="do-not-distort-quantities"><span class="header-section-number">12.3</span> Do not distort quantities</h2>
+<p>During President Barack Obama’s 2011 State of the Union Address, the following chart was used to compare the US GDP to the GDP of four competing nations:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-8_7076c60ce38a6bf3ff94baabbd702b45">
+<div class="cell-output-display">
+<p><img src="https://raw.githubusercontent.com/rafalab/dsbook-part-1/main/dataviz/img/state-of-the-union.png" class="img-fluid"></p>
+</div>
+</div>
+<p>(Source: The 2011 State of the Union Address<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>)</p>
+<p>Judging by the area of the circles, the US appears to have an economy over five times larger than China’s and over 30 times larger than France’s. However, if we look at the actual numbers, we see that this is not the case. The actual ratios are 2.6 and 5.8 times bigger than China and France, respectively. The reason for this distortion is that the radius, rather than the area, was made to be proportional to the quantity, which implies that the proportion between the areas is squared: 2.6 turns into 6.5 and 5.8 turns into 34.1. Here is a comparison of the circles we get if we make the value proportional to the radius and to the area:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/area-not-radius_2028dbab3dc78a50097de9fe829bc0c4">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/area-not-radius-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Not surprisingly, <strong>ggplot2</strong> defaults to using area rather than radius. Of course, in this case, we really should not be using area at all since we can use position and length:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/barplot-better-than-area_81187c84299eceb468b3b4eb5b7ab6fd">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/barplot-better-than-area-1.png" class="img-fluid" style="width:50.0%"></p>
+</div>
+</div>
+</section>
+<section id="order-categories-by-a-meaningful-value" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="order-categories-by-a-meaningful-value"><span class="header-section-number">12.4</span> Order categories by a meaningful value</h2>
+<p>When one of the axes is used to show categories, as is done in barplots, the default <strong>ggplot2</strong> behavior is to order the categories alphabetically when they are defined by character strings. If they are defined by factors, they are ordered by the factor levels. We rarely want to use alphabetical order. Instead, we should order by a meaningful quantity. In all the cases above, the barplots were ordered by the values being displayed. The exception was the graph showing barplots comparing browsers. In this case, we kept the order the same across the barplots to ease the comparison. Specifically, instead of ordering the browsers separately in the two years, we ordered both years by the average value of 2000 and 2015.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/do-not-order-alphabetically_cd3aecbe3e515075c27c0e6b8b7c7c90">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/do-not-order-alphabetically-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can make the second plot like this:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-9_fe1b5d43aea31a36a304bbe9e3dcccaa">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">murder_rate =</span> total <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">100000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> <span class="fu">reorder</span>(state, murder_rate)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(state, murder_rate)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>reorder</code> function lets us reorder groups as well. Earlier we saw an example related to income distributions across regions. Here are the two versions plotted against each other:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/reorder-boxplot-example_39a3cc9e295d0caea36b3c0ba1af39fd">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/reorder-boxplot-example-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>The first orders the regions alphabetically, while the second orders them by the group’s median.</p>
+</section>
+<section id="show-the-data" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="show-the-data"><span class="header-section-number">12.5</span> Show the data</h2>
+<p>To motivate our first principle, “show the data”, we go back to our artificial example of describing heights to ET, an extraterrestrial. This time let’s assume ET is interested in the difference in heights between males and females. A commonly seen plot used for comparisons between groups, popularized by software such as Microsoft Excel, is the dynamite plot, which shows the average and standard errors (standard errors are defined in a later chapter, but do not confuse them with the standard deviation of the data). The plot looks like this:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/show-data-1_fff0b5f0bd2fc4d8bbe47c963e17a66d">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/show-data-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The average of each group is represented by the top of each bar and the antennae extend out from the average to the average plus two standard errors. If all ET receives is this plot, he will have little information on what to expect if he meets a group of human males and females. The bars go to 0: does this mean there are tiny humans measuring less than one foot? Are all males taller than the tallest females? Is there a range of heights? ET can’t answer these questions since we have provided almost no information on the height distribution.</p>
+<p>This brings us to our first principle: show the data. This simple <strong>ggplot2</strong> code already generates a more informative plot than the barplot by simply showing all the data points:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/show-data-2_8b47b244976e4c8a003ffc71d0ebccb8">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(sex, height)) <span class="sc">+</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/show-data-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For example, this plot gives us an idea of the range of the data. However, this plot has limitations as well, since we can’t really see all the 238 and 812 points plotted for females and males, respectively, and many points are plotted on top of each other. As we have previously described, visualizing the distribution is much more informative. But before doing this, we point out two ways we can improve a plot showing all the points.</p>
+<p>The first is to add <em>jitter</em>, which adds a small random shift to each point. In this case, adding horizontal jitter does not alter the interpretation, since the point heights do not change, but we minimize the number of points that fall on top of each other and, therefore, get a better visual sense of how the data is distributed. A second improvement comes from using <em>alpha blending</em>: making the points somewhat transparent. The more points fall on top of each other, the darker the plot, which also helps us get a sense of how the points are distributed. Here is the same plot with jitter and alpha blending:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/show-points-with-jitter_790dd01c697c5d2822e47809ab3ce345">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(sex, height)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/show-points-with-jitter-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we start getting a sense that, on average, males are taller than females. We also note dark horizontal bands of points, demonstrating that many report values that are rounded to the nearest integer.</p>
+</section>
+<section id="ease-comparisons" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="ease-comparisons"><span class="header-section-number">12.6</span> Ease comparisons</h2>
+<section id="use-common-axes" class="level3" data-number="12.6.1">
+<h3 data-number="12.6.1" class="anchored" data-anchor-id="use-common-axes"><span class="header-section-number">12.6.1</span> Use common axes</h3>
+<p>Since there are so many points, it is more effective to show distributions rather than individual points. We therefore show histograms for each group:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/common-axes-histograms-wrong_d9a32ab20012c34ed8290e6c4d0433f7">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/common-axes-histograms-wrong-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>However, from this plot it is not immediately obvious that males are, on average, taller than females. We have to look carefully to notice that the x-axis has a higher range of values in the male histogram. An important principle here is to <strong>keep the axes the same</strong> when comparing data across two plots. Below we see how the comparison becomes easier:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/common-axes-histograms-right_9a8cae61a4aff399569f5a630433bd55">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/common-axes-histograms-right-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="align-plots-vertically-to-see-horizontal-changes-and-horizontally-to-see-vertical-changes" class="level3" data-number="12.6.2">
+<h3 data-number="12.6.2" class="anchored" data-anchor-id="align-plots-vertically-to-see-horizontal-changes-and-horizontally-to-see-vertical-changes"><span class="header-section-number">12.6.2</span> Align plots vertically to see horizontal changes and horizontally to see vertical changes</h3>
+<p>In these histograms, the visual cue related to decreases or increases in height are shifts to the left or right, respectively: horizontal changes. Aligning the plots vertically helps us see this change when the axes are fixed:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/common-axes-histograms-right-2_d4ecf57339d01a2594cf57e432cb81ed">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/common-axes-histograms-right-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-10_824b77c5863e3b4fad1c597e67c53038">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(height, ..density..)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">color=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(sex<span class="sc">~</span>.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This plot makes it much easier to notice that men are, on average, taller.</p>
+<p>If , we want the more compact summary provided by boxplots, we then align them horizontally since, by default, boxplots move up and down with changes in height. Following our <em>show the data</em> principle, we then overlay all the data points:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/boxplot-with-points-with-jitter_5a2d4b4ea425a1cc2347d6646d8ca4c9">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/boxplot-with-points-with-jitter-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-11_4d5292cb762559348fdb21401050a1c5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> heights <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(sex, height)) <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">coef=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Height in inches"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now contrast and compare these three plots, based on exactly the same data:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/show-the-data-comparison_05565c9c2dba92054a780f22d4938a60">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/show-the-data-comparison-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>Notice how much more we learn from the two plots on the right. Barplots are useful for showing one number, but not very useful when we want to describe distributions.</p>
+</section>
+<section id="consider-transformations" class="level3" data-number="12.6.3">
+<h3 data-number="12.6.3" class="anchored" data-anchor-id="consider-transformations"><span class="header-section-number">12.6.3</span> Consider transformations</h3>
+<p>We have motivated the use of the log transformation in cases where the changes are multiplicative. Population size was an example in which we found a log transformation to yield a more informative transformation.</p>
+<p>The combination of an incorrectly chosen barplot and a failure to use a log transformation when one is merited can be particularly distorting. As an example, consider this barplot showing the average population sizes for each continent in 2015:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/no-transformations-wrong-use-of-barplot_b9829216f7f2b8a9f43aec6f74024dae">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/no-transformations-wrong-use-of-barplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>From this plot, one would conclude that countries in Asia are much more populous than in other continents. Following the <em>show the data</em> principle, we quickly notice that this is due to two very large countries, which we assume are India and China:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/no-transformation_bbc53af143ab3996639b8493d81bac7d">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/no-transformation-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Using a log transformation here provides a much more informative plot. We compare the original barplot to a boxplot using the log scale transformation for the y-axis:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/correct-transformation_ea530353f6961026df8002a5bd263163">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/correct-transformation-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>With the new plot, we realize that countries in Africa actually have a larger median population size than those in Asia.</p>
+<p>Other transformations you should consider are the logistic transformation (<code>logit</code>), useful to better see fold changes in odds, and the square root transformation (<code>sqrt</code>), useful for count data.</p>
+</section>
+<section id="visual-cues-to-be-compared-should-be-adjacent" class="level3" data-number="12.6.4">
+<h3 data-number="12.6.4" class="anchored" data-anchor-id="visual-cues-to-be-compared-should-be-adjacent"><span class="header-section-number">12.6.4</span> Visual cues to be compared should be adjacent</h3>
+<p>For each continent, let’s compare income in 1970 versus 2010. When comparing income data across regions between 1970 and 2010, we made a figure similar to the one below, but this time we investigate continents rather than regions.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/boxplots-not-adjacent_6ea9536ca0fa1010e7c3a91d9e226138">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/boxplots-not-adjacent-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The default in <strong>ggplot2</strong> is to order labels alphabetically so the labels with 1970 come before the labels with 2010, making the comparisons challenging because a continent’s distribution in 1970 is visually far from its distribution in 2010. It is much easier to make the comparison between 1970 and 2010 for each continent when the boxplots for that continent are next to each other:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/boxplot-adjacent-comps_cb6a9639c9225fba9a5352ecee5d3c44">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/boxplot-adjacent-comps-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="use-color" class="level3" data-number="12.6.5">
+<h3 data-number="12.6.5" class="anchored" data-anchor-id="use-color"><span class="header-section-number">12.6.5</span> Use color</h3>
+<p>The comparison becomes even easier to make if we use color to denote the two things we want to compare:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/boxplot-adjacent-comps-with-color_e77d66e11d1aafab76fe7e164ef73f8c">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/boxplot-adjacent-comps-with-color-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="think-of-the-color-blind" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="think-of-the-color-blind"><span class="header-section-number">12.7</span> Think of the color blind</h2>
+<p>About 10% of the population is color blind. Unfortunately, the default colors used in <strong>ggplot2</strong> are not optimal for this group. However, <strong>ggplot2</strong> does make it easy to change the color palette used in the plots. An example of how we can use a color blind friendly palette is described here: <a href="http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette">http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette</a>:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-12_be3698c0f1e8ac29cfb5f54bb9265d9d">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>color_blind_friendly_cols <span class="ot">&lt;-</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"#999999"</span>, <span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, <span class="st">"#CC79A7"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here are the colors</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/color-blind-friendly-colors_ef6683cee82bcb7654fc8807aed5e1f9">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/color-blind-friendly-colors-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>There are several resources that can help you select colors, for example this one: <a href="http://bconnelly.net/2013/10/creating-colorblind-friendly-figures/">http://bconnelly.net/2013/10/creating-colorblind-friendly-figures/</a>.</p>
+</section>
+<section id="plots-for-two-variables" class="level2" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="plots-for-two-variables"><span class="header-section-number">12.8</span> Plots for two variables</h2>
+<p>In general, you should use scatterplots to visualize the relationship between two variables. In every single instance in which we have examined the relationship between two variables, including total murders versus population size, life expectancy versus fertility rates, and infant mortality versus income, we have used scatterplots. This is the plot we generally recommend. However, there are some exceptions and we describe two alternative plots here: the <em>slope chart</em> and the <em>Bland-Altman plot</em>.</p>
+<section id="slope-charts" class="level3" data-number="12.8.1">
+<h3 data-number="12.8.1" class="anchored" data-anchor-id="slope-charts"><span class="header-section-number">12.8.1</span> Slope charts</h3>
+<p>One exception where another type of plot may be more informative is when you are comparing variables of the same type, but at different time points and for a relatively small number of comparisons. For example, comparing life expectancy between 2010 and 2015. In this case, we might recommend a <em>slope chart</em>.</p>
+<p>There is no geometry for slope charts in <strong>ggplot2</strong>, but we can construct one using <code>geom_line</code>. We need to do some tinkering to add labels. Below is an example comparing 2010 to 2015 for large western countries:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/slope-plot_4e01afb2512f7300a91f8e1cd5cdbdd2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>west <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Western Europe"</span>,<span class="st">"Northern Europe"</span>,<span class="st">"Southern Europe"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Northern America"</span>,<span class="st">"Australia and New Zealand"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2010</span>, <span class="dv">2015</span>) <span class="sc">&amp;</span> region <span class="sc">%in%</span> west <span class="sc">&amp;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>           <span class="sc">!</span><span class="fu">is.na</span>(life_expectancy) <span class="sc">&amp;</span> population <span class="sc">&gt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">7</span>) </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">location =</span> <span class="fu">ifelse</span>(year <span class="sc">==</span> <span class="dv">2010</span>, <span class="dv">1</span>, <span class="dv">2</span>), </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">location =</span> <span class="fu">ifelse</span>(year <span class="sc">==</span> <span class="dv">2015</span> <span class="sc">&amp;</span> </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                             country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"United Kingdom"</span>, <span class="st">"Portugal"</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                           location<span class="fl">+0.22</span>, location),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">hjust =</span> <span class="fu">ifelse</span>(year <span class="sc">==</span> <span class="dv">2010</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.factor</span>(year)) <span class="sc">|&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, life_expectancy, <span class="at">group =</span> country)) <span class="sc">+</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> country), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> location, <span class="at">label =</span> country, <span class="at">hjust =</span> hjust), </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Life Expectancy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/slope-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>An advantage of the slope chart is that it permits us to quickly get an idea of changes based on the slope of the lines. Although we are using angle as the visual cue, we also have position to determine the exact values. Comparing the improvements is a bit harder with a scatterplot:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/scatter-plot-instead-of-slope_1d6801af900684a143fb50c900474db0">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/scatter-plot-instead-of-slope-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In the scatterplot, we have followed the principle <em>use common axes</em> since we are comparing these before and after. However, if we have many points, slope charts stop being useful as it becomes hard to see all the lines.</p>
+</section>
+<section id="bland-altman-plot" class="level3" data-number="12.8.2">
+<h3 data-number="12.8.2" class="anchored" data-anchor-id="bland-altman-plot"><span class="header-section-number">12.8.2</span> Bland-Altman plot</h3>
+<p>Since we are primarily interested in the difference, it makes sense to dedicate one of our axes to it. The Bland-Altman plot, also known as the Tukey mean-difference plot and the MA-plot, shows the difference versus the average:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/bland-altman_1fd72b245b6580c3bb096204d9f7d82c">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">paste0</span>(<span class="st">"life_expectancy_"</span>, year)) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, year, life_expectancy) <span class="sc">|&gt;</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"year"</span>, <span class="at">values_from=</span><span class="st">"life_expectancy"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">average =</span> (life_expectancy_2015 <span class="sc">+</span> life_expectancy_2010)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">difference =</span> life_expectancy_2015 <span class="sc">-</span> life_expectancy_2010) <span class="sc">|&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(average, difference, <span class="at">label =</span> country)) <span class="sc">+</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>() <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Average of 2010 and 2015"</span>) <span class="sc">+</span> </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Difference between 2015 and 2010"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/bland-altman-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here, by simply looking at the y-axis, we quickly see which countries have shown the most improvement. We also get an idea of the overall value from the x-axis.</p>
+</section>
+</section>
+<section id="encoding-a-third-variable" class="level2" data-number="12.9">
+<h2 data-number="12.9" class="anchored" data-anchor-id="encoding-a-third-variable"><span class="header-section-number">12.9</span> Encoding a third variable</h2>
+<p>An earlier scatterplot showed the relationship between infant survival and average income. Below is a version of this plot that encodes three variables: OPEC membership, region, and population.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/encoding-third-variable_f349e6262f98de0773d3029469ba79dc">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/encoding-third-variable-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We encode categorical variables with color and shape. These shapes can be controlled with <code>shape</code> argument. Below are the shapes available for use in R. For the last five, the color goes inside.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/available-shapes_054774dbeae9e8e0e4c27926e1a5a86d">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/available-shapes-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For continuous variables, we can use color, intensity, or size. We now show an example of how we do this with a case study.</p>
+<p>When selecting colors to quantify a numeric variable, we choose between two options: sequential and diverging. Sequential colors are suited for data that goes from high to low. High values are clearly distinguished from low values. Here are some examples offered by the package <code>RColorBrewer</code>:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-13_75e8f0152e460d5f8411ff7bda6bb5bd">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">display.brewer.all</span>(<span class="at">type=</span><span class="st">"seq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/r-color-brewer-seq_2ae46c3cfc89fee30982670236532c46">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/r-color-brewer-seq-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Diverging colors are used to represent values that diverge from a center. We put equal emphasis on both ends of the data range: higher than the center and lower than the center. An example of when we would use a divergent pattern would be if we were to show height in standard deviations away from the average. Here are some examples of divergent patterns:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-14_f92ae4505ac7ad2b9a83562f30e1314b">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">display.brewer.all</span>(<span class="at">type=</span><span class="st">"div"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/r-color-brewer-div_f9a5b09455c7239f82c59a49c652a23c">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/r-color-brewer-div-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="avoid-pseudo-three-dimensional-plots" class="level2" data-number="12.10">
+<h2 data-number="12.10" class="anchored" data-anchor-id="avoid-pseudo-three-dimensional-plots"><span class="header-section-number">12.10</span> Avoid pseudo-three-dimensional plots</h2>
+<p>The figure below, taken from the scientific literature<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, shows three variables: dose, drug type and survival. Although your screen/book page is flat and two-dimensional, the plot tries to imitate three dimensions and assigned a dimension to each variable.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-15_dfcc4382a342ca0167f1912647260dae">
+<div class="cell-output-display">
+<p><img src="https://raw.githubusercontent.com/rafalab/dsbook-part-1/main/dataviz/img/fig8b.png" class="img-fluid"></p>
+</div>
+</div>
+<p>(Image courtesy of Karl Broman)</p>
+<p>Humans are not good at seeing in three dimensions (which explains why it is hard to parallel park) and our limitation is even worse with regard to pseudo-three-dimensions. To see this, try to determine the values of the survival variable in the plot above. Can you tell when the purple ribbon intersects the red one? This is an example in which we can easily use color to represent the categorical variable instead of using a pseudo-3D:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/colors-for-different-lines_b9a3489014fe7deb7c747b420fbad842">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/colors-for-different-lines-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Notice how much easier it is to determine the survival values.</p>
+<p>Pseudo-3D is sometimes used completely gratuitously: plots are made to look 3D even when the 3rd dimension does not represent a quantity. This only adds confusion and makes it harder to relay your message. Here are two examples:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-16_f8ddd6a688e65948f7f08229f972f61a">
+<div class="cell-output-display">
+<p><img src="https://raw.githubusercontent.com/rafalab/dsbook-part-1/main/dataviz/img/fig1e.png" class="img-fluid" style="width:45.0%"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="https://raw.githubusercontent.com/rafalab/dsbook-part-1/main/dataviz/img/fig2d.png" class="img-fluid" style="width:45.0%"></p>
+</div>
+</div>
+<p>(Images courtesy of Karl Broman)</p>
+</section>
+<section id="avoid-too-many-significant-digits" class="level2" data-number="12.11">
+<h2 data-number="12.11" class="anchored" data-anchor-id="avoid-too-many-significant-digits"><span class="header-section-number">12.11</span> Avoid too many significant digits</h2>
+<p>By default, statistical software like R returns many significant digits. The default behavior in R is to show 7 significant digits. That many digits often adds no information and the added visual clutter can make it hard for the viewer to understand the message. As an example, here are the per 10,000 disease rates, computed from totals and population in R, for California across the five decades:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-17_2f560b0cac52d76dbdc038b6ec07b0d8">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">state</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Measles</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Pertussis</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Polio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1940</td>
+<td style="text-align: right;">37.8826320</td>
+<td style="text-align: right;">18.3397861</td>
+<td style="text-align: right;">0.8266512</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1950</td>
+<td style="text-align: right;">13.9124205</td>
+<td style="text-align: right;">4.7467350</td>
+<td style="text-align: right;">1.9742639</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1960</td>
+<td style="text-align: right;">14.1386471</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.2640419</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">0.9767889</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1980</td>
+<td style="text-align: right;">0.3743467</td>
+<td style="text-align: right;">0.0515466</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>We are reporting precision up to 0.00001 cases per 10,000, a very small value in the context of the changes that are occurring across the dates. In this case, two significant figures is more than enough and clearly makes the point that rates are decreasing:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-18_de2cde868d5bfff6c1ab48847fa37226">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">state</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Measles</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Pertussis</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Polio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1940</td>
+<td style="text-align: right;">37.9</td>
+<td style="text-align: right;">18.3</td>
+<td style="text-align: right;">0.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1950</td>
+<td style="text-align: right;">13.9</td>
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">2.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1960</td>
+<td style="text-align: right;">14.1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1970</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">1980</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Useful ways to change the number of significant digits or to round numbers are <code>signif</code> and <code>round</code>. You can define the number of significant digits globally by setting options like this: <code>options(digits = 3)</code>.</p>
+<p>Another principle related to displaying tables is to place values being compared on columns rather than rows. Note that our table above is easier to read than this one:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-19_7badfea8677269e42d815dd46a4a365a">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">state</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">disease</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">1940</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">1950</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">1960</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">1970</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">1980</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: left;">Measles</td>
+<td style="text-align: right;">37.9</td>
+<td style="text-align: right;">13.9</td>
+<td style="text-align: right;">14.1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">California</td>
+<td style="text-align: left;">Pertussis</td>
+<td style="text-align: right;">18.3</td>
+<td style="text-align: right;">4.7</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">California</td>
+<td style="text-align: left;">Polio</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="know-your-audience" class="level2" data-number="12.12">
+<h2 data-number="12.12" class="anchored" data-anchor-id="know-your-audience"><span class="header-section-number">12.12</span> Know your audience</h2>
+<p>Graphs can be used for 1) our own exploratory data analysis, 2) to convey a message to experts, or 3) to help tell a story to a general audience. Make sure that the intended audience understands each element of the plot.</p>
+<p>As a simple example, consider that for your own exploration it may be more useful to log-transform data and then plot it. However, for a general audience that is unfamiliar with converting logged values back to the original measurements, using a log-scale for the axis instead of log-transformed values will be much easier to digest.</p>
+</section>
+<section id="exercises" class="level2" data-number="12.13">
+<h2 data-number="12.13" class="anchored" data-anchor-id="exercises"><span class="header-section-number">12.13</span> Exercises</h2>
+<p>For these exercises, we will be using the vaccines data in the <strong>dslabs</strong> package:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-20_cf1cfe0198522dffd7ae3df530cec3ca">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>1. Pie charts are appropriate:</p>
+<ol type="a">
+<li>When we want to display percentages.</li>
+<li>When <strong>ggplot2</strong> is not available.</li>
+<li>When I am in a bakery.</li>
+<li>Never. Barplots and tables are always better.</li>
+</ol>
+<p>2. What is the problem with the plot below:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/baplot-not-from-zero-exercises_92f30ee0e181ab52b81749a7e93f8203">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/baplot-not-from-zero-exercises-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol type="a">
+<li>The values are wrong. The final vote was 306 to 232.</li>
+<li>The axis does not start at 0. Judging by the length, it appears Trump received 3 times as many votes when, in fact, it was about 30% more.</li>
+<li>The colors should be the same.</li>
+<li>Percentages should be shown as a pie chart.</li>
+</ol>
+<p>3. Take a look at the following two plots. They show the same information: 1928 rates of measles across the 50 states.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/measels-exercise_13b133d64c0f1c8a8df3c552d399345a">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/measels-exercise-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Which plot is easier to read if you are interested in determining which are the best and worst states in terms of rates, and why?</p>
+<ol type="a">
+<li>They provide the same information, so they are both equally as good.</li>
+<li>The plot on the right is better because it orders the states alphabetically.</li>
+<li>The plot on the right is better because alphabetical order has nothing to do with the disease and by ordering according to actual rate, we quickly see the states with most and least rates.</li>
+<li>Both plots should be a pie chart.</li>
+</ol>
+<p>4. To make the plot on the left, we have to reorder the levels of the states’ variables.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-21_94e9d9f1a08eec25e5f6ac0e78788fac">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> us_contagious_diseases <span class="sc">|&gt;</span>  </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">1967</span> <span class="sc">&amp;</span> disease<span class="sc">==</span><span class="st">"Measles"</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(population)) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate =</span> count <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="dv">52</span> <span class="sc">/</span> weeks_reporting)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note what happens when we make a barplot:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/barplot-plot-exercise-example_852c0bf33fbbf318b97f348e5023e95e">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(state, rate)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/barplot-plot-exercise-example-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Define these objects:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-22_66524f5b4c13a144ca71ceb314461442">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>state <span class="ot">&lt;-</span> dat<span class="sc">$</span>state</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>rate <span class="ot">&lt;-</span> dat<span class="sc">$</span>count<span class="sc">/</span>dat<span class="sc">$</span>population<span class="sc">*</span><span class="dv">10000</span><span class="sc">*</span><span class="dv">52</span><span class="sc">/</span>dat<span class="sc">$</span>weeks_reporting</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Redefine the <code>state</code> object so that the levels are re-ordered. Print the new object <code>state</code> and its levels so you can see that the vector is not re-ordered by the levels.</p>
+<p>5. Now with one line of code, define the <code>dat</code> table as done above, but change the use mutate to create a rate variable and re-order the state variable so that the levels are re-ordered by this variable. Then make a barplot using the code above, but for this new <code>dat</code>.</p>
+<p>6. Say we are interested in comparing gun homicide rates across regions of the US. We see this plot:</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/us-murders-barplot_f38227b131384789d9007e01e25583c1">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rate =</span> total<span class="sc">/</span>population<span class="sc">*</span><span class="dv">100000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(rate)) <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">factor</span>(region)) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(region, avg)) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ylab</span>(<span class="st">"Murder Rate Average"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/us-murders-barplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>and decide to move to a state in the western region. What is the main problem with this interpretation?</p>
+<ol type="a">
+<li>The categories are ordered alphabetically.</li>
+<li>The graph does not show standarad errors.</li>
+<li>It does not show all the data. We do not see the variability within a region and it’s possible that the safest states are not in the West.</li>
+<li>The Northeast has the lowest average.</li>
+</ol>
+<p>7. Make a boxplot of the murder rates defined as</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/unnamed-chunk-23_c5d1696118eef7c49620a933a7538846">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>murders <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rate =</span> total<span class="sc">/</span>population<span class="sc">*</span><span class="dv">100000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>by region, showing all the points and ordering the regions by their median rate.</p>
+<p>8. The plots below show three continuous variables.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/pseudo-3d-exercise_aee6235f9b56b0d7cdec61d6890aab29">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/pseudo-3d-exercise-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The line <span class="math inline">\(x=2\)</span> appears to separate the points. But it is actually not the case, which we can see by plotting the data in a couple of two-dimensional points.</p>
+<div class="cell" data-hash="12-dataviz-principles_cache/html/pseud-3d-exercise-2_f5d5d7cbf0ff54313abf020f530fdce8">
+<div class="cell-output-display">
+<p><img src="12-dataviz-principles_files/figure-html/pseud-3d-exercise-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Why is this happening?</p>
+<ol type="a">
+<li>Humans are not good at reading pseudo-3D plots.</li>
+<li>There must be an error in the code.</li>
+<li>The colors confuse us.</li>
+<li>Scatterplots should not be used to compare two variables when we have access to 3.</li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>http://mediamatters.org/blog/2013/04/05/fox-news-newest-dishonest-chart-immigration-enf/193507<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>http://flowingdata.com/2012/08/06/fox-news-continues-charting-excellence/<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>https://www.pakistantoday.com.pk/2018/05/18/whats-at-stake-in-venezuelan-presidential-vote<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>https://www.youtube.com/watch?v=kl2g40GoRxg<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>https://projecteuclid.org/download/pdf_1/euclid.ss/1177010488<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./11-ggplot2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

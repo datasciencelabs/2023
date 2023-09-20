@@ -233,6 +233,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-dataviz-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -286,10 +292,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "2010_bigfive_regents.xls"                               
- [2] "carbon_emissions.csv"                                   
- [3] "fertility-two-countries-example.csv"                    
- [4] "HRlist2.txt"                                            
- [5] "hw-submission-timestamps.csv"                           
+ [2] "calificaciones.csv"                                     
+ [3] "carbon_emissions.csv"                                   
+ [4] "fertility-two-countries-example.csv"                    
+ [5] "HRlist2.txt"                                            
  [6] "life-expectancy-and-fertility-two-countries-example.csv"
  [7] "murders.csv"                                            
  [8] "olive.csv"                                              
@@ -475,68 +481,51 @@ dbl (2): population, total
 <p>RStudio assumes the Unicode encoding. A common pitfall in data analysis is assuming a file is Unicode when, in fact, it is something else.</p>
 <p>To understand encoding, remember that everything on a computer needs to eventually be converted to 0s and 1s. ASCII is an <em>encoding</em> that maps characters to numbers. ASCII uses 7 bits (0s and 1s) which results in <span class="math inline">\(2^7 = 128\)</span> unique items, enough to encode all the characters on an English language keyboard. However, other languages use characters not included in this encoding. For example, the é in México is not encoded by ASCII. For this reason, a new encoding, using more than 7 bits, was defined: Unicode. When using Unicode, one can chose between 8, 16, and 32 bits abbreviated UTF-8, UTF-16, and UTF-32 respectively. RStudio defaults to UTF-8 encoding. ASCII is a subset of UTF-8.</p>
 <p>Try reading in this file:</p>
-<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-13_6506326ab7e370d11d751b6e99b1e5a6">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/hw-submission-timestamps.csv"</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 7 Columns: 3
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (2): name, dob
-dttm (1): stamp
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
+<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-13_945ea6bf69368ea5004d988b14a90113">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/calificaciones.csv"</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(url, <span class="at">n =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 3
-  name          dob                      stamp              
-  &lt;chr&gt;         &lt;chr&gt;                    &lt;dttm&gt;             
-1 "Beyonc\xe9"  04 de septiembre de 1981 2023-09-14 02:11:02
-2 "Bl\xfcmchen" 20 de abril de 1980      2023-09-14 03:23:05
-3 "Jo\xe3o"     10 de junio de 1931      2023-09-13 22:43:28
-4 "L\xf3pez"    24 de julio de 1969      2023-09-14 01:06:59
-5 "\xd1engo"    15 de diciembre de 1981  2023-09-13 23:35:37
-6 "Pl\xe1cido"  24 de enero de 1941      2023-09-13 23:17:21
-7 "Thal\xeda"   26 de agosto de 1971     2023-09-13 23:08:02</code></pre>
+<pre><code>[1] "\"nombre\",\"dob\",\"estampa\",\"puntuaci\xf3n\""                        
+[2] "\"Beyonc\xe9\",\"04 de septiembre de 1981\",2023-09-20 02:11:02,\"87,5\""</code></pre>
 </div>
 </div>
 <p>When you see these weird characters the problem is almost always that you are assuming the wrong encoding. You need to be a hacker to figure out, <strong>readr</strong> has a function that tries:</p>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-14_1761c578ba621c91622fcb73f1aec86e">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">guess_encoding</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">guess_encoding</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   encoding   confidence
   &lt;chr&gt;           &lt;dbl&gt;
-1 ISO-8859-1       0.9 
-2 ISO-8859-2       0.76
-3 ISO-8859-9       0.56</code></pre>
+1 ISO-8859-1       0.92
+2 ISO-8859-2       0.73
+3 ISO-8859-9       0.53</code></pre>
 </div>
 </div>
 <p>The first guess makes sense as Spanish is often saved using <code>Latin-1</code> encoding, also known as <code>ISO-8859</code> encoding because it was the first to include accents and other characters used in Spanish. Once we figure this out we can read in the file correctly:</p>
-<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-15_20e404e1c6f08a4521930b6ddac9b60a">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(url, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-15_2781b390b5a9d422c8c533c201cbf801">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(url, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>, <span class="at">decimal_mark =</span> <span class="st">","</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 7 Columns: 3
+<pre><code>Rows: 7 Columns: 4
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
-chr  (2): name, dob
-dttm (1): stamp
+chr  (2): nombre, dob
+dbl  (1): puntuación
+dttm (1): estampa
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 3
-  name     dob                      stamp              
-  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;             
-1 Beyoncé  04 de septiembre de 1981 2023-09-14 02:11:02
-2 Blümchen 20 de abril de 1980      2023-09-14 03:23:05
-3 João     10 de junio de 1931      2023-09-13 22:43:28
-4 López    24 de julio de 1969      2023-09-14 01:06:59
-5 Ñengo    15 de diciembre de 1981  2023-09-13 23:35:37
-6 Plácido  24 de enero de 1941      2023-09-13 23:17:21
-7 Thalía   26 de agosto de 1971     2023-09-13 23:08:02</code></pre>
+<pre><code># A tibble: 7 × 4
+  nombre   dob                      estampa             puntuación
+  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
+1 Beyoncé  04 de septiembre de 1981 2023-09-20 02:11:02       87.5
+2 Blümchen 20 de abril de 1980      2023-09-20 03:23:05       99  
+3 João     10 de junio de 1931      2023-09-19 22:43:28       98.9
+4 López    24 de julio de 1969      2023-09-20 01:06:59       88.7
+5 Ñengo    15 de diciembre de 1981  2023-09-19 23:35:37       93.1
+6 Plácido  24 de enero de 1941      2023-09-19 23:17:21       88.7
+7 Thalía   26 de agosto de 1971     2023-09-19 23:08:02       83  </code></pre>
 </div>
 </div>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-16_af66d8e144199a3aa22f1621a75dca29">
@@ -551,11 +540,11 @@ dttm (1): stamp
 <li>Use the <code>read_csv</code> function to read each of the csv files that the following code saves in the <code>files</code> object. Hint: use the <code>pattern</code> in <code>list.files</code> to keep only the csv files.</li>
 </ol>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-17_a684c19ce9857f5b32a85160a646f0f3">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(path, <span class="at">pattern =</span> <span class="st">".csv"</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, <span class="cf">function</span>(fn) </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="fu">file.path</span>(path, fn), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(path, <span class="at">pattern =</span> <span class="st">".csv"</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, <span class="cf">function</span>(fn) </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="fu">file.path</span>(path, fn), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
 • `` -&gt; `...1`</code></pre>
@@ -571,14 +560,14 @@ e.g.:
 <li>Note that you get a warning. To see which one you can run it one-by-one in a loop:</li>
 </ol>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-18_9254af84604a01a17529f6c15e84d050">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(files)) {</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(files[i])</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="fu">file.path</span>(path, files[i]), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(files)) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(files[i])</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(<span class="fu">file.path</span>(path, files[i]), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "carbon_emissions.csv"
+<pre><code>[1] "calificaciones.csv"
+[1] "carbon_emissions.csv"
 [1] "fertility-two-countries-example.csv"
-[1] "hw-submission-timestamps.csv"
 [1] "life-expectancy-and-fertility-two-countries-example.csv"
 [1] "murders.csv"
 [1] "olive.csv"</code></pre>
@@ -599,7 +588,7 @@ e.g.:
 </div>
 <p><code>olive.csv</code> gives us a <code>New names</code> warning. This is because the first line of the file is missing the header for the first column.</p>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-19_18664df19df93a9049c268b7b838f1ae">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_lines</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">n_max =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_lines</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">n_max =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] ",Region,Area,palmitic,palmitoleic,stearic,oleic,linoleic,linolenic,arachidic,eicosenoic"
 [2] "1,North-Apulia,1,1,1075,75,226,7823,672,36,60,29"                                       </code></pre>
@@ -607,7 +596,7 @@ e.g.:
 </div>
 <p>Read the help file for <code>read_csv</code> to figure out how to read in the file without reading this header. If you skip the header, you should not get this warning. Save the result to an object called <code>dat</code>.</p>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-20_b5dc935cca980e8ae162f8ecd29f7dc5">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">col_names =</span> <span class="cn">FALSE</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">col_names =</span> <span class="cn">FALSE</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 572 Columns: 12
 ── Column specification ────────────────────────────────────────────────────────
@@ -639,17 +628,17 @@ dbl (11): X1, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12
 <li>A problem with the previous approach is that we don’t know what the columns represent. Type <code>names(dat)</code> to see that the names are not informative. Use the <code>read_lines</code> with argument <code>n_max=1</code> to read just the first line.</li>
 </ol>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-21_6a25aa17fed21d7bf5594c30ac99d3ee">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_lines</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">n_max =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_lines</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">n_max =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] ",Region,Area,palmitic,palmitoleic,stearic,oleic,linoleic,linolenic,arachidic,eicosenoic"</code></pre>
 </div>
 </div>
 <p>Notice that you can use this to assign names to the data frame.</p>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-22_35800a4ca7c7394f27bf20f038c29ddd">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>colnames <span class="ot">&lt;-</span> <span class="fu">read_lines</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">n_max =</span> <span class="dv">1</span>) </span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>colnames <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(colnames, <span class="st">","</span>) <span class="sc">|&gt;</span> <span class="fu">unlist</span>()</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>colnames[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"row_number"</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat) <span class="ot">&lt;-</span> colnames</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>colnames <span class="ot">&lt;-</span> <span class="fu">read_lines</span>(<span class="fu">file.path</span>(path, <span class="st">"olive.csv"</span>), <span class="at">n_max =</span> <span class="dv">1</span>) </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>colnames <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(colnames, <span class="st">","</span>) <span class="sc">|&gt;</span> <span class="fu">unlist</span>()</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>colnames[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"row_number"</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat) <span class="ot">&lt;-</span> colnames</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: The `value` argument of `names&lt;-` must have the same length as `x` as of tibble
 3.0.0.</code></pre>

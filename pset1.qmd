@@ -12,6 +12,17 @@ Reminders:
 
 (@) Load the __dslabs__ package and figure out what is in the `us_contagious_diseases` dataset. Create a data frame, call it `avg`, that has a column for `year`, and a `rate` column containing the cases of Measles per 10,000 people per year in the US. Because we start in 1928, exclude Alaska and Hawaii. Make sure to take into account the number of weeks reporting each year. If a week was not report, it should not be included in the calculation of the rate. 
 
+
+
+```{r}
+library(tidyverse)
+library(dslabs)
+avg <- us_contagious_diseases |>
+  filter(!state %in% c("Hawaii","Alaska") & disease == "Measles" & weeks_reporting > 0) |>
+  group_by(year) |>
+  summarize(rate = sum(count*52/weeks_reporting, na.rm = TRUE)/sum(population) * 10000)
+```
+
 (@) Use the data frame `avg` to make a trend plot showing the cases rate for Measles per year. Add a vertical line showing the year the Measles vaccines was introduced. Write a short paragraph describing the graph to someone you are urging to take the Measles vaccines.
 
 (@) Is the pattern observed above the same for each state? Add a grey trend line for each state to the plot above. Use a transformation that keeps the high rates from dominating the figure.
@@ -28,12 +39,50 @@ Reminders:
  * Examine the dataset.
  * Write a sentence describing each variable in the dataset.
 
+```{r}
+url <- "https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-data.csv"
+dat <- read_csv(url) 
+```
+
+
 (@) One of these columns could benefit from being a factor. Identify the column and convert it to factor.
+
+```{r}
+dat <- mutate(dat, region = factor(region))
+```
+
 
 (@) Rather than providing a date, the dataset provides MMWR year and week. Read [this document](https://ndc.services.cdc.gov/wp-content/uploads/MMWR_Week_overview.pdf) and write a function to convert these to the start of the MMWR week in ISO-8601.
 
 
+
+```{r}
+library(lubridate)
+mmwr_to_date <- function(mmwr_year, mmwr_week) {
+  first_day <- floor_date(make_date(mmwr_year, 1, 4) , unit = "week")
+  date <- first_day + weeks(mmwr_week - 1) 
+  return(date)
+}
+```
+
+
 (@) Add a columns `start_date` and `end_date` with the start and end of the MMWR week. Confirm that it worked by computing the MMWR week and year for both start and end date and comparing it to the MMWR week and year provided.
+
+```{r}
+dat <- dat |> mutate(start_date = mmwr_to_date(mmwr_year, mmwr_week),
+                     end_date = start_date + days(6))
+```
+
+```{r}
+dat <- dat |> mutate(start_date = mmwr_to_date(mmwr_year, mmwr_week),
+                   end_date = start_date + days(6))
+## check : these should all be TRUE
+dat |> summarize(w1 = all(epiweek(start_date) == mmwr_week),
+                 y1 = all(epiyear(start_date) == mmwr_year),
+                 w2 = all(epiweek(end_date) == mmwr_week),
+                 y2 = all(epiyear(end_date) == mmwr_year))
+```
+
 
 (@) Make a trend plot similar to the one we made for Measles:
 
@@ -43,7 +92,6 @@ Reminders:
 * Add a vertical dashed line on the day COVID-19 vaccination started being delivered in the US.
 
 Write a paragraph describing the COVID-19 pandemic by describing the plot.
-
 
 
 (@) The number of cases depends on testing capacity. Note that during the start of the pandemic, when we know many people died, there are not that many cases reported. Also notice somewhat large variability across states that might not be consistent with actual prevalence. The `tests` columns provides the cumulative number of tests performed by the data represented by the week. This data is not official CDC data. It was provided by Johns Hopkins Coronavirus Resource Center. Before using the data, explore the data for each state carefully looking for potential problems.
@@ -63,6 +111,16 @@ For each state compute and plot the number of tests perforemd each week. Look at
 
 * Import the data into R without downloading the file.
 * Make sure that you create a data frame with a column with dates in `Dates` format and tests as numbers.
+
+```{r}
+url <- "https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt"
+tests <- read_delim(url, delim = " ") 
+tests <- tests |> mutate(date = mdy(date), tests = parse_number(tests))
+## alternatively we can re-read the file
+tests <- read_delim(url, delim = " ", 
+                    col_types = cols(date = col_date(format = "%m-%d-%y"),
+                                     tests = col_number()))
+```
 
 
 (@) Plot the tests per week to see the trend in time. Write a sentence of the pattern you see.
@@ -105,6 +163,22 @@ Get the dates when each vaccine series starts (these don't have to be exact). Cr
 
 
 (@) Does population density have an effect on infections? Use the `state.area` predefined variable to add compute population density. Make a histogram and density plot of state densities. Note that you will have to add the geographical area for Puerto Rico and DC as it is not included in `state.area`
+
+
+```{r}
+my.state.abb <- c(state.abb, "PR", "DC")
+my.state.area <- c(state.area, 5325, 69)
+popdens <- dat |> filter(end_date == min(end_date)) |> 
+  select(state, population) |>
+  mutate(area = my.state.area[match(state, my.state.abb)]) |> 
+  mutate(popdens = population / area) 
+  
+popdens |> ggplot(aes(popdens)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 25, color = "black") +
+  geom_density() +
+  scale_x_log10() +
+  labs(title = "Distribution of poplation density across states", x = "Population density", y = "Density")
+```
 
 (@) Plot death rates versus density for the four periods defined above.
 

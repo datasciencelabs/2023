@@ -138,8 +138,8 @@ To understand encoding, remember that everything on a computer needs to eventual
 Try reading in this file:
 
 ```{r}
-url <- "https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/hw-submission-timestamps.csv"
-read_csv(url)
+url <- "https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/calificaciones.csv"
+readLines(url, n = 2)
 ```
 
 When you see these weird characters the problem is almost always that you are assuming the wrong encoding. You need to be a hacker to figure out,  __readr__ has a function that tries:
@@ -151,7 +151,7 @@ guess_encoding(url)
 The first guess makes sense as Spanish is often saved using  `Latin-1` encoding, also known as `ISO-8859` encoding because it was the first to include accents and other characters used in Spanish. Once we figure this out we can read in the file correctly:
 
 ```{r}
-read_csv(url, locale = locale(encoding = "ISO-8859-1"))
+read_csv(url, locale = locale(encoding = "ISO-8859-1", decimal_mark = ","))
 ```
 
 

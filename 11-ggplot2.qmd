@@ -166,7 +166,7 @@ p + geom_point(size = 3) +
 We can overide the global `aes` by defining one in the geometry functions:
 
 ```{r ggplot-example-8}
-p + geom_point(size = 3) #+  
+p + geom_point(size = 3) +  
   geom_text(aes(x = 10, y = 800, label = "Hello there!"))
 ```
 
@@ -304,8 +304,18 @@ p + theme_fivethirtyeight()
 And if you want to ruin the plot, give it the excel theme:
 
 ```{r}
-library(ggthemes)
 p + theme_excel()
+```
+
+For more fun themes:
+
+```{r}
+library(ThemePark)
+p + theme_starwars()
+```
+
+```{r}
+p + theme_zelda()
 ```
 
 
