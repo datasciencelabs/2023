@@ -25,10 +25,47 @@ avg <- us_contagious_diseases |>
 
 (@) Use the data frame `avg` to make a trend plot showing the cases rate for Measles per year. Add a vertical line showing the year the Measles vaccines was introduced. Write a short paragraph describing the graph to someone you are urging to take the Measles vaccines.
 
+```{r}
+library(ThemePark)
+avg |> ggplot(aes(year, rate)) + geom_line() + 
+  geom_vline(xintercept = 1963, color = "blue") +
+  theme_barbie()
+```
+
 (@) Is the pattern observed above the same for each state? Add a grey trend line for each state to the plot above. Use a transformation that keeps the high rates from dominating the figure.
+
+```{r}
+us_contagious_diseases |>
+  filter(disease == "Measles" & weeks_reporting > 0) |>
+  mutate(rate = count*52/weeks_reporting/population * 10000) |>
+  ggplot(aes(x = year)) +
+  geom_line(aes(y = rate, group = state), color = "grey", alpha = 0.5) +
+  geom_line(data = avg, aes(x = year, y = rate)) + ## avg was defined in previous exercise
+  scale_y_continuous(trans = "sqrt") +
+  geom_vline(xintercept = 1963, color = "blue") 
+```
 
 
 (@) In the plot above we can't tell which state is which curve. Using color would be challenging as it is hard if not impossible to find 48 colors we humans can distinguish. To make a plot where you can compare states knowing which is which, use one of the axis for state and the other for year, and then use hue or intensity as a visual cue for rates. Use a `sqrt` transformation to avoid the higher rates taking up all the color scale. Use grey to denote missing data. Order the states based on their highest peak.
+
+```{r}
+library(RColorBrewer)
+mycolors <- brewer.pal(9, "Reds")
+us_contagious_diseases |>
+  filter(!state %in% c("Hawaii","Alaska") & disease == "Measles") |>
+  mutate(rate = count/population*10000*52/weeks_reporting,
+         state = reorder(state, rate, max, na.rm = TRUE)) |>
+  ggplot(aes(year, state, fill = rate)) +
+  geom_tile(color = "grey") +
+  scale_x_continuous(expand = c(0,0)) + ## to remove extra space on sides
+  scale_fill_gradientn(colors = mycolors, trans = "sqrt") +
+  geom_vline(xintercept = 1963, color = "blue") +
+  theme_minimal() +  
+  theme(panel.grid = element_blank(), 
+        legend.position = "bottom", 
+        text = element_text(size = 8)) +
+  labs(title = "Measles cases per year in the US", x = "", y = "")
+```
 
 
 ## COVID-19
@@ -53,7 +90,6 @@ dat <- mutate(dat, region = factor(region))
 
 
 (@) Rather than providing a date, the dataset provides MMWR year and week. Read [this document](https://ndc.services.cdc.gov/wp-content/uploads/MMWR_Week_overview.pdf) and write a function to convert these to the start of the MMWR week in ISO-8601.
-
 
 
 ```{r}
@@ -98,14 +134,32 @@ Write a paragraph describing the COVID-19 pandemic by describing the plot.
 
 For each state compute and plot the number of tests perforemd each week. Look at the plot for each state and look for possible problems. No need to make this plot pretty since we are just using it for data exploration. Report any inconsistencies if any.
 
+```{r}
+dat |> 
+  arrange(end_date) |>
+  group_by(state) |>
+  mutate(tests = diff(c(0,tests))) |>
+  ggplot(aes(end_date, tests/10^5)) + geom_line() +
+  facet_wrap(~state, scales = "free_y")
+```
+
+
 (@) To see if the inconsistencies seen in the previous plot are a problem if we are only going to look at the total number of tests at the end, plot the cumulative tests for each of the states with inconsistencies and see if the results are sensible. Explain your answer in 1-2 sentences.
 
 
-(@) JHU stopped reporting some time in 2020. What was that date? Show the day in the format September 18, 2022.
+(@) JHU stopped reporting some time in 2021. What was that date? Show the day in the format September 18, 2022.
 
 
 (@) Compute the number of tests per capita for the last day JHU reported these statistics. Make a boxplot of these values for each region and include the state level data with the state abbreviation as a label. Write a sentences describing these differences you see and how this could affect our interpretation of differences in cases rates across states. 
 
+```{r}
+last_day <- as_date("2021-1-2") ## this should come from the previous exercise... 
+dat |> filter(end_date == last_day) |>
+  ggplot(aes(region, tests/population)) +
+  geom_boxplot() +
+  geom_text(aes(label = state)) +
+  labs(x = "Region", y = "Test per capita", title = "SARS-COV2 tests per person")
+```
 
 (@) Although JHU stopped collecting testing data from the states, the CDC collected data from a few laboratories. We provide these date in [this url](https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt).
 
