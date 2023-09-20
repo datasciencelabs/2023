@@ -444,8 +444,8 @@ dbl (13): population, region, mmwr_year, mmwr_week, cases, tests, hosp, deat...
 <li><p>JHU stopped reporting some time in 2021. What was that date? Show the day in the format September 18, 2022.</p></li>
 <li><p>Compute the number of tests per capita for the last day JHU reported these statistics. Make a boxplot of these values for each region and include the state level data with the state abbreviation as a label. Write a sentences describing these differences you see and how this could affect our interpretation of differences in cases rates across states.</p></li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-11_b517f7ba06660a97de966fa50410a249">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>last_day <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">"2021-1-2"</span>) <span class="do">## this should come from the previous exercises... </span></span>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-11_9f797323e94bc446ea92aa343132f6aa">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>last_day <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">"2021-1-2"</span>) <span class="do">## this should come from the previous exercise... </span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(end_date <span class="sc">==</span> last_day) <span class="sc">|&gt;</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(region, tests<span class="sc">/</span>population)) <span class="sc">+</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
