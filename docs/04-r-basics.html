@@ -239,6 +239,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -590,7 +596,7 @@ Levels: North Central Northeast South West</code></pre>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({x <span class="ot">&lt;-</span> <span class="fu">tolower</span>(x)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.452   0.010   1.463 </code></pre>
+  1.475   0.028   1.502 </code></pre>
 </div>
 </div>
 <p>Exercise: How can we make this go much faster?</p>
@@ -598,7 +604,7 @@ Levels: North Central Northeast South West</code></pre>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({<span class="fu">levels</span>(y) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">levels</span>(y))})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.019   0.003   0.022 </code></pre>
+  0.018   0.003   0.022 </code></pre>
 </div>
 </div>
 <p>Factors can be confusing:</p>
@@ -924,7 +930,7 @@ y is 3 </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x, y, ...) 
 UseMethod("plot")
-&lt;bytecode: 0x10cae1930&gt;
+&lt;bytecode: 0x1222649e8&gt;
 &lt;environment: namespace:base&gt;</code></pre>
 </div>
 </div>

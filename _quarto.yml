@@ -27,6 +27,7 @@ book:
     - 10-distributions.qmd
     - 11-ggplot2.qmd
     - 12-dataviz-principles.qmd
+    - 13-wrangling.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023

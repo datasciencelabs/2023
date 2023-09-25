@@ -239,6 +239,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -485,8 +491,8 @@ dbl (2): population, total
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/rafalab/dslabs/master/inst/extdata/calificaciones.csv"</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(url, <span class="at">n =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "\"nombre\",\"dob\",\"estampa\",\"puntuaci\xf3n\""                        
-[2] "\"Beyonc\xe9\",\"04 de septiembre de 1981\",2023-09-20 02:11:02,\"87,5\""</code></pre>
+<pre><code>[1] "\"nombre\",\"f.n.\",\"estampa\",\"puntuaci\xf3n\""                       
+[2] "\"Beyonc\xe9\",\"04 de septiembre de 1981\",2023-09-22 02:11:02,\"87,5\""</code></pre>
 </div>
 </div>
 <p>When you see these weird characters the problem is almost always that you are assuming the wrong encoding. You need to be a hacker to figure out, <strong>readr</strong> has a function that tries:</p>
@@ -497,7 +503,7 @@ dbl (2): population, total
   encoding   confidence
   &lt;chr&gt;           &lt;dbl&gt;
 1 ISO-8859-1       0.92
-2 ISO-8859-2       0.73
+2 ISO-8859-2       0.72
 3 ISO-8859-9       0.53</code></pre>
 </div>
 </div>
@@ -508,7 +514,7 @@ dbl (2): population, total
 <pre><code>Rows: 7 Columns: 4
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
-chr  (2): nombre, dob
+chr  (2): nombre, f.n.
 dbl  (1): puntuación
 dttm (1): estampa
 
@@ -517,15 +523,15 @@ dttm (1): estampa
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 4
-  nombre   dob                      estampa             puntuación
+  nombre   f.n.                     estampa             puntuación
   &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
-1 Beyoncé  04 de septiembre de 1981 2023-09-20 02:11:02       87.5
-2 Blümchen 20 de abril de 1980      2023-09-20 03:23:05       99  
-3 João     10 de junio de 1931      2023-09-19 22:43:28       98.9
-4 López    24 de julio de 1969      2023-09-20 01:06:59       88.7
-5 Ñengo    15 de diciembre de 1981  2023-09-19 23:35:37       93.1
-6 Plácido  24 de enero de 1941      2023-09-19 23:17:21       88.7
-7 Thalía   26 de agosto de 1971     2023-09-19 23:08:02       83  </code></pre>
+1 Beyoncé  04 de septiembre de 1981 2023-09-22 02:11:02       87.5
+2 Blümchen 20 de abril de 1980      2023-09-22 03:23:05       99  
+3 João     10 de junio de 1931      2023-09-21 22:43:28       98.9
+4 López    24 de julio de 1969      2023-09-22 01:06:59       88.7
+5 Ñengo    15 de diciembre de 1981  2023-09-21 23:35:37       93.1
+6 Plácido  24 de enero de 1941      2023-09-21 23:17:21       88.7
+7 Thalía   26 de agosto de 1971     2023-09-21 23:08:02       83  </code></pre>
 </div>
 </div>
 <div class="cell" data-hash="08-importing-data_cache/html/unnamed-chunk-16_af66d8e144199a3aa22f1621a75dca29">

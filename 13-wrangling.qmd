@@ -1,0 +1,1116 @@
+# Wrangling
+
+
+On September 20, 207 Hurricane María made landfall in Puerto Rico. Anecdotal reports  pointed to a dire situation. Many did not have power, few have running water, and some have no way to communicate. On October 3 of that year the president of the USA visited Puerto Rico. In a press conference the governor states that the death count is 16. A CNN artcile reporting on this stated
+
+
+>>> "Every death is a horror," Trump said, "but if you look at a real catastrophe like Katrina and you look at the tremendous – hundreds and hundreds of people that died – and you look at what happened here with, really, a storm that was just totally overpowering … no one has ever seen anything like this." "What is your death count?" he asked as he turned to Puerto Rico Gov. Ricardo Rosselló. "17?" "16," Rosselló answered. "16 people certified," Trump said. "Sixteen people versus in the thousands. You can be very proud of all of your people and all of our people working together.
+
+Mortality data was not made publicly available until June 6. At this time the following dataset was made available:
+
+```{r}
+#| eval: false
+fn <- system.file("extdata", "RD-Mortality-Report_2015-18-180531.pdf", package = "dslabs")
+system2("open", fn)
+```
+
+
+Part of the process of analyzing the data is to extract it from this PDF. To conduct a complete analysis we will also need to add population data. 
+
+We can start by reading the pdf into R:
+
+```{r}
+library(pdftools)
+
+fn <- system.file("extdata", "RD-Mortality-Report_2015-18-180531.pdf", package = "dslabs")
+dat <- pdf_text(fn)
+dat <- strsplit(dat, "\n")
+```
+
+We will go over data wrangling tasks that we will need to facilitate this data analysis: reshaping data, joining tables, and string processing.
+
+
+## Reshaping data
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse) 
+library(dslabs)
+path <- system.file("extdata", package = "dslabs")
+filename <- file.path(path, "fertility-two-countries-example.csv")
+wide_data <- read_csv(filename)
+```
+
+### `pivot_longer`
+
+We can also use the pipe like this:
+
+```{r}
+new_tidy_data <- wide_data |> 
+  pivot_longer(`1960`:`2015`, names_to = "year", values_to = "fertility")
+head(new_tidy_data)
+```
+
+Usually its easier to name the columns not to be pivoted.
+
+```{r}
+new_tidy_data <- wide_data |>
+  pivot_longer(-country, names_to = "year", values_to = "fertility")
+```
+
+The `new_tidy_data` object looks like the original `tidy_data` we defined this way
+
+```{r}
+tidy_data <- gapminder |> 
+  filter(country %in% c("South Korea", "Germany") & !is.na(fertility)) |>
+  select(country, year, fertility)
+```
+
+with just one minor difference. Can you spot it? Look at the data type of the year column:
+
+```{r}
+class(tidy_data$year)
+class(new_tidy_data$year)
+```
+
+The `pivot_longer` function assumes that column names are characters. So we need a bit more wrangling before we are ready to make a plot. We need to convert the year column to be numbers:
+
+```{r}
+new_tidy_data <- wide_data |>
+  pivot_longer(-country, names_to = "year", values_to = "fertility") |>
+  mutate(year = as.integer(year))
+```
+
+
+Now that the data is tidy, we can use this relatively simple ggplot code:
+
+```{r fertility-year-check, eval=FALSE}
+new_tidy_data |> ggplot(aes(year, fertility, color = country)) + 
+  geom_point()
+```
+
+### `pivot_wider`
+
+```{r}
+new_wide_data <- new_tidy_data |> 
+  pivot_wider(names_from = year, values_from = fertility)
+select(new_wide_data, country, `1960`:`1967`)
+```
+
+Similar to `pivot_wider`, `names_from` and `values_from` default to `name` and `value`.
+
+### `separate` {#sec-separate}
+
+The data wrangling shown above was simple compared to what is usually required. In our example spreadsheet files, we include an illustration that is slightly more complicated. It contains two variables: life expectancy and fertility. However, the way it is stored is not tidy and, as we will explain, not optimal.
+
+```{r, message=FALSE}
+path <- system.file("extdata", package = "dslabs")
+
+filename <- "life-expectancy-and-fertility-two-countries-example.csv"
+filename <-  file.path(path, filename)
+
+raw_dat <- read_csv(filename)
+select(raw_dat, 1:5)
+```
+
+
+```{r}
+dat <- raw_dat |> pivot_longer(-country)
+head(dat)
+```
+
+The result is not exactly what we refer to as tidy since each observation is associated with two, not one, rows. We want to have the values from the two variables, fertility and life expectancy, in two separate columns. The first challenge to achieve this is to separate the `name` column into the year and the variable type. Notice that the entries in this column separate the year from the variable name with an underscore:
+
+```{r}
+dat$name[1:5]
+```
+
+Encoding multiple variables in a column name is such a common problem that the **readr** package includes a function to separate these columns into two or more. Apart from the data, the `separate` function takes three arguments: the name of the column to be separated, the names to be used for the new columns, and the character that separates the variables. So, a first attempt at this is:
+
+```{r, eval=FALSE}
+dat |> separate(name, c("year", "name"), "_")
+```
+
+Because `_` is the default separator assumed by `separate`, we do not have to include it in the code:
+
+```{r}
+dat |> separate(name, c("year", "name"))
+```
+
+We get a warning. Here we tell it to fill the column on the right:
+
+```{r}
+var_names <- c("year", "first_variable_name", "second_variable_name")
+dat |> separate(name, var_names, fill = "right")
+```
+
+However, if we read the `separate` help file, we find that a better approach is to merge the last two variables when there is an extra separation:
+
+```{r}
+dat |> separate(name, c("year", "name"), extra = "merge")
+```
+
+This achieves the separation we wanted. However, we are not done yet. We need to create a column for each variable. As we learned, the `pivot_wider` function can do this:
+
+```{r}
+dat |> 
+  separate(name, c("year", "name"), extra = "merge") |>
+  pivot_wider()
+```
+
+The data is now in tidy format with one row for each observation with three variables: year, fertility, and life expectancy.
+
+### `unite`
+
+It is sometimes useful to do the inverse of `separate`, unite two columns into one. To demonstrate how to use `unite`, we show code that, although *not* the optimal approach, serves as an illustration. Suppose that we did not know about `extra` and used this command to separate:
+
+```{r}
+var_names <- c("year", "first_variable_name", "second_variable_name")
+dat |> 
+  separate(name, var_names, fill = "right")
+```
+
+We can achieve the same final result by uniting the second and third columns, then pivoting the columns and renaming `fertility_NA` to `fertility`:
+
+```{r}
+dat |> 
+  separate(name, var_names, fill = "right") |>
+  unite(name, first_variable_name, second_variable_name) |>
+  pivot_wider() |>
+  rename(fertility = fertility_NA)
+```
+
+
+
+## Joining tables
+
+```{r, echo=FALSE}
+img_path <- "img"
+```
+
+The information we need for a given analysis may not be just in one table. For example, when forecasting elections we used the function `left_join` to combine the information from two tables. Here we use a simpler example to illustrate the general challenge of combining tables.
+
+Suppose we want to explore the relationship between population size for US states and electoral votes. We have the population size in this table:
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(dslabs)
+head(murders)
+```
+
+and electoral votes in this one:
+
+```{r}
+head(results_us_election_2016)
+```
+
+Just concatenating these two tables together will not work since the order of the states is not the same.
+
+```{r}
+identical(results_us_election_2016$state, murders$state)
+```
+
+The _join_ functions, described below, are designed to handle this challenge.
+
+### Joins {#sec-joins}
+
+The _join_ functions in the __dplyr__ package make sure that the tables are combined so that matching rows are together. If you know SQL, you will see that the approach and syntax is very similar. The general idea is that one needs to identify one or more columns that will serve to match the two tables. Then a new table with the combined information is returned. Notice what happens if we join the two tables above by state using `left_join` (we will remove the `others` column and rename `electoral_votes` so that the tables fit on the page):
+
+```{r}
+tab <- left_join(murders, results_us_election_2016, by = "state") |>
+  select(-others) |> rename(ev = electoral_votes)
+head(tab)
+```
+
+The data has been successfully joined and we can now, for example, make a plot to explore the relationship:
+
+```{r ev-vs-population, message=FALSE, warning=FALSE}
+library(ggrepel)
+tab |> ggplot(aes(population/10^6, ev)) +
+  geom_point() +
+  geom_text_repel(aes(label = abb), max.overlaps = 20) + 
+  scale_x_continuous(trans = "log2") +
+  scale_y_continuous(trans = "log2") +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+We see the relationship is close to linear with about 2 electoral votes for every million persons, but with very small states getting higher ratios.
+
+
+In practice, it is not always the case that each row in one table has a matching row in the other. For this reason, we have several versions of join. To illustrate this challenge, we will take subsets of the tables above. We create the tables `tab1` and `tab2` so that they have some states in common but not all:
+
+```{r}
+tab_1 <- slice(murders, 1:6) |> select(state, population)
+tab_1
+tab_2 <- results_us_election_2016 |> 
+  filter(state %in% c("Alabama", "Alaska", "Arizona", 
+                    "California", "Connecticut", "Delaware")) |> 
+  select(state, electoral_votes) |> rename(ev = electoral_votes)
+tab_2
+```
+
+
+We will use these two tables as examples in the next sections.
+
+#### Left join
+
+Suppose we want a table like `tab_1`, but adding electoral votes to whatever states we have available. For this, we use `left_join` with `tab_1` as the first argument. We specify which column to use to match with the `by` argument.
+
+```{r}
+left_join(tab_1, tab_2, by = "state")
+```
+
+Note that `NA`s are added to the two states not appearing in `tab_2`. Also, notice that this function, as well as all the other joins, can receive the first arguments through the pipe:
+
+```{r, eval=FALSE}
+tab_1 |> left_join(tab_2, by = "state")
+```
+
+
+#### Right join
+
+If instead of a table with the same rows as first table, we want one with the same rows as second table, we can use `right_join`:
+
+```{r}
+tab_1 |> right_join(tab_2, by = "state")
+```
+
+Now the NAs are in the column coming from `tab_1`.
+
+#### Inner join
+
+If we want to keep only the rows that have information in both tables, we use `inner_join`. You can think of this as an intersection:
+
+```{r}
+inner_join(tab_1, tab_2, by = "state")
+```
+
+#### Full join
+
+If we want to keep all the rows and fill the missing parts with NAs, we can use `full_join`. You can think of this as a union:
+
+```{r}
+full_join(tab_1, tab_2, by = "state")
+```
+
+#### Semi join
+
+The `semi_join` function lets us keep the part of first table for which we have information in the second. It does not add the columns of the second:
+
+```{r}
+semi_join(tab_1, tab_2, by = "state")
+```
+
+
+#### Anti join
+
+The function `anti_join` is the opposite of `semi_join`. It keeps the elements of the first table for which there is no information in the second:
+
+```{r}
+anti_join(tab_1, tab_2, by = "state")
+```
+
+
+
+### Set operators
+
+You can use set operators on data frames:
+
+#### Intersect
+
+You can take intersections of vectors of any type, such as numeric:
+
+```{r}
+intersect(1:10, 6:15)
+```
+or characters:
+
+```{r}
+intersect(c("a","b","c"), c("b","c","d"))
+```
+
+
+
+```{r}
+tab_1 <- tab[1:5,]
+tab_2 <- tab[3:7,]
+dplyr::intersect(tab_1, tab_2)
+```
+
+
+#### Union
+
+Similarly _union_ takes the union of vectors. For example:
+
+```{r}
+union(1:10, 6:15)
+union(c("a","b","c"), c("b","c","d"))
+```
+
+The __dplyr__ package includes a version of `union` that combines all the rows of two tables with the same column names. 
+
+```{r}
+tab_1 <- tab[1:5,]
+tab_2 <- tab[3:7,]
+dplyr::union(tab_1, tab_2) 
+```
+
+
+#### `setdiff`
+
+The set difference between a first and second argument can be obtained with `setdiff`. Unlike `intersect` and `union`, this function is not symmetric:
+
+
+```{r}
+setdiff(1:10, 6:15)
+setdiff(6:15, 1:10)
+```
+
+As with the functions shown above, __dplyr__ has a version for data frames:
+
+```{r}
+tab_1 <- tab[1:5,]
+tab_2 <- tab[3:7,]
+dplyr::setdiff(tab_1, tab_2)
+```
+
+#### `setequal`
+
+Finally, the function `setequal` tells us if two sets are the same, regardless of order. So notice that:
+
+```{r}
+setequal(1:5, 1:6)
+```
+
+but:
+
+```{r}
+setequal(1:5, 5:1)
+```
+
+When applied to data frames that are not equal, regardless of order, the __dplyr__ version provides a useful message letting us know how the sets are different:
+
+```{r}
+dplyr::setequal(tab_1, tab_2)
+```
+
+
+## String processing 
+
+
+
+### The stringr package {#sec-stringr}
+
+```{r, message=FALSE, warning=FALSE, cache=FALSE}
+library(tidyverse)
+library(stringr)
+```
+
+### Case study: self-reported heights   
+
+The __dslabs__ package includes the raw data from which the heights dataset was obtained. You can load it like this:
+
+```{r, cache=FALSE}
+library(dslabs)
+head(reported_heights)
+```
+
+
+```{r}
+class(reported_heights$height)
+```
+
+If we try to parse it into numbers, we get a warning:
+
+```{r}
+x <- as.numeric(reported_heights$height)
+```
+
+Although most values appear to be height in inches as requested:
+
+```{r}
+head(x)
+```
+
+we do end up with many `NA`s:
+
+```{r}
+sum(is.na(x))
+```
+
+We can see some of the entries that are not successfully converted by using `filter` to keep only the entries resulting in `NA`s:
+
+```{r, warning=FALSE}
+reported_heights |> 
+  mutate(new_height = as.numeric(height)) |>
+  filter(is.na(new_height)) |> 
+  head(n = 10)
+```
+
+ We permit a range that covers about 99.9999% of the adult population. We also use `suppressWarnings` to avoid the warning message we know `as.numeric` will gives us.
+
+```{r, echo=FALSE, eval=FALSE}
+alpha <- 1 / 10^6
+qnorm(1 - alpha / 2, 69.1, 2.9)
+qnorm(alpha / 2, 63.7, 2.7)
+```
+
+```{r}
+not_inches <- function(x, smallest = 50, tallest = 84){
+  inches <- suppressWarnings(as.numeric(x))
+  ind <- is.na(inches) | inches < smallest | inches > tallest
+  ind
+}
+```
+
+We apply this function and find the number of problematic entries:
+```{r}
+problems <- reported_heights |> 
+  filter(not_inches(height)) |>
+  pull(height)
+problems
+```
+
+
+
+### Regular expressions 
+
+#### Special characters
+
+Now let's consider a slightly more complicated example. Which of the following strings contain the pattern `cm` or `inches`? 
+ 
+
+```{r}
+yes <- c("180 cm", "70 inches")
+no <- c("180", "70''")
+s <- c(yes, no)
+```
+
+
+```{r}
+str_detect(s, "cm") | str_detect(s, "inches")
+```
+
+However, we don't need to do this. The main feature that distinguishes the regex _language_ from plain strings is that we can use special characters. These are characters with a meaning. We start by introducing `|` which means _or_.  So if we want to know if either `cm` or `inches` appears in the strings, we can use the regex `cm|inches`:
+
+```{r}
+str_detect(s, "cm|inches")
+```
+
+and obtain the correct answer.
+
+Another special character that will be useful for identifying feet and inches values is `\d` which means any digit: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9. The backslash is used to distinguish it from the character `d`. In R, we have to _escape_ the backslash `\` so we actually have to use `\\d` to represent digits. Here is an example:
+
+```{r}
+yes <- c("5", "6", "5'10", "5 feet", "4'11")
+no <- c("", ".", "Five", "six")
+s <- c(yes, no)
+pattern <- "\\d"
+str_detect(s, pattern)
+```
+
+We take this opportunity to introduce the `str_view_all` function, which is helpful for troubleshooting as it shows us the first match for each string:
+
+```{r}
+str_view_all(s, pattern)
+```
+
+and `str_view_all` shows us all the matches, so `3'2` has two matches and `5'10` has three.
+
+```{r}
+str_view_all(s, pattern)
+```
+
+
+There are many other special characters. We will learn some others below, but you can see most or all of them in the cheat sheet^[https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf] mentioned earlier. 
+
+Finally, a useful special character is `\w` which stands for _word character_ and it matches any letter, number, or underscore. It is equivalent to `[a-zA-Z0-9_]`. 
+
+#### Character classes
+
+Character classes are used to define a series of characters that can be matched. We define character classes with square brackets `[]`. So, for example, if we want the pattern to match only if we have a `5` or a `6`, we use the regex `[56]`:
+
+```{r}
+str_view_all(s, "[56]")
+```
+
+Suppose we want to match values between 4 and 7. A common way to define character classes is with ranges.  So, for example, `[0-9]` is equivalent to `\\d`. The pattern we want is therefore `[4-7]`. 
+
+
+```{r}
+yes <- as.character(4:7)
+no <- as.character(1:3)
+s <- c(yes, no)
+str_detect(s, "[4-7]")
+```
+
+However, it is important to know that in regex everything is a character; there are no numbers. So `4` is the character `4` not the number four. Notice, for example, that `[1-20]` does **not** mean 1 through 20, it means the characters 1 through 2 or the character 0. So `[1-20]` simply means the character class composed of 0, 1, and 2. 
+
+Keep in mind that characters do have an order and the digits do follow the numeric order. So `0` comes before `1` which comes before `2` and so on. For the same reason, we can define lower case letters as `[a-z]`, upper case letters as `[A-Z]`, and `[a-zA-z]` as both. 
+
+#### Anchors
+
+What if we want a match when we have exactly 1 digit? This will be useful in our case study since feet are never more than 1 digit so a restriction will help us. One way to do this with regex is by using _anchors_, which let us define patterns that must start or end at a specific place. The two most common anchors are 
+`^` and `$` which represent the beginning and end of a string, respectively. So the pattern `^\\d$` is read as "start of the string followed by one digit followed by end of string".
+
+This pattern now only detects the strings with exactly one digit:
+
+```{r}
+pattern <- "^\\d$"
+yes <- c("1", "5", "9")
+no <- c("12", "123", " 1", "a4", "b")
+s <- c(yes, no)
+str_view_all(s, pattern)
+```
+
+
+
+The ` 1` does not match because it does not start with the digit but rather with a space, which is actually not easy to see.
+
+#### Quantifiers
+
+For the inches part, we can have one or two digits. This can be specified in regex with _quantifiers_. This is done by following the pattern with curly brackets containing the number of times the previous entry can be repeated. We use an example to illustrate. The pattern for one or two digits is:
+
+```{r}
+pattern <- "^\\d{1,2}$"
+yes <- c("1", "5", "9", "12")
+no <- c("123", "a4", "b")
+str_view_all(c(yes, no), pattern)
+```
+
+
+#### White space `\s`
+
+Another problem we have are spaces. For example, our pattern  does not match `5' 4"` because there is a space between `'` and `4` which our pattern does not permit. Spaces are characters and R does not ignore them:
+
+```{r}
+identical("Hi", "Hi ")
+```
+
+In regex, `\s` represents white space. To find patterns like `5' 4`, we can change our pattern to:
+
+```{r}
+pattern_2 <- "^[4-7]'\\s\\d{1,2}\"$"
+str_subset(problems, pattern_2)
+```
+
+However, this will not match the patterns with no space. So do we need more than one regex pattern?  It turns out we can use a quantifier for this as well. 
+
+#### Quantifiers: `*`, `?`, `+`
+
+We want the pattern to permit spaces but not require them. Even if there are several spaces, like in this example `5'   4`, we still want it to match. There is a quantifier for exactly this purpose. In regex, the character `*` means  zero or more instances of the previous character. Here is an example:
+
+```{r}
+yes <- c("AB", "A1B", "A11B", "A111B", "A1111B")
+no <- c("A2B", "A21B")
+str_detect(yes, "A1*B")
+str_detect(no, "A1*B")
+```
+
+The above matches the first string which has zero 1s and all the strings with one or more 1. We can then improve our pattern by adding the `*` after the space character `\s`. 
+
+There are two other similar quantifiers. For none or once, we can use `?`, and for one or more, we can use `+`. You can see how they differ with this example:
+
+```{r}
+data.frame(string = c("AB", "A1B", "A11B", "A111B", "A1111B"),
+           none_or_more = str_detect(yes, "A1*B"),
+           nore_or_once = str_detect(yes, "A1?B"),
+           once_or_more = str_detect(yes, "A1+B"))
+```
+
+We will actually use all three in our reported heights example, but we will see these in a later section.
+
+#### Not
+
+To specify patterns that we do **not** want to detect, we can use the `^` symbol but only __inside__ square brackets. Remember that outside the square bracket `^` means the start of the string. So, for example, if we want to detect digits that are preceded by anything except a letter we can do the following:
+
+```{r}
+pattern <- "[^a-zA-Z]\\d"
+yes <- c(".3", "+2", "-0","*4")
+no <- c("A3", "B2", "C0", "E4")
+str_detect(yes, pattern)
+str_detect(no, pattern)
+```
+
+Another way to generate a pattern that searches for _everything except_ is to use the upper case of the special character. For example `\\D` means anything other than a digit, `\\S` means anything except a space, and so on.
+
+#### Lookarounds
+
+Lookarounds provide a way to ask for one or more conditions to be satisfied without moving the search forward or matching it. For example, you might want to check for multiple conditions and if they are matched, then return the pattern or part of the pattern that matched. An example: check if a string satisfies the conditions for a password and if it does return the password. Suppose the conditions are 1) 8-16 word characters, 2) starts with a letter, and 3) has at least one digit.
+
+There are four types of lookarounds: lookahead `(?=pattern)`, lookbehind `(?<=pattern)`, negative lookahead `(?!pattern)`, and negative lookbehind `(?<!pattern)`. You can concatenate them to check for multiple conditions so for our example we can write it like this:
+
+```{r}
+pattern <- "(?=\\w{8,16})(?=^[a-z|A-Z].*)(?=.*\\d+.*).*"
+yes <- c("Ihatepasswords1", "password1234")
+no <- c("sh0rt", "Ihaterpasswords", "7X%9,N`yrYG92b7")
+str_detect(yes, pattern)
+str_detect(no, pattern)
+str_extract(yes, pattern)
+```
+
+
+#### Groups {#sec-groups}
+
+_Groups_ are a powerful aspect of regex that permits the extraction of values. Groups are defined using parentheses. They don't affect the pattern matching per se. Instead, it permits tools to identify specific parts of the pattern so we can extract them. 
+
+We want to change heights written like `5.6` to `5'6`.
+
+To avoid changing patterns such as `70.2`, we will require that the first digit be between 4 and 7 `[4-7]` and that the second be none or more digits `\\d*`. 
+Let's start by defining a simple pattern that matches this:
+
+```{r}
+pattern_without_groups <- "^[4-7],\\d*$"
+```
+
+We want to extract the digits so we can then form the new version using a period. These are our two groups, so we encapsulate them with parentheses:
+
+```{r}
+pattern_with_groups <-  "^([4-7]),(\\d*)$"
+```
+
+We encapsulate the part of the pattern that matches the parts we want to keep for later use. Adding groups does not affect the detection, since it only signals that we want to save what is captured by the groups. Note that both patterns return the same result when using `str_detect`:
+
+```{r}
+yes <- c("5,9", "5,11", "6,", "6,1")
+no <- c("5'9", ",", "2,8", "6.1.1")
+s <- c(yes, no)
+str_detect(s, pattern_without_groups)
+str_detect(s, pattern_with_groups)
+```
+
+Once we define groups, we can use the function `str_match` to extract the values these groups define:
+
+```{r}
+str_match(s, pattern_with_groups)
+```
+
+Notice that the second and third columns contain feet and inches, respectively. The first column is the part of the string matching the pattern. If no match occurred, we see an `NA`. 
+
+Now we can understand the difference between the functions `str_extract` and `str_match`:  `str_extract` extracts only strings that match a pattern, not the values defined by groups:
+
+```{r}
+str_extract(s, pattern_with_groups)
+```
+
+
+### Search and replace with regex
+
+Earlier we defined the object `problems` containing the strings that do not appear to be in inches.  We can see that not too many of our problematic strings match the pattern:
+
+```{r}
+pattern <- "^[4-7]'\\d{1,2}\"$"
+sum(str_detect(problems, pattern))
+```
+
+To see why this is, we show some examples that expose why we don't have more matches:
+
+```{r}
+problems[c(2, 10, 11, 12, 15)] |> str_view_all(pattern)
+```
+
+An initial problem we see immediately is that some students wrote out the words "feet" and "inches". We can see the entries that did this with the `str_subset` function:
+
+```{r}
+str_subset(problems, "inches")
+```
+
+We also see that some entries used two single quotes `''` instead of a double quote `"`. 
+
+```{r}
+str_subset(problems, "''")
+```
+
+To correct this, we can replace the different ways of representing inches and feet with a uniform symbol. We will use `'` for feet, whereas for inches we will simply not use a symbol since some entries were of the form `x'y`. Now, if we no longer use the inches symbol, we have to change our pattern accordingly:
+
+```{r}
+pattern <- "^[4-7]'\\d{1,2}$"
+```
+
+If we do this replacement before the matching, we get many more matches:
+
+```{r}
+problems |> 
+  str_replace("feet|ft|foot", "'") |> # replace feet, ft, foot with ' 
+  str_replace("inches|in|''|\"", "") |> # remove all inches symbols
+  str_detect(pattern) |> 
+  sum()
+```
+
+However, we still have many cases to go. 
+
+Note that in the code above, we leveraged the __stringr__ consistency and used the pipe. 
+
+For now, we improve our pattern by adding `\\s*` in front of and after the feet symbol `'` to permit space between the feet symbol and the numbers. Now we match a few more entries:
+
+```{r}
+pattern <- "^[4-7]\\s*'\\s*\\d{1,2}$"
+problems |> 
+  str_replace("feet|ft|foot", "'") |> # replace feet, ft, foot with ' 
+  str_replace("inches|in|''|\"", "") |> # remove all inches symbols
+  str_detect(pattern) |> 
+  sum()
+```
+
+#### Search and replace using groups
+
+Another powerful aspect of groups is that you can refer to the extracted values in a regex when searching and replacing. 
+
+The regex special character for the `i`-th group is `\\i`. So `\\1` is the value extracted from the first group, `\\2` the value from the second and so on. As a simple example, note that the following code will replace a comma with period, but only if it is between two digits:
+
+```{r}
+pattern_with_groups <-  "^([4-7]),(\\d*)$"
+yes <- c("5,9", "5,11", "6,", "6,1")
+no <- c("5'9", ",", "2,8", "6.1.1")
+s <- c(yes, no)
+str_replace(s, pattern_with_groups, "\\1'\\2")
+```
+
+### Testing and improving
+
+
+```{r}
+not_inches_or_cm <- function(x, smallest = 50, tallest = 84){
+  inches <- suppressWarnings(as.numeric(x))
+  ind <- !is.na(inches) & 
+    ((inches >= smallest & inches <= tallest) |
+       (inches/2.54 >= smallest & inches/2.54 <= tallest))
+  !ind
+}
+
+problems <- reported_heights |> 
+  filter(not_inches_or_cm(height)) |>
+  pull(height)
+length(problems)
+```
+
+Let's see what proportion of these fit our pattern after the processing steps we developed above:
+
+```{r}
+converted <- problems |> 
+  str_replace("feet|foot|ft", "'") |> # convert feet symbols to '
+  str_replace("inches|in|''|\"", "") |>  # remove inches symbols
+  str_replace("^([4-7])\\s*[,\\.\\s+]\\s*(\\d*)$", "\\1'\\2")# change format
+
+pattern <- "^[4-7]\\s*'\\s*\\d{1,2}$"
+index <- str_detect(converted, pattern)
+mean(index)
+```
+
+Note how we leveraged the pipe, one of the advantages of using __stringr__. This last piece of code shows that we have matched well over half of the strings. Let's examine the remaining cases:
+
+```{r}
+converted[!index]
+```
+
+
+### Trimming
+
+In general, spaces at the start or end of the string are uninformative. 
+These can be particularly deceptive because sometimes they can be hard to see:
+
+```{r}
+s <- "Hi "
+cat(s)
+identical(s, "Hi")
+```
+
+This is a general enough problem that there is a function dedicated to removing them:
+ `str_trim`.
+
+```{r}
+str_trim("5 ' 9 ")
+```
+
+
+### Changing lettercase
+
+
+```{r}
+s <- c("Five feet eight inches")
+str_to_lower(s)
+```
+
+Other related functions are `str_to_upper` and `str_to_title`. We are now ready to define a procedure that converts all the problematic cases to inches.
+
+
+
+#### The `extract` function
+
+The `extract` function is a useful __tidyverse__ function for string processing that we will use in our final solution, so we introduce it here. In a previous section, we constructed a regex that lets us identify which elements of a character vector match the feet and inches pattern. However, we want to do more. We want to extract and save the feet and number values so that we can convert them to inches when appropriate.
+
+If we have a simpler case like this:
+```{r}
+s <- c("5'10", "6'1")
+tab <- data.frame(x = s)
+```
+
+In Section @sec-separate we learned about the `separate` function, which can be used to achieve our current goal:
+
+```{r}
+tab |> separate(x, c("feet", "inches"), sep = "'")
+```
+
+The `extract` function from the __tidyr__ package lets us use regex groups to extract the desired values. Here is the equivalent to the code above using `separate` but using `extract`:  
+
+```{r}
+library(tidyr)
+tab |> extract(x, c("feet", "inches"), regex = "(\\d)'(\\d{1,2})")
+```
+
+So why do we even need the new function `extract`? We have seen how small changes can throw off exact pattern matching. Groups in regex give us more flexibility. For example, if we define:
+
+```{r}
+s <- c("5'10", "6'1\"","5'8inches")
+tab <- data.frame(x = s)
+```
+
+and we only want the numbers, `separate` fails:
+
+```{r}
+tab |> separate(x, c("feet","inches"), sep = "'", fill = "right")
+```
+
+However, we can use `extract`. The regex here is a bit more complicated since we have to permit `'` with spaces and `feet`. We also do not want the `"` included in the value, so we do not include that in the group:
+
+```{r}
+tab |> extract(x, c("feet", "inches"), regex = "(\\d)'(\\d{1,2})")
+```
+
+
+#### Putting it all together
+
+We are now ready to put it all together and wrangle our reported heights data to try to recover as many heights as possible. The code is complex, but we will break it down into parts.
+
+We start by cleaning up the `height` column so that the heights are closer to a feet'inches format. We added an original heights column so we can compare before and after. 
+
+Now we are ready to wrangle our reported heights dataset:
+
+### Put it all together
+
+We now put all of what we have learned together into a function that takes a string vector and tries to convert as many strings as possible to one format. We write a function that puts together what we have done above.
+
+```{r}
+convert_format <- function(s){
+  s |>
+    str_replace("feet|foot|ft", "'") |> 
+    str_replace_all("inches|in|''|\"|cm|and", "") |>  
+    str_replace("^([4-7])\\s*[,\\.\\s+]\\s*(\\d*)$", "\\1'\\2") |> 
+    str_replace("^([56])'?$", "\\1'0") |> 
+    str_replace("^([12])\\s*,\\s*(\\d*)$", "\\1\\.\\2") |>  
+    str_trim() 
+}
+library(english)
+words_to_numbers <- function(s){
+  s <- str_to_lower(s)
+  for (i in 0:11)
+    s <- str_replace_all(s, words(i), as.character(i))
+  s
+}
+```
+
+
+```{r, warning=FALSE, message=FALSE}
+pattern <- "^([4-7])\\s*'\\s*(\\d+\\.?\\d*)$"
+
+smallest <- 50
+tallest <- 84
+new_heights <- reported_heights |> 
+  mutate(original = height, 
+         height = words_to_numbers(height) |> convert_format()) |>
+  extract(height, c("feet", "inches"), regex = pattern, remove = FALSE) |> 
+  mutate_at(c("height", "feet", "inches"), as.numeric) |>
+  mutate(guess = 12 * feet + inches) |>
+  mutate(height = case_when(
+    is.na(height) ~ as.numeric(NA),
+    between(height, smallest, tallest) ~ height,  #inches
+    between(height/2.54, smallest, tallest) ~ height/2.54, #cm
+    between(height*100/2.54, smallest, tallest) ~ height*100/2.54, #meters
+    TRUE ~ as.numeric(NA))) |>
+  mutate(height = ifelse(is.na(height) & 
+                           inches < 12 & between(guess, smallest, tallest),
+                         guess, height)) |>
+  select(-guess)
+```
+
+We can check all the entries we converted by typing:
+
+```{r, eval=FALSE}
+new_heights |>
+  filter(not_inches(original)) |>
+  select(original, height) |> 
+  arrange(height) |>
+  View()
+```
+
+
+A final observation is that if we look at the shortest students in our course:
+
+```{r}
+new_heights |> arrange(height) |> head(n=7)
+```
+
+We see heights of 53, 54, and 55. In the originals, we also have 51 and 52. These short heights are rare and it is likely that the students actually meant `5'1`, `5'2`, `5'3`, `5'4`, and `5'5`. Because we are not completely sure, we will leave them as reported. The object `new_heights` contains our final solution for this case study.
+
+### String splitting
+
+Another very common data wrangling operation is string splitting. To illustrate how this comes up, we start with an illustrative example. Suppose we did not have the function `read_csv` or `read.csv` available to us. We instead have to read a csv file using the base R function `readLines` like this:
+
+```{r}
+filename <- system.file("extdata/murders.csv", package = "dslabs")
+lines <- readLines(filename)
+```
+
+This function reads-in the data line-by-line to create a vector of strings. In this case, one string for each row in the spreadsheet. The first six lines are:
+
+```{r}
+lines |> head()
+```
+
+We want to extract the values that are separated by a comma for each string in the vector. The command `str_split` does exactly this:
+
+```{r}
+x <- str_split(lines, ",") 
+x |> head(2)
+```
+
+
+### Recoding {#sec-recode}
+
+Another common operation involving strings is recoding the names of categorical variables. Let's say you have really long names for your levels and you will be displaying them in plots, you might want to use shorter versions of these names. For example, in character vectors with country names, you might want to change "United States of America" to "USA" and "United Kingdom" to UK, and so on. We can do this with `case_when`, although the __tidyverse__ offers an option that is specifically designed for this task: the `recode` function. 
+
+Here is an example that shows how to rename countries with long names:
+
+
+```{r}
+library(dslabs)
+```
+
+Suppose we want to show life expectancy time series by country for the Caribbean:
+
+```{r caribbean}
+gapminder |> 
+  filter(region == "Caribbean") |>
+  ggplot(aes(year, life_expectancy, color = country)) +
+  geom_line()
+```
+
+
+```{r caribbean-with-nicknames}
+gapminder |> filter(region=="Caribbean") |>
+  mutate(country = recode(country, 
+                          `Antigua and Barbuda` = "Barbuda",
+                          `Dominican Republic` = "DR",
+                          `St. Vincent and the Grenadines` = "St. Vincent",
+                          `Trinidad and Tobago` = "Trinidad")) |>
+  ggplot(aes(year, life_expectancy, color = country)) +
+  geom_line()
+```
+
+There are other similar functions in other R packages, such as `recode_factor` and `fct_recoder` in the __forcats__ package. 
+
+
+
+## Exercises
+
+(@) Run the following command to define the `co2_wide` object:
+
+```{r, eval=FALSE}
+co2_wide <- data.frame(matrix(co2, ncol = 12, byrow = TRUE)) |> 
+  setNames(1:12) |>
+  mutate(year = as.character(1959:1997))
+```
+
+Use the `pivot_longer` function to wrangle this into a tidy dataset. Call the column with the CO2 measurements `co2` and call the month column `month`. Call the resulting object `co2_tidy`.
+
+(@) Plot CO2 versus month with a different curve for each year using this code:
+
+```{r, eval=FALSE}
+co2_tidy |> ggplot(aes(month, co2, color = year)) + geom_line()
+```
+
+If the expected plot is not made, it is probably because `co2_tidy$month` is not numeric:
+
+```{r, eval=FALSE}
+class(co2_tidy$month)
+```
+
+Rewrite your code to make sure the month column is numeric. Then make the plot.
+
+(@) What do we learn from this plot?
+
+a.  CO2 measures increase monotonically from 1959 to 1997.
+b.  CO2 measures are higher in the summer and the yearly average increased from 1959 to 1997.
+c.  CO2 measures appear constant and random variability explains the differences.
+d.  CO2 measures do not have a seasonal trend.
+
+(@) Now load the `admissions` data set, which contains admission information for men and women across six majors and keep only the admitted percentage column:
+
+```{r, eval=FALSE}
+load(admissions)
+dat <- admissions |> select(-applicants)
+```
+
+If we think of an observation as a major, and that each observation has two variables (men admitted percentage and women admitted percentage) then this is not tidy. Use the `pivot_wider` function to wrangle into tidy shape: one row for each major.
+
+(@) Now we will try a more advanced wrangling challenge. We want to wrangle the admissions data so that for each major we have 4 observations: `admitted_men`, `admitted_women`, `applicants_men` and `applicants_women`. The *trick* we perform here is actually quite common: first use `pivot_longer` to generate an intermediate data frame and then `pivot_wider` to obtain the tidy data we want. We will go step by step in this and the next two exercises.
+
+Use the `pivot_longer` function to create a `tmp` data.frame with a column containing the type of observation `admitted` or `applicants`. Call the new columns `name` and `value`.
+
+(@) Now you have an object `tmp` with columns `major`, `gender`, `name` and `value`. Note that if you combine the `name` and `gender`, we get the column names we want: `admitted_men`, `admitted_women`, `applicants_men` and `applicants_women`. Use the function `unite` to create a new column called `column_name`.
+
+(@) Now use the `pivot_wider` function to generate the tidy data with four variables for each major.
+
+(@) Now use the pipe to write a line of code that turns `admissions` to the table produced in the previous exercise.
+
+
+(@) Install and load the __Lahman__ library. This database includes data related to baseball teams. It includes summary statistics about how the players performed on offense and defense for several years. It also includes personal information about the players.
+
+The `Batting` data frame contains the offensive statistics for all players for many years. You can see, for example, the top 10 hitters by running this code:
+
+```{r, eval=FALSE}
+library(Lahman)
+
+top <- Batting |> 
+  filter(yearID == 2016) |>
+  arrange(desc(HR)) |>
+  slice(1:10)
+
+top |> as_tibble()
+```
+
+But who are these players? We see an ID, but not the names. The player names are in this table
+
+```{r, eval=FALSE}
+People |> as_tibble()
+```
+
+We can see column names `nameFirst` and `nameLast`. Use the `left_join` function to create a table of the top home run hitters. The table should have `playerID`, first name, last name, and number of home runs (HR).  Rewrite the object `top` with this new table.
+
+
+
+(@) Now use the `Salaries` data frame to add each player's salary to the table you created in exercise 1. Note that salaries are different every year so make sure to filter for the year 2016, then use `right_join`. This time show first name, last name, team, HR, and salary.
+
+
+(@) In a previous exercise, we created a tidy version of the `co2` dataset:
+
+
+```{r, eval=FALSE}
+co2_wide <- data.frame(matrix(co2, ncol = 12, byrow = TRUE)) |> 
+  setNames(1:12) |>
+  mutate(year = 1959:1997) |>
+  pivot_longer(-year, names_to = "month", values_to = "co2") |>
+  mutate(month = as.numeric(month))
+```
+
+We want to see if the monthly trend is changing so we are going to remove the year effects and then plot the results. We will first compute the year averages. Use the `group_by` and `summarize` to compute the average co2 for each year. Save in an object called `yearly_avg`.
+
+(@) Now use the `left_join` function to add the yearly average to the `co2_wide` dataset. Then compute the residuals: observed co2 measure - yearly average.
+
+
+(@) Make a plot of the seasonal trends by year but only after removing the year effect.
+
+
+    
+
+
+
