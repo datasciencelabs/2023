@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 10&nbsp; Distributions</title>
+<title>BST 260 Introduction to Data Science - 15&nbsp; Locales</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./11-ggplot2.html" rel="next">
-<link href="./pset1.html" rel="prev">
+<link href="./16-text-mining.html" rel="next">
+<link href="./14-web-scraping.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-distributions.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./15-locales.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link active">
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
   </div>
 </li>
@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
   </div>
 </li>
@@ -267,29 +267,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#case-study-describing-student-heights" id="toc-case-study-describing-student-heights" class="nav-link active" data-scroll-target="#case-study-describing-student-heights"><span class="header-section-number">10.1</span> Case study: describing student heights</a></li>
-  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="header-section-number">10.2</span> Distributions</a>
-  <ul class="collapse">
-  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">10.2.1</span> Histograms</a></li>
-  <li><a href="#smoothed-density" id="toc-smoothed-density" class="nav-link" data-scroll-target="#smoothed-density"><span class="header-section-number">10.2.2</span> Smoothed density</a></li>
-  <li><a href="#sec-dataviz-normal-distribution" id="toc-sec-dataviz-normal-distribution" class="nav-link" data-scroll-target="#sec-dataviz-normal-distribution"><span class="header-section-number">10.2.3</span> The normal distribution</a></li>
-  </ul></li>
-  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">10.3</span> Boxplots</a></li>
-  <li><a href="#sec-dataviz-stratification" id="toc-sec-dataviz-stratification" class="nav-link" data-scroll-target="#sec-dataviz-stratification"><span class="header-section-number">10.4</span> Stratification</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.5</span> Exercises</a></li>
-  </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/10-distributions.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></h1>
 </div>
 
 
@@ -304,194 +289,164 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="case-study-describing-student-heights" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="case-study-describing-student-heights"><span class="header-section-number">10.1</span> Case study: describing student heights</h2>
-<p>We will study self reported heights from studnets from past classes:</p>
-<div class="cell" data-hash="10-distributions_cache/html/load-heights_4923d55de40f156585014e46de37ec17">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(heights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice the character on this file.</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-1_4640974664f670dfac5e6fbbfa9056b4">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>), <span class="st">"calificaciones.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     sex height
-1   Male     75
-2   Male     70
-3   Male     68
-4   Male     74
-5   Male     61
-6 Female     65</code></pre>
+<pre><code>[1] "\"nombre\",\"f.n.\",\"estampa\",\"puntuaci\xf3n\""                       
+[2] "\"Beyonc\xe9\",\"04 de septiembre de 1981\",2023-09-22 02:11:02,\"87,5\""
+[3] "\"Bl\xfcmchen\",\"20 de abril de 1980\",2023-09-22 03:23:05,\"99,0\""    
+[4] "\"Jo\xe3o\",\"10 de junio de 1931\",2023-09-21 22:43:28,\"98,9\""        
+[5] "\"L\xf3pez\",\"24 de julio de 1969\",2023-09-22 01:06:59,\"88,7\""       
+[6] "\"\xd1engo\",\"15 de diciembre de 1981\",2023-09-21 23:35:37,\"93,1\""   
+[7] "\"Pl\xe1cido\",\"24 de enero de 1941\",2023-09-21 23:17:21,\"88,7\""     
+[8] "\"Thal\xeda\",\"26 de agosto de 1971\",2023-09-21 23:08:02,\"83,0\""     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"inst/extdata/calificaciones.csv"</span>)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in read_csv("inst/extdata/calificaciones.csv") : 
+  could not find function "read_csv"</code></pre>
 </div>
 </div>
-</section>
-<section id="distributions" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="distributions"><span class="header-section-number">10.2</span> Distributions</h2>
-<p>The most basic statistical summary of a list of objects or numbers is its <em>distribution</em>.</p>
-<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-1_aa6294977beb6e4d277e30d8b7fe5bc9">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(heights<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is because it is not UTF encoding, which is the default:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-2_8c4b2437221cc95c4b334161c04db79a">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getlocale</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
+<pre><code>[1] "en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8"</code></pre>
+</div>
+</div>
+<p>The <code>locale</code> is a group of information about the system. This includes the encoding, the language, and the time zone.</p>
+<p>You can use this funciton to guess the encoding of a character</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-3_546e392a2536aa03f1366a6253dfc1bf">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">readLines</span>(fn, <span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>stringi<span class="sc">::</span><span class="fu">stri_enc_detect</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+    Encoding Language Confidence
+1 ISO-8859-1       es       0.75
+2 ISO-8859-2       cs       0.18
+3   UTF-16BE                0.10
+4   UTF-16LE                0.10
+5  Shift_JIS       ja       0.10
+6    GB18030       zh       0.10
+7       Big5       zh       0.10</code></pre>
+</div>
+</div>
+<p>We can also use this <strong>readr</strong> function to detect encoding of files:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-4_42c4422463cd7018125156e9f01ccc5f">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">guess_encoding</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  encoding   confidence
+  &lt;chr&gt;           &lt;dbl&gt;
+1 ISO-8859-1       0.92
+2 ISO-8859-2       0.72
+3 ISO-8859-9       0.53</code></pre>
+</div>
+</div>
+<p>The <code>read_csv</code> permits us the define an econding:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-5_97d2342225956f24c023d9748c052bf0">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 7 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): nombre, f.n.
+num  (1): puntuación
+dttm (1): estampa
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 4
+  nombre   f.n.                     estampa             puntuación
+  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
+1 Beyoncé  04 de septiembre de 1981 2023-09-22 02:11:02        875
+2 Blümchen 20 de abril de 1980      2023-09-22 03:23:05        990
+3 João     10 de junio de 1931      2023-09-21 22:43:28        989
+4 López    24 de julio de 1969      2023-09-22 01:06:59        887
+5 Ñengo    15 de diciembre de 1981  2023-09-21 23:35:37        931
+6 Plácido  24 de enero de 1941      2023-09-21 23:17:21        887
+7 Thalía   26 de agosto de 1971     2023-09-21 23:08:02        830</code></pre>
+</div>
+</div>
+<p>However, notice the last column. Compare it to what we saw with read lines. They were numbers that used the European decimal point. We can also change the encoding for that:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-6_b5a41cf3506052bb398be137cdf09c23">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>, <span class="at">decimal_mark =</span> <span class="st">","</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 7 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): nombre, f.n.
+dbl  (1): puntuación
+dttm (1): estampa
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 4
+  nombre   f.n.                     estampa             puntuación
+  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
+1 Beyoncé  04 de septiembre de 1981 2023-09-22 02:11:02       87.5
+2 Blümchen 20 de abril de 1980      2023-09-22 03:23:05       99  
+3 João     10 de junio de 1931      2023-09-21 22:43:28       98.9
+4 López    24 de julio de 1969      2023-09-22 01:06:59       88.7
+5 Ñengo    15 de diciembre de 1981  2023-09-21 23:35:37       93.1
+6 Plácido  24 de enero de 1941      2023-09-21 23:17:21       88.7
+7 Thalía   26 de agosto de 1971     2023-09-21 23:08:02       83  </code></pre>
+</div>
+</div>
+<p>Now let’s try to change the dates to date format:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-7_62e2c28a8de11b851e049b362016e7ba">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
 <pre><code>
-   Female      Male 
-0.2266667 0.7733333 </code></pre>
+Attaching package: 'lubridate'</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
 </div>
-<p>Here is the distribution for the regions in the <code>murders</code> dataset:</p>
-<div class="cell" data-hash="10-distributions_cache/html/state-region-distribution_24ac67168c2469d14b18d4a846e45461">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/state-region-distribution-1.png" class="img-fluid" width="672"></p>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dmy</span>(x<span class="sc">$</span>f.n.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: All formats failed to parse. No formats found.</code></pre>
 </div>
-</div>
-<section id="histograms" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="histograms"><span class="header-section-number">10.2.1</span> Histograms</h3>
-<p>Cumulative distributions function shows everything you need to know the distribution.</p>
-<div class="cell" data-hash="10-distributions_cache/html/ecdf_875e5756640833f7024b9d0142b6e9f5">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/ecdf-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Histograms lose a bit fo information but are easier to read:</p>
-<div class="cell" data-hash="10-distributions_cache/html/height-histogram_7416d4f87b5594dc71708b864ea3a40d">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/height-histogram-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="smoothed-density" class="level3" data-number="10.2.2">
-<h3 data-number="10.2.2" class="anchored" data-anchor-id="smoothed-density"><span class="header-section-number">10.2.2</span> Smoothed density</h3>
-<p><em>Smooth density</em> plots relay the same information as a histogram but are aesthetically more appealing. Here is what a smooth density plot looks like for our heights data:</p>
-<div class="cell" data-hash="10-distributions_cache/html/example-of-smoothed-density_bda200b1c63324eb6e950d798cf376bc">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/example-of-smoothed-density-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>An advantage is that it is easy to show more than one:</p>
-<div class="cell" data-hash="10-distributions_cache/html/two-densities-one-plot_9c9cdd6d71e732a5fbf32b327b1bbf25">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/two-densities-one-plot-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>With the right argument, <code>ggplot</code> automatically shades the intersecting region with a different color.</p>
-</section>
-<section id="sec-dataviz-normal-distribution" class="level3" data-number="10.2.3">
-<h3 data-number="10.2.3" class="anchored" data-anchor-id="sec-dataviz-normal-distribution"><span class="header-section-number">10.2.3</span> The normal distribution</h3>
-<p>The normal distribution, also known as the bell curve and as the Gaussian distribution. Here is what the normal distribution looks like:</p>
-<div class="cell" data-hash="10-distributions_cache/html/normal-distribution-density_f7adc9f8e710c3e4552df83829dc8b8a">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/normal-distribution-density-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>A useful characteristic of the normal distribution is that it is defined by just two numbers: the average (also called mean) and the standard deviation.</p>
-<p>So for the male height data we can define the average of standard deviation like this:</p>
-<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-2_c01e8317d74ba7587147006627f03356">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> heights<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"Male"</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights<span class="sc">$</span>height[index]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">sum</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The pre-built functions <code>mean</code> and <code>sd</code> can be used here: :::</p>
-<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-3_a5ddbef35aeb6114633322be0323c537">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sd</span>(x)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">average =</span> m, <span class="at">sd =</span> s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  average        sd 
-69.314755  3.611024 </code></pre>
+<pre><code>[1] NA NA NA NA NA NA NA</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The pre-built functions <code>mean</code> and <code>sd</code> (note that, for reasons explained in statistics textbooks,<code>sd</code> divides by <code>length(x)-1</code> rather than <code>length(x)</code>) can be used here:</p>
-</div>
-</div>
-<p>Here is a plot of the smooth density and the normal distribution with mean = 69.3 and SD = 3.6 plotted as a black line with our student height smooth density in blue:</p>
-<div class="cell" data-hash="10-distributions_cache/html/data-and-normal-densities_80b94e2b27341153ca51ce2fe4d918e4">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/data-and-normal-densities-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-</section>
-<section id="boxplots" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">10.3</span> Boxplots</h2>
-<p>Boxplots provide a five number summary (and shows outliers):</p>
-<div class="cell" data-hash="10-distributions_cache/html/hist-non-normal-data_841feef0edeae68556d1bd0372a83e0e">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/hist-non-normal-data-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>In this case, the histogram above or a smooth density plot would serve as a relatively succinct summary.</p>
-<div class="cell" data-hash="10-distributions_cache/html/first-boxplot_fd23749b7b1b959710feb120864c21ae">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/first-boxplot-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
-<section id="sec-dataviz-stratification" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="sec-dataviz-stratification"><span class="header-section-number">10.4</span> Stratification</h2>
-<p>Showing <em>conditional</em> distributions is often very informative</p>
-<div class="cell" data-hash="10-distributions_cache/html/female-male-boxplots_75e6a0419e694a3eef30d0c56496815d">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/female-male-boxplots-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>We also see the normal approximation might not be useful for females:</p>
-<div class="cell" data-hash="10-distributions_cache/html/histogram-qqplot-female-heights_eeb2abd0a1453049607df52f2fef41f6">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/histogram-qqplot-female-heights-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Regarding the five smallest values, note that these values are:</p>
-<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-4_4ae0198683ae86fb6563e3867d7461a7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"Female"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">5</span>, <span class="fu">desc</span>(height)) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is because it is in spanish. You can change the locale to use spanish as the language:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-8_8fa1576656aaf44165500e52171f01c4">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_date</span>(x<span class="sc">$</span>f.n., <span class="at">format =</span> <span class="st">"%d de %B de %Y"</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">date_names =</span> <span class="st">"es"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 51 53 55 52 52</code></pre>
+<pre><code>[1] "1981-09-04" "1980-04-20" "1931-06-10" "1969-07-24" "1981-12-15"
+[6] "1941-01-24" "1971-08-26"</code></pre>
 </div>
 </div>
-<p>Because these are reported heights, a possibility is that the student meant to enter <code>5'1"</code>, <code>5'2"</code>, <code>5'3"</code> or <code>5'5"</code>.</p>
-</section>
-<section id="exercises" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.5</span> Exercises</h2>
-<ol class="example" type="1">
-<li><p>Suppose we can’t make a plot and want to compare the distributions side by side. We can’t just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing <code>female_percentiles</code> and <code>male_percentiles</code> with the 10th, 30th, 50th, 70th, &amp; 90th percentiles for each sex. Then create a data frame with these two as columns.</p></li>
-<li><p>Study the following boxplots showing population sizes by country:</p></li>
-</ol>
-<div class="cell" data-hash="10-distributions_cache/html/boxplot-exercise_7a4f5454bb58258682430adb0350d89b">
-<div class="cell-output-display">
-<p><img src="10-distributions_files/figure-html/boxplot-exercise-1.png" class="img-fluid" width="672"></p>
+<p>Finally notice that two students turned in the homework past the deadline of september 21</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-9_7636410f25f0d96134d09bee072b197f">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>estampa <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE</code></pre>
 </div>
 </div>
-<p>Which continent has the country with the biggest population size?</p>
-<ol start="3" class="example" type="1">
-<li><p>What continent has the largest median population size?</p></li>
-<li><p>What is median population size for Africa to the nearest million?</p></li>
-<li><p>What proportion of countries in Europe have populations below 14 million?</p></li>
-</ol>
-<ol type="a">
-<li>0.99</li>
-<li>0.75</li>
-<li>0.50</li>
-<li>0.25</li>
-</ol>
-<ol start="6" class="example" type="1">
-<li><p>If we use a log transformation, which continent shown above has the largest interquartile range?</p></li>
-<li><p>Load the height data set and create a vector <code>x</code> with just the male heights:</p></li>
-</ol>
-<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-5_2758e5dcaf5205cdfa356ac8be6a0224">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights<span class="sc">$</span>height[heights<span class="sc">$</span>sex<span class="sc">==</span><span class="st">"Male"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>But these times are in GMT. If we change to out timezone:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-10_f545f9560a307444c53b0eb495b52630">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with_tz</span>(x<span class="sc">$</span>estampa, <span class="at">tz =</span>  <span class="fu">Sys.timezone</span>()) <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 </div>
-<p>What proportion of the data is between 69 and 72 inches (taller than 69, but shorter or equal to 72)? Hint: use a logical operator and <code>mean</code>.</p>
+</div>
+<p>we see everybody turned it in on time.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -729,13 +684,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./pset1.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Problem Set 1</span>
+      <a href="./14-web-scraping.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./11-ggplot2.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./16-text-mining.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -743,4 +698,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/15-locales.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>

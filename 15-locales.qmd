@@ -1,0 +1,71 @@
+# Locales
+
+Notice the character on this file.
+
+```{r}
+fn <- file.path(system.file("extdata", package = "dslabs"), "calificaciones.csv")
+readLines(fn)
+try({x <- read_csv("inst/extdata/calificaciones.csv")})
+```
+
+This is because it is not UTF encoding, which is the default:
+
+```{r}
+Sys.getlocale()
+```
+
+The `locale` is a group of information about the system. This includes the encoding, the language, and the time zone.
+
+You can use this funciton to guess the encoding of a character
+
+```{r}
+x <- readLines(fn, n = 1)
+stringi::stri_enc_detect(x)
+```
+
+We can also use this **readr** function to detect encoding of files:
+
+```{r}
+library(readr)
+guess_encoding(fn)
+```
+
+The `read_csv` permits us the define an econding:
+
+```{r}
+x <- read_csv(fn, locale = locale(encoding = "ISO-8859-1"))
+x
+```
+
+However, notice the last column. Compare it to what we saw with read lines. They were numbers that used the European decimal point. We can also change the encoding for that:
+
+```{r}
+x <- read_csv(fn, locale = locale(encoding = "ISO-8859-1", decimal_mark = ","))
+x
+```
+
+Now let's try to change the dates to date format:
+
+```{r}
+library(lubridate)
+dmy(x$f.n.)
+```
+
+This is because it is in spanish. You can change the locale to use spanish as the language:
+```{r}
+parse_date(x$f.n., format = "%d de %B de %Y", locale = locale(date_names = "es"))
+```
+
+Finally notice that two students turned in the homework past the deadline of september 21
+
+```{r}
+x$estampa >= make_date(2023, 9, 22)
+```
+
+But these times are in GMT. If we change to out timezone:
+
+```{r}
+with_tz(x$estampa, tz =  Sys.timezone()) >= make_date(2023, 9, 22)
+```
+
+we see everybody turned it in on time.

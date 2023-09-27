@@ -1,7 +1,6 @@
 # Wrangling
 
-
-On September 20, 207 Hurricane María made landfall in Puerto Rico. Anecdotal reports  pointed to a dire situation. Many did not have power, few have running water, and some have no way to communicate. On October 3 of that year the president of the USA visited Puerto Rico. In a press conference the governor states that the death count is 16. A CNN artcile reporting on this stated
+On September 20, 2017 Hurricane María made landfall in Puerto Rico. Anecdotal reports  pointed to a dire situation. Many did not have power, few have running water, and some have no way to communicate. On October 3 of that year the president of the USA visited Puerto Rico. In a press conference the governor states that the death count is 16. A CNN article reporting on this stated
 
 
 >>> "Every death is a horror," Trump said, "but if you look at a real catastrophe like Katrina and you look at the tremendous – hundreds and hundreds of people that died – and you look at what happened here with, really, a storm that was just totally overpowering … no one has ever seen anything like this." "What is your death count?" he asked as he turned to Puerto Rico Gov. Ricardo Rosselló. "17?" "16," Rosselló answered. "16 people certified," Trump said. "Sixteen people versus in the thousands. You can be very proud of all of your people and all of our people working together.
@@ -41,6 +40,10 @@ wide_data <- read_csv(filename)
 ```
 
 ### `pivot_longer`
+
+```{r}
+wide_data |> pivot_longer(`1960`:`2015`)
+```
 
 We can also use the pipe like this:
 
@@ -154,7 +157,9 @@ This achieves the separation we wanted. However, we are not done yet. We need to
 ```{r}
 dat |> 
   separate(name, c("year", "name"), extra = "merge") |>
-  pivot_wider()
+  pivot_wider() |>
+  mutate(year = as.integer(year)) |>
+  ggplot(aes(fertility, life_expectancy, color = country)) + geom_point()
 ```
 
 The data is now in tidy format with one row for each observation with three variables: year, fertility, and life expectancy.
@@ -178,8 +183,6 @@ dat |>
   pivot_wider() |>
   rename(fertility = fertility_NA)
 ```
-
-
 
 ## Joining tables
 
@@ -393,10 +396,7 @@ When applied to data frames that are not equal, regardless of order, the __dplyr
 dplyr::setequal(tab_1, tab_2)
 ```
 
-
 ## String processing 
-
-
 
 ### The stringr package {#sec-stringr}
 
@@ -705,7 +705,7 @@ sum(str_detect(problems, pattern))
 To see why this is, we show some examples that expose why we don't have more matches:
 
 ```{r}
-problems[c(2, 10, 11, 12, 15)] |> str_view_all(pattern)
+problems[  c(2, 10, 11, 12, 15)] |> str_view_all(pattern)
 ```
 
 An initial problem we see immediately is that some students wrote out the words "feet" and "inches". We can see the entries that did this with the `str_subset` function:
@@ -765,44 +765,6 @@ s <- c(yes, no)
 str_replace(s, pattern_with_groups, "\\1'\\2")
 ```
 
-### Testing and improving
-
-
-```{r}
-not_inches_or_cm <- function(x, smallest = 50, tallest = 84){
-  inches <- suppressWarnings(as.numeric(x))
-  ind <- !is.na(inches) & 
-    ((inches >= smallest & inches <= tallest) |
-       (inches/2.54 >= smallest & inches/2.54 <= tallest))
-  !ind
-}
-
-problems <- reported_heights |> 
-  filter(not_inches_or_cm(height)) |>
-  pull(height)
-length(problems)
-```
-
-Let's see what proportion of these fit our pattern after the processing steps we developed above:
-
-```{r}
-converted <- problems |> 
-  str_replace("feet|foot|ft", "'") |> # convert feet symbols to '
-  str_replace("inches|in|''|\"", "") |>  # remove inches symbols
-  str_replace("^([4-7])\\s*[,\\.\\s+]\\s*(\\d*)$", "\\1'\\2")# change format
-
-pattern <- "^[4-7]\\s*'\\s*\\d{1,2}$"
-index <- str_detect(converted, pattern)
-mean(index)
-```
-
-Note how we leveraged the pipe, one of the advantages of using __stringr__. This last piece of code shows that we have matched well over half of the strings. Let's examine the remaining cases:
-
-```{r}
-converted[!index]
-```
-
-
 ### Trimming
 
 In general, spaces at the start or end of the string are uninformative. 
@@ -818,7 +780,7 @@ This is a general enough problem that there is a function dedicated to removing 
  `str_trim`.
 
 ```{r}
-str_trim("5 ' 9 ")
+str_trim(" 5 ' 9 ")
 ```
 
 
@@ -834,7 +796,7 @@ Other related functions are `str_to_upper` and `str_to_title`. We are now ready 
 
 
 
-#### The `extract` function
+### The `extract` function
 
 The `extract` function is a useful __tidyverse__ function for string processing that we will use in our final solution, so we introduce it here. In a previous section, we constructed a regex that lets us identify which elements of a character vector match the feet and inches pattern. However, we want to do more. We want to extract and save the feet and number values so that we can convert them to inches when appropriate.
 
@@ -877,15 +839,11 @@ tab |> extract(x, c("feet", "inches"), regex = "(\\d)'(\\d{1,2})")
 ```
 
 
-#### Putting it all together
+### Putting it all together
 
 We are now ready to put it all together and wrangle our reported heights data to try to recover as many heights as possible. The code is complex, but we will break it down into parts.
 
 We start by cleaning up the `height` column so that the heights are closer to a feet'inches format. We added an original heights column so we can compare before and after. 
-
-Now we are ready to wrangle our reported heights dataset:
-
-### Put it all together
 
 We now put all of what we have learned together into a function that takes a string vector and tries to convert as many strings as possible to one format. We write a function that puts together what we have done above.
 
@@ -946,7 +904,7 @@ new_heights |>
 A final observation is that if we look at the shortest students in our course:
 
 ```{r}
-new_heights |> arrange(height) |> head(n=7)
+new_heights |> arrange(height) |> head(n = 7)
 ```
 
 We see heights of 53, 54, and 55. In the originals, we also have 51 and 52. These short heights are rare and it is likely that the students actually meant `5'1`, `5'2`, `5'3`, `5'4`, and `5'5`. Because we are not completely sure, we will leave them as reported. The object `new_heights` contains our final solution for this case study.
@@ -976,7 +934,7 @@ x |> head(2)
 
 ### Recoding {#sec-recode}
 
-Another common operation involving strings is recoding the names of categorical variables. Let's say you have really long names for your levels and you will be displaying them in plots, you might want to use shorter versions of these names. For example, in character vectors with country names, you might want to change "United States of America" to "USA" and "United Kingdom" to UK, and so on. We can do this with `case_when`, although the __tidyverse__ offers an option that is specifically designed for this task: the `recode` function. 
+Another common operation involving strings is recoding the names of categorical variables. Let's say you have really long names for your levels and you will be displaying them in plots, you might want to use shorter versions of these names. For example, in character vectors with country names, you might want to change "United States of America" to "USA" and "United Kingdom" to UK, and so on. We can do this with `case_when`, although the __tidyverse__ offers an option that is specifically designed for this task: the `case_match` function. 
 
 Here is an example that shows how to rename countries with long names:
 
@@ -996,19 +954,18 @@ gapminder |>
 
 
 ```{r caribbean-with-nicknames}
-gapminder |> filter(region=="Caribbean") |>
-  mutate(country = recode(country, 
-                          `Antigua and Barbuda` = "Barbuda",
-                          `Dominican Republic` = "DR",
-                          `St. Vincent and the Grenadines` = "St. Vincent",
-                          `Trinidad and Tobago` = "Trinidad")) |>
+gapminder |> filter(region == "Caribbean") |>
+  mutate(country = case_match(country, 
+                          "Antigua and Barbuda" ~ "Barbuda",
+                          "Dominican Republic" ~ "DR",
+                          "St. Vincent and the Grenadines" ~ "St. Vincent",
+                          "Trinidad and Tobago" ~ "Trinidad",
+                          .default = country)) |>
   ggplot(aes(year, life_expectancy, color = country)) +
   geom_line()
 ```
 
 There are other similar functions in other R packages, such as `recode_factor` and `fct_recoder` in the __forcats__ package. 
-
-
 
 ## Exercises
 
