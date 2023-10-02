@@ -276,7 +276,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-css-selectors" id="toc-sec-css-selectors" class="nav-link" data-scroll-target="#sec-css-selectors"><span class="header-section-number">14.3</span> CSS selectors</a></li>
   <li><a href="#json" id="toc-json" class="nav-link" data-scroll-target="#json"><span class="header-section-number">14.4</span> JSON</a></li>
   <li><a href="#apis" id="toc-apis" class="nav-link" data-scroll-target="#apis"><span class="header-section-number">14.5</span> APIs</a></li>
-  <li><a href="#httr-package" id="toc-httr-package" class="nav-link" data-scroll-target="#httr-package"><span class="header-section-number">14.6</span> httr package</a></li>
+  <li><a href="#httr2-package" id="toc-httr2-package" class="nav-link" data-scroll-target="#httr2-package"><span class="header-section-number">14.6</span> httr2 package</a></li>
   <li><a href="#exercises-will-not-be-included-in-midterm" id="toc-exercises-will-not-be-included-in-midterm" class="nav-link" data-scroll-target="#exercises-will-not-be-included-in-midterm"><span class="header-section-number">14.7</span> Exercises (will not be included in midterm)</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/14-web-scraping.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -396,8 +396,8 @@ title="List of U.S. states and territories by population"&gt;Population&lt;/a&gt
 </div>
 </div>
 <p>This is clearly not a tidy dataset, not even a data frame. In the code above, you can definitely see a pattern and writing code to extract just the data is very doable. In fact, <strong>rvest</strong> includes a function just for converting HTML tables into data frames:</p>
-<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-9_dcecbcbdcaa357726a7b58eab72dda11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab[[<span class="dv">1</span>]] <span class="sc">|&gt;</span> <span class="fu">html_table</span>()</span>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-9_62cc16da83a8559c2580ebf0670738fd">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url) <span class="sc">|&gt;</span> <span class="fu">html_nodes</span>(<span class="st">"table"</span>) <span class="sc">%&gt;%</span> .[[<span class="dv">1</span>]] <span class="sc">|&gt;</span> <span class="fu">html_table</span>()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_df"     "tbl"        "data.frame"</code></pre>
@@ -522,39 +522,86 @@ Attaching package: 'jsonlite'</code></pre>
 </ul>
 <p>In today’s digital age, APIs are foundational. They enable the creation of complex, feature-rich applications by allowing different software components to leverage each other’s capabilities seamlessly.</p>
 </section>
-<section id="httr-package" class="level2" data-number="14.6">
-<h2 data-number="14.6" class="anchored" data-anchor-id="httr-package"><span class="header-section-number">14.6</span> httr package</h2>
-<p>The <strong>httr</strong> package provides functions to work with HTTP requests. One of the core functions in this package is <code>GET()</code>, which is used to send GET requests to web servers.</p>
-<p>The <code>GET()</code> function sends an HTTP GET request to the specified URL. Typically, HTTP GET requests are used to retrieve information from a server based on the provided URL.</p>
-<p>The function returns an object of class <code>response</code>. This object contains all the details of the server’s response, including status code, headers, and content. You can then use other <strong>httr</strong> functions to extract or interpret information from this response.</p>
+<section id="httr2-package" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="httr2-package"><span class="header-section-number">14.6</span> httr2 package</h2>
+<p>The <strong>httr2</strong> package provides functions to work with HTTP requests. One of the core functions in this package is <code>request</code>, which is used to form request to send to web services. The <code>req_perform</code> function sends the request.</p>
+<p>This <code>request</code> function formas a HTTP GET request to the specified URL. Typically, HTTP GET requests are used to retrieve information from a server based on the provided URL.</p>
+<p>The function returns an object of class <code>response</code>. This object contains all the details of the server’s response, including status code, headers, and content. You can then use other <strong>httr2</strong> functions to extract or interpret information from this response.</p>
 <p>Let’s say you want to retrieve a webpage or API endpoint:</p>
-<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-14_cc17b870274de1b1cf5bf01a80789401">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://data.cdc.gov/resource/gvsb-yw6g.json"</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">GET</span>(url)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">status_code</span>(response))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-14_f80dd1898acf253198b99ddd39fa4187">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://data.cdc.gov/resource/gvsb-yw6g.csv"</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">request</span>(url) <span class="sc">|&gt;</span> <span class="fu">req_perform</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see the results of the request by looking at the returned object.</p>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-15_689f8972ada8e97082f34a3c5e819568">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>&lt;httr2_response&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>GET https://data.cdc.gov/resource/gvsb-yw6g.csv</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Status: 200 OK</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Content-Type: text/csv</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Body: In memory (113003 bytes)</code></pre>
+</div>
+</div>
+<p>To extract the body, which is where the data are, we can use <code>resp_body_string</code> and send the result, a comma delimited string, to <code>read_csv</code></p>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-16_0550c46b58156638895d38852ff45efa">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> response <span class="sc">|&gt;</span> <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> <span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1000 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): level
+dbl  (7): perc_diff, percent_pos, percent_pos_2_week, percent_pos_4_week, nu...
+dttm (2): posted, mmwrweek_end
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Note it is only 1000 entries. API often limit how much you can download. We can change this by adding a query parameter to thr request. Here we use the <code>req_url_path_append</code>.</p>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-17_340eaa6cb066b499ef3acde359b1f618">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">request</span>(url) <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">req_url_path_append</span>(<span class="st">"?$limit=10000000"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">req_perform</span>() <span class="sc">|&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 21909 Columns: 10
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): level
+dbl  (7): perc_diff, percent_pos, percent_pos_2_week, percent_pos_4_week, nu...
+dttm (2): posted, mmwrweek_end
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 200</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>content_data <span class="ot">&lt;-</span> <span class="fu">content</span>(response, <span class="st">"parsed"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="fu">content</span>(response, <span class="at">as =</span> <span class="st">"text"</span>), <span class="at">flatten =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1000   10</code></pre>
+<pre><code>[1] 21909    10</code></pre>
 </div>
 </div>
-<p>Note it is only 1000 entries. API often limit how much you can download. <strong>Additional Notes</strong>:</p>
-<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-15_938c379c085c2dc6803ec86f18566a30">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">GET</span>(<span class="fu">paste0</span>(url, <span class="st">"?$limit=10000000"</span>))</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="fu">content</span>(response, <span class="at">as =</span> <span class="st">"text"</span>), <span class="at">flatten =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 19873    10</code></pre>
+<p>The CDC service returns data in csv format. A more common format used by web services is JSON. The CDC also provides data in json format through a the url:</p>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-18_dcdb7d017c5603705208b5a283c06ab9">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://data.cdc.gov/resource/gvsb-yw6g.json"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>To extract the data table we use the <code>fromJSON</code> function.</p>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-19_799beb8dcdf553e299e30b913d277bd7">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">request</span>(url) <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">req_perform</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">fromJSON</span>(<span class="at">flatten =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>httr</code> package provides several utility functions to work with the response object, such as <code>content()</code>, <code>status_code()</code>, and <code>headers()</code>.</p>
-<p>For making requests other than GET, <code>httr</code> offers functions like <code>POST()</code>, <code>PUT()</code>, <code>DELETE()</code>, etc.</p>
 <p>When working with APIs, it’s essential to check the API’s documentation for rate limits, required headers, or authentication methods. The <code>httr</code> package provides tools to handle these requirements, such as setting headers or using OAuth authentication.</p>
 </section>
 <section id="exercises-will-not-be-included-in-midterm" class="level2" data-number="14.7">
@@ -567,15 +614,15 @@ Attaching package: 'jsonlite'</code></pre>
 <ol start="2" class="example" type="1">
 <li>Note that, although not very useful, we can actually see the content of the page by typing:</li>
 </ol>
-<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-16_a494d0366b27b274f0c2e08bc75083a7">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">html_text</span>(h)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-20_00004683e477bf5c4557029207525a2b">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">html_text</span>(h)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The next step is to extract the tables. For this, we can use the <code>html_nodes</code> function. We learned that tables in html are associated with the <code>table</code> node. Use the <code>html_nodes</code> function and the <code>table</code> node to extract the first table. Store it in an object <code>nodes</code>.</p>
 <ol start="3" class="example" type="1">
 <li>The <code>html_nodes</code> function returns a list of objects of class <code>xml_node</code>. We can see the content of each one using, for example, the <code>html_text</code> function. You can see the content for an arbitrarily picked component like this:</li>
 </ol>
-<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-17_a9c7ab51494ef5abd3a9efd2e3f36919">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">html_text</span>(nodes[[<span class="dv">8</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-21_eeb32df2af07a9a726bf4bd6035131dd">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">html_text</span>(nodes[[<span class="dv">8</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If the content of this object is an html table, we can use the <code>html_table</code> function to convert it to a data frame. Use the <code>html_table</code> function to convert the 8th entry of <code>nodes</code> into a table.</p>
 <ol start="4" class="example" type="1">
@@ -605,9 +652,9 @@ Attaching package: 'jsonlite'</code></pre>
 <li><p>After joining the tables, you see several NAs. This is because some teams are in one table and not the other. Use the <code>anti_join</code> function to get a better idea of why this is happening.</p></li>
 <li><p>We see see that one of the problems is that Yankees are listed as both <em>N.Y. Yankees</em> and <em>NY Yankees</em>. In the next section, we will learn efficient approaches to fixing problems like this. Here we can do it “by hand” as follows:</p></li>
 </ol>
-<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-18_c231190771e0ed671b3ed3d5ca87515e">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>tab_1 <span class="ot">&lt;-</span> tab_1 <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Team =</span> <span class="fu">ifelse</span>(Team <span class="sc">==</span> <span class="st">"N.Y. Yankees"</span>, <span class="st">"NY Yankees"</span>, Team))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="14-web-scraping_cache/html/unnamed-chunk-22_7e61352fcf782671b4ed3e411fc3a031">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tab_1 <span class="ot">&lt;-</span> tab_1 <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Team =</span> <span class="fu">ifelse</span>(Team <span class="sc">==</span> <span class="st">"N.Y. Yankees"</span>, <span class="st">"NY Yankees"</span>, Team))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now join the tables and show only Oakland and the Yankees and the payroll columns.</p>
 

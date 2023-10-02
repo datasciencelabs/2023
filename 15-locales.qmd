@@ -4,8 +4,8 @@ Notice the character on this file.
 
 ```{r}
 fn <- file.path(system.file("extdata", package = "dslabs"), "calificaciones.csv")
+try({x <- read_csv(fn)})
 readLines(fn)
-try({x <- read_csv("inst/extdata/calificaciones.csv")})
 ```
 
 This is because it is not UTF encoding, which is the default:
@@ -14,9 +14,9 @@ This is because it is not UTF encoding, which is the default:
 Sys.getlocale()
 ```
 
-The `locale` is a group of information about the system. This includes the encoding, the language, and the time zone.
+The `locale` is a group of information about your system. This includes the encoding, the language, and the time zone. This can affect how data is read into R. A mismatch of encodings creates weird problems often without warning or error.
 
-You can use this funciton to guess the encoding of a character
+You can use this function to predict the encoding of a character
 
 ```{r}
 x <- readLines(fn, n = 1)
@@ -30,14 +30,14 @@ library(readr)
 guess_encoding(fn)
 ```
 
-The `read_csv` permits us the define an econding:
+The `read_csv` permits us to define elements of the encoding through the `locale` argument. It switches the local only temporarily, while running the parser _read_csv_. The locale for R remains the same after calling this.
 
 ```{r}
 x <- read_csv(fn, locale = locale(encoding = "ISO-8859-1"))
 x
 ```
 
-However, notice the last column. Compare it to what we saw with read lines. They were numbers that used the European decimal point. We can also change the encoding for that:
+Now notice the last column. Compare it to what we saw with `readLines`. They were numbers that used the European decimal point. This confuses `read_csv`. We can also change the encoding so the Europearn decimals are used.
 
 ```{r}
 x <- read_csv(fn, locale = locale(encoding = "ISO-8859-1", decimal_mark = ","))
@@ -51,18 +51,24 @@ library(lubridate)
 dmy(x$f.n.)
 ```
 
-This is because it is in spanish. You can change the locale to use spanish as the language:
+Nothing gets correctly converted. This is because the dates are in Spanish. You can change the locale to use Spanish as the language:
 ```{r}
 parse_date(x$f.n., format = "%d de %B de %Y", locale = locale(date_names = "es"))
 ```
 
-Finally notice that two students turned in the homework past the deadline of september 21
+Finally notice that two students turned in the homework past the deadline of September 21
 
 ```{r}
 x$estampa >= make_date(2023, 9, 22)
 ```
 
-But these times are in GMT. If we change to out timezone:
+However, with times we have to be particularly careful as some functions default to UTC.
+
+```{r}
+tz(x$estampa)
+```
+
+But these times are in the default GMT. If we change to out timezone:
 
 ```{r}
 with_tz(x$estampa, tz =  Sys.timezone()) >= make_date(2023, 9, 22)

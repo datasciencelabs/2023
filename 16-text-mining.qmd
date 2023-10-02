@@ -161,7 +161,7 @@ If we filter out rows representing stop words with `filter(!word %in% stop_words
 tweet_words <- campaign_tweets |> 
   mutate(text = str_replace_all(text, links, ""))  |>
   unnest_tokens(word, text) |>
-  filter(!word %in% stop_words$word ) 
+  filter(!word %in% stop_words$word) 
 ```
 
 we end up with a much more informative set of top 10 tweeted words:

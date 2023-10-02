@@ -929,6 +929,7 @@ We want to extract the values that are separated by a comma for each string in t
 ```{r}
 x <- str_split(lines, ",") 
 x |> head(2)
+x <- str_split_fixed(lines, ",", 5)
 ```
 
 
@@ -965,7 +966,7 @@ gapminder |> filter(region == "Caribbean") |>
   geom_line()
 ```
 
-There are other similar functions in other R packages, such as `recode_factor` and `fct_recoder` in the __forcats__ package. 
+There are other similar functions in other R packages, such as `recode_factor` and `fct_recoder` of `fct_collapse` in the __forcats__ package. 
 
 ## Exercises
 

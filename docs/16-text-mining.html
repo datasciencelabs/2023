@@ -510,11 +510,11 @@ Davenport- this past winter. #MAGA https://t.co/A5IF0QHnic</code></pre>
 </div>
 </div>
 <p>If we filter out rows representing stop words with <code>filter(!word %in% stop_words$word)</code>:</p>
-<div class="cell" data-hash="16-text-mining_cache/html/unnamed-chunk-17_62d1a82fc0e4c8cb5cced2a289c7a262">
+<div class="cell" data-hash="16-text-mining_cache/html/unnamed-chunk-17_42e869a492bda645afd83bb3a276af91">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tweet_words <span class="ot">&lt;-</span> campaign_tweets <span class="sc">|&gt;</span> </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_replace_all</span>(text, links, <span class="st">""</span>))  <span class="sc">|&gt;</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">|&gt;</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>we end up with a much more informative set of top 10 tweeted words:</p>
 <div class="cell" data-hash="16-text-mining_cache/html/unnamed-chunk-18_b2b0db73fe0c45f1e5426cee9de19182">
