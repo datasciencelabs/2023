@@ -31,13 +31,18 @@ bdays <- sample(1:365, size = n, replace = TRUE)
 Did two or more people have the same birthday? 
 
 ```{r}
-## Hint: use the duplicated function
+any(duplicated(bdays))
 ```
 
 The probability can be thought of as taking $n$ samples over and over again, for ever. The proportion of times we see two or more can be defined as the probability. So approximate $\infty$ with 100,000 and report the proportion for $n=25$.
 
 ```{r}
-## Hint: use replicate and remember mean of logicals gives you the proportion of TRUE
+n <- 25
+B <- 10^5
+replicate(B,{
+  bdays <- sample(1:365, size = n, replace = TRUE)
+  any(duplicated(bdays))
+}) |> mean()
 ```
 
 
@@ -45,20 +50,32 @@ Use Monte Carlo to estimate the probability for $n=1,\dots,50$. Make a plot of t
 
 
 ```{r}
-## Hint: Use sapply.
+n <- seq(1, 50)
+pr <- function(n){
+  replicate(B,{
+    bdays <- sample(1:365, size = n, replace = TRUE)
+    any(duplicated(bdays))
+  }) |> mean()
+}
+p <- sapply(n, pr)
+plot(n, p)
 ```
 
 We can compute the exact probability:
 
 $$
-1 \times \frac{364}{365}\times\frac{363}{365} \dots \frac{365-n + 1}{365}
+1 - 1 \times \frac{364}{365}\times\frac{363}{365} \dots \frac{365-n + 1}{365}
 $$
 
 Write a function that computes this for any $n$ then add a curve to the previous plot to confirm that our approximation worked. 
 ```{r}
-## Hint: use the prod function to multiply a sequence of numbers.
+epr <- function(n){
+  1 - prod(seq(365, 365 - n + 1)/365)
+}
+ep <- sapply(n, epr)
+plot(n, p)
+lines(n, ep, col = "red")
 ```
-
 
 
 ## Random variables
@@ -165,21 +182,25 @@ What is the expected value of $X_i$? Call it $\mu$.
 
 
 $$
-\mu = \mbox{E}[X_i] = 
+\mu = \mbox{E}[X_i] = -1 \times 9/19 + 1 \times 10/19 = 1/19 \approx 0.05
 $$
 
 What is the standard error? Call it $\simga$
 
 
 $$
-\sigma^2 = \mbox{Var}[X_i] = \mbox{E}[(X_i-\mu)^2]
+\begin{align}
+\sigma^2 &= \mbox{Var}[X_i] = \mbox{E}[(X_i-\mu)^2] = (-1 - 1/19)^2 \times 9/19 + (1 - 1/19)^2 \times 10/19\\
+& = 4 \times 10/19 \times 9/19
+\end{align}
 $$
-Let's check with a Monte Carlo simualtion:
+Let's check with a Monte Carlo simulation:
 
 ```{r}
 x <- sample(c(-1, 1), size = 10^6, replace = TRUE, prob = c(9/19, 10/19))
 mean(x)
 sqrt(mean((x - mean(x))^2))
+sd(x)
 ```
 
 :::{.callout-note}
@@ -194,7 +215,7 @@ $$
 
 
 $$
-\mbox{Var}[S_n] =\mbox{Var}[\sum_{i=1}^n X_i] =  \mbox{Var}[\sum_{i=1}^n X_i] = n \sigma^2
+\mbox{Var}[S_n] =\mbox{Var}[\sum_{i=1}^n X_i] =  \sum_{i=1}^n\mbox{Var}[X_i] = n \sigma^2
 $$
 
 So 
@@ -214,7 +235,7 @@ $$
 n <- 1000
 mu <- 1/19
 sigma <- 2*sqrt(9/19*10/19)
-pnorm(-mu*sqrt(n)/(sigma))
+pnorm(-sqrt(n)*mu/sigma)
 ```
 
 
@@ -237,7 +258,7 @@ $$
 
 
 ```{r}
-n <- (-sigma/mu*qnorm(0.01))^2
+n <- ceiling((-sigma/mu*qnorm(0.01))^2)
 ```
 
 
@@ -247,6 +268,11 @@ n <- (-sigma/mu*qnorm(0.01))^2
 
 ```{r}
 ## Hint: copy and paste one of the previous Monte Carlo simulations and change n
+s <- replicate(10^5,{
+  x <- sample(c(-1, 1), size = n, replace = TRUE, prob = c(9/19, 10/19))
+  sum(x)
+})
+mean(s < 0)
 ```
 
 
@@ -259,13 +285,13 @@ $$
 (@) What are the expected value of $\bar{X}$?
 
 $$
-\mbox{E}[\bar{X}_n] = 
+\mbox{E}[\bar{X}_n] =  \mbox{E}[\bar{S}_n/n] = 1/n \mbox{E}[\bar{S}_n]  = 1/n \times n \times \mu = \mu
 $$
 
 (@) What is the standard error of $\bar{X}_n$?
 
 $$
-\mbox{SE}[\bar{X}_n] = 
+\mbox{SE}[\bar{X}_n] = 1/n \mbox{SE}[\bar{S}_n] = 1/n \times \sqrt{n} \sigma = \sigma / \sqrt{n}
 $$
 (@) What do the previous two results tell us about the difference between $\bar{X}_n$ and $\mu$ when $n$ is very large.
 
@@ -280,13 +306,18 @@ $$
 S_n = \sum_{i=1}^n X_i
 $$
 
-with $n=500,000$ and $\mbox{\Pr}(X_i=1) = 0.000001$.
+with $n=500,000$ and 
+
+$$
+\mbox{Pr}(X_i=1) = 0.000001
+$$.
 
 CLT says $S_n$ should follow a normal distribution. Let's run Monte Carlo to check:
 
 ```{r}
 s <- replicate(10^3,{
-  x <- sample(c(0, 1), size = 5*10^5, replace = TRUE, prob = c(1 - 10^-6, 10^-6))
+  x <- sample(c(0, 1), size = 5*10^5, replace = TRUE, 
+              prob = c(1 - 10^-6, 10^-6))
   sum(x)
 })
 plot(table(s))
@@ -309,6 +340,10 @@ $$
 
 To the probabilities of a Poisson distributed variavbel with rate $np = 500000/1000000 = 0.5$. Hint: Use `dpois` function.
 
+```{r}
+sapply(0:3, function(k) mean(s == k))
+dpois(0:3, 0.5)
+```
 
 ## 2008 Financial Crisis
 
@@ -333,7 +368,8 @@ hist(s)
 
 What assumption is violated now?
 
-Rember the formula for sum of variance is actually:
+Remember the formula for sum of variance is actually:
+
 $$
 \mbox{Var}(X_1 + X_2) = \mbox{Var}(X_1) + \mbox{Var}(X_2) + 2\mbox{Cov}(X_1, X_2)
 $$
