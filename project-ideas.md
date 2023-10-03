@@ -8,4 +8,4 @@
 | Cluster books based on sentiment analysis.| [Project Gutenberg](https://www.gutenberg.org/) | |
 | Are there batch effects in the early microarray papers.| [Stanford web site](https://web.archive.org/web/20090622110027/http://genome-www.stanford.edu/cellcycle/data/rawdata), [Kaggle](https://www.kaggle.com/datasets/crawford/gene-expression) | [Spellman et al.](https://pubmed.ncbi.nlm.nih.gov/9843569), [Golub et al.](https://pubmed.ncbi.nlm.nih.gov/10521349/) |
 | Are there regional effects on excess deaths during oxycontin epidemic? | [CDC](https://www.cdc.gov/nchs/nvss/deaths.htm)  |  |
-| Is crime raising in citites? What kinds of crimes? Which cities? | | |
+| Is crime rising in cities? What kinds of crimes? Which cities? | | |
