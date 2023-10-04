@@ -1,0 +1,454 @@
+# Inference
+
+The day before the 2008 presidential election, Nate Silver's FiveThirtyEight stated that 
+
+>> Barack Obama appears poised for a decisive electoral victory. 
+
+They went further and predicted that Obama would win the election with 349 electoral votes to 189, and the popular vote by a margin of 6.1%. FiveThirtyEight also attached a probabilistic statement to their prediction claiming that Obama had a 91% chance of winning the election.
+
+Political commentator Joe Scarborough said during [his show](https://www.youtube.com/watch?v=TbKkjm-gheY)
+
+> > Anybody that thinks that this race is anything but a toss-up right now is such an ideologue ... they're jokes.
+
+To which Nate Silver responded via Twitter:
+
+> > If you think it's a toss-up, let's bet. If Obama wins, you donate \$1,000 to the American Red Cross. If Romney wins, I do. Deal?
+
+In 2016, Silver was not as certain and gave Hillary Clinton only a 71% of winning. In contrast, many other forecasters were almost certain she would win. She lost. But 71% is still more than 50%, so was Mr. Silver wrong? And what does probability mean in this context anyway? Are dice being tossed or cards being dealt somewhere?
+
+
+## Parameters and Estimates
+
+[Real Clear Politics](http://www.realclearpolitics.com)
+ is an example of a news aggregator that organizes and publishes poll results. For example, they present the following poll results reporting estimates of the popular vote for the [2016 presidential election](http://www.realclearpolitics.com/epolls/2016/president/us/general_election_trump_vs_clinton-5491.html)
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+url <- "https://web.archive.org/web/20161108012231/https://www.realclearpolitics.com/epolls/2016/president/us/general_election_trump_vs_clinton-5491.html"
+library(rvest)
+tab <- read_html(url) |> html_node("table") |> html_table()
+tab <- tab |> mutate(Poll = stringr::str_remove(Poll, "\\/.*")) |>
+  mutate(Poll = case_when(
+    Poll == "BloombergBloomberg" ~ "Bloomberg",
+    Poll == "FOX NewsFOX News" ~ "FOX News",
+    Poll == "MonmouthMonmouth"  ~ "Monmouth",  
+    Poll == "CBS NewsCBS News" ~ "CBS News",
+    TRUE ~ Poll))
+names(tab) <- stringr::str_remove_all(names(tab), "\\s(.*)")    
+knitr::kable(tab, "html") |>
+  kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```
+
+
+Let's make some observations about the table above. 
+
+* Different polls, all taken days before the election, report a different *spread*
+* Clinton won the popular vote by 2.1%. 
+* We also see a column titled **MoE** which stands for *margin of error*.
+
+
+## Predict percents competition
+
+What percent of the beads are red?
+
+![](http://rafalab.dfci.harvard.edu/dsbook-part-2/inference/img/urn.jpg){width=40%}
+
+
+Rules:
+
+* Winners gets a $25 gift certificate
+* Provide an interval.
+* If the true percent is not in the interval you are eliminated
+* Smallest interval wins.
+* You can take a sample (with replacement) from the urn. 
+* It costs you \$0.10 per each bead you sample. Example: if your sample size is 250, and you win, you will break even since you will pay \$25 to collect your \$25 prize. 
+
+The **dslabs** package includes a function that shows a random draw from this urn:
+
+
+```{r first-simulated-poll, message=FALSE, warning=FALSE, echo=FALSE, cache=FALSE}
+set.seed(1)
+library(tidyverse)
+library(dslabs)
+take_poll(25)
+```
+
+
+## Populations, samples, parameters, and estimates
+
+We want to predict the proportion of red beads in the urn. Let's call this quantity $p$, which then tells us the proportion of blue beads $1-p$, and the spread $p - (1-p)$, which simplifies to $2p - 1$.
+
+In statistical textbooks:
+
+* the beads in the urn are called the *population*. 
+* The proportion of red beads in the population $p$ is called a *parameter*. 
+* The 25 beads we see in the previous plot are called a *sample*. 
+
+The task of statistical inference is to predict the parameter $p$ using the observed data in the sample.
+
+
+## The sample average
+
+
+$$\bar{X} = \frac{1}{N} \sum_{i=1}^N X_i$$
+
+Has some desirable properties:
+
+$$
+\mbox{E}(\bar{X}) = p
+$$
+
+$$
+\mbox{SE}(\bar{X}) = \sqrt{p(1-p)/N}
+$$
+
+This result reveals the power of polls. The expected value of the sample proportion $\bar{X}$ is the parameter of interest $p$ and we can make the standard error as small as we want by increasing $N$. The law of large numbers tells us that with a large enough poll, our estimate converges to $p$.
+
+
+Here is the standard error for $p=.25, .5,$ and $0.75$:
+
+```{r standard-error-versus-sample-size, echo=FALSE, message=FALSE, warning=FALSE}
+N <- 10^seq(1, 5, len = 100)
+map_df(c(0.1, 0.25, 0.5), function(p) data.frame(N = N, SE = sqrt(p*(1 - p)/N), p = as.character(p)))  |> 
+  ggplot(aes(N, SE, color = p)) + 
+  geom_line() + 
+  scale_x_continuous(breaks = c(10, 100, 1000, 10000), trans = "log10", labels = scales::comma) +
+  geom_hline(yintercept = 0.01, lty = 2)
+```
+
+From the plot we see that we would need a very large polls to get the standarr error below 1%.
+
+But there is one more very useful property based on CLT:
+
+$$
+\bar{X} \sim \mbox{Normal}\left(p, \sqrt{p(1-p)/N}\right)
+$$
+
+
+## CLT in practice
+
+Now we can ask a more practical questions such as what is the probability that our estimate is within 1% of the actual $p$. We can write it like this and actually use CLT to answer the question:
+
+
+$$
+\mbox{Pr}(| \bar{X} - p| \leq .01)
+$$ 
+
+which is the same as:
+
+$$
+\mbox{Pr}(\bar{X} - p\leq  .01) - \mbox{Pr}(\bar{X} - p \leq - .01)
+$$
+
+we standardize $\bar{X}$ to get a approximately standard normal $Z$: 
+
+$$
+\mbox{Pr}\left(Z \leq \frac{ \,.01} {\mbox{SE}(\bar{X})} \right) -
+\mbox{Pr}\left(Z \leq - \frac{ \,.01} {\mbox{SE}(\bar{X})} \right) 
+$$
+
+We are almost ready to get a number except since we don't know $p$, we don't know $\mbox{SE}(\bar{X})$. 
+
+But it turns out that the CLT still works if we estimate the standard error by using $\bar{X}$ in place of $p$. We say that we *plug-in* the estimate. Our estimate of the standard error is therefore:
+
+$$
+\hat{\mbox{SE}}(\bar{X})=\sqrt{\bar{X}(1-\bar{X})/N}
+$$ 
+
+
+Now we continue with our calculation, but dividing by $\hat{\mbox{SE}}(\bar{X})=\sqrt{\bar{X}(1-\bar{X})/N})$ instead. In our first sample we had 12 blue and 13 red so $\bar{X} = 0.52$ and our estimate of standard error is:
+
+```{r}
+x_hat <- 0.52
+se <- sqrt(x_hat*(1 - x_hat)/25)
+se
+```
+
+And now we can answer the question of the probability of being close to $p$. The answer is:
+
+```{r}
+pnorm(0.01/se) - pnorm(-0.01/se)
+```
+
+Earlier we mentioned the *margin of error*. Now we can define it because it is simply two times the standard error, which we can now estimate. In our case it is:
+
+```{r}
+1.96*se
+```
+
+Why do we multiply by $1.96 \hat{\mbox{SE}}(\bar{X})$? Because if you ask what is the probability that we are within 1.96 standard errors from $p$, we get:
+
+$$
+\mbox{Pr}\left(Z \leq \, 1.96\,\hat{\mbox{SE}}(\bar{X})  / \hat{\mbox{SE}}(\bar{X}) \right) -
+\mbox{Pr}\left(Z \leq - 1.96\, \hat{\mbox{SE}}(\bar{X}) / \hat{\mbox{SE}}(\bar{X}) \right) 
+$$ which is:
+
+$$
+\mbox{Pr}\left(Z \leq 1.96 \right) -
+\mbox{Pr}\left(Z \leq - 1.96\right) 
+$$
+
+which we know is about 95%:
+
+```{r}
+pnorm(1.96) - pnorm(-1.96)
+```
+
+Hence, there is a 95% probability that $\bar{X}$ will be within $1.96\times \hat{SE}(\bar{X})$, in our case within about `r round(1.96*se, 2)`, of $p$. Note that 95% is somewhat of an arbitrary choice and sometimes other percentages are used, but it is the most commonly used value to define margin of error. We often round 1.96 up to 2 for simplicity of presentation.
+
+In summary, the CLT tells us that our poll based on a sample size of $25$ is not very useful. We don't really learn much when the margin of error is this large. All we can really say is that the popular vote will not be won by a large margin. This is why pollsters tend to use larger sample sizes.
+
+### A Monte Carlo simulation
+
+Suppose we want to use a Monte Carlo simulation to corroborate the tools we have built using probability theory. To create the simulation, we would write code like this:
+
+```{r, eval=FALSE}
+B <- 10000
+N <- 1000
+x_hat <- replicate(B, {
+  x <- sample(c(0,1), size = N, replace = TRUE, prob = c(1-p, p))
+  mean(x)
+})
+```
+
+The problem is, of course, we don't know `p`. We could construct an urn like the one pictured above and run an analog (without a computer) simulation. It would take a long time, but you could take 10,000 samples, count the beads and keep track of the proportions of blue. We can use the function `take_poll(n=1000)` instead of drawing from an actual urn, but it would still take time to count the beads and enter the results.
+
+One thing we therefore do to corroborate theoretical results is to pick one or several values of `p` and run the simulations. Let's set `p=0.45`. We can then simulate a poll:
+
+```{r}
+p <- 0.45
+N <- 1000
+
+x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
+x_hat <- mean(x)
+```
+
+In this particular sample, our estimate is `x_hat`. We can use that code to do a Monte Carlo simulation:
+
+```{r}
+B <- 10000
+x_hat <- replicate(B, {
+  x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
+  mean(x)
+})
+```
+
+To review, the theory tells us that $\bar{X}$ is approximately normally distributed, has expected value $p=$ `r p` and standard error $\sqrt{p(1-p)/N}$ = `r sqrt(p*(1-p)/N)`. The simulation confirms this:
+
+```{r}
+mean(x_hat)
+sd(x_hat)
+```
+
+A histogram and qq-plot confirm that the normal approximation is accurate as well:
+
+```{r normal-approximation-for-polls, echo=FALSE, warning=FALSE, message=FALSE, out.width="100%", fig.height=3, cache=FALSE}
+library(tidyverse)
+library(gridExtra)
+p1 <- data.frame(x_hat=x_hat) |> 
+  ggplot(aes(x_hat)) + 
+  geom_histogram(binwidth = 0.005, color="black")
+p2 <-  data.frame(x_hat=x_hat) |> 
+  ggplot(aes(sample=x_hat)) + 
+  stat_qq(dparams = list(mean=mean(x_hat), sd=sd(x_hat))) +
+  geom_abline() + 
+  ylab("x_hat") + 
+  xlab("Theoretical normal")
+grid.arrange(p1,p2, nrow=1)
+```
+
+Of course, in real life we would never be able to run such an experiment because we don't know $p$. But we could run it for various values of $p$ and $N$ and see that the theory does indeed work well for most values. You can easily do this by re-running the code above after changing `p` and `N`.
+
+
+
+## Confidence intervals
+
+We want to know the probability that the interval $[\bar{X} - 2\hat{\mbox{SE}}(\bar{X}), \bar{X} + 2\hat{\mbox{SE}}(\bar{X})]$ contains the true proportion $p$. First, consider that the start and end of these intervals are random variables: every time we take a sample, they change. To illustrate this, run the Monte Carlo simulation above twice. We use the same parameters as above:
+
+```{r}
+p <- 0.45
+N <- 1000
+```
+
+And notice that the interval here:
+
+```{r}
+x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
+x_hat <- mean(x)
+se_hat <- sqrt(x_hat * (1 - x_hat) / N)
+c(x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
+```
+
+is different from this one:
+
+```{r}
+x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
+x_hat <- mean(x)
+se_hat <- sqrt(x_hat * (1 - x_hat) / N)
+c(x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
+```
+
+Keep sampling and creating intervals and you will see the random variation.
+
+To determine the probability that the interval includes $p$, we need to compute this: 
+
+$$
+\mbox{Pr}\left(\bar{X} - 1.96\hat{\mbox{SE}}(\bar{X}) \leq p \leq \bar{X} + 1.96\hat{\mbox{SE}}(\bar{X})\right)
+$$
+
+By subtracting and dividing the same quantities in all parts of the equation, we get that the above is equivalent to:
+
+$$
+\mbox{Pr}\left(-1.96 \leq \frac{\bar{X}- p}{\hat{\mbox{SE}}(\bar{X})} \leq  1.96\right)
+$$
+
+The term in the middle is an approximately normal random variable with expected value 0 and standard error 1, which we have been denoting with $Z$, so we have:
+
+$$
+\mbox{Pr}\left(-1.96 \leq Z \leq  1.96\right)
+$$
+
+which we can quickly compute using :
+
+```{r}
+pnorm(1.96) - pnorm(-1.96)
+```
+
+proving that we have a 95% probability.
+
+If we want to have a larger probability, say 99%, we need to multiply by whatever `z` satisfies the following:
+
+$$
+\mbox{Pr}\left(-z \leq Z \leq  z\right) = 0.99
+$$
+
+Using:
+
+```{r}
+z <- qnorm(0.995)
+z
+```
+
+will achieve this because by definition `pnorm(qnorm(0.995))` is 0.995 and by symmetry `pnorm(1-qnorm(0.995))` is 1 - 0.995. As a consequence, we have that:
+
+```{r}
+pnorm(z) - pnorm(-z)
+```
+
+is `0.995 - 0.005 = 0.99`.
+
+We can use this approach for any probability, not just 0.95 and 0.99. In statistics textbooks, these are usually written for any probability as $1-\alpha$. We can then obtain the $z$ for the equation above noting using `z = qnorm(1 - alpha / 2)` because $1 - \alpha/2 - \alpha/2 = 1 - \alpha$.
+
+So, for example, for $\alpha=0.05$, $1 - \alpha/2 = 0.975$ and we get the 1.96 we have been using:
+
+```{r}
+qnorm(0.975)
+```
+
+### A Monte Carlo simulation
+
+We can run a Monte Carlo simulation to confirm that, in fact, a 95% confidence interval includes $p$ 95% of the time.
+
+```{r, echo=FALSE}
+set.seed(1)
+```
+
+```{r}
+N <- 1000
+B <- 10000
+inside <- replicate(B, {
+  x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
+  x_hat <- mean(x)
+  se_hat <- sqrt(x_hat * (1 - x_hat) / N)
+  between(p, x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
+})
+mean(inside)
+```
+
+The following plot shows the first 100 confidence intervals. In this case, we created the simulation so the black line denotes the parameter we are trying to estimate:
+
+```{r confidence-interval-coverage, message=FALSE, echo=FALSE, fig.height=6}
+set.seed(1)
+tab <- replicate(100, {
+  x <- sample(c(0,1), size = N, replace = TRUE, prob = c(1-p, p))
+  x_hat <- mean(x)
+  se_hat <- sqrt(x_hat * (1 - x_hat) / N)
+  hit <- between(p, x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
+  c(x_hat, x_hat - 1.96 * se_hat, x_hat + 2 * se_hat, hit)
+})
+
+tab <- data.frame(poll=1:ncol(tab), t(tab))
+names(tab)<-c("poll", "estimate", "low", "high", "hit")
+tab <- mutate(tab, p_inside = ifelse(hit, "Yes", "No") )
+ggplot(tab, aes(poll, estimate, ymin=low, ymax=high, col = p_inside)) + 
+  geom_point()+
+  geom_errorbar() + 
+  coord_flip() + 
+  geom_hline(yintercept = p)
+```
+
+
+
+
+## Exercises
+
+(@) Write a line of code that gives you the standard error `se` for the proportion of red beads for several values of $p$, specifically for `p <- seq(0, 1, length = 100)`. Make a plot of `se` versus `p`.
+
+
+(@) If we are interested in the difference in proportions, $\mu = p - (1-p)$, our estimate is $\hat{\mu} = \bar{X} - (1-\bar{X})$ expected value and SE of $\hat{\mu}$.
+
+(@) If the actual $p=.45$, it means the Republicans are winning by a relatively large margin since $\mu = -.1$, which is a 10% margin of victory. In this case, what is the standard error of $2\hat{X}-1$ if we take a sample of $N=25$?
+
+(@). Given the answer to 9, which of the following best describes your strategy of using a sample size of $N=25$?
+
+a.  The expected value of our estimate $2\bar{X}-1$ is $\mu$, so our prediction will be right on.
+b.  Our standard error is larger than the difference, so the chances of $2\bar{X}-1$ being positive and throwing us off were not that small. We should pick a larger sample size.
+c.  The difference is 10% and the standard error is about 0.2, therefore much smaller than the difference.
+d.  Because we don't know $p$, we have no way of knowing that making $N$ larger would actually improve our standard error.
+
+
+For the next exercises, we will use actual polls from the 2016 election. You can load the data from the **dslabs** package.
+
+```{r}
+library(dslabs)
+```
+
+Specifically, we will use all the national polls that ended within one week before the election.
+
+```{r, message=FALSE, message=FALSE}
+library(tidyverse)
+polls <- polls_us_election_2016 |> 
+  filter(enddate >= "2016-10-31" & state == "U.S.") 
+```
+
+(@) For the first poll, you can obtain the samples size and estimated Clinton percentage with:
+
+```{r, eval=FALSE}
+N <- polls$samplesize[1]
+x_hat <- polls$rawpoll_clinton[1]/100
+```
+
+Assume there are only two candidates and construct a 95% confidence interval for the election night proportion $p$.
+
+(@) Now use `dplyr` to add a confidence interval as two columns, call them `lower` and `upper`, to the object `poll`. Then use `select` to show the `pollster`, `enddate`, `x_hat`,`lower`, `upper` variables. Hint: define temporary columns `x_hat` and `se_hat`.
+
+(@) The final tally for the popular vote was Clinton 48.2% and Trump 46.1%. Add a column, call it `hit`, to the previous table stating if the confidence interval included the true proportion $p=0.482$ or not.
+
+(@) For the table you just created, what proportion of confidence intervals included $p$?
+
+(@) If these confidence intervals are constructed correctly, and the theory holds up, what proportion should include $p$?
+
+(@). A much smaller proportion of the polls than expected produce confidence intervals containing $p$. If you look closely at the table, you will see that most polls that fail to include $p$ are underestimating. The reason for this is undecided voters, individuals polled that do not yet know who they will vote for or do not want to say. Because, historically, undecideds divide evenly between the two main candidates on election day, it is more informative to estimate the spread or the difference between the proportion of two candidates $\mu$, which in this election was $0. 482 - 0.461 = 0.021$. Assume that there are only two parties and that $\mu = 2p - 1$, redefine `polls` as below and re-do exercise 1, but for the difference.
+
+```{r, message=FALSE, comment=FALSE}
+polls <- polls_us_election_2016 |> 
+  filter(enddate >= "2016-10-31" & state == "U.S.")  |>
+  mutate(mu_hat = rawpoll_clinton / 100 - rawpoll_trump / 100)
+```
+
+(@) Now recalculate confidence interavls for the difference and see how often the polls include the election night difference of 0.21.
+
+(@) Make a plot of the error, the difference between each poll's estimate and the actual $mu=0.021$ stratified by pollster.
+
+(@) Redo the previous plot but only for pollsters that took five or more polls.
+

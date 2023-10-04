@@ -32,6 +32,7 @@ book:
     - 15-locales.qmd
     - 16-text-mining.qmd
     - 17-probability.qmd
+    - 18-inference.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023
