@@ -626,7 +626,7 @@ Levels: North Central Northeast South West</code></pre>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({x <span class="ot">&lt;-</span> <span class="fu">tolower</span>(x)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.460   0.012   1.473 </code></pre>
+  1.469   0.012   1.482 </code></pre>
 </div>
 </div>
 <p>Exercise: How can we make this go much faster?</p>
@@ -634,7 +634,7 @@ Levels: North Central Northeast South West</code></pre>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({<span class="fu">levels</span>(y) <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">levels</span>(y))})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.019   0.003   0.022 </code></pre>
+  0.019   0.000   0.019 </code></pre>
 </div>
 </div>
 <p>Factors can be confusing:</p>
@@ -960,7 +960,7 @@ y is 3 </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (x, y, ...) 
 UseMethod("plot")
-&lt;bytecode: 0x1187f9d50&gt;
+&lt;bytecode: 0x116d2a658&gt;
 &lt;environment: namespace:base&gt;</code></pre>
 </div>
 </div>

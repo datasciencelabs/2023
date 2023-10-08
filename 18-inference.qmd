@@ -57,7 +57,7 @@ What percent of the beads are red?
 Rules:
 
 * Winners gets a $25 gift certificate
-* Provide an interval.
+* Provide an estimate and an interval.
 * If the true percent is not in the interval you are eliminated
 * Smallest interval wins.
 * You can take a sample (with replacement) from the urn. 
@@ -181,12 +181,17 @@ Why do we multiply by $1.96 \hat{\mbox{SE}}(\bar{X})$? Because if you ask what i
 $$
 \mbox{Pr}\left(Z \leq \, 1.96\,\hat{\mbox{SE}}(\bar{X})  / \hat{\mbox{SE}}(\bar{X}) \right) -
 \mbox{Pr}\left(Z \leq - 1.96\, \hat{\mbox{SE}}(\bar{X}) / \hat{\mbox{SE}}(\bar{X}) \right) 
-$$ which is:
+$$
+
+
+
+which is:
 
 $$
 \mbox{Pr}\left(Z \leq 1.96 \right) -
 \mbox{Pr}\left(Z \leq - 1.96\right) 
 $$
+
 
 which we know is about 95%:
 
@@ -205,6 +210,7 @@ Suppose we want to use a Monte Carlo simulation to corroborate the tools we have
 ```{r, eval=FALSE}
 B <- 10000
 N <- 1000
+p <- 0.45
 x_hat <- replicate(B, {
   x <- sample(c(0,1), size = N, replace = TRUE, prob = c(1-p, p))
   mean(x)
@@ -237,7 +243,7 @@ To review, the theory tells us that $\bar{X}$ is approximately normally distribu
 
 ```{r}
 mean(x_hat)
-sd(x_hat)
+mean((x_hat-mean(x_hat))^2)
 ```
 
 A histogram and qq-plot confirm that the normal approximation is accurate as well:
@@ -263,7 +269,15 @@ Of course, in real life we would never be able to run such an experiment because
 
 ## Confidence intervals
 
-We want to know the probability that the interval $[\bar{X} - 2\hat{\mbox{SE}}(\bar{X}), \bar{X} + 2\hat{\mbox{SE}}(\bar{X})]$ contains the true proportion $p$. First, consider that the start and end of these intervals are random variables: every time we take a sample, they change. To illustrate this, run the Monte Carlo simulation above twice. We use the same parameters as above:
+We want to know the probability that the interval 
+
+$$
+[\bar{X} - 1.96\hat{\mbox{SE}}(\bar{X}), \bar{X} + 1.96\hat{\mbox{SE}}(\bar{X})]
+$$ 
+
+
+
+contains the true proportion $p$. First, consider that the start and end of these intervals are random variables: every time we take a sample, they change. To illustrate this, run the Monte Carlo simulation above twice. We use the same parameters as above:
 
 ```{r}
 p <- 0.45
@@ -276,7 +290,7 @@ And notice that the interval here:
 x <- sample(c(0, 1), size = N, replace = TRUE, prob = c(1 - p, p))
 x_hat <- mean(x)
 se_hat <- sqrt(x_hat * (1 - x_hat) / N)
-c(x_hat - 1.96 * se_hat, x_hat + 1.96 * se_hat)
+x_hat + c(-1, 1)*se_hat * 1.96
 ```
 
 is different from this one:
@@ -295,6 +309,7 @@ To determine the probability that the interval includes $p$, we need to compute 
 $$
 \mbox{Pr}\left(\bar{X} - 1.96\hat{\mbox{SE}}(\bar{X}) \leq p \leq \bar{X} + 1.96\hat{\mbox{SE}}(\bar{X})\right)
 $$
+
 
 By subtracting and dividing the same quantities in all parts of the equation, we get that the above is equivalent to:
 
@@ -399,7 +414,7 @@ ggplot(tab, aes(poll, estimate, ymin=low, ymax=high, col = p_inside)) +
 
 (@) If the actual $p=.45$, it means the Republicans are winning by a relatively large margin since $\mu = -.1$, which is a 10% margin of victory. In this case, what is the standard error of $2\hat{X}-1$ if we take a sample of $N=25$?
 
-(@). Given the answer to 9, which of the following best describes your strategy of using a sample size of $N=25$?
+(@) Given the answer to 9, which of the following best describes your strategy of using a sample size of $N=25$?
 
 a.  The expected value of our estimate $2\bar{X}-1$ is $\mu$, so our prediction will be right on.
 b.  Our standard error is larger than the difference, so the chances of $2\bar{X}-1$ being positive and throwing us off were not that small. We should pick a larger sample size.

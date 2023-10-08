@@ -293,6 +293,7 @@ $$
 $$
 \mbox{SE}[\bar{X}_n] = 1/n \mbox{SE}[\bar{S}_n] = 1/n \times \sqrt{n} \sigma = \sigma / \sqrt{n}
 $$
+
 (@) What do the previous two results tell us about the difference between $\bar{X}_n$ and $\mu$ when $n$ is very large.
 
 
@@ -398,21 +399,71 @@ Use Monte Carlo simulations to answer these questions. Feel free to confirm usin
 
 (@) In American Roulette you can also bet on green. There are 18 reds, 18 blacks and 2 greens (0 and 00). What are the chances the green comes out?
 
+```{r}
+p <- 1/19
+```
+
 (@) The payout for winning on green is \$17 dollars. This means that if you bet a dollar and it lands on green, you get \$17. Create a sampling model using sample to simulate the random variable $X$ for your winnings. 
+
+```{r}
+sample(c(-1, 17), size = 1, replace = TRUE, prob = c(18/19, 1/19))
+```
 
 (@) Compute the expected value of $X$.
 
+```{r}
+-1 * 18/19 + 1*17/19
+```
+
 (@) Compute the standard error of $X$.
+
+```{r}
+18 * sqrt(18/19*1/19)
+```
 
 (@) Now create a random variable $S$ that is the sum of your winnings after betting on green 1000 times.
 
+```{r}
+n <- 1000
+x <- sample(c(-1, 17), size = n, replace = TRUE, prob = c(18/19, 1/19))
+sum(x)
+```
+
+
 (@) What is the expected value of $S$?
+
+```{r}
+mu <- n * p
+```
 
 (@) What is the standard error of $S$?
 
+```{r}
+se <- sqrt(n) * 18*sqrt(p*(1 - p))
+```
+
 (@) Use CLT to estimate the probability that you end up winning money? 
 
+$$
+Pr(Z > -\mu/se) = ?
+$$
+
+```{r}
+1 - pnorm(-mu/se)
+```
+
 (@) Create a Monte Carlo simulation that generates 1,000 outcomes of $S$. Compute the average and standard deviation of the resulting list to confirm the results of 6 and 7. 
+
+```{r}
+B <- 100000
+s <- replicate(B,{
+  n <- 1000
+  x <- sample(c(-1, 17), size = n, replace = TRUE, prob = c(18/19, 1/19))
+  sum(x)
+})
+mean(s<0)
+```
+
 
 (@) Now check your answer based on CLT using the Monte Carlo result.
 

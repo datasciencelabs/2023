@@ -178,6 +178,35 @@ Because these are reported heights, a possibility is that the student meant to e
 
 (@) Suppose we can't make a plot and want to compare the distributions side by side. We can't just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing `female_percentiles` and `male_percentiles` with the 10th, 30th, 50th, 70th, & 90th percentiles for each sex. Then create a data frame with these two as columns.
 
+```{r}
+library(dplyr)
+library(dslabs)
+qs <- seq(10,90,20)
+heights |> group_by(sex) |>
+  reframe(quantile = paste0(qs, "%"), value = quantile(height, qs/100)) |>
+  pivot_wider(names_from = sex) |>
+  rename(female_percentiles = Female, male_percentiles = Male)
+data.frame(id = c("x","x", "y", "y"), sex = c("a","b", "a", "b"), value = c(1,2,3,4)) |>
+  pivot_wider(names_from = sex, values_from = value)
+
+## Here is an R-base solution
+qs <- seq(10,90,20)
+with(heights,
+     data.frame(
+       quantile(height[sex == "Male"], qs/100),
+       quantile(height[sex == "Female"], qs/100)
+)) |> setNames(c("female_percentiles", "male_percentiles"))
+
+heights |> group_by(sex) |>
+  
+  reframe(quantile = paste0(qs, "%"), value = quantile(height, qs/100)) |>
+  pivot_wider(names_from = sex) |>
+  rename(female_percentiles = Female, male_percentiles = Male)
+data.frame(id = c("x","x", "y", "y"), sex = c("a","b", "a", "b"), value = c(1,2,3,4)) |>
+  pivot_wider(names_from = sex, values_from = value)
+
+```
+
 (@) Study the following boxplots showing population sizes by country:
 
 ```{r boxplot-exercise, echo=FALSE, message = FALSE}

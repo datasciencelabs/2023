@@ -397,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-7_9b502506d431ebd02af60b5810df3314">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">9</span><span class="sc">/</span><span class="dv">19</span>, <span class="dv">10</span><span class="sc">/</span><span class="dv">19</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  1 -1 -1 -1  1 -1  1 -1 -1 -1</code></pre>
+<pre><code> [1]  1  1 -1  1 -1  1 -1 -1  1  1</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -414,7 +414,7 @@ Note
 <div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-8_9e4a9dad874925bd42abad2a3d773bd3">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">9</span><span class="sc">/</span><span class="dv">19</span>, <span class="dv">10</span><span class="sc">/</span><span class="dv">19</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  1  1 -1  1 -1 -1 -1 -1  1 -1</code></pre>
+<pre><code> [1]  1  1 -1 -1  1 -1  1  1  1 -1</code></pre>
 </div>
 </div>
 <p>even faster is to use</p>
@@ -457,7 +457,7 @@ S_n = \sum_{i=1}^{n} X_i
 <div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-12_51ffc6e8cdb5502455951e6c44aa7368">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(s <span class="sc">&lt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.04537</code></pre>
+<pre><code>[1] 0.04535</code></pre>
 </div>
 </div>
 </section>
@@ -491,15 +491,15 @@ Z = \frac{S_n-\mbox{E}[S_n]}{\mbox{SE}[S_n]}
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">size =</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">9</span><span class="sc">/</span><span class="dv">19</span>, <span class="dv">10</span><span class="sc">/</span><span class="dv">19</span>))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.052842</code></pre>
+<pre><code>[1] 0.05299</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9986029</code></pre>
+<pre><code>[1] 0.998595</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9986034</code></pre>
+<pre><code>[1] 0.9985955</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -565,7 +565,7 @@ Note
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(s <span class="sc">&lt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.00993</code></pre>
+<pre><code>[1] 0.00999</code></pre>
 </div>
 </div>
 <ol start="2" class="example" type="1">
@@ -585,7 +585,10 @@ Note
 </ol>
 <p><span class="math display">\[
 \mbox{SE}[\bar{X}_n] = 1/n \mbox{SE}[\bar{S}_n] = 1/n \times \sqrt{n} \sigma = \sigma / \sqrt{n}
-\]</span> (@) What do the previous two results tell us about the difference between <span class="math inline">\(\bar{X}_n\)</span> and <span class="math inline">\(\mu\)</span> when <span class="math inline">\(n\)</span> is very large.</p>
+\]</span></p>
+<ol start="5" class="example" type="1">
+<li>What do the previous two results tell us about the difference between <span class="math inline">\(\bar{X}_n\)</span> and <span class="math inline">\(\mu\)</span> when <span class="math inline">\(n\)</span> is very large.</li>
+</ol>
 </section>
 <section id="law-of-small-numbers" class="level2" data-number="17.5">
 <h2 data-number="17.5" class="anchored" data-anchor-id="law-of-small-numbers"><span class="header-section-number">17.5</span> Law of small numbers</h2>
@@ -614,7 +617,7 @@ S_n = \sum_{i=1}^n X_i
 <p>What happened? The <em>rule of thumb</em> of <span class="math inline">\(n=30\)</span> was well surpassed.</p>
 <p>The problem here is that <span class="math inline">\(S_n\)</span> can’t be negative, the expected value is <span class="math inline">\(n/10^{6}\)</span>, but the standard error is about <span class="math inline">\(\sqrt{n}/10^3\)</span>. So to even get a symmetric distribution we need <span class="math inline">\(\sqrt{n}/10^3\)</span> at least twice as big as <span class="math inline">\(n/10^{6}\)</span>.</p>
 <p>However, there is a distribution the does approximate the distribution of <span class="math inline">\(S_n\)</span>. ## Exercise</p>
-<ol start="5" class="example" type="1">
+<ol start="6" class="example" type="1">
 <li>Compare the estimates of the probabilities</li>
 </ol>
 <p><span class="math display">\[
@@ -624,7 +627,7 @@ S_n = \sum_{i=1}^n X_i
 <div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-18_9639fc409305dd3674aaa16905766619">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(k) <span class="fu">mean</span>(s <span class="sc">==</span> k))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.609 0.287 0.088 0.015</code></pre>
+<pre><code>[1] 0.569 0.332 0.086 0.012</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -667,7 +670,7 @@ S_n = \sum_{i=1}^n X_i
 <section id="exercises-1" class="level2" data-number="17.7">
 <h2 data-number="17.7" class="anchored" data-anchor-id="exercises-1"><span class="header-section-number">17.7</span> Exercises</h2>
 <p>Use Monte Carlo simulations to answer these questions. Feel free to confirm using math.</p>
-<ol start="6" class="example" type="1">
+<ol start="7" class="example" type="1">
 <li><p>Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game. What is the probability that the Celtics win <strong>at least</strong> one game? Use a Monte Carlo simulation to compute (or confirm) your answer.</p></li>
 <li><p>Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games, therefore, wins the series. The teams are equally good so they each have a 50-50 chance of winning each game. If the Cavs lose the first game, what is the probability that they win the series?</p></li>
 <li><p>Two teams, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, are playing a seven game series. Team <span class="math inline">\(A\)</span> is better than team <span class="math inline">\(B\)</span> and has a <span class="math inline">\(p&gt;0.5\)</span> chance of winning each game. Write a function that uses Monte Carlo simulation to compute the probability of the underdog winning the series for any value <span class="math inline">\(p\)</span>. The plot the results for <code>p &lt;- seq(0.5, 0.95, 0.025)</code>.</p></li>
@@ -676,15 +679,89 @@ S_n = \sum_{i=1}^n X_i
 <li><p>Imagine the distribution of male adults is approximately normal with an expected value of 69 and a standard deviation of 3. How tall is the male in the 99th percentile? Hint: use <code>qnorm</code>.</p></li>
 <li><p>The distribution of IQ scores is approximately normally distributed. The average is 100 and the standard deviation is 15. Suppose you want to know the distribution of the highest IQ across all graduating classes if 10,000 people are born each in your school district. Run a Monte Carlo simulation with <code>B=1000</code> generating 10,000 IQ scores and keeping the highest. Make a histogram.</p></li>
 <li><p>In American Roulette you can also bet on green. There are 18 reds, 18 blacks and 2 greens (0 and 00). What are the chances the green comes out?</p></li>
-<li><p>The payout for winning on green is $17 dollars. This means that if you bet a dollar and it lands on green, you get $17. Create a sampling model using sample to simulate the random variable <span class="math inline">\(X\)</span> for your winnings.</p></li>
-<li><p>Compute the expected value of <span class="math inline">\(X\)</span>.</p></li>
-<li><p>Compute the standard error of <span class="math inline">\(X\)</span>.</p></li>
-<li><p>Now create a random variable <span class="math inline">\(S\)</span> that is the sum of your winnings after betting on green 1000 times.</p></li>
-<li><p>What is the expected value of <span class="math inline">\(S\)</span>?</p></li>
-<li><p>What is the standard error of <span class="math inline">\(S\)</span>?</p></li>
-<li><p>Use CLT to estimate the probability that you end up winning money?</p></li>
-<li><p>Create a Monte Carlo simulation that generates 1,000 outcomes of <span class="math inline">\(S\)</span>. Compute the average and standard deviation of the resulting list to confirm the results of 6 and 7.</p></li>
-<li><p>Now check your answer based on CLT using the Monte Carlo result.</p></li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-21_9e1a6b1dd0e94141d794deee16454b61">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">19</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="15" class="example" type="1">
+<li>The payout for winning on green is $17 dollars. This means that if you bet a dollar and it lands on green, you get $17. Create a sampling model using sample to simulate the random variable <span class="math inline">\(X\)</span> for your winnings.</li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-22_192baab2d9e4d44cf0345369f2521801">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">17</span>), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">18</span><span class="sc">/</span><span class="dv">19</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">19</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1</code></pre>
+</div>
+</div>
+<ol start="16" class="example" type="1">
+<li>Compute the expected value of <span class="math inline">\(X\)</span>.</li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-23_21cf98cb60485f324be9b7d58f7a2e79">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">1</span> <span class="sc">*</span> <span class="dv">18</span><span class="sc">/</span><span class="dv">19</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">17</span><span class="sc">/</span><span class="dv">19</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.05263158</code></pre>
+</div>
+</div>
+<ol start="17" class="example" type="1">
+<li>Compute the standard error of <span class="math inline">\(X\)</span>.</li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-24_de1b2af82cc40010835c338b98c1c055">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="dv">18</span> <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">18</span><span class="sc">/</span><span class="dv">19</span><span class="sc">*</span><span class="dv">1</span><span class="sc">/</span><span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.019344</code></pre>
+</div>
+</div>
+<ol start="18" class="example" type="1">
+<li>Now create a random variable <span class="math inline">\(S\)</span> that is the sum of your winnings after betting on green 1000 times.</li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-25_c04b39d1fc73709e0fd6529d69bd716f">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">17</span>), <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">18</span><span class="sc">/</span><span class="dv">19</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">19</span>))</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -28</code></pre>
+</div>
+</div>
+<ol start="19" class="example" type="1">
+<li>What is the expected value of <span class="math inline">\(S\)</span>?</li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-26_73afb9d8bfe5a48d8d558f4fd473c24f">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> n <span class="sc">*</span> p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="20" class="example" type="1">
+<li>What is the standard error of <span class="math inline">\(S\)</span>?</li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-27_86ddfb370f5daed293f6b01fcf033b7c">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(n) <span class="sc">*</span> <span class="dv">18</span><span class="sc">*</span><span class="fu">sqrt</span>(p<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="21" class="example" type="1">
+<li>Use CLT to estimate the probability that you end up winning money?</li>
+</ol>
+<p><span class="math display">\[
+Pr(Z &gt; -\mu/se) = ?
+\]</span></p>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-28_db23d5f1ab9baa80767a2437c8938b3a">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span>mu<span class="sc">/</span>se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6605947</code></pre>
+</div>
+</div>
+<ol start="22" class="example" type="1">
+<li>Create a Monte Carlo simulation that generates 1,000 outcomes of <span class="math inline">\(S\)</span>. Compute the average and standard deviation of the resulting list to confirm the results of 6 and 7.</li>
+</ol>
+<div class="cell" data-hash="17-probability_cache/html/unnamed-chunk-29_4cf58653cf817fb3ee8a066873cb73a8">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B,{</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">17</span>), <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">18</span><span class="sc">/</span><span class="dv">19</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">19</span>))</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(s<span class="sc">&lt;</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.66418</code></pre>
+</div>
+</div>
+<ol start="23" class="example" type="1">
+<li>Now check your answer based on CLT using the Monte Carlo result.</li>
 </ol>
 
 
