@@ -185,7 +185,7 @@ $$
 \mu = \mbox{E}[X_i] = -1 \times 9/19 + 1 \times 10/19 = 1/19 \approx 0.05
 $$
 
-What is the standard error? Call it $\simga$
+What is the standard error? Call it $\sigma$
 
 
 $$

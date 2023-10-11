@@ -34,8 +34,9 @@ dat |>
   filter(upper >= 0.471 & lower <= 0.471) |>
   mutate(size = upper - lower) |>
   arrange(size)
-```
 
+dat |> summarize(estimate =sum(estimate*n)/sum(n), n=sum(n))
+```
 
 ## Data-driven models
 
@@ -116,7 +117,7 @@ polls2 |>
   geom_hline(yintercept = 2*p - 1, lty = 2) 
 ```
 
-Howevever, this was just a simulation to illustrate the idea. 
+However, this was just a simulation to illustrate the idea. 
 
 
 ```{r, cache=FALSE}
@@ -314,7 +315,8 @@ If we are willing to assume the pollster effect data is normally distributed, ba
 
 ```{r poll-spread-qq}
 one_poll_per_pollster |>
-  ggplot(aes(sample = spread)) + stat_qq()
+  ggplot(aes(sample = scale(spread))) + stat_qq() +
+  geom_abline()
 ```
 
 then $t$ follows a t-distribution with $N-1$ degrees of freedom. So perhaps a better confidence interval for $\mu$ is:

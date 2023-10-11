@@ -1012,6 +1012,12 @@ If we think of an observation as a major, and that each observation has two vari
 
 (@) Now we will try a more advanced wrangling challenge. We want to wrangle the admissions data so that for each major we have 4 observations: `admitted_men`, `admitted_women`, `applicants_men` and `applicants_women`. The *trick* we perform here is actually quite common: first use `pivot_longer` to generate an intermediate data frame and then `pivot_wider` to obtain the tidy data we want. We will go step by step in this and the next two exercises.
 
+```{r}
+admissions |> pivot_longer(c(admitted, applicants)) |>
+  unite(names, name, gender) |>
+  pivot_wider(names_from = names, values_from = value)
+```
+
 Use the `pivot_longer` function to create a `tmp` data.frame with a column containing the type of observation `admitted` or `applicants`. Call the new columns `name` and `value`.
 
 (@) Now you have an object `tmp` with columns `major`, `gender`, `name` and `value`. Note that if you combine the `name` and `gender`, we get the column names we want: `admitted_men`, `admitted_women`, `applicants_men` and `applicants_women`. Use the function `unite` to create a new column called `column_name`.
@@ -1046,7 +1052,7 @@ We can see column names `nameFirst` and `nameLast`. Use the `left_join` function
 
 
 
-(@) Now use the `Salaries` data frame to add each player's salary to the table you created in exercise 1. Note that salaries are different every year so make sure to filter for the year 2016, then use `right_join`. This time show first name, last name, team, HR, and salary.
+(@) Now use the `Salaries` data frame to add each player's salary to the t le you created in exercise 1. Note that salaries are different every year so make sure to filter for the year 2016, then use `right_join`. This time show first name, last name, team, HR, and salary.
 
 
 (@) In a previous exercise, we created a tidy version of the `co2` dataset:

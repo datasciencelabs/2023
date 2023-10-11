@@ -358,7 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="class-competition" class="level2" data-number="19.1">
 <h2 data-number="19.1" class="anchored" data-anchor-id="class-competition"><span class="header-section-number">19.1</span> Class competition</h2>
-<div class="cell" data-hash="19-models_cache/html/unnamed-chunk-2_8e5e199b96eb748b14f3e72711aac398">
+<div class="cell" data-hash="19-models_cache/html/unnamed-chunk-2_ca07484778a9149e7427a8e1e149897c">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>clean <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  ret <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(<span class="fu">str_remove</span>(x,<span class="st">"%"</span>))</span>
@@ -410,6 +410,13 @@ dbl (1): Sample size
 11 2023-10-11 上午12:56:12 Dailin Luo       0.5   0.6   0.4      10 22    0.2   
 12 2023-10-11 上午07:51:54 Nia Martinez…    0.52  0.71  0.32     15 27    0.39  </code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">estimate =</span><span class="fu">sum</span>(estimate<span class="sc">*</span>n)<span class="sc">/</span><span class="fu">sum</span>(n), <span class="at">n=</span><span class="fu">sum</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  estimate     n
+     &lt;dbl&gt; &lt;dbl&gt;
+1    0.487  2020</code></pre>
+</div>
 </div>
 </section>
 <section id="data-driven-models" class="level2" data-number="19.2">
@@ -417,19 +424,19 @@ dbl (1): Sample size
 <section id="poll-aggregators" class="level3" data-number="19.2.1">
 <h3 data-number="19.2.1" class="anchored" data-anchor-id="poll-aggregators"><span class="header-section-number">19.2.1</span> Poll aggregators</h3>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-4_b305cc23283e683bb2ece830a9070873">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fl">0.039</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1298</span>, <span class="dv">533</span>, <span class="dv">1342</span>, <span class="dv">897</span>, <span class="dv">774</span>, <span class="dv">254</span>, <span class="dv">812</span>, <span class="dv">324</span>, <span class="dv">1291</span>, <span class="dv">1056</span>, <span class="dv">2172</span>, <span class="dv">516</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (mu <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> <span class="fu">map_df</span>(Ns, <span class="cf">function</span>(N) {</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">size =</span> N, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span> <span class="sc">-</span> p, p))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  x_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  se_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> x_hat) <span class="sc">/</span> N)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">estimate =</span> <span class="dv">2</span> <span class="sc">*</span> x_hat <span class="sc">-</span> <span class="dv">1</span>, </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="dv">2</span><span class="sc">*</span>(x_hat <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>se_hat) <span class="sc">-</span> <span class="dv">1</span>, </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="dv">2</span><span class="sc">*</span>(x_hat <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se_hat) <span class="sc">-</span> <span class="dv">1</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_size =</span> N)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">poll =</span> <span class="fu">seq_along</span>(Ns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fl">0.039</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1298</span>, <span class="dv">533</span>, <span class="dv">1342</span>, <span class="dv">897</span>, <span class="dv">774</span>, <span class="dv">254</span>, <span class="dv">812</span>, <span class="dv">324</span>, <span class="dv">1291</span>, <span class="dv">1056</span>, <span class="dv">2172</span>, <span class="dv">516</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (mu <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> <span class="fu">map_df</span>(Ns, <span class="cf">function</span>(N) {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">size =</span> N, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">1</span> <span class="sc">-</span> p, p))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  x_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  se_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(x_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> x_hat) <span class="sc">/</span> N)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">estimate =</span> <span class="dv">2</span> <span class="sc">*</span> x_hat <span class="sc">-</span> <span class="dv">1</span>, </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="dv">2</span><span class="sc">*</span>(x_hat <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>se_hat) <span class="sc">-</span> <span class="dv">1</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="dv">2</span><span class="sc">*</span>(x_hat <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>se_hat) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_size =</span> N)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">poll =</span> <span class="fu">seq_along</span>(Ns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is a visualization showing the intervals the pollsters would have reported for the difference between Obama and Romney:</p>
 <div class="cell" data-hash="19-models_cache/html/simulated-polls_f945342a84fb4ff1046cdcf2c81bd993">
@@ -438,22 +445,22 @@ dbl (1): Sample size
 </div>
 </div>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-5_ca579367b83cf3476adcab612e394b4a">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(polls<span class="sc">$</span>sample_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(polls<span class="sc">$</span>sample_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 11269</code></pre>
 </div>
 </div>
 <p>participants. Basically, we construct an estimate of the spread, let’s call it <span class="math inline">\(\mu\)</span>, with a weighted average in the following way:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-6_8421c40ea19d02477ec244ec2c231024">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">sum</span>(estimate<span class="sc">*</span>sample_size) <span class="sc">/</span> <span class="fu">sum</span>(sample_size)) <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(avg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">sum</span>(estimate<span class="sc">*</span>sample_size) <span class="sc">/</span> <span class="fu">sum</span>(sample_size)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(avg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Iur margin of error is</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-7_bde531346484fce3d57c0f6cd032245e">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">+</span> mu_hat)<span class="sc">/</span><span class="dv">2</span>; </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>moe <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(p_hat<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">/</span><span class="fu">sum</span>(polls<span class="sc">$</span>sample_size))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>moe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">+</span> mu_hat)<span class="sc">/</span><span class="dv">2</span>; </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>moe <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(p_hat<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> p_hat)<span class="sc">/</span><span class="fu">sum</span>(polls<span class="sc">$</span>sample_size))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>moe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.01845451</code></pre>
 </div>
@@ -464,30 +471,30 @@ dbl (1): Sample size
 <p><img src="19-models_files/figure-html/confidence-coverage-2008-election-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Howevever, this was just a simulation to illustrate the idea.</p>
+<p>However, this was just a simulation to illustrate the idea.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"U.S."</span> <span class="sc">&amp;</span> enddate <span class="sc">&gt;=</span> <span class="st">"2016-10-31"</span> <span class="sc">&amp;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>           (grade <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"A+"</span>,<span class="st">"A"</span>,<span class="st">"A-"</span>,<span class="st">"B+"</span>) <span class="sc">|</span> <span class="fu">is.na</span>(grade)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"U.S."</span> <span class="sc">&amp;</span> enddate <span class="sc">&gt;=</span> <span class="st">"2016-10-31"</span> <span class="sc">&amp;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>           (grade <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"A+"</span>,<span class="st">"A"</span>,<span class="st">"A-"</span>,<span class="st">"B+"</span>) <span class="sc">|</span> <span class="fu">is.na</span>(grade)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We add a spread estimate:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-9_d1c0cd1343f65bb9167d23d713b62e2b">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We have 49 estimates of the spread.</p>
 <p>The expected value is the election night spread <span class="math inline">\(\mu\)</span> and the standard error is <span class="math inline">\(2\sqrt{p (1 - p) / N}\)</span>. Assuming the urn model we described earlier is a good one, we can use this information to construct a confidence interval based on the aggregated data. The estimated spread is:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-10_3a15021c41ba00bad8f561ca4ba5bb0d">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mu_hat =</span> <span class="fu">sum</span>(spread <span class="sc">*</span> samplesize) <span class="sc">/</span> <span class="fu">sum</span>(samplesize)) <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(mu_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mu_hat <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mu_hat =</span> <span class="fu">sum</span>(spread <span class="sc">*</span> samplesize) <span class="sc">/</span> <span class="fu">sum</span>(samplesize)) <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(mu_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and the standard error is:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-11_7a920af8159d7ce7fe24251b842159c8">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> (mu_hat <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>moe <span class="ot">&lt;-</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="fu">sum</span>(polls<span class="sc">$</span>samplesize))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>moe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> (mu_hat <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>moe <span class="ot">&lt;-</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="fu">sum</span>(polls<span class="sc">$</span>samplesize))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>moe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.006623178</code></pre>
 </div>
@@ -495,7 +502,7 @@ dbl (1): Sample size
 <p>So we report a spread of 1.43% with a margin of error of 0.66%. On election night, we discover that the actual percentage was 2.1%, which is outside a 95% confidence interval. What happened?</p>
 <p>A histogram of the reported spreads shows a problem:</p>
 <div class="cell" data-hash="19-models_cache/html/polls-2016-spread-histogram_1c0a113c46256bba3bcc2b556529a3c9">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>polls <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(spread)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">binwidth =</span> .<span class="dv">01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>polls <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(spread)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">binwidth =</span> .<span class="dv">01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="19-models_files/figure-html/polls-2016-spread-histogram-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -506,7 +513,7 @@ dbl (1): Sample size
 <h3 data-number="19.2.2" class="anchored" data-anchor-id="beyond-the-simple-sampling-model"><span class="header-section-number">19.2.2</span> Beyond the simple sampling model</h3>
 <p>Notice that data come various pollsters and some are taking several polls a week:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-12_2130399a3b60955af7c7e75764c28da5">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>polls <span class="sc">|&gt;</span> <span class="fu">group_by</span>(pollster) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>polls <span class="sc">|&gt;</span> <span class="fu">group_by</span>(pollster) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 15 × 2
    pollster                                                   `n()`
@@ -536,9 +543,9 @@ dbl (1): Sample size
 </div>
 <p>This plot reveals an unexpected result. First, consider that the standard error predicted by theory for each poll is between 0.018 and 0.033:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-13_ba2551f89657b8b77cadc851e88f5f6a">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>polls <span class="sc">|&gt;</span> <span class="fu">group_by</span>(pollster) <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">se =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="fu">median</span>(samplesize)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>polls <span class="sc">|&gt;</span> <span class="fu">group_by</span>(pollster) <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">se =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="fu">median</span>(samplesize)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   pollster                     se
@@ -552,13 +559,13 @@ dbl (1): Sample size
 </div>
 <p>This agrees with the within poll variation we see. However, there appears to be differences <em>across the polls</em>.</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-14_338e9d9bcecb3201610c6b0df487ddf4">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>one_poll_per_pollster <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> <span class="fu">group_by</span>(pollster) <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(enddate <span class="sc">==</span> <span class="fu">max</span>(enddate)) <span class="sc">|&gt;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>one_poll_per_pollster <span class="ot">&lt;-</span> polls <span class="sc">|&gt;</span> <span class="fu">group_by</span>(pollster) <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(enddate <span class="sc">==</span> <span class="fu">max</span>(enddate)) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is a histogram of the data for these 15 pollsters:</p>
 <div class="cell" data-hash="19-models_cache/html/pollster-bias-histogram_ee4dc9cbe2055cccb278afc21e407663">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(spread, <span class="at">data =</span> one_poll_per_pollster, <span class="at">binwidth =</span> <span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(spread, <span class="at">data =</span> one_poll_per_pollster, <span class="at">binwidth =</span> <span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: `qplot()` was deprecated in ggplot2 3.4.0.</code></pre>
 </div>
@@ -599,7 +606,7 @@ s = \sqrt{ \frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2 }
 \]</span></p>
 <p>The <code>sd</code> function in R computes the sample standard deviation:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-15_161ddd36ced5bd7434e4de3222d3cbd1">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(one_poll_per_pollster<span class="sc">$</span>spread)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(one_poll_per_pollster<span class="sc">$</span>spread)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02419369</code></pre>
 </div>
@@ -609,12 +616,12 @@ s = \sqrt{ \frac{1}{N-1} \sum_{i=1}^N (X_i - \bar{X})^2 }
 <h3 data-number="19.2.4" class="anchored" data-anchor-id="computing-a-confidence-interval"><span class="header-section-number">19.2.4</span> Computing a confidence interval</h3>
 <p>We are now ready to form a new confidence interval based on our new data-driven model:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-16_e10ab6c9319be4f826070658e5933208">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> one_poll_per_pollster <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(spread), </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">se =</span> <span class="fu">sd</span>(spread) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(spread))) <span class="sc">|&gt;</span> </span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start =</span> avg <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">end =</span> avg <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se) </span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(results <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> one_poll_per_pollster <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(spread), </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">se =</span> <span class="fu">sd</span>(spread) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(spread))) <span class="sc">|&gt;</span> </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start =</span> avg <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">end =</span> avg <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se) </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(results <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  avg  se start end
 1 2.9 0.6   1.7 4.1</code></pre>
@@ -639,19 +646,20 @@ t = \frac{\bar{X} - \mu}{s/\sqrt{N}}
 </div>
 </div>
 <p>If we are willing to assume the pollster effect data is normally distributed, based on the sample data <span class="math inline">\(X_1, \dots, X_N\)</span>,</p>
-<div class="cell" data-hash="19-models_cache/html/poll-spread-qq_51c276e87dba87d1d09e33e7ac74f340">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>one_poll_per_pollster <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> spread)) <span class="sc">+</span> <span class="fu">stat_qq</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="19-models_cache/html/poll-spread-qq_bd3f2a8afc28a391f9db621462517113">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>one_poll_per_pollster <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> <span class="fu">scale</span>(spread))) <span class="sc">+</span> <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="19-models_files/figure-html/poll-spread-qq-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>then <span class="math inline">\(t\)</span> follows a t-distribution with <span class="math inline">\(N-1\)</span> degrees of freedom. So perhaps a better confidence interval for <span class="math inline">\(\mu\)</span> is:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-18_bd57378e017ef8937d67fe89fd2c62ac">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>,  <span class="fu">nrow</span>(one_poll_per_pollster) <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>one_poll_per_pollster <span class="sc">|&gt;</span> </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(spread), <span class="at">moe =</span> z<span class="sc">*</span><span class="fu">sd</span>(spread)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(spread))) <span class="sc">|&gt;</span> </span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start =</span> avg <span class="sc">-</span> moe, <span class="at">end =</span> avg <span class="sc">+</span> moe) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>,  <span class="fu">nrow</span>(one_poll_per_pollster) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>one_poll_per_pollster <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(spread), <span class="at">moe =</span> z<span class="sc">*</span><span class="fu">sd</span>(spread)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(spread))) <span class="sc">|&gt;</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">start =</span> avg <span class="sc">-</span> moe, <span class="at">end =</span> avg <span class="sc">+</span> moe) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
      avg    moe  start    end
@@ -661,14 +669,14 @@ t = \frac{\bar{X} - \mu}{s/\sqrt{N}}
 </div>
 <p>A bit larger than the one using normal is</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-19_c8d343aba5cce199ce67772d9ea0ac5b">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.144787</code></pre>
 </div>
 </div>
 <p>is bigger than</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-20_6e5a3c087f371a8d8b3fe2ce35b72950">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.959964</code></pre>
 </div>
@@ -683,17 +691,17 @@ t = \frac{\bar{X} - \mu}{s/\sqrt{N}}
 <p>Note that using the t-distribution and the t-statistic is the basis for <em>t-tests</em>, widely used approach for computing p-values. To learn more about t-tests, you can consult any statistics textbook.</p>
 <p>The t-distribution can also be used to model errors in bigger deviations that are more likely than with the normal distribution, as seen in the densities we previously saw.</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-22_87bead0e8dec1bed3ac72670b9da8bb3">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>polls_us_election_2016 <span class="sc">|&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"Wisconsin"</span> <span class="sc">&amp;</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>           enddate <span class="sc">&gt;=</span> <span class="st">"2016-10-31"</span> <span class="sc">&amp;</span> </span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>           (grade <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"A+"</span>, <span class="st">"A"</span>, <span class="st">"A-"</span>, <span class="st">"B+"</span>) <span class="sc">|</span> <span class="fu">is.na</span>(grade))) <span class="sc">|&gt;</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> <span class="fu">as.character</span>(state)) <span class="sc">|&gt;</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(results_us_election_2016, <span class="at">by =</span> <span class="st">"state"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">actual =</span> clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> trump<span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">actual =</span> <span class="fu">first</span>(actual), <span class="at">avg =</span> <span class="fu">mean</span>(spread), </span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(spread), <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(actual, avg, sd, n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>polls_us_election_2016 <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"Wisconsin"</span> <span class="sc">&amp;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>           enddate <span class="sc">&gt;=</span> <span class="st">"2016-10-31"</span> <span class="sc">&amp;</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>           (grade <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"A+"</span>, <span class="st">"A"</span>, <span class="st">"A-"</span>, <span class="st">"B+"</span>) <span class="sc">|</span> <span class="fu">is.na</span>(grade))) <span class="sc">|&gt;</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> <span class="fu">as.character</span>(state)) <span class="sc">|&gt;</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(results_us_election_2016, <span class="at">by =</span> <span class="st">"state"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">actual =</span> clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> trump<span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">actual =</span> <span class="fu">first</span>(actual), <span class="at">avg =</span> <span class="fu">mean</span>(spread), </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(spread), <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(actual, avg, sd, n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  actual        avg         sd n
 1 -0.007 0.07106667 0.01041454 6</code></pre>
@@ -742,34 +750,34 @@ t = \frac{\bar{X} - \mu}{s/\sqrt{N}}
 <p>These quantities useful for updating our beliefs. Specifically, we use the posterior distribution not only to compute the expected value of <span class="math inline">\(\mu\)</span> given the observed data, but for any probability <span class="math inline">\(\alpha\)</span> we can construct intervals, centered at our estimate and with <span class="math inline">\(\alpha\)</span> chance of ocurring.</p>
 <p>To compute a posterior distribution and construct a credible interval, we define a prior distribution with mean 0% and standard error 3.5% which can be interpreted as: before seing polling data, we don’t think any candidate has the advantage and a difference of up to 7% either way is possible. We compute the posterior distribution using the equations above:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-25_c9d70b65155b259d4156595391ed46d4">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.035</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> results<span class="sc">$</span>se</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> results<span class="sc">$</span>avg</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="ot">&lt;-</span> B<span class="sc">*</span>theta <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> B)<span class="sc">*</span>x_bar</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>posterior_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>posterior_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.035</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> results<span class="sc">$</span>se</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> results<span class="sc">$</span>avg</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="ot">&lt;-</span> B<span class="sc">*</span>theta <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> B)<span class="sc">*</span>x_bar</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>posterior_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>posterior_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.02808534</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>posterior_se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>posterior_se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.006149604</code></pre>
 </div>
 </div>
 <p>Because we know the posterior distribution in normal, we can consturct a credible interval like this:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-26_6fdd53ccb7a030400010bbcd2e5ebe99">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> posterior_se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> posterior_se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.01603234 0.04013834</code></pre>
 </div>
 </div>
 <p>Furthermore, we can now make the probabilitic statement we could not make with the frequentists approach by computing the posterior probability of Hillary winning the popular vote. Specifically, <span class="math inline">\(\mbox{Pr}(\mu&gt;0 \mid \bar{X})\)</span> can be computed like this:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-27_363bf573b18a5494b319728d9f2dbc88">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>, posterior_mean, posterior_se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>, posterior_mean, posterior_se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9999975</code></pre>
 </div>
@@ -834,21 +842,21 @@ X_j \sim \mbox{N}\left(\mu, \sqrt{p(1-p)/N}\right)
 \]</span></p>
 <p>We use the index <span class="math inline">\(j\)</span> to represent the different polls conducted by this pollster. Here is a simulation for six polls assuming the spread is 2.1 and <span class="math inline">\(N\)</span> is 2,000:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-29_ddab3c83b34dd76572acf3104cb68c37">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> .<span class="dv">021</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (mu <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(J, mu, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> N))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> .<span class="dv">021</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (mu <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(J, mu, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> N))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now suppose we have <span class="math inline">\(J=6\)</span> polls from each of <span class="math inline">\(I=5\)</span> different pollsters. For simplicity, let’s say all polls had the same sample size <span class="math inline">\(N\)</span>. The urn model tell us the distribution is the same for all pollsters so to simulate data, we use the same model for each:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-30_5325db79b439819c73bd92b68e811b3e">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>I, <span class="cf">function</span>(i){</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(J, mu, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> N))</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>I, <span class="cf">function</span>(i){</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(J, mu, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> N))</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As expected, the simulated data does not really seem to capture the features of the actual data because it does not account for pollster-to-pollster variability:</p>
 <div class="cell" data-hash="19-models_cache/html/simulated-data-without-bias_0833268e022fdd118f7d60b69967eb3e">
@@ -865,15 +873,15 @@ X_{i,j} \mid h_i &amp;\sim \mbox{N}\left(\mu + h_i, \sqrt{p(1-p)/N}\right)
 \]</span></p>
 <p>To simulate data from a specific pollster, we first need to draw an <span class="math inline">\(h_i\)</span> and the generate individual poll data after adding this effect. Here is how we would do it for one specific pollster. We assume <span class="math inline">\(\sigma_h\)</span> is 0.025:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-31_ecb8b8dd723ae1dcdffd748c133a336d">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> .<span class="dv">021</span></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (mu <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(I, <span class="dv">0</span>, <span class="fl">0.025</span>)</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>I, <span class="cf">function</span>(i){</span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="sc">+</span> h[i] <span class="sc">+</span> <span class="fu">rnorm</span>(J, <span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> N))</span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> .<span class="dv">021</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (mu <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(I, <span class="dv">0</span>, <span class="fl">0.025</span>)</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>I, <span class="cf">function</span>(i){</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  mu <span class="sc">+</span> h[i] <span class="sc">+</span> <span class="fu">rnorm</span>(J, <span class="dv">0</span>, <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> N))</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The simulated data now looks more like the actual data:</p>
 <div class="cell" data-hash="19-models_cache/html/simulated-pollster-data_dd0e9eeb14b5efc34d2748642e2ed9c4">
@@ -899,27 +907,27 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 <p>Now let’s fit the model above to data. We will use the same data used in the previous chapters and saved in <code>one_poll_per_pollster</code>.</p>
 <p>Here we have just one poll per pollster so we will drop the <span class="math inline">\(j\)</span> index and represent the data as before with <span class="math inline">\(X_1, \dots, X_I\)</span>. As a reminder we have data from <span class="math inline">\(I=15\)</span> pollsters. Based on the model assumptions described above, we can mathematically show that the average <span class="math inline">\(\bar{X}\)</span></p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-32_9c0c0266242f75be6967e7210b385eeb">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(one_poll_per_pollster<span class="sc">$</span>spread)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(one_poll_per_pollster<span class="sc">$</span>spread)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>has expected value <span class="math inline">\(\mu\)</span>, thus it provides an unbiased estimate of the outcome of interest. However, how precise is this estimate? Can we use the observed stample standard deviation to construct an estimate of the standard error of <span class="math inline">\(\bar{X}\)</span>?</p>
 <p>It turns out that, because the <span class="math inline">\(X_i\)</span> are correlated, estimating the standard error is more complex than what we have described up to now. Specifically, using advanced statistical calculations not shown here, we can show that the typical variance (standard error squared) estimate</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-33_3dfa9a3a59ac0a520b8149f3c6841db2">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">with</span>(one_poll_per_pollster, <span class="fu">sd</span>(spread)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">length</span>(spread))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">with</span>(one_poll_per_pollster, <span class="fu">sd</span>(spread)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">length</span>(spread))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>will consistently underestimate the true standard error by about <span class="math inline">\(\sigma_b^2\)</span>. And, as mentioned earlier, to estimate <span class="math inline">\(\sigma_b\)</span>, we need data from several elections. By collecting and analyzing polling data from several elections, FiveThirtyEight estimates this variability and find that <span class="math inline">\(\sigma_b \approx 0.025\)</span>. We can therefore greatly improve our standard error estimate by adding this quantity:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-34_e12ea24eeb275c43724d9bf6e5e4fba9">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>sigma_b <span class="ot">&lt;-</span> <span class="fl">0.025</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(s2 <span class="sc">+</span> sigma_b<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>sigma_b <span class="ot">&lt;-</span> <span class="fl">0.025</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(s2 <span class="sc">+</span> sigma_b<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we redo the Bayesian calculation taking this variability into account, we get a result much closer to FiveThirtyEight’s:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-35_beb87f5584b8d7ecdf2db49d617b4e9b">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.035</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> se<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (se<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="ot">&lt;-</span> B<span class="sc">*</span>mu <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>B)<span class="sc">*</span>x_bar</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>posterior_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( <span class="dv">1</span><span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>se<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>, posterior_mean, posterior_se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.035</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> se<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (se<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>posterior_mean <span class="ot">&lt;-</span> B<span class="sc">*</span>mu <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>B)<span class="sc">*</span>x_bar</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>posterior_se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( <span class="dv">1</span><span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>se<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>, posterior_mean, posterior_se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8174373</code></pre>
 </div>
@@ -930,7 +938,7 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 <h3 data-number="19.4.5" class="anchored" data-anchor-id="predicting-the-electoral-college"><span class="header-section-number">19.4.5</span> Predicting the electoral college</h3>
 <p>Up to now we have focused on the popular vote. But in the United States, elections are not decided by the popular vote but rather by what is known as the electoral college. Each state gets a number of electoral votes that depends, in a somewhat complex way, on the population size of the state. Here are the top 5 states ranked by electoral votes in 2016.</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-36_9456fd02adcf55868ae728f4a6ce2f88">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>results_us_election_2016 <span class="sc">|&gt;</span> <span class="fu">top_n</span>(<span class="dv">5</span>, electoral_votes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>results_us_election_2016 <span class="sc">|&gt;</span> <span class="fu">top_n</span>(<span class="dv">5</span>, electoral_votes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         state electoral_votes clinton trump others
 1   California              55    61.7  31.6    6.7
@@ -947,19 +955,19 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 </div>
 <p>We are now ready to predict the electoral college result for 2016. We start by aggregating results from a poll taken during the last week before the election. We use the <code>grepl</code>, which finds strings in character vectors, to remove polls that are not for entire states.</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-37_cc98fad237ba867533d147e7612dd9b6">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state<span class="sc">!=</span><span class="st">"U.S."</span> <span class="sc">&amp;</span> </span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>           <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"CD"</span>, state) <span class="sc">&amp;</span> </span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>           enddate <span class="sc">&gt;=</span><span class="st">"2016-10-31"</span> <span class="sc">&amp;</span> </span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>           (grade <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"A+"</span>,<span class="st">"A"</span>,<span class="st">"A-"</span>,<span class="st">"B+"</span>) <span class="sc">|</span> <span class="fu">is.na</span>(grade))) <span class="sc">|&gt;</span></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(spread), <span class="at">sd =</span> <span class="fu">sd</span>(spread), <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> <span class="fu">as.character</span>(state))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state<span class="sc">!=</span><span class="st">"U.S."</span> <span class="sc">&amp;</span> </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>           <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"CD"</span>, state) <span class="sc">&amp;</span> </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>           enddate <span class="sc">&gt;=</span><span class="st">"2016-10-31"</span> <span class="sc">&amp;</span> </span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>           (grade <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"A+"</span>,<span class="st">"A"</span>,<span class="st">"A-"</span>,<span class="st">"B+"</span>) <span class="sc">|</span> <span class="fu">is.na</span>(grade))) <span class="sc">|&gt;</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(spread), <span class="at">sd =</span> <span class="fu">sd</span>(spread), <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> <span class="fu">as.character</span>(state))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here are the five closest races according to the polls:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-38_60ab290eaaa034144d56b14a91474719">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">abs</span>(avg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">abs</span>(avg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 47 × 4
    state               avg     sd     n
@@ -979,12 +987,12 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 </div>
 <p>We now introduce the command <code>left_join</code> that will let us easily add the number of electoral votes for each state from the dataset <code>us_electoral_votes_2016</code>. Here, we simply say that the function combines the two datasets so that the information from the second argument is added to the information in the first:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-39_b3162cf39ebc14e0c030355fda44c3cf">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">left_join</span>(results, results_us_election_2016, <span class="at">by =</span> <span class="st">"state"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">left_join</span>(results, results_us_election_2016, <span class="at">by =</span> <span class="st">"state"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that some states have no polls because the winner is pretty much known:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-40_e9b0beea7050a8dbc8382d0da40013b7">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>results_us_election_2016 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> results<span class="sc">$</span>state) <span class="sc">|&gt;</span> </span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(state)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>results_us_election_2016 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> results<span class="sc">$</span>state) <span class="sc">|&gt;</span> </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(state)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Rhode Island"         "Alaska"               "Wyoming"             
 [4] "District of Columbia"</code></pre>
@@ -993,17 +1001,17 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 <p>No polls were conducted in DC, Rhode Island, Alaska, and Wyoming because Democrats are sure to win in the first two and Republicans in the last two.</p>
 <p>Because we can’t estimate the standard deviation for states with just one poll, we will estimate it as the median of the standard deviations estimated for states with more than one poll:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-41_1e799ca643919550f1c4a10ea3ae9b81">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> results <span class="sc">|&gt;</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sd =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(sd), <span class="fu">median</span>(results<span class="sc">$</span>sd, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> results <span class="sc">|&gt;</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sd =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(sd), <span class="fu">median</span>(results<span class="sc">$</span>sd, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), sd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To make probabilistic arguments, we will use a Monte Carlo simulation. For each state, we apply the Bayesian approach to generate an election day <span class="math inline">\(\mu\)</span>. We could construct the priors for each state based on recent history. However, to keep it simple, we assign a prior to each state that assumes we know nothing about what will happen. Since from election year to election year the results from a specific state don’t change that much, we will assign a standard deviation of 2% or <span class="math inline">\(\tau=0.02\)</span>. For now, we will assume, incorrectly, that the poll results from each state are independent. The code for the Bayesian calculation under these assumptions looks like this:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-42_4e536a69136c717f4e5adb49e4da740e">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sigma =</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n), </span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">B =</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>),</span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_mean =</span> B <span class="sc">*</span> mu <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> B) <span class="sc">*</span> avg,</span>
-<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_se =</span> <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sigma =</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n), </span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">B =</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_mean =</span> B <span class="sc">*</span> mu <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> B) <span class="sc">*</span> avg,</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_se =</span> <span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 47 × 12
    state          avg      sd     n electoral_votes clinton trump others   sigma
@@ -1030,22 +1038,22 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 </div>
 <p>Now we repeat this 10,000 times and generate an outcome from the posterior. In each iteration, we keep track of the total number of electoral votes for Clinton. Remember that Trump gets 270 minus the votes for Clinton. Also note that the reason we add 7 in the code is to account for Rhode Island and D.C.:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-43_1f10e9f0e42b6346b218a3f1e13dc60e">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>clinton_EV <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
-<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>  results <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sigma =</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n), </span>
-<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">B =</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>),</span>
-<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_mean =</span> B <span class="sc">*</span> mu <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> B) <span class="sc">*</span> avg,</span>
-<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_se =</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>)),</span>
-<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">result =</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(posterior_mean), </span>
-<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>                                  posterior_mean, posterior_se),</span>
-<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">clinton =</span> <span class="fu">ifelse</span>(result <span class="sc">&gt;</span> <span class="dv">0</span>, electoral_votes, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">clinton =</span> <span class="fu">sum</span>(clinton)) <span class="sc">|&gt;</span> </span>
-<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(clinton) <span class="sc">+</span> <span class="dv">7</span></span>
-<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(clinton_EV <span class="sc">&gt;</span> <span class="dv">269</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>clinton_EV <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  results <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sigma =</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n), </span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">B =</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_mean =</span> B <span class="sc">*</span> mu <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> B) <span class="sc">*</span> avg,</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_se =</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">result =</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(posterior_mean), </span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>                                  posterior_mean, posterior_se),</span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">clinton =</span> <span class="fu">ifelse</span>(result <span class="sc">&gt;</span> <span class="dv">0</span>, electoral_votes, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">clinton =</span> <span class="fu">sum</span>(clinton)) <span class="sc">|&gt;</span> </span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(clinton) <span class="sc">+</span> <span class="dv">7</span></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(clinton_EV <span class="sc">&gt;</span> <span class="dv">269</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.998</code></pre>
 </div>
@@ -1053,20 +1061,20 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 <p>This model gives Clinton over 99% chance of winning. A similar prediction was made by the Princeton Election Consortium. We now know it was quite off. What happened?</p>
 <p>The model above ignores the general bias and assumes the results from different states are independent. After the election, we realized that the general bias in 2016 was not that big: it was between 1 and 2%. But because the election was close in several big states and these states had a large number of polls, pollsters that ignored the general bias greatly underestimated the standard error. Using the notation we introduce, they assumed the standard error was <span class="math inline">\(\sqrt{\sigma^2/N}\)</span> which with large N is quite smaller than the more accurate estimate <span class="math inline">\(\sqrt{\sigma^2/N + \sigma_b^2}\)</span>. FiveThirtyEight, which models the general bias in a rather sophisticated way, reported a closer result. We can simulate the results now with a bias term. For the state level, the general bias can be larger so we set it at <span class="math inline">\(\sigma_b = 0.03\)</span>:</p>
 <div class="cell" data-hash="19-models_cache/html/election-forecast-posterior-with-bias, _3855457e8228de87c7f6074c554ebf9d">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>bias_sd <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>clinton_EV_2 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  results <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sigma =</span> <span class="fu">sqrt</span>(sd<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n  <span class="sc">+</span> bias_sd<span class="sc">^</span><span class="dv">2</span>),  </span>
-<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">B =</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>),</span>
-<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_mean =</span> B<span class="sc">*</span>mu <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>B)<span class="sc">*</span>avg,</span>
-<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_se =</span> <span class="fu">sqrt</span>( <span class="dv">1</span><span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>)),</span>
-<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">result =</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(posterior_mean), </span>
-<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>                                  posterior_mean, posterior_se),</span>
-<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">clinton =</span> <span class="fu">ifelse</span>(result<span class="sc">&gt;</span><span class="dv">0</span>, electoral_votes, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">clinton =</span> <span class="fu">sum</span>(clinton) <span class="sc">+</span> <span class="dv">7</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(clinton)</span>
-<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(clinton_EV_2 <span class="sc">&gt;</span> <span class="dv">269</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fl">0.02</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>bias_sd <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>clinton_EV_2 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  results <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sigma =</span> <span class="fu">sqrt</span>(sd<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n  <span class="sc">+</span> bias_sd<span class="sc">^</span><span class="dv">2</span>),  </span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">B =</span> sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> tau<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_mean =</span> B<span class="sc">*</span>mu <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>B)<span class="sc">*</span>avg,</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">posterior_se =</span> <span class="fu">sqrt</span>( <span class="dv">1</span><span class="sc">/</span> (<span class="dv">1</span><span class="sc">/</span>sigma<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>tau<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">result =</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(posterior_mean), </span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>                                  posterior_mean, posterior_se),</span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">clinton =</span> <span class="fu">ifelse</span>(result<span class="sc">&gt;</span><span class="dv">0</span>, electoral_votes, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">clinton =</span> <span class="fu">sum</span>(clinton) <span class="sc">+</span> <span class="dv">7</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(clinton)</span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(clinton_EV_2 <span class="sc">&gt;</span> <span class="dv">269</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.848</code></pre>
 </div>
@@ -1085,17 +1093,17 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 <p>Forecasters like to make predictions well before the election. The predictions are adapted as new polls come out. However, an important question forecasters must ask is: how informative are polls taken several weeks before the election about the actual election? Here we study the variability of poll results across time.</p>
 <p>To make sure the variability we observe is not due to pollster effects, let’s study data from one pollster:</p>
 <div class="cell" data-hash="19-models_cache/html/poplular-vote-time-trend_600103a47f769348a242c3d0516abbe2">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>one_pollster <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span> </span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pollster <span class="sc">==</span> <span class="st">"Ipsos"</span> <span class="sc">&amp;</span> state <span class="sc">==</span> <span class="st">"U.S."</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>one_pollster <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span> </span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pollster <span class="sc">==</span> <span class="st">"Ipsos"</span> <span class="sc">&amp;</span> state <span class="sc">==</span> <span class="st">"U.S."</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Since there is no pollster effect, then perhaps the theoretical standard error matches the data-derived standard deviation. We compute both here:</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-44_897144a96931a548ee1161519560f1d5">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> one_pollster <span class="sc">|&gt;</span> </span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">empirical =</span> <span class="fu">sd</span>(spread), </span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">theoretical =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(spread) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(spread)) <span class="sc">/</span></span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="fu">min</span>(samplesize)))</span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> one_pollster <span class="sc">|&gt;</span> </span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">empirical =</span> <span class="fu">sd</span>(spread), </span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">theoretical =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(spread) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(spread)) <span class="sc">/</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="fu">min</span>(samplesize)))</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   empirical theoretical
 1 0.04025194  0.03256719</code></pre>
@@ -1139,9 +1147,9 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 <p>We have been using urn models to motivate the use of probability models. Most data science applications are not related to data obtained from urns. More common are data that come from individuals. The reason probability plays a role here is because the data come from a random sample. The random sample is taken from a population and the urn serves as an analogy for the population.</p>
 <p>Let’s revisit the heights dataset. Suppose we consider the males in our course the population.</p>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-45_631745045409c4062dc02a08c4224bac">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights <span class="sc">|&gt;</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights <span class="sc">|&gt;</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol class="example" type="1">
 <li><p>Mathematically speaking, <code>x</code> is our population. Using the urn analogy, we have an urn with the values of <code>x</code> in it. What are the average and standard deviation of our population?</p></li>
@@ -1171,11 +1179,11 @@ X_{i,j} | \, h_j, b &amp;\sim \mbox{N}\left(\mu + h_j, \sqrt{p(1-p)/N}\right)
 <li>Until recentely, Florida was one of the most closely watched states in the U.S. election because it has many electoral votes, and the election was generally close, and Florida was a swing state that can vote either way. Create the following table with the polls taken during the last two weeks:</li>
 </ol>
 <div class="cell" data-hash="19-models_cache/html/unnamed-chunk-46_196152117c68071ddbdeeb2b97e3eaaf">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span> </span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"Florida"</span> <span class="sc">&amp;</span> enddate <span class="sc">&gt;=</span> <span class="st">"2016-11-04"</span> ) <span class="sc">|&gt;</span> </span>
-<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span> </span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">"Florida"</span> <span class="sc">&amp;</span> enddate <span class="sc">&gt;=</span> <span class="st">"2016-11-04"</span> ) <span class="sc">|&gt;</span> </span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Take the average spread of these polls. The CLT tells us this average is approximately normal. Calculate an average and provide an estimate of the standard error. Save your results in an object called <code>results</code>.</p>
 <ol start="10" class="example" type="1">
