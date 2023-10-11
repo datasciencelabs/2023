@@ -33,6 +33,8 @@ book:
     - 16-text-mining.qmd
     - 17-probability.qmd
     - 18-inference.qmd
+    - 19-models.qmd
+    - pset2.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023

@@ -1,6 +1,10 @@
-# Problem Set 1 {.unnumbered}
+ ---
+format: html
+figure:
+  align: center
+---
 
-This is a preliminary version of problem set 1. The final version will be shared through GitHub.
+# Problem Set 1 {.unnumbered}
 
 Reminders:
 
@@ -13,8 +17,8 @@ Reminders:
 (@) Load the __dslabs__ package and figure out what is in the `us_contagious_diseases` dataset. Create a data frame, call it `avg`, that has a column for `year`, and a `rate` column containing the cases of Measles per 10,000 people per year in the US. Because we start in 1928, exclude Alaska and Hawaii. Make sure to take into account the number of weeks reporting each year. If a week was not report, it should not be included in the calculation of the rate. 
 
 
-
 ```{r}
+#| message: false
 library(tidyverse)
 library(dslabs)
 avg <- us_contagious_diseases |>
@@ -23,49 +27,84 @@ avg <- us_contagious_diseases |>
   summarize(rate = sum(count*52/weeks_reporting, na.rm = TRUE)/sum(population) * 10000)
 ```
 
+Criteria (5 points):
+
+* Filtered correctly: removed HI and AK, kept only Measels, removed rows with no weeks reporting = 2 points.
+* Grouped by year = 1 point.
+* Adjusted for week reportin = 1 point.
+* Summarized correctly: sum of counts divided by sum of popuation and multiploed by 10^5 = 1 point.
+
+
 (@) Use the data frame `avg` to make a trend plot showing the cases rate for Measles per year. Add a vertical line showing the year the Measles vaccines was introduced. Write a short paragraph describing the graph to someone you are urging to take the Measles vaccines.
 
+
 ```{r}
-library(ThemePark)
-avg |> ggplot(aes(year, rate)) + geom_line() + 
-  geom_vline(xintercept = 1963, color = "blue") +
-  theme_barbie()
+avg |> 
+  ggplot(aes(year, rate)) +
+  geom_line() + 
+  labs(x = "Year", y = "Cases per 10,000", title = "Measles cases per year in the US") +
+  geom_vline(xintercept = 1963, col = "blue")
 ```
+
+Criteria (5 points):
+
+* Plotted rate versus year = 3 points
+* Vertical line added correctly = 1 point.
+* Labels and title = 1 point.
 
 (@) Is the pattern observed above the same for each state? Add a grey trend line for each state to the plot above. Use a transformation that keeps the high rates from dominating the figure.
 
 ```{r}
 us_contagious_diseases |>
-  filter(disease == "Measles" & weeks_reporting > 0) |>
-  mutate(rate = count*52/weeks_reporting/population * 10000) |>
-  ggplot(aes(x = year)) +
-  geom_line(aes(y = rate, group = state), color = "grey", alpha = 0.5) +
-  geom_line(data = avg, aes(x = year, y = rate)) + ## avg was defined in previous exercise
+  filter(!state %in% c("Hawaii","Alaska") & disease == "Measles" & weeks_reporting > 0) |>
+  filter(weeks_reporting > 0) |>
+  mutate(rate = count/population*10000*52/weeks_reporting) |> 
+  ggplot(aes(year, rate)) +
+  geom_line(aes(group = state), color = "grey") + 
+  geom_line(data = avg) +
   scale_y_continuous(trans = "sqrt") +
-  geom_vline(xintercept = 1963, color = "blue") 
+  labs(x = "Year", y = "Cases per 10,000", title = "Measles cases per year in the US") +
+  geom_vline(xintercept = 1963, col = "blue")
 ```
 
+
+Criteria (5 points):
+
+* Includes curves for each state with no lengend = 2 points.
+* Average curve can be distinguished = 1 point.
+* Transformation was used = 1 point.
+* Labels and title = 1 point.
 
 (@) In the plot above we can't tell which state is which curve. Using color would be challenging as it is hard if not impossible to find 48 colors we humans can distinguish. To make a plot where you can compare states knowing which is which, use one of the axis for state and the other for year, and then use hue or intensity as a visual cue for rates. Use a `sqrt` transformation to avoid the higher rates taking up all the color scale. Use grey to denote missing data. Order the states based on their highest peak.
 
 ```{r}
-library(RColorBrewer)
-mycolors <- brewer.pal(9, "Reds")
+reds <- RColorBrewer::brewer.pal(9, "Reds")
 us_contagious_diseases |>
   filter(!state %in% c("Hawaii","Alaska") & disease == "Measles") |>
-  mutate(rate = count/population*10000*52/weeks_reporting,
-         state = reorder(state, rate, max, na.rm = TRUE)) |>
+  mutate(rate = count/population*10000*52/weeks_reporting) |>
+  mutate(state = reorder(state, rate, max, na.rm = TRUE)) |>
   ggplot(aes(year, state, fill = rate)) +
   geom_tile(color = "grey") +
   scale_x_continuous(expand = c(0,0)) + ## to remove extra space on sides
-  scale_fill_gradientn(colors = mycolors, trans = "sqrt") +
-  geom_vline(xintercept = 1963, color = "blue") +
+  scale_fill_gradientn(colors = reds, trans = "sqrt") +
+  geom_vline(xintercept = 1963, col = "blue") +
   theme_minimal() +  
   theme(panel.grid = element_blank(), 
         legend.position = "bottom", 
         text = element_text(size = 8)) +
   labs(title = "Measles cases per year in the US", x = "", y = "")
 ```
+
+
+Criteria (8 points):
+
+* Tile plot used = 2 points.
+* Rate computed correctly = 1 point.
+* Sequential palette used = 1 point.
+* NAs shown in grey = 1 point.
+* Transformation used = 1 point.
+* States ordered by peak, title and labels included = 2 point.
+
 
 
 ## COVID-19
@@ -81,6 +120,26 @@ url <- "https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19
 dat <- read_csv(url) 
 ```
 
+* `state` - State abbreviation.
+* `state_name` - State name.
+* `population` - State population in 2020 census.
+* `region` - Department of Health and Human Services regions.
+* `mmwr_year` - Morbidity and Mortality Weekly Report year.
+* `mmwr_week` - Morbidity and Mortality Weekly Report week.
+* `cases` - SARS-CoV-2 cases reported to CDC that week.
+* `tests` - Accumulated tests reported according to JHU dashboard.
+* `hosp` - COVID-19 Hospitalization reported to CDC.
+* `deaths_underlying_cause` - Deaths reported to CDC  with COVID-19 as underlying cause of death.
+* `deaths_multiple_causes` - Deaths reported to CDC with COVID-19 as one of the causes of death.
+* `prov_death` - Deaths provisionally reported to CDC as COVID-19 related.
+* `series_complete` - number of people in state with first vaccine series complete by the end of the week.
+* `booster` - number of people in state with booster by the end of the week.
+* `bivalent` - number of people in state with bivalent vaccine by the end of the week.
+
+Criteria (5 points)
+
+* Data read correctly = 2 points.
+* Variables described correctly = 3 points.
 
 (@) One of these columns could benefit from being a factor. Identify the column and convert it to factor.
 
@@ -88,9 +147,12 @@ dat <- read_csv(url)
 dat <- mutate(dat, region = factor(region))
 ```
 
+Criteria (2 points)
+
+* Region identified as variable = 1 point.
+* Correctly changed to a factor = 1 point.
 
 (@) Rather than providing a date, the dataset provides MMWR year and week. Read [this document](https://ndc.services.cdc.gov/wp-content/uploads/MMWR_Week_overview.pdf) and write a function to convert these to the start of the MMWR week in ISO-8601.
-
 
 ```{r}
 library(lubridate)
@@ -101,13 +163,13 @@ mmwr_to_date <- function(mmwr_year, mmwr_week) {
 }
 ```
 
+Criteria (5 points):
+
+* A function was defined with two variables = 2 points
+* First day identified correctly = 1 point.
+* Number of weeks added correctly = 2 points.
 
 (@) Add a columns `start_date` and `end_date` with the start and end of the MMWR week. Confirm that it worked by computing the MMWR week and year for both start and end date and comparing it to the MMWR week and year provided.
-
-```{r}
-dat <- dat |> mutate(start_date = mmwr_to_date(mmwr_year, mmwr_week),
-                     end_date = start_date + days(6))
-```
 
 ```{r}
 dat <- dat |> mutate(start_date = mmwr_to_date(mmwr_year, mmwr_week),
@@ -119,6 +181,10 @@ dat |> summarize(w1 = all(epiweek(start_date) == mmwr_week),
                  y2 = all(epiyear(end_date) == mmwr_year))
 ```
 
+Criteria (3 points)
+
+* Two columns added correctly = 1 point.
+* Check performed correctly = 2 point.
 
 (@) Make a trend plot similar to the one we made for Measles:
 
@@ -129,38 +195,107 @@ dat |> summarize(w1 = all(epiweek(start_date) == mmwr_week),
 
 Write a paragraph describing the COVID-19 pandemic by describing the plot.
 
+```{r}
+dat |> 
+  filter(!is.na(cases)) |>
+  group_by(end_date) |>
+  mutate(avg = sum(cases)/sum(population)*10^5) |>
+  ungroup() |>
+  ggplot(aes(end_date, cases/population*10^5)) +
+  geom_line(aes(group = state, color = region), alpha = 0.5) +
+  geom_line(aes(y = avg)) +
+  scale_y_continuous(trans = "sqrt") + 
+  geom_vline(xintercept = make_date(2020, 12, 14), lty = 2) +
+  labs(title = "SARS-Cov-2 cases per 100,000 in the US", x = "Date", y = "Cases per 100,000", 
+       caption = "Colors represent HHS regions")
+```
+
+Criteria (5 points):
+
+* Includes curves for each state with colors and lengend showing region= 2 points.
+* Average curve can be distinguished = 1 point.
+* Vertical line in correct location = 1 point.
+* Labels and title = 1 point.
+
+
 
 (@) The number of cases depends on testing capacity. Note that during the start of the pandemic, when we know many people died, there are not that many cases reported. Also notice somewhat large variability across states that might not be consistent with actual prevalence. The `tests` columns provides the cumulative number of tests performed by the data represented by the week. This data is not official CDC data. It was provided by Johns Hopkins Coronavirus Resource Center. Before using the data, explore the data for each state carefully looking for potential problems.
 
 For each state compute and plot the number of tests perforemd each week. Look at the plot for each state and look for possible problems. No need to make this plot pretty since we are just using it for data exploration. Report any inconsistencies if any.
 
 ```{r}
-dat |> 
-  filter(!is.na(tests)) |>
-  arrange(end_date) |>
+tmp <- dat |> 
   group_by(state) |>
-  mutate(tests = diff(c(0,tests))) |>
-  ggplot(aes(end_date, tests/10^5)) + geom_line() +
-  facet_wrap(~state, scales = "free_y")
+  arrange(end_date) |>
+  mutate(tests = diff(c(0, tests))) |>
+  ungroup() |>
+  filter(!is.na(tests)) 
+
+tmp |>
+  ggplot(aes(end_date, tests)) +
+  geom_line() +
+  facet_wrap(~state, scales = "free_y") +
+  labs(x = "Date", y = "Number of tests")
+
+states <- tmp |> filter(tests < 0) |> pull(state_name) |> unique()
 ```
 
+For `r cat(states, sep = ", ")` we see negative numbers which is must be an error as the number of tests must be non negative.
+
+Criteria (5 points):
+
+* Difference computed correctly after group by = 1 point.
+* Plot using facet wrap  = 1 point.
+* Free y-scale = 1 point.
+* Correct states identified = 2 points.
 
 (@) To see if the inconsistencies seen in the previous plot are a problem if we are only going to look at the total number of tests at the end, plot the cumulative tests for each of the states with inconsistencies and see if the results are sensible. Explain your answer in 1-2 sentences.
 
+```{r}
+dat |> filter(state_name %in% states) |>
+  filter(!is.na(tests)) |>
+  ggplot(aes(end_date, tests/10^6)) +
+  geom_line() +
+  facet_wrap(~state, scales = "free_y") +
+  labs(x = "Date", y = "Cumulative number of tests (in millions)") 
+```
+
+Criteria (5 points):
+
+* Only correct states shown and cumulative values shown = 1
+* Plot using facet wrap with free y-scale = 1 point.
+* Explanation includes observation of dips that are likely corrections, and that it does not affect final values = 3 points.
 
 (@) JHU stopped reporting some time in 2021. What was that date? Show the day in the format September 18, 2022.
 
+```{r}
+last_day <- dat |> filter(!is.na(tests)) |> pull(end_date) |> max()
+format(last_day, "%B %d, %Y")
+```
+
+Criteria (3 points):
+
+* Correct date identied = 1 point.
+* Correct format used = 2 point.
 
 (@) Compute the number of tests per capita for the last day JHU reported these statistics. Make a boxplot of these values for each region and include the state level data with the state abbreviation as a label. Write a sentences describing these differences you see and how this could affect our interpretation of differences in cases rates across states. 
 
+
 ```{r}
-last_day <- as_date("2021-1-2") ## this should come from the previous exercise... 
 dat |> filter(end_date == last_day) |>
+  mutate(region = factor(region)) |>
   ggplot(aes(region, tests/population)) +
   geom_boxplot() +
   geom_text(aes(label = state)) +
   labs(x = "Region", y = "Test per capita", title = "SARS-COV2 tests per person")
 ```
+
+
+Criteria (5 points):
+
+* Correct boplot shown = 1 points.
+* Labels and titles = 1 point.
+* Description of state to state variation provided: 3 points.
 
 (@) Although JHU stopped collecting testing data from the states, the CDC collected data from a few laboratories. We provide these date in [this url](https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt).
 
@@ -171,28 +306,61 @@ dat |> filter(end_date == last_day) |>
 url <- "https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt"
 tests <- read_delim(url, delim = " ") 
 tests <- tests |> mutate(date = mdy(date), tests = parse_number(tests))
-## alternatively we can re-read the file
+## alternatively we can re-read the file using the appropriate column types
 tests <- read_delim(url, delim = " ", 
                     col_types = cols(date = col_date(format = "%m-%d-%y"),
                                      tests = col_number()))
 ```
 
 
+Criteria 3 points):
+
+* Dates is date format = 2 point
+* Tests are numeric = 1 point.
+
+
 (@) Plot the tests per week to see the trend in time. Write a sentence of the pattern you see.
 
+```{r} 
+tests |> ggplot(aes(date, tests)) + geom_line() + labs(title = "Tests per week", x = "Date", y = "Number of tests")
+```
 
 At the start of the pandemic there were few tests conducted and now we are also seeing a drop.
 
+Criteria (3 points):
+
+* Correct trend plot made = 1 points.
+* Observation that the number of tests are much lower now included = 2 points.
+
 (@) The analysis on tests points to cases as not being a good measure of the state of the pandemic. Remake the trend plot but using death rates instead of cases rates. Write a sentence on how this plot better shows about the start of the pandemic that the cases plot did not. 
 
+```{r}
+dat |> 
+  filter(!is.na(deaths_prov)) |>
+  group_by(end_date) |>
+  mutate(avg = sum(deaths_prov)/sum(population)*10^5) |>
+  ungroup() |>
+  ggplot(aes(end_date, deaths_prov/population*10^5)) +
+  geom_line(aes(group = state, color = region), alpha = 0.5) +
+  geom_line(aes(y = avg)) +
+  scale_y_continuous(trans = "sqrt") + 
+  geom_vline(xintercept = make_date(2020, 12, 14), lty = 2) +
+  labs(title = "COVID-19 deaths per 100,000 in the US", x = "Date", y = "Deaths per 100,000", 
+       caption = "Colors represent HHS regions") 
+```
 
-We see that the highest death rates were actually at the start of the pandemic and that is was particularly bad in the northeast.
+
+
+Criteria (3 points):
+
+* Same code as before but using `deaths_prov` = 1 points.
+* The fact that we now see that the highest death rates were actually at the start of the pandemic and that is was particularly bad in the northeast is noted = 2 points.
 
 
 (@) We want to examine the percent of the population that completed the first series of vaccines, received the booster, and received the bivalent booster, respectively. First run this line of code and examine what it does.
 
+
 ```{r}
-#| eval: false
 tmp <- dat |> 
   pivot_longer(c(series_complete, booster, bivalent), names_to = "series", values_to = "percent") |>
   select(state, region, population, end_date, series, percent) |>
@@ -208,17 +376,96 @@ Then make a plot showing the percent of population vaccination for each state. U
 * Show percentages on the y axis. Hint: use `scales::percent`.
 
 
+```{r}
+#| out-width: 50%
+#| fig-width: 4
+#| fig-height: 8
+#| 
+levels(tmp$series) <- c("First vaccine", "Booster", "Bivalent")
+tmp |>  
+  rename(Region = region) |>
+  ggplot(aes(end_date, percent, group = state, color = Region)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_date(date_labels = "%b %y", date_breaks = "6 month") + 
+  facet_wrap(~series, nrow = 3) +
+  labs(title = "Percent of population vaccinated by state", x = "Date", y = "Percent vaccinated")
+```  
+   
+Criteria (5 points):
+
+* Cummulative values shown = 1 point.
+* Regions shown with color and legend included = 1 point.
+* Facet wrap used correctly with 3 rows = 2 points.
+* Clear labels and titles = 1 point.
+
 (@) For each period used to make the trend plot for the three series, make a boxplot showing the maximum percentage reached by every state stratified by region. Let the range of the y axis adapt to the range of each group.
+
+```{r}
+tmp |> 
+  group_by(state, region, series) |>
+  summarize(percent = max(percent), .groups = "drop") |>
+  ggplot(aes(region, percent)) +
+  scale_y_continuous(labels = scales::percent) +
+  geom_boxplot() +
+  geom_text(aes(label = state)) +
+  facet_wrap(~series, scales = "free_y", nrow = 3) +
+  labs(title = "Percent vaccinated by region", x = "Region", y = "Percent")
+```
+
+Criteria (5 points)
+
+* Maximum computed correctly = 2 points
+* Boxplot showing points by region = 2 points
+* Faceting and labels = 1 point.
 
 (@) Use the plot above to define four periods: No vaccine, First vaccine, Booster, and Bivalent. 
 Get the dates when each vaccine series starts (these don't have to be exact). Create a version of your data frame with a column called period that keeps the period associated with the week contained in each row.
 
+```{r}
+period_dates <- c(make_date(2020, 1,1), make_date(2021, 1, 1), make_date(2021, 9, 1), make_date(2022, 9, 1), today())
+
+labels <- c("No vaccine", "First vaccine", "Booster", "Bivalent")
+tmp <- dat |> mutate(period = cut(end_date, period_dates, labels = labels))
+```
+
+Criteria (3 points):
+
+* Approriate choice of dates selecteed: 2 points
+* used `cut` correctly: 1 point
 
 (@) Define a new variable that stores the maximum vaccination percentage reached during each period. But for the first vaccine period use `series_complete`, for the booster period use the `booster` column, and for the bivalent period use the bivalent percentages. Remove data from the no vaccine period. The make a plot comparing the COVID-19 death rate to the percent vaccinated. Use color to denote region. You should produce three plots, each with it's own axes range. Put the three plots in three entries of a 2x2 layout. Comment on what you observe.
 
+```{r}
+tmp |> filter(!period %in% c("No vaccine")) |>
+  mutate(period = droplevels(period)) |>
+  group_by(state) |>
+   mutate(vax = case_when(
+     period == "First vaccine" ~ max(series_complete, na.rm = TRUE),
+     period == "Booster" ~ max(booster, na.rm = TRUE),
+     period == "Bivalent" ~ max(bivalent, na.rm = TRUE))) |>
+  ungroup() |>
+  group_by(state, region, period) |>
+  summarize(deaths = mean(deaths_prov, na.rm = TRUE) / population[1] * 100000,
+            vax = vax[1]/population[1], .groups = "drop") |> 
+  rename(Region = region) |>
+  ggplot(aes(vax, deaths, label = state, color = Region)) + 
+  geom_point(size = 0) + 
+  geom_text(show.legend = FALSE) + 
+  scale_x_continuous(labels = scales::percent) +
+  guides(colour = guide_legend(override.aes = list(size = 1))) + 
+  facet_wrap(~period, scales = "free", ncol = 2) + 
+  labs("Death rate versus vaccination rate for states", x = "% population vaccinated", y = "Per 100,000 per week death rate")
+```
+
+Criteria (8 points)
+
+* Correctly defines the three periods = 3 points
+* Correctly computes the death rates and vaccination percentages in each period = 3 points
+* Uses `facet_wrap` to show three plots = 2 point
+* Clear labels and titles = 1 point.
 
 (@) Does population density have an effect on infections? Use the `state.area` predefined variable to add compute population density. Make a histogram and density plot of state densities. Note that you will have to add the geographical area for Puerto Rico and DC as it is not included in `state.area`
-
 
 ```{r}
 my.state.abb <- c(state.abb, "PR", "DC")
@@ -235,5 +482,31 @@ popdens |> ggplot(aes(popdens)) +
   labs(title = "Distribution of poplation density across states", x = "Population density", y = "Density")
 ```
 
+Criteria (5 points):
+
+* Adds PR and DC = 1 point
+* Add population density column = 1 point
+* Histogram shown = 1 point
+* Density shown = 1 point
+* Title, labels and smoothing parameter and bin size choice = 1 point
+
 (@) Plot death rates versus density for the four periods defined above.
 
+```{r}
+tmp |> filter(!is.na(deaths_prov)) |>
+  mutate(area = my.state.area[match(state, my.state.abb)]) |> 
+  mutate(popdens = population / area) |>
+  group_by(state, period) |>
+  summarize(rate = mean(deaths_prov) / population[1]*100000, popdens = popdens[1], .groups = "drop") |>
+  ggplot(aes(popdens, rate, label = state)) +
+  geom_text() +
+  scale_x_log10() +
+  facet_wrap(~period) + 
+  labs(title = "Death rate versus density", x = "Population density", y = "Deaths per 100,000 per week")
+```
+
+Criteria (5 points)
+
+* Computes rate and population density correctly = 2 points
+* Four plots shown made with `facet_wrap` = 2 points
+* Labels and titles = 1 point

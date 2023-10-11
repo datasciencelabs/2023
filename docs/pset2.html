@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 15&nbsp; Locales</title>
+<title>BST 260 Introduction to Data Science - Problem Set 2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./16-text-mining.html" rel="next">
-<link href="./14-web-scraping.html" rel="prev">
+<link href="./19-models.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -95,6 +94,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -108,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./15-locales.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pset2.html">Problem Set 2</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -251,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./15-locales.html" class="sidebar-item-text sidebar-link active">
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
   </div>
 </li>
@@ -281,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pset2.html" class="sidebar-item-text sidebar-link">
+  <a href="./pset2.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Problem Set 2</span></a>
   </div>
 </li>
@@ -291,14 +292,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#preparation" id="toc-preparation" class="nav-link" data-scroll-target="#preparation">Preparation</a></li>
+  <li><a href="#wrangling" id="toc-wrangling" class="nav-link" data-scroll-target="#wrangling">Wrangling</a></li>
+  <li><a href="#us-census-apis" id="toc-us-census-apis" class="nav-link" data-scroll-target="#us-census-apis">US Census APIs</a></li>
+  <li><a href="#daily-count-data" id="toc-daily-count-data" class="nav-link" data-scroll-target="#daily-count-data">Daily count data</a></li>
+  <li><a href="#linear-models" id="toc-linear-models" class="nav-link" data-scroll-target="#linear-models">Linear models</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/pset2.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></h1>
+<h1 class="title">Problem Set 2</h1>
 </div>
 
 
@@ -313,170 +325,138 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Notice the character on this file.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-1_87e3c74ba0d6cd4b662478ced8b4ebe7">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>), <span class="st">"calificaciones.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Error in read_csv(fn) : could not find function "read_csv"</code></pre>
+<section id="introduction" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="introduction">Introduction</h2>
+<p>For this assignment, you’ll delve into data wrangling, statistical inference, and linear modeling that was used by academics to gain a deeper understanding of the efforts made to estimate the indirect death toll in Puerto Rico following Hurricane María. Begin by reviewing <a href="https://simplystatistics.org/posts/2018-09-28-the-complex-process-of-obtaining-puerto-rico-mortality-data-a-timeline/">this comprehensive timeline and summary</a>. Initially, we’ll use data wrangling techniques to extract information from documents released by organizations that had early access to the mortality registry data. Following that, we’ll work with the mortality registry data that has since been publicly disclosed by the government. To determine mortality rates, it’s essential to acquire data on population size, categorized by age and sex. We’ll achieve this by utilizing APIs provided by the US Census.</p>
+<p>These are the libraries you will need and the only ones you are allowed to load</p>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-1_7380b0e029a57c8a1ab65f0e7be09a35">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pdftools)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(excessmort)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "\"nombre\",\"f.n.\",\"estampa\",\"puntuaci\xf3n\""                       
-[2] "\"Beyonc\xe9\",\"04 de septiembre de 1981\",2023-09-22 02:11:02,\"87,5\""
-[3] "\"Bl\xfcmchen\",\"20 de abril de 1980\",2023-09-22 03:23:05,\"99,0\""    
-[4] "\"Jo\xe3o\",\"10 de junio de 1931\",2023-09-21 22:43:28,\"98,9\""        
-[5] "\"L\xf3pez\",\"24 de julio de 1969\",2023-09-22 01:06:59,\"88,7\""       
-[6] "\"\xd1engo\",\"15 de diciembre de 1981\",2023-09-21 23:35:37,\"93,1\""   
-[7] "\"Pl\xe1cido\",\"24 de enero de 1941\",2023-09-21 23:17:21,\"88,7\""     
-[8] "\"Thal\xeda\",\"26 de agosto de 1971\",2023-09-21 23:08:02,\"83,0\""     </code></pre>
+<p>You don’t need these but we will allow you to load them:</p>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-2_a4f0a478d1cc1c61dd0c33288170c70c">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ThemePark)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Reminders:</p>
+<ul>
+<li>Add a title to all your graphs.</li>
+<li>Add a label to the x and y axes when not obvious what they are showing.</li>
+<li>Think about transformations that convey the message in clearer fashion.</li>
+</ul>
+</section>
+<section id="preparation" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="preparation">Preparation</h2>
+<p>Create a directory for this homework. In this directory create two subdirectories: <code>data</code> and <code>rdas</code>. You will also create a <code>get-population.R</code> file where you will have the code to download and wrangle population data from the US Census.</p>
+</section>
+<section id="wrangling" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="wrangling">Wrangling</h2>
+<ol class="example" type="1">
+<li><p>In December 2017 a preprint was published that includes data from the mortality registry. It is a Word document that you can download from <a href="https://osf.io/preprints/socarxiv/s7dmu/download" class="uri">https://osf.io/preprints/socarxiv/s7dmu/download</a>. Save a PDF copy of this document to your data directory.</p></li>
+<li><p>Read in the PFD file into R and create a data frame with the data in Table 1 of the paper. The data frame should be tidy with columns <code>months</code>, <code>year</code>, and <code>deaths</code>. Your data frame need not include the confidence intervals or averages.</p></li>
+<li><p>For each month compute the average and a 95% confidence interval to reproduce Figure 3 in the preprint. Make sure to show the month names on the x-axis, not numbers. Hint: Save the graph to an object to make an upcoming exercise easier.</p></li>
+<li><p>The model here seems to be that the observed death for month <span class="math inline">\(i\)</span> and year <span class="math inline">\(j\)</span> is</p></li>
+</ol>
+<p><span class="math display">\[
+Y_{ij} = \mu_i + \varepsilon_{ij}
+\]</span></p>
+<p>with <span class="math inline">\(\text{Var}(\varepsilon_{ij}) = \sigma^2_i\)</span>. The preprint reports the September and October 2017 deaths as 2,987 and 3,043. Create a data frame called <code>dat_2017</code> with these two values and include an estimate for the standard error of this random variable. Hint: Look at the model and use data from 2010-2016 to estimate <span class="math inline">\(\sigma_i\)</span>.</p>
+<ol start="5" class="example" type="1">
+<li><p>Make a plot now that includes the two points for 2017 and the 1.96 standard errors bars around them. Are the deaths statistically significantly different than the expected based on 2010-2016 data?</p></li>
+<li><p>On December 8, 2017 the New York Times publishes an article with daily counts. They share the data that was provided to them by the Mortality Registry. It is PDF you can obtain <a href="https://github.com/c2-d2/pr_mort_official/raw/master/data/Mortalidad-RegDem-2015-17-NYT-part1.pdf">here</a>. Read the PDF into R and extract the daily counts. Save the results to a data frame called <code>dat</code> with columns <code>data</code> and <code>deaths</code>. Make sure the data frame is ordered by date.</p></li>
+<li><p>Plot the deaths versus dates and describe what you see towards the end for 2017.</p></li>
+<li><p>The reason you see a drop at the end is because it takes time to officially register deaths. It takes about 45 days for 99% of the data to be added. Remove the last 45 days and remake the plot, but this time showing deaths against day of the year (1 through 365 or 366) with color highlighting what happened after the hurricane. Do not include a legend.</p></li>
+</ol>
+</section>
+<section id="us-census-apis" class="level2">
+<h2 class="anchored" data-anchor-id="us-census-apis">US Census APIs</h2>
+<p>In June 2018, data was finally made public. This dataset gives you deaths by age group and sex obtained more recently from the Mortality Registry. In preparation for the analysis of these data, we will obtain population estimates from the US Census by age and gender.</p>
+<p>We will be using three different APIs as that is how the Census makes the data available. Important to note that in two of these APIs, all ages 85 or above are grouped into one group.</p>
+<p>If you wish to skip this section (though you will lose points), you can obtain the already wrangled population data <a href="https://github.com/datasciencelabs/2023/raw/main/data/population.rds">here</a>.</p>
+<ol start="9" class="example" type="1">
+<li><p>First step is to obtain a census key. You can request one here <a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a>. Once you have a key create a file in your directory called <code>census-key.R</code> that simply defines the variable <code>census_key</code> to be your personal key. Do not share this key publicly. The quarto file you turn in should not show your census key, instead it should source a file called <code>census-key.R</code> to define the variable. We will have a file on our end with our key so your script can knit.</p></li>
+<li><p>Once you have your key you can use the <code>httr2</code> package to download the data directly from the Census data base. We will start downloading data from 2000-2009. We will download it only for Puerto Rico which has region ID 72. The following code downloads the data.</p></li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-3_3caab1642c4b04601b448735348ba359">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2000/pep"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>api_name <span class="ot">&lt;-</span> <span class="st">"int_charage"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(api_name, <span class="st">"?get=POP,SEX,AGE,DATE_&amp;for=state:72&amp;key="</span>, census_key)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">request</span>(url) <span class="sc">|&gt;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(endpoint) <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This is because it is not UTF encoding, which is the default:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-2_8c4b2437221cc95c4b334161c04db79a">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getlocale</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8"</code></pre>
+<p>The data is now included in <code>response</code> and you can access it using the functions. Examine the results you obtain when applying <code>resp_body_string</code>. Write code to convert this into a data frame with columns names <code>year</code>, <code>sex</code>, <code>age</code>, and <code>population</code>. Hint: Use the function <code>fromJSON</code> from the <strong>jsonlite</strong> package. The functions <code>row_to_names</code> and <code>clean_names</code> from the <strong>janitor</strong> package might also be handy.</p>
+<ol start="11" class="example" type="1">
+<li>Now we will obtain data for 2010-2014. We can follow a similar procedure but with the following API and endpoints:</li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-4_e4c2e49d0595c798b0f00e8a9f960f57">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2014/pep"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>api_name <span class="ot">&lt;-</span> <span class="st">"prcagesex"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(api_name, <span class="st">"?get=POP,SEX,AGE,DATE_&amp;for=state:72&amp;key="</span>, census_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ol start="12" class="example" type="1">
+<li>Finally we will ge data for 2015-2017. These are available in different APIs.</li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-5_227a8a6b2afecba14273e450ea5eb9c7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">2015</span> <span class="do">## need to also get 2016 and 2017</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"https://api.census.gov/data/"</span>, year, <span class="st">"/pep"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>api_name <span class="ot">&lt;-</span> <span class="st">"charage"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(api_name, <span class="st">"?get=POP,SEX,AGE,DATE_&amp;for=state:72&amp;key="</span>, census_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>locale</code> is a group of information about your system. This includes the encoding, the language, and the time zone. This can affect how data is read into R. A mismatch of encodings creates weird problems often without warning or error.</p>
-<p>You can use this function to predict the encoding of a character</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-3_546e392a2536aa03f1366a6253dfc1bf">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">readLines</span>(fn, <span class="at">n =</span> <span class="dv">1</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>stringi<span class="sc">::</span><span class="fu">stri_enc_detect</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-    Encoding Language Confidence
-1 ISO-8859-1       es       0.75
-2 ISO-8859-2       cs       0.18
-3   UTF-16BE                0.10
-4   UTF-16LE                0.10
-5  Shift_JIS       ja       0.10
-6    GB18030       zh       0.10
-7       Big5       zh       0.10</code></pre>
+<ol start="13" class="example" type="1">
+<li>Combine all data frames you created in the previous exercises to form one population data frame including all year. Make sure the 85+ category is correctly computed on all three datasets. Save it to a file called <code>population.rds</code> in your rds.</li>
+</ol>
+</section>
+<section id="daily-count-data" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="daily-count-data">Daily count data</h2>
+<p>Let’s repeat the analysis done in the preprint but now using 2002-2016 data and, to better see the effect of the hurricane, let’s use weekly instead of monthly and start our weeks on the day the hurricane hit.</p>
+<p>You can load the data from the <strong>excessmort</strong> package.</p>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-6_18501b75adefbff25c428981af68b8a6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>We can also use this <strong>readr</strong> function to detect encoding of files:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-4_42c4422463cd7018125156e9f01ccc5f">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">guess_encoding</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  encoding   confidence
-  &lt;chr&gt;           &lt;dbl&gt;
-1 ISO-8859-1       0.92
-2 ISO-8859-2       0.72
-3 ISO-8859-9       0.53</code></pre>
-</div>
-</div>
-<p>The <code>read_csv</code> permits us to define elements of the encoding through the <code>locale</code> argument. It switches the local only temporarily, while running the parser <em>read_csv</em>. The locale for R remains the same after calling this.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-5_97d2342225956f24c023d9748c052bf0">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 7 Columns: 4
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (2): nombre, f.n.
-num  (1): puntuación
-dttm (1): estampa
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 4
-  nombre   f.n.                     estampa             puntuación
-  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
-1 Beyoncé  04 de septiembre de 1981 2023-09-22 02:11:02        875
-2 Blümchen 20 de abril de 1980      2023-09-22 03:23:05        990
-3 João     10 de junio de 1931      2023-09-21 22:43:28        989
-4 López    24 de julio de 1969      2023-09-22 01:06:59        887
-5 Ñengo    15 de diciembre de 1981  2023-09-21 23:35:37        931
-6 Plácido  24 de enero de 1941      2023-09-21 23:17:21        887
-7 Thalía   26 de agosto de 1971     2023-09-21 23:08:02        830</code></pre>
-</div>
-</div>
-<p>Now notice the last column. Compare it to what we saw with <code>readLines</code>. They were numbers that used the European decimal point. This confuses <code>read_csv</code>. We can also change the encoding so the Europearn decimals are used.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-6_b5a41cf3506052bb398be137cdf09c23">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>, <span class="at">decimal_mark =</span> <span class="st">","</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 7 Columns: 4
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (2): nombre, f.n.
-dbl  (1): puntuación
-dttm (1): estampa
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 4
-  nombre   f.n.                     estampa             puntuación
-  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
-1 Beyoncé  04 de septiembre de 1981 2023-09-22 02:11:02       87.5
-2 Blümchen 20 de abril de 1980      2023-09-22 03:23:05       99  
-3 João     10 de junio de 1931      2023-09-21 22:43:28       98.9
-4 López    24 de julio de 1969      2023-09-22 01:06:59       88.7
-5 Ñengo    15 de diciembre de 1981  2023-09-21 23:35:37       93.1
-6 Plácido  24 de enero de 1941      2023-09-21 23:17:21       88.7
-7 Thalía   26 de agosto de 1971     2023-09-21 23:08:02       83  </code></pre>
-</div>
-</div>
-<p>Now let’s try to change the dates to date format:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-7_62e2c28a8de11b851e049b362016e7ba">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'lubridate'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    date, intersect, setdiff, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dmy</span>(x<span class="sc">$</span>f.n.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: All formats failed to parse. No formats found.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] NA NA NA NA NA NA NA</code></pre>
-</div>
-</div>
-<p>Nothing gets correctly converted. This is because the dates are in Spanish. You can change the locale to use Spanish as the language:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-8_8fa1576656aaf44165500e52171f01c4">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_date</span>(x<span class="sc">$</span>f.n., <span class="at">format =</span> <span class="st">"%d de %B de %Y"</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">date_names =</span> <span class="st">"es"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "1981-09-04" "1980-04-20" "1931-06-10" "1969-07-24" "1981-12-15"
-[6] "1941-01-24" "1971-08-26"</code></pre>
-</div>
-</div>
-<p>Finally notice that two students turned in the homework past the deadline of September 21</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-9_7636410f25f0d96134d09bee072b197f">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>estampa <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE</code></pre>
-</div>
-</div>
-<p>However, with times we have to be particularly careful as some functions default to UTC.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-10_82f56343764dd1fa806eba68472a709e">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tz</span>(x<span class="sc">$</span>estampa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "UTC"</code></pre>
-</div>
-</div>
-<p>But these times are in the default GMT. If we change to out timezone:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-11_40a741a2edfba68fc92939fd7bd47dce">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with_tz</span>(x<span class="sc">$</span>estampa, <span class="at">tz =</span>  <span class="fu">Sys.timezone</span>()) <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
-</div>
-</div>
-<p>we see everybody turned it in on time.</p>
+<ol start="14" class="example" type="1">
+<li><p>Define an object <code>counts</code> by wrangling <code>puerto_rico_counts</code> to 1) include data only from 2000-2017, 2) remove the population column, and 3) to match our population, combine the counts for those 85 and older together.</p></li>
+<li><p>Collapse the population data so that it combines agegroups like <code>counts</code>. Also change the <code>sex</code> column so that it matches <code>counts</code> as well.</p></li>
+<li><p>Add a population column to <code>counts</code> using the <code>population</code> data frame you just created.</p></li>
+<li><p>Use R to determine what day of the week did María make landfall in PR.</p></li>
+<li><p>Redefine the date column to be the start of the week that day is part of. Use the day of the week María made landfall as the first day. Now collapse the data frame to weekly data by redefining <code>outcome</code> to have the total deaths that week for each sex and agegroup. Remove weeks that have less the 7 days. Finally, add a column with the MMWR week. Name the resulting data frame <code>weekly_counts</code></p></li>
+<li><p>Make a per-week version of the plot we made for monthly totals. Make a boxplot for each week based on the 2000-2016 data, then add red points for 2017. Comment on the possibility that indirect effect went past October.</p></li>
+<li><p>If we look at 2017 data before September and compare each week to the average from 2000-2016. What percent are below the median?</p></li>
+<li><p>Why are 2017 totals somewhat below-average? Plot the population in millions against date. What do you see?</p></li>
+<li><p>When comparing mortalisty across populations of different sizes, we need to look at rates not totals. Because the population is decreasing, this is particularly important. Redo the boxplots but for rates instead of totals.</p></li>
+<li><p>Now the rates are all way above average! What is going on? Compute and plot the population sizes against year for each sex of the following age groups: 0-19, 20-39, 40-59, 60+. Describe what you see in this plot then explain why 2017 has higher average death rates.</p></li>
+<li><p>Compute the death rates (deaths per 1,000 per year) by the agegroups for each year 2000-2016. Use a transformation of the y-axis that permits us to see the data clearly. Make a separate plot for males and females. Describe in two sentences what you learn.</p></li>
+<li><p>Repeat the above but use <code>facet_wrap</code> with <code>scales = "free_y"</code> to get a closer look at the patterns for each age group. In this case use color to distinguish the sexes. Describe the pattern observed for the death rate over time.</p></li>
+</ol>
+</section>
+<section id="linear-models" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="linear-models">Linear models</h2>
+<ol start="26" class="example" type="1">
+<li><p>We are going fit a linear model to account for the trend in death rates to obtain an more appropriate expected death rate for each agegroup and sex. Because we are fitting a linear model, it is preferable to have normally distributed data. We want the number of deaths per week to be larger than 10 for each group. Compute the average number of deaths per week by agegroup and sex for 2016. Based on these data, what agegroups do you recommend we combine?</p></li>
+<li><p>Create a new dataset called <code>dat</code> that collapses the counts into agegroups with enough deaths to fit a linear model. Remove any week with MMWR week 53 and add a column <code>t</code> that includes the number of weeks since the first week in the first year.</p></li>
+<li><p>Write a function that receives a data frame <code>tab</code>, fits a linear model with a line for the time trend, and returns a data frame with 2017 data including a prediction.</p></li>
+<li><p>Use the <code>group_modify</code> function to fit this model to each sex and agegroup. Save the results in <code>res</code>.</p></li>
+<li><p>For agegroup and by sex, plot the expected counts for each week with an error bar showing two standard deviations and in red the observed counts. Does the model appear to fit? Hint: Look to see if the red dots are inside the intervals before the hurricane.</p></li>
+<li><p>Now estimate weekly excess deaths for 2017 based on the rates esimated from 2000-2016 but the population sizes of 2017. Compare this to estimated standard deviation observed from year to year once we account for trends.</p></li>
+<li><p>Plot cummulative excess death for 2017 including a standard error.</p></li>
+</ol>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -714,18 +694,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./14-web-scraping.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span>
+      <a href="./19-models.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./16-text-mining.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/15-locales.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
+</body></html>

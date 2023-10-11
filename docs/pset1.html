@@ -273,6 +273,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Inference</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -308,7 +320,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>This is a preliminary version of problem set 1. The final version will be shared through GitHub.</p>
 <p>Reminders:</p>
 <ul>
 <li>Add a title to all your graphs.</li>
@@ -320,81 +331,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol class="example" type="1">
 <li>Load the <strong>dslabs</strong> package and figure out what is in the <code>us_contagious_diseases</code> dataset. Create a data frame, call it <code>avg</code>, that has a column for <code>year</code>, and a <code>rate</code> column containing the cases of Measles per 10,000 people per year in the US. Because we start in 1928, exclude Alaska and Hawaii. Make sure to take into account the number of weeks reporting each year. If a week was not report, it should not be included in the calculation of the rate.</li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-1_322dc720b9649ff81466e15e0fa68cdc">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.1     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.2     ✔ tibble    3.2.1
-✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-✔ purrr     1.0.1     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-1_118a3b19e5e49672d8226be19857bf57">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>avg <span class="ot">&lt;-</span> us_contagious_diseases <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Hawaii"</span>,<span class="st">"Alaska"</span>) <span class="sc">&amp;</span> disease <span class="sc">==</span> <span class="st">"Measles"</span> <span class="sc">&amp;</span> weeks_reporting <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">rate =</span> <span class="fu">sum</span>(count<span class="sc">*</span><span class="dv">52</span><span class="sc">/</span>weeks_reporting, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sum</span>(population) <span class="sc">*</span> <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>avg <span class="ot">&lt;-</span> us_contagious_diseases <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Hawaii"</span>,<span class="st">"Alaska"</span>) <span class="sc">&amp;</span> disease <span class="sc">==</span> <span class="st">"Measles"</span> <span class="sc">&amp;</span> weeks_reporting <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">rate =</span> <span class="fu">sum</span>(count<span class="sc">*</span><span class="dv">52</span><span class="sc">/</span>weeks_reporting, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">/</span><span class="fu">sum</span>(population) <span class="sc">*</span> <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Filtered correctly: removed HI and AK, kept only Measels, removed rows with no weeks reporting = 2 points.</li>
+<li>Grouped by year = 1 point.</li>
+<li>Adjusted for week reportin = 1 point.</li>
+<li>Summarized correctly: sum of counts divided by sum of popuation and multiploed by 10^5 = 1 point.</li>
+</ul>
 <ol start="2" class="example" type="1">
 <li>Use the data frame <code>avg</code> to make a trend plot showing the cases rate for Measles per year. Add a vertical line showing the year the Measles vaccines was introduced. Write a short paragraph describing the graph to someone you are urging to take the Measles vaccines.</li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-2_74dc510872472b4cc0d0da91b49ad6ac">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ThemePark)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>avg <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, rate)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1963</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_barbie</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-2_47f842d360745d044db437c245b2bb71">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>avg <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, rate)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Cases per 10,000"</span>, <span class="at">title =</span> <span class="st">"Measles cases per year in the US"</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1963</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pset1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Plotted rate versus year = 3 points</li>
+<li>Vertical line added correctly = 1 point.</li>
+<li>Labels and title = 1 point.</li>
+</ul>
 <ol start="3" class="example" type="1">
 <li>Is the pattern observed above the same for each state? Add a grey trend line for each state to the plot above. Use a transformation that keeps the high rates from dominating the figure.</li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-3_4cf2f9f344a88726d2e7eccfbbd71aff">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>us_contagious_diseases <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(disease <span class="sc">==</span> <span class="st">"Measles"</span> <span class="sc">&amp;</span> weeks_reporting <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate =</span> count<span class="sc">*</span><span class="dv">52</span><span class="sc">/</span>weeks_reporting<span class="sc">/</span>population <span class="sc">*</span> <span class="dv">10000</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year)) <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> rate, <span class="at">group =</span> state), <span class="at">color =</span> <span class="st">"grey"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> avg, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> rate)) <span class="sc">+</span> <span class="do">## avg was defined in previous exercise</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"sqrt"</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1963</span>, <span class="at">color =</span> <span class="st">"blue"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 14 rows containing missing values (`geom_line()`).</code></pre>
-</div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-3_8c40271b816b9f08e684e9f6718bec10">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>us_contagious_diseases <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Hawaii"</span>,<span class="st">"Alaska"</span>) <span class="sc">&amp;</span> disease <span class="sc">==</span> <span class="st">"Measles"</span> <span class="sc">&amp;</span> weeks_reporting <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(weeks_reporting <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate =</span> count<span class="sc">/</span>population<span class="sc">*</span><span class="dv">10000</span><span class="sc">*</span><span class="dv">52</span><span class="sc">/</span>weeks_reporting) <span class="sc">|&gt;</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, rate)) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> state), <span class="at">color =</span> <span class="st">"grey"</span>) <span class="sc">+</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> avg) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"sqrt"</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Cases per 10,000"</span>, <span class="at">title =</span> <span class="st">"Measles cases per year in the US"</span>) <span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1963</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pset1_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Includes curves for each state with no lengend = 2 points.</li>
+<li>Average curve can be distinguished = 1 point.</li>
+<li>Transformation was used = 1 point.</li>
+<li>Labels and title = 1 point.</li>
+</ul>
 <ol start="4" class="example" type="1">
 <li>In the plot above we can’t tell which state is which curve. Using color would be challenging as it is hard if not impossible to find 48 colors we humans can distinguish. To make a plot where you can compare states knowing which is which, use one of the axis for state and the other for year, and then use hue or intensity as a visual cue for rates. Use a <code>sqrt</code> transformation to avoid the higher rates taking up all the color scale. Use grey to denote missing data. Order the states based on their highest peak.</li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-4_4440642f5e03c14584cf10b8c9997ed7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mycolors <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Reds"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>us_contagious_diseases <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Hawaii"</span>,<span class="st">"Alaska"</span>) <span class="sc">&amp;</span> disease <span class="sc">==</span> <span class="st">"Measles"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate =</span> count<span class="sc">/</span>population<span class="sc">*</span><span class="dv">10000</span><span class="sc">*</span><span class="dv">52</span><span class="sc">/</span>weeks_reporting,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">reorder</span>(state, rate, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, state, <span class="at">fill =</span> rate)) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> <span class="do">## to remove extra space on sides</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> mycolors, <span class="at">trans =</span> <span class="st">"sqrt"</span>) <span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1963</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>  </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>, </span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)) <span class="sc">+</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Measles cases per year in the US"</span>, <span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-4_1f627297df5f696453bd5064fee65120">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reds <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"Reds"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>us_contagious_diseases <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Hawaii"</span>,<span class="st">"Alaska"</span>) <span class="sc">&amp;</span> disease <span class="sc">==</span> <span class="st">"Measles"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rate =</span> count<span class="sc">/</span>population<span class="sc">*</span><span class="dv">10000</span><span class="sc">*</span><span class="dv">52</span><span class="sc">/</span>weeks_reporting) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">state =</span> <span class="fu">reorder</span>(state, rate, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(year, state, <span class="at">fill =</span> rate)) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> <span class="do">## to remove extra space on sides</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> reds, <span class="at">trans =</span> <span class="st">"sqrt"</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1963</span>, <span class="at">col =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>  </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>, </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Measles cases per year in the US"</span>, <span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pset1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Criteria (8 points):</p>
+<ul>
+<li>Tile plot used = 2 points.</li>
+<li>Rate computed correctly = 1 point.</li>
+<li>Sequential palette used = 1 point.</li>
+<li>NAs shown in grey = 1 point.</li>
+<li>Transformation used = 1 point.</li>
+<li>States ordered by peak, title and labels included = 2 point.</li>
+</ul>
 </section>
 <section id="covid-19" class="level2">
 <h2 class="anchored" data-anchor-id="covid-19">COVID-19</h2>
@@ -407,8 +434,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Write a sentence describing each variable in the dataset.</li>
 </ul>
 <div class="cell" data-hash="pset1_cache/html/unnamed-chunk-5_365572c7c85f4116723d10e58079554b">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-data.csv"</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-data.csv"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 9853 Columns: 15
 ── Column specification ────────────────────────────────────────────────────────
@@ -420,38 +447,67 @@ dbl (13): population, region, mmwr_year, mmwr_week, cases, tests, hosp, deat...
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
+<ul>
+<li><code>state</code> - State abbreviation.</li>
+<li><code>state_name</code> - State name.</li>
+<li><code>population</code> - State population in 2020 census.</li>
+<li><code>region</code> - Department of Health and Human Services regions.</li>
+<li><code>mmwr_year</code> - Morbidity and Mortality Weekly Report year.</li>
+<li><code>mmwr_week</code> - Morbidity and Mortality Weekly Report week.</li>
+<li><code>cases</code> - SARS-CoV-2 cases reported to CDC that week.</li>
+<li><code>tests</code> - Accumulated tests reported according to JHU dashboard.</li>
+<li><code>hosp</code> - COVID-19 Hospitalization reported to CDC.</li>
+<li><code>deaths_underlying_cause</code> - Deaths reported to CDC with COVID-19 as underlying cause of death.</li>
+<li><code>deaths_multiple_causes</code> - Deaths reported to CDC with COVID-19 as one of the causes of death.</li>
+<li><code>prov_death</code> - Deaths provisionally reported to CDC as COVID-19 related.</li>
+<li><code>series_complete</code> - number of people in state with first vaccine series complete by the end of the week.</li>
+<li><code>booster</code> - number of people in state with booster by the end of the week.</li>
+<li><code>bivalent</code> - number of people in state with bivalent vaccine by the end of the week.</li>
+</ul>
+<p>Criteria (5 points)</p>
+<ul>
+<li>Data read correctly = 2 points.</li>
+<li>Variables described correctly = 3 points.</li>
+</ul>
 <ol start="6" class="example" type="1">
 <li>One of these columns could benefit from being a factor. Identify the column and convert it to factor.</li>
 </ol>
 <div class="cell" data-hash="pset1_cache/html/unnamed-chunk-6_f6d441aa0b527086cb8e28ecdb6dcba2">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">mutate</span>(dat, <span class="at">region =</span> <span class="fu">factor</span>(region))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">mutate</span>(dat, <span class="at">region =</span> <span class="fu">factor</span>(region))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Criteria (2 points)</p>
+<ul>
+<li>Region identified as variable = 1 point.</li>
+<li>Correctly changed to a factor = 1 point.</li>
+</ul>
 <ol start="7" class="example" type="1">
 <li>Rather than providing a date, the dataset provides MMWR year and week. Read <a href="https://ndc.services.cdc.gov/wp-content/uploads/MMWR_Week_overview.pdf">this document</a> and write a function to convert these to the start of the MMWR week in ISO-8601.</li>
 </ol>
 <div class="cell" data-hash="pset1_cache/html/unnamed-chunk-7_20f7f494d11287a93d04379f64adaf9d">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mmwr_to_date <span class="ot">&lt;-</span> <span class="cf">function</span>(mmwr_year, mmwr_week) {</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  first_day <span class="ot">&lt;-</span> <span class="fu">floor_date</span>(<span class="fu">make_date</span>(mmwr_year, <span class="dv">1</span>, <span class="dv">4</span>) , <span class="at">unit =</span> <span class="st">"week"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  date <span class="ot">&lt;-</span> first_day <span class="sc">+</span> <span class="fu">weeks</span>(mmwr_week <span class="sc">-</span> <span class="dv">1</span>) </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(date)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mmwr_to_date <span class="ot">&lt;-</span> <span class="cf">function</span>(mmwr_year, mmwr_week) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  first_day <span class="ot">&lt;-</span> <span class="fu">floor_date</span>(<span class="fu">make_date</span>(mmwr_year, <span class="dv">1</span>, <span class="dv">4</span>) , <span class="at">unit =</span> <span class="st">"week"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  date <span class="ot">&lt;-</span> first_day <span class="sc">+</span> <span class="fu">weeks</span>(mmwr_week <span class="sc">-</span> <span class="dv">1</span>) </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(date)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>A function was defined with two variables = 2 points</li>
+<li>First day identified correctly = 1 point.</li>
+<li>Number of weeks added correctly = 2 points.</li>
+</ul>
 <ol start="8" class="example" type="1">
 <li>Add a columns <code>start_date</code> and <code>end_date</code> with the start and end of the MMWR week. Confirm that it worked by computing the MMWR week and year for both start and end date and comparing it to the MMWR week and year provided.</li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-8_17242d1250abf35cb3e533e4f0395fac">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">start_date =</span> <span class="fu">mmwr_to_date</span>(mmwr_year, mmwr_week),</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">end_date =</span> start_date <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-9_21ccec8802c94d0228636e1325f04e72">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">start_date =</span> <span class="fu">mmwr_to_date</span>(mmwr_year, mmwr_week),</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">end_date =</span> start_date <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">6</span>))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="do">## check : these should all be TRUE</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">w1 =</span> <span class="fu">all</span>(<span class="fu">epiweek</span>(start_date) <span class="sc">==</span> mmwr_week),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y1 =</span> <span class="fu">all</span>(<span class="fu">epiyear</span>(start_date) <span class="sc">==</span> mmwr_year),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">w2 =</span> <span class="fu">all</span>(<span class="fu">epiweek</span>(end_date) <span class="sc">==</span> mmwr_week),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y2 =</span> <span class="fu">all</span>(<span class="fu">epiyear</span>(end_date) <span class="sc">==</span> mmwr_year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-8_b00a1663ce00aeaf1cbd1d10fd905c89">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">start_date =</span> <span class="fu">mmwr_to_date</span>(mmwr_year, mmwr_week),</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">end_date =</span> start_date <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">6</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## check : these should all be TRUE</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">w1 =</span> <span class="fu">all</span>(<span class="fu">epiweek</span>(start_date) <span class="sc">==</span> mmwr_week),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y1 =</span> <span class="fu">all</span>(<span class="fu">epiyear</span>(start_date) <span class="sc">==</span> mmwr_year),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">w2 =</span> <span class="fu">all</span>(<span class="fu">epiweek</span>(end_date) <span class="sc">==</span> mmwr_week),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y2 =</span> <span class="fu">all</span>(<span class="fu">epiyear</span>(end_date) <span class="sc">==</span> mmwr_year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
   w1    y1    w2    y2   
@@ -459,6 +515,11 @@ dbl (13): population, region, mmwr_year, mmwr_week, cases, tests, hosp, deat...
 1 TRUE  TRUE  TRUE  TRUE </code></pre>
 </div>
 </div>
+<p>Criteria (3 points)</p>
+<ul>
+<li>Two columns added correctly = 1 point.</li>
+<li>Check performed correctly = 2 point.</li>
+</ul>
 <ol start="9" class="example" type="1">
 <li>Make a trend plot similar to the one we made for Measles:</li>
 </ol>
@@ -469,38 +530,115 @@ dbl (13): population, region, mmwr_year, mmwr_week, cases, tests, hosp, deat...
 <li>Add a vertical dashed line on the day COVID-19 vaccination started being delivered in the US.</li>
 </ul>
 <p>Write a paragraph describing the COVID-19 pandemic by describing the plot.</p>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-9_a4fd53fad186110ed6967f537d295e40">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(cases)) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(end_date) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg =</span> <span class="fu">sum</span>(cases)<span class="sc">/</span><span class="fu">sum</span>(population)<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(end_date, cases<span class="sc">/</span>population<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> state, <span class="at">color =</span> region), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> avg)) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"sqrt"</span>) <span class="sc">+</span> </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">make_date</span>(<span class="dv">2020</span>, <span class="dv">12</span>, <span class="dv">14</span>), <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"SARS-Cov-2 cases per 100,000 in the US"</span>, <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Cases per 100,000"</span>, </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Colors represent HHS regions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Includes curves for each state with colors and lengend showing region= 2 points.</li>
+<li>Average curve can be distinguished = 1 point.</li>
+<li>Vertical line in correct location = 1 point.</li>
+<li>Labels and title = 1 point.</li>
+</ul>
 <ol start="10" class="example" type="1">
 <li>The number of cases depends on testing capacity. Note that during the start of the pandemic, when we know many people died, there are not that many cases reported. Also notice somewhat large variability across states that might not be consistent with actual prevalence. The <code>tests</code> columns provides the cumulative number of tests performed by the data represented by the week. This data is not official CDC data. It was provided by Johns Hopkins Coronavirus Resource Center. Before using the data, explore the data for each state carefully looking for potential problems.</li>
 </ol>
 <p>For each state compute and plot the number of tests perforemd each week. Look at the plot for each state and look for possible problems. No need to make this plot pretty since we are just using it for data exploration. Report any inconsistencies if any.</p>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-10_e21e255ca9468c507555dd97dc2ca6a7">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tests)) <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(end_date) <span class="sc">|&gt;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tests =</span> <span class="fu">diff</span>(<span class="fu">c</span>(<span class="dv">0</span>,tests))) <span class="sc">|&gt;</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(end_date, tests<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>state, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-10_54398e194846c3bee802906a92367ffb">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(end_date) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tests =</span> <span class="fu">diff</span>(<span class="fu">c</span>(<span class="dv">0</span>, tests))) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tests)) </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>tmp <span class="sc">|&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(end_date, tests)) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>state, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Number of tests"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pset1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> tmp <span class="sc">|&gt;</span> <span class="fu">filter</span>(tests <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(state_name) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>For we see negative numbers which is must be an error as the number of tests must be non negative.</p>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Difference computed correctly after group by = 1 point.</li>
+<li>Plot using facet wrap = 1 point.</li>
+<li>Free y-scale = 1 point.</li>
+<li>Correct states identified = 2 points.</li>
+</ul>
 <ol start="11" class="example" type="1">
-<li><p>To see if the inconsistencies seen in the previous plot are a problem if we are only going to look at the total number of tests at the end, plot the cumulative tests for each of the states with inconsistencies and see if the results are sensible. Explain your answer in 1-2 sentences.</p></li>
-<li><p>JHU stopped reporting some time in 2021. What was that date? Show the day in the format September 18, 2022.</p></li>
-<li><p>Compute the number of tests per capita for the last day JHU reported these statistics. Make a boxplot of these values for each region and include the state level data with the state abbreviation as a label. Write a sentences describing these differences you see and how this could affect our interpretation of differences in cases rates across states.</p></li>
+<li>To see if the inconsistencies seen in the previous plot are a problem if we are only going to look at the total number of tests at the end, plot the cumulative tests for each of the states with inconsistencies and see if the results are sensible. Explain your answer in 1-2 sentences.</li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-11_9f797323e94bc446ea92aa343132f6aa">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>last_day <span class="ot">&lt;-</span> <span class="fu">as_date</span>(<span class="st">"2021-1-2"</span>) <span class="do">## this should come from the previous exercise... </span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(end_date <span class="sc">==</span> last_day) <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(region, tests<span class="sc">/</span>population)) <span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> state)) <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Region"</span>, <span class="at">y =</span> <span class="st">"Test per capita"</span>, <span class="at">title =</span> <span class="st">"SARS-COV2 tests per person"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-11_c333d2a47a582fd1fdc6a2929bf811e2">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(state_name <span class="sc">%in%</span> states) <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tests)) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(end_date, tests<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>state, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Cumulative number of tests (in millions)"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pset1_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Only correct states shown and cumulative values shown = 1</li>
+<li>Plot using facet wrap with free y-scale = 1 point.</li>
+<li>Explanation includes observation of dips that are likely corrections, and that it does not affect final values = 3 points.</li>
+</ul>
+<ol start="12" class="example" type="1">
+<li>JHU stopped reporting some time in 2021. What was that date? Show the day in the format September 18, 2022.</li>
+</ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-12_13608e42ffe99db7bacacd63cdd6557d">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>last_day <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tests)) <span class="sc">|&gt;</span> <span class="fu">pull</span>(end_date) <span class="sc">|&gt;</span> <span class="fu">max</span>()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(last_day, <span class="st">"%B %d, %Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "December 18, 2021"</code></pre>
+</div>
+</div>
+<p>Criteria (3 points):</p>
+<ul>
+<li>Correct date identied = 1 point.</li>
+<li>Correct format used = 2 point.</li>
+</ul>
+<ol start="13" class="example" type="1">
+<li>Compute the number of tests per capita for the last day JHU reported these statistics. Make a boxplot of these values for each region and include the state level data with the state abbreviation as a label. Write a sentences describing these differences you see and how this could affect our interpretation of differences in cases rates across states.</li>
+</ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-13_cb3e6c1949571b11fa60ac8537913423">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(end_date <span class="sc">==</span> last_day) <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">factor</span>(region)) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(region, tests<span class="sc">/</span>population)) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> state)) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Region"</span>, <span class="at">y =</span> <span class="st">"Test per capita"</span>, <span class="at">title =</span> <span class="st">"SARS-COV2 tests per person"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Correct boplot shown = 1 points.</li>
+<li>Labels and titles = 1 point.</li>
+<li>Description of state to state variation provided: 3 points.</li>
+</ul>
 <ol start="14" class="example" type="1">
 <li>Although JHU stopped collecting testing data from the states, the CDC collected data from a few laboratories. We provide these date in <a href="https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt">this url</a>.</li>
 </ol>
@@ -508,9 +646,9 @@ dbl (13): population, region, mmwr_year, mmwr_week, cases, tests, hosp, deat...
 <li>Import the data into R without downloading the file.</li>
 <li>Make sure that you create a data frame with a column with dates in <code>Dates</code> format and tests as numbers.</li>
 </ul>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-12_830cf83a391c921906d47461c7b9408e">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt"</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(url, <span class="at">delim =</span> <span class="st">" "</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-14_6b4abeb0594e93a20e66492dc9bf81e3">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/datasciencelabs/2023/main/data/covid19-tests.txt"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(url, <span class="at">delim =</span> <span class="st">" "</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 183 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -520,30 +658,67 @@ chr (2): date, tests
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> tests <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">mdy</span>(date), <span class="at">tests =</span> <span class="fu">parse_number</span>(tests))</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="do">## alternatively we can re-read the file</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(url, <span class="at">delim =</span> <span class="st">" "</span>, </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">date =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%m-%d-%y"</span>),</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">tests =</span> <span class="fu">col_number</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> tests <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">mdy</span>(date), <span class="at">tests =</span> <span class="fu">parse_number</span>(tests))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="do">## alternatively we can re-read the file using the appropriate column types</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(url, <span class="at">delim =</span> <span class="st">" "</span>, </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">date =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%m-%d-%y"</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">tests =</span> <span class="fu">col_number</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Criteria 3 points):</p>
+<ul>
+<li>Dates is date format = 2 point</li>
+<li>Tests are numeric = 1 point.</li>
+</ul>
 <ol start="15" class="example" type="1">
 <li>Plot the tests per week to see the trend in time. Write a sentence of the pattern you see.</li>
 </ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-15_05a1c479b2e1e65fd766ef0bd2c4a54d">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tests <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(date, tests)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Tests per week"</span>, <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Number of tests"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 <p>At the start of the pandemic there were few tests conducted and now we are also seeing a drop.</p>
+<p>Criteria (3 points):</p>
+<ul>
+<li>Correct trend plot made = 1 points.</li>
+<li>Observation that the number of tests are much lower now included = 2 points.</li>
+</ul>
 <ol start="16" class="example" type="1">
 <li>The analysis on tests points to cases as not being a good measure of the state of the pandemic. Remake the trend plot but using death rates instead of cases rates. Write a sentence on how this plot better shows about the start of the pandemic that the cases plot did not.</li>
 </ol>
-<p>We see that the highest death rates were actually at the start of the pandemic and that is was particularly bad in the northeast.</p>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-16_75cc21f41dc568f6cff19781199f3eac">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(deaths_prov)) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(end_date) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg =</span> <span class="fu">sum</span>(deaths_prov)<span class="sc">/</span><span class="fu">sum</span>(population)<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(end_date, deaths_prov<span class="sc">/</span>population<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> state, <span class="at">color =</span> region), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> avg)) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">"sqrt"</span>) <span class="sc">+</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">make_date</span>(<span class="dv">2020</span>, <span class="dv">12</span>, <span class="dv">14</span>), <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"COVID-19 deaths per 100,000 in the US"</span>, <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Deaths per 100,000"</span>, </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Colors represent HHS regions"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Criteria (3 points):</p>
+<ul>
+<li>Same code as before but using <code>deaths_prov</code> = 1 points.</li>
+<li>The fact that we now see that the highest death rates were actually at the start of the pandemic and that is was particularly bad in the northeast is noted = 2 points.</li>
+</ul>
 <ol start="17" class="example" type="1">
 <li>We want to examine the percent of the population that completed the first series of vaccines, received the booster, and received the bivalent booster, respectively. First run this line of code and examine what it does.</li>
 </ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-13_bdce7641df661c0cc6e370a687125abe">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(series_complete, booster, bivalent), <span class="at">names_to =</span> <span class="st">"series"</span>, <span class="at">values_to =</span> <span class="st">"percent"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, region, population, end_date, series, percent) <span class="sc">|&gt;</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(percent)) <span class="sc">|&gt;</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> percent<span class="sc">/</span>population,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">series =</span> <span class="fu">factor</span>(series, <span class="fu">c</span>(<span class="st">"series_complete"</span>, <span class="st">"booster"</span>, <span class="st">"bivalent"</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-17_ddb6032be3f6a32dcfb265b1e283dc60">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(series_complete, booster, bivalent), <span class="at">names_to =</span> <span class="st">"series"</span>, <span class="at">values_to =</span> <span class="st">"percent"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, region, population, end_date, series, percent) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(percent)) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> percent<span class="sc">/</span>population,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">series =</span> <span class="fu">factor</span>(series, <span class="fu">c</span>(<span class="st">"series_complete"</span>, <span class="st">"booster"</span>, <span class="st">"bivalent"</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then make a plot showing the percent of population vaccination for each state. Use color to represent region.</p>
 <ul>
@@ -551,32 +726,150 @@ chr (2): date, tests
 <li>Place the three plots vertically, on top of each other.</li>
 <li>Show percentages on the y axis. Hint: use <code>scales::percent</code>.</li>
 </ul>
-<ol start="18" class="example" type="1">
-<li><p>For each period used to make the trend plot for the three series, make a boxplot showing the maximum percentage reached by every state stratified by region. Let the range of the y axis adapt to the range of each group.</p></li>
-<li><p>Use the plot above to define four periods: No vaccine, First vaccine, Booster, and Bivalent. Get the dates when each vaccine series starts (these don’t have to be exact). Create a version of your data frame with a column called period that keeps the period associated with the week contained in each row.</p></li>
-<li><p>Define a new variable that stores the maximum vaccination percentage reached during each period. But for the first vaccine period use <code>series_complete</code>, for the booster period use the <code>booster</code> column, and for the bivalent period use the bivalent percentages. Remove data from the no vaccine period. The make a plot comparing the COVID-19 death rate to the percent vaccinated. Use color to denote region. You should produce three plots, each with it’s own axes range. Put the three plots in three entries of a 2x2 layout. Comment on what you observe.</p></li>
-<li><p>Does population density have an effect on infections? Use the <code>state.area</code> predefined variable to add compute population density. Make a histogram and density plot of state densities. Note that you will have to add the geographical area for Puerto Rico and DC as it is not included in <code>state.area</code></p></li>
-</ol>
-<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-14_e524a950d9920f6cca92cf467ed075d4">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>my.state.abb <span class="ot">&lt;-</span> <span class="fu">c</span>(state.abb, <span class="st">"PR"</span>, <span class="st">"DC"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>my.state.area <span class="ot">&lt;-</span> <span class="fu">c</span>(state.area, <span class="dv">5325</span>, <span class="dv">69</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>popdens <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(end_date <span class="sc">==</span> <span class="fu">min</span>(end_date)) <span class="sc">|&gt;</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, population) <span class="sc">|&gt;</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> my.state.area[<span class="fu">match</span>(state, my.state.abb)]) <span class="sc">|&gt;</span> </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">popdens =</span> population <span class="sc">/</span> area) </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>popdens <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(popdens)) <span class="sc">+</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">25</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of poplation density across states"</span>, <span class="at">x =</span> <span class="st">"Population density"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-18_057c1efd60e0f2019108b7fc9ca9d13b">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(tmp<span class="sc">$</span>series) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"First vaccine"</span>, <span class="st">"Booster"</span>, <span class="st">"Bivalent"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>tmp <span class="sc">|&gt;</span>  </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Region =</span> region) <span class="sc">|&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(end_date, percent, <span class="at">group =</span> state, <span class="at">color =</span> Region)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_labels =</span> <span class="st">"%b %y"</span>, <span class="at">date_breaks =</span> <span class="st">"6 month"</span>) <span class="sc">+</span> </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>series, <span class="at">nrow =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percent of population vaccinated by state"</span>, <span class="at">x =</span> <span class="st">"Date"</span>, <span class="at">y =</span> <span class="st">"Percent vaccinated"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="pset1_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="pset1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" style="width:50.0%"></p>
 </div>
 </div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Cummulative values shown = 1 point.</li>
+<li>Regions shown with color and legend included = 1 point.</li>
+<li>Facet wrap used correctly with 3 rows = 2 points.</li>
+<li>Clear labels and titles = 1 point.</li>
+</ul>
+<ol start="18" class="example" type="1">
+<li>For each period used to make the trend plot for the three series, make a boxplot showing the maximum percentage reached by every state stratified by region. Let the range of the y axis adapt to the range of each group.</li>
+</ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-19_9114fb8e61e384610eed69199dc29304">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, region, series) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">percent =</span> <span class="fu">max</span>(percent), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(region, percent)) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> state)) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>series, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">nrow =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percent vaccinated by region"</span>, <span class="at">x =</span> <span class="st">"Region"</span>, <span class="at">y =</span> <span class="st">"Percent"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Criteria (5 points)</p>
+<ul>
+<li>Maximum computed correctly = 2 points</li>
+<li>Boxplot showing points by region = 2 points</li>
+<li>Faceting and labels = 1 point.</li>
+</ul>
+<ol start="19" class="example" type="1">
+<li>Use the plot above to define four periods: No vaccine, First vaccine, Booster, and Bivalent. Get the dates when each vaccine series starts (these don’t have to be exact). Create a version of your data frame with a column called period that keeps the period associated with the week contained in each row.</li>
+</ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-20_aed06c83408156af49123607c9724823">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>period_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">make_date</span>(<span class="dv">2020</span>, <span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">make_date</span>(<span class="dv">2021</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="fu">make_date</span>(<span class="dv">2021</span>, <span class="dv">9</span>, <span class="dv">1</span>), <span class="fu">make_date</span>(<span class="dv">2022</span>, <span class="dv">9</span>, <span class="dv">1</span>), <span class="fu">today</span>())</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"No vaccine"</span>, <span class="st">"First vaccine"</span>, <span class="st">"Booster"</span>, <span class="st">"Bivalent"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">period =</span> <span class="fu">cut</span>(end_date, period_dates, <span class="at">labels =</span> labels))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Criteria (3 points):</p>
+<ul>
+<li>Approriate choice of dates selecteed: 2 points</li>
+<li>used <code>cut</code> correctly: 1 point</li>
+</ul>
+<ol start="20" class="example" type="1">
+<li>Define a new variable that stores the maximum vaccination percentage reached during each period. But for the first vaccine period use <code>series_complete</code>, for the booster period use the <code>booster</code> column, and for the bivalent period use the bivalent percentages. Remove data from the no vaccine period. The make a plot comparing the COVID-19 death rate to the percent vaccinated. Use color to denote region. You should produce three plots, each with it’s own axes range. Put the three plots in three entries of a 2x2 layout. Comment on what you observe.</li>
+</ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-21_651e6e7e8bf2b596f81929bc08dc7745">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span>period <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No vaccine"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">period =</span> <span class="fu">droplevels</span>(period)) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">vax =</span> <span class="fu">case_when</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>     period <span class="sc">==</span> <span class="st">"First vaccine"</span> <span class="sc">~</span> <span class="fu">max</span>(series_complete, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>     period <span class="sc">==</span> <span class="st">"Booster"</span> <span class="sc">~</span> <span class="fu">max</span>(booster, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>     period <span class="sc">==</span> <span class="st">"Bivalent"</span> <span class="sc">~</span> <span class="fu">max</span>(bivalent, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, region, period) <span class="sc">|&gt;</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">deaths =</span> <span class="fu">mean</span>(deaths_prov, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> population[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100000</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">vax =</span> vax[<span class="dv">1</span>]<span class="sc">/</span>population[<span class="dv">1</span>], <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Region =</span> region) <span class="sc">|&gt;</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(vax, deaths, <span class="at">label =</span> state, <span class="at">color =</span> Region)) <span class="sc">+</span> </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">1</span>))) <span class="sc">+</span> </span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>period, <span class="at">scales =</span> <span class="st">"free"</span>, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="st">"Death rate versus vaccination rate for states"</span>, <span class="at">x =</span> <span class="st">"% population vaccinated"</span>, <span class="at">y =</span> <span class="st">"Per 100,000 per week death rate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Criteria (8 points)</p>
+<ul>
+<li>Correctly defines the three periods = 3 points</li>
+<li>Correctly computes the death rates and vaccination percentages in each period = 3 points</li>
+<li>Uses <code>facet_wrap</code> to show three plots = 2 point</li>
+<li>Clear labels and titles = 1 point.</li>
+</ul>
+<ol start="21" class="example" type="1">
+<li>Does population density have an effect on infections? Use the <code>state.area</code> predefined variable to add compute population density. Make a histogram and density plot of state densities. Note that you will have to add the geographical area for Puerto Rico and DC as it is not included in <code>state.area</code></li>
+</ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-22_cf9176c35880e98269857eada1b18e5e">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>my.state.abb <span class="ot">&lt;-</span> <span class="fu">c</span>(state.abb, <span class="st">"PR"</span>, <span class="st">"DC"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>my.state.area <span class="ot">&lt;-</span> <span class="fu">c</span>(state.area, <span class="dv">5325</span>, <span class="dv">69</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>popdens <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(end_date <span class="sc">==</span> <span class="fu">min</span>(end_date)) <span class="sc">|&gt;</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state, population) <span class="sc">|&gt;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> my.state.area[<span class="fu">match</span>(state, my.state.abb)]) <span class="sc">|&gt;</span> </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">popdens =</span> population <span class="sc">/</span> area) </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>popdens <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(popdens)) <span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">25</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of poplation density across states"</span>, <span class="at">x =</span> <span class="st">"Population density"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Criteria (5 points):</p>
+<ul>
+<li>Adds PR and DC = 1 point</li>
+<li>Add population density column = 1 point</li>
+<li>Histogram shown = 1 point</li>
+<li>Density shown = 1 point</li>
+<li>Title, labels and smoothing parameter and bin size choice = 1 point</li>
+</ul>
 <ol start="22" class="example" type="1">
 <li>Plot death rates versus density for the four periods defined above.</li>
 </ol>
+<div class="cell" data-hash="pset1_cache/html/unnamed-chunk-23_68c83f55ce274c2dd49345e061aa8d53">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(deaths_prov)) <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> my.state.area[<span class="fu">match</span>(state, my.state.abb)]) <span class="sc">|&gt;</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">popdens =</span> population <span class="sc">/</span> area) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state, period) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">rate =</span> <span class="fu">mean</span>(deaths_prov) <span class="sc">/</span> population[<span class="dv">1</span>]<span class="sc">*</span><span class="dv">100000</span>, <span class="at">popdens =</span> popdens[<span class="dv">1</span>], <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(popdens, rate, <span class="at">label =</span> state)) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>() <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>period) <span class="sc">+</span> </span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Death rate versus density"</span>, <span class="at">x =</span> <span class="st">"Population density"</span>, <span class="at">y =</span> <span class="st">"Deaths per 100,000 per week"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset1_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Criteria (5 points)</p>
+<ul>
+<li>Computes rate and population density correctly = 2 points</li>
+<li>Four plots shown made with <code>facet_wrap</code> = 2 points</li>
+<li>Labels and titles = 1 point</li>
+</ul>
 
 
 </section>

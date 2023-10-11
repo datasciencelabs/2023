@@ -298,7 +298,7 @@ $$
 
 
 ## Law of small numbers
-
+    
 What is the distribution of the number of people that win the lottery if the probability of winning is 1 in a million and 500,000 people by one tickets?
 
 If we define $X_i$ as 1 if person $i$'s ticket won and 0 otherwise, then the number of people that win is the sum

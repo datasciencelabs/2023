@@ -1,0 +1,207 @@
+---
+format: html
+figure:
+  align: center
+---
+
+# Problem Set 2 {.unnumbered}
+
+## Introduction {.unnumbered}
+
+For this assignment, you'll delve into data wrangling, statistical inference, and linear modeling that was used by academics to gain a deeper understanding of the efforts made to estimate the indirect death toll in Puerto Rico following Hurricane María. Begin by reviewing [this comprehensive timeline and summary](https://simplystatistics.org/posts/2018-09-28-the-complex-process-of-obtaining-puerto-rico-mortality-data-a-timeline/). Initially, we'll use data wrangling techniques to extract information from documents released by organizations that had early access to the mortality registry data. Following that, we'll work with the mortality registry data that has since been publicly disclosed by the government. To determine mortality rates, it's essential to acquire data on population size, categorized by age and sex. We'll achieve this by utilizing APIs provided by the US Census.
+
+These are the libraries you will need and the only ones you are allowed to load
+```{r}
+#| warning: false
+#| message: false
+library(readr)
+library(dplyr)
+library(forcats)
+library(lubridate)
+library(tidyr)
+library(stringr)
+library(pdftools)
+library(janitor)
+library(httr2)
+library(excessmort)
+library(jsonlite)
+library(purrr)
+```
+
+You don't need these but we will allow you to load them:
+```{r}
+#| warning: false
+#| message: false
+library(ggthemes)
+library(ThemePark)
+library(ggrepel)
+```
+
+
+
+
+Reminders:
+
+* Add a title to all your graphs.
+* Add a label to the x and y axes when not obvious what they are showing.
+* Think about transformations that convey the message in clearer fashion.
+
+## Preparation {.unnumbered}
+
+Create a directory for this homework. In this directory create two subdirectories: `data` and `rdas`. You will also create a `get-population.R` file where you will have the code to download and wrangle population data from the US Census.
+
+## Wrangling {.unnumbered}
+
+(@) In December 2017 a preprint was published that includes data from the mortality registry. It is a Word document that you can download from <https://osf.io/preprints/socarxiv/s7dmu/download>. Save a PDF copy of this document to your data directory.
+
+
+(@) Read in the PFD file into R and create a data frame with the data in Table 1 of the paper. The data frame should be tidy with columns `months`, `year`, and `deaths`. Your data frame need not include the confidence intervals or averages.
+
+
+(@) For each month compute the average and a 95% confidence interval to reproduce Figure 3 in the preprint.
+Make sure to show the month names on the x-axis, not numbers. Hint: Save the graph to an object to make an upcoming exercise easier.
+
+
+(@) The model here seems to be that the observed death for month $i$ and year $j$ is 
+
+$$
+Y_{ij} = \mu_i + \varepsilon_{ij}
+$$
+
+with $\text{Var}(\varepsilon_{ij}) = \sigma^2_i$. The preprint reports the September and October 2017 deaths as 2,987 and 3,043. Create a data frame called `dat_2017` with these two values and include an estimate for the standard error of this random variable. Hint: Look at the model and use data from 2010-2016 to estimate $\sigma_i$.
+
+
+(@) Make a plot now that includes the two points for 2017 and the 1.96 standard errors bars around them. Are the deaths statistically significantly different than the expected based on 2010-2016 data? 
+
+(@) On December 8, 2017 the New York Times publishes an article with daily counts. They share the data that was provided to them by the Mortality Registry. It is PDF you can obtain [here](https://github.com/c2-d2/pr_mort_official/raw/master/data/Mortalidad-RegDem-2015-17-NYT-part1.pdf). 
+Read the PDF into R and extract the daily counts. Save the results to a data frame called `dat` with columns `data` and `deaths`. Make sure the data frame is ordered by date. 
+
+
+(@) Plot the deaths versus dates and describe what you see towards the end for 2017.
+
+
+(@) The reason you see a drop at the end is because it takes time to officially register deaths. It takes about 45 days for 99% of the data to be added. Remove the last 45 days and remake the plot, but this time showing deaths against day of the year (1 through 365 or 366) with color highlighting what happened after the hurricane. Do not include a legend.
+
+## US Census APIs
+
+In June 2018, data was finally made public. This dataset gives you deaths by age group and sex obtained more recently from the Mortality Registry. In preparation for the analysis of these data, we will obtain population estimates from the US Census by age and gender. 
+
+We will be using three different APIs as that is how the Census makes the data available. Important to note that in two of these APIs, all ages 85 or above are grouped into one group. 
+
+If you wish to skip this section (though you will lose points), you can obtain the already wrangled population data [here](https://github.com/datasciencelabs/2023/raw/main/data/population.rds).
+
+
+(@) First step is to obtain a census key. You can request one here <https://api.census.gov/data/key_signup.html>.  Once you have a key create a file in your directory called `census-key.R` that simply defines the variable `census_key` to be your personal key. Do not share this key publicly. The quarto file you turn in should not show your census key, instead it should source a file called `census-key.R` to define the variable. We will have a file on our end with our key so your script can knit.
+
+
+(@) Once you have your key you can use the `httr2` package to download the data directly from the Census data base. We will start downloading data from 2000-2009. We will download it only for Puerto Rico which has region ID 72. The following code downloads the data.
+
+```{r}
+#| eval: false
+
+url <- "https://api.census.gov/data/2000/pep"
+api_name <- "int_charage"
+source("census-key.R")
+endpoint <- paste0(api_name, "?get=POP,SEX,AGE,DATE_&for=state:72&key=", census_key)
+response <- request(url) |> 
+  req_url_path_append(endpoint) |>
+  req_perform()  
+```
+
+The data is now included in `response` and you can access it using the functions. Examine the results you obtain when applying `resp_body_string`. Write code to convert this into a data frame with columns names `year`, `sex`, `age`, and `population`. Hint: Use the function `fromJSON` from the **jsonlite** package. The functions `row_to_names` and `clean_names` from the **janitor** package might also be handy.
+
+
+(@) Now we will obtain data for 2010-2014. We can follow a similar procedure but with the following API and endpoints:
+
+```{r}
+#| eval: false
+
+url <- "https://api.census.gov/data/2014/pep"
+api_name <- "prcagesex"
+source("census-key.R")
+endpoint <- paste0(api_name, "?get=POP,SEX,AGE,DATE_&for=state:72&key=", census_key)
+```
+
+(@) Finally we will ge data for 2015-2017. These are available in different APIs.
+
+```{r}
+#| eval: false
+
+year <- 2015 ## need to also get 2016 and 2017
+url <- paste0("https://api.census.gov/data/", year, "/pep")
+api_name <- "charage"
+source("census-key.R")
+endpoint <- paste0(api_name, "?get=POP,SEX,AGE,DATE_&for=state:72&key=", census_key)
+```
+
+
+(@) Combine all data frames you created in the previous exercises to form one population 
+data frame including all year. Make sure the 85+ category is correctly computed on all three datasets.
+Save it to a file called `population.rds` in your rds. 
+
+
+## Daily count data {.unnumbered}
+
+Let's repeat the analysis done in the preprint but now using 2002-2016 data and, to better see the effect of the hurricane, let's use weekly instead of monthly and start our weeks on the day the hurricane hit.
+
+
+You can load the data from the **excessmort** package.
+
+```{r}
+data("puerto_rico_counts")
+```
+
+(@) Define an object `counts` by wrangling `puerto_rico_counts` to 1) include data only from 2000-2017, 2) remove the population column, and 3)  to match our population, combine the counts for those 85 and older together.
+
+
+(@) Collapse the population data so that it combines agegroups like `counts`. Also change the `sex` column so that it matches `counts` as well.
+
+
+(@) Add a population column to `counts` using the `population` data frame you just created.
+
+
+
+(@) Use R to determine what day of the week did María make landfall in PR.
+
+
+(@) Redefine the date column to be the start of the week that day is part of. Use the day of the week María made landfall as the first day. Now collapse the data frame to weekly data by redefining `outcome` to have the total deaths that week for each sex and agegroup. Remove weeks that have less the 7 days. Finally, add a column with the MMWR week. Name the resulting data frame `weekly_counts`
+
+
+(@) Make a per-week version of the plot we made for monthly totals. Make a boxplot for each week based on the 2000-2016 data, then add red points for 2017. Comment on the possibility that indirect effect went past October.
+
+
+(@) If we look at 2017 data before September and compare each week to the average from 2000-2016. What percent are below the median?
+
+
+(@) Why are 2017 totals somewhat below-average? Plot the population in millions against date. What do you see?
+
+(@) When comparing mortalisty across populations of different sizes, we need to look at rates not totals. 
+Because the population is decreasing, this is particularly important. Redo the boxplots but for rates instead of totals.
+
+
+(@) Now the rates are all way above average! What is going on? Compute and plot the population sizes against year for each sex of the following age groups: 0-19, 20-39, 40-59, 60+. Describe what you see in this plot then explain why 2017 has higher average death rates.
+
+(@) Compute the death rates (deaths per 1,000 per year) by the agegroups for each year 2000-2016. Use a transformation of the y-axis that permits us to see the data clearly. Make a separate plot for males and females. Describe in two sentences what you learn.
+
+
+(@) Repeat the above but use `facet_wrap` with `scales = "free_y"` to get a closer look at the patterns for each age group. In this case use color to distinguish the sexes. Describe the pattern observed for the death rate over time.
+
+## Linear models {.unnumbered}
+
+(@) We are going fit a linear model to account for the trend in death rates to obtain an more appropriate expected death rate for each agegroup and sex. Because we are fitting a linear model, it is preferable to have normally distributed data. We want the number of deaths per week to be larger than 10 for each group.
+Compute the average number of deaths per week by agegroup and sex for 2016. Based on these data, what agegroups do you recommend we combine?
+
+(@) Create a new dataset called `dat` that collapses the counts into agegroups with enough deaths to fit a linear model. Remove any week with MMWR week 53 and add a column `t` that includes the number of weeks since the first week in the first year.
+
+(@) Write a function that receives a data frame `tab`, fits a linear model with a line for the time trend, and returns a data frame with 2017 data including a prediction.
+ 
+
+
+(@) Use the `group_modify` function to fit this model to each sex and agegroup. Save the results in `res`.
+
+(@) For agegroup and by sex, plot the expected counts for each week with an error bar showing two standard deviations and in red the observed counts. Does the model appear to fit? Hint: Look to see if the red dots are inside the intervals before the hurricane.
+
+(@) Now estimate weekly excess deaths for 2017 based on the rates esimated from 2000-2016 but the population sizes of 2017. Compare this to estimated standard deviation observed from year to year once we account for trends.
+
+(@) Plot cummulative excess death for 2017 including a standard error.
+
