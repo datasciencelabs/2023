@@ -17,7 +17,7 @@ clean <- function(x){
   ret <- parse_number(str_remove(x,"%"))
   ifelse(ret > 1, ret/100, ret)
 }
-odat <- read_csv("~/Downloads/Poll Competition（回复） - 第 1 张表单回复.csv") |>
+odat <- read_csv("~/Downloads/Poll Competition（回复） - 第 1 张表单回复 (1).csv") |>
   setNames(c("stamp", "name", "estimate", "upper", "lower", "n"))  
 dat <- odat |>
   mutate(id = as.character(1:n())) |>
@@ -31,12 +31,9 @@ dat |> ggplot(aes(id, estimate, ymin = lower, ymax = upper)) +
   coord_flip()
 
 dat |> 
-  ggplot(aes(id, estimate, ymin = lower, ymax = upper)) +
-  geom_errorbar() +
-  geom_point() +
-  geom_hline(yintercept = 0.471, lty = 2) +
-  coord_flip()
-
+  filter(upper >= 0.471 & lower <= 0.471) |>
+  mutate(size = upper - lower) |>
+  arrange(size)
 ```
 
 
