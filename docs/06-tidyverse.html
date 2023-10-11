@@ -752,7 +752,7 @@ dplyr 1.1.0.
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Race =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(Race), Race1, Race))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="8" class="example" type="1">
-<li>Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.</li>
+<li>Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one. To be clear: what proportion of people who have smoked at any time in their life are smoking now.</li>
 </ol>
 <div class="cell" data-hash="06-tidyverse_cache/html/unnamed-chunk-33_29073cbd3154aa4ba2336865c47f15cc">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Gender, Race) <span class="sc">|&gt;</span> </span>

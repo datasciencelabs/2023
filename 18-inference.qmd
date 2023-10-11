@@ -463,6 +463,11 @@ polls <- polls_us_election_2016 |>
 
 (@) Now recalculate confidence interavls for the difference and see how often the polls include the election night difference of 0.21.
 
+```{r}
+polls |> mutate(p = (mu_hat + 1)/2, se = 2*sqrt(p*(1-p))/sqrt(samplesize)) |>
+  mutate(lower = mu_hat - 1.96*se, upper = mu_hat + 1.96*se)
+```
+
 (@) Make a plot of the error, the difference between each poll's estimate and the actual $mu=0.021$ stratified by pollster.
 
 (@) Redo the previous plot but only for pollsters that took five or more polls.

@@ -232,7 +232,14 @@ b.  0.75
 c.  0.50
 d.  0.25
 
-(@) If we use a log transformation, which continent shown above has the largest interquartile range?
+(@) When using the log transformation, which continent shown above has the largest interquartile range?
+
+```{r}
+## We can see that it is Americas visually, but just in case here it is:
+tab |> group_by(continent) |>
+  summarize(diff(quantile(log10(population), c(.25,.75))))
+```
+
 
 (@) Load the height data set and create a vector `x` with just the male heights:
 

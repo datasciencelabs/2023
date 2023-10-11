@@ -275,7 +275,7 @@ dat <- NHANES %>% mutate(Race = Race3) |>
   mutate(Race = if_else(is.na(Race), Race1, Race))
 ```
 
-(@) Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one.
+(@) Compute proportion of individuals that smoked at the time of the survey, by race category and gender. Keep track of how many people answered the question. Order the result by the number that answered. Read the help file for NHANES carefully before doing this one. To be clear: what proportion of people who have smoked at any time in their life are smoking now.
 
 
 ```{r}

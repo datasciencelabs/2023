@@ -1,8 +1,44 @@
 # Models 
 
+
 > > "All models are wrong, but some are useful." --George E. P. Box
 
 So far, our analysis of poll-related results has been based on a simple sampling model. This model assumes that each voter has an equal chance of being selected for the poll, similar to picking beads from an urn with two colors. However, in this chapter, we explore real-world data and discover that this model is incorrect. Instead, we propose a more effective approach where we directly model the outcomes of pollsters rather than the polls themselves.
+
+```{r, message=FALSE, warning=FALSE, cache=FALSE}
+library(tidyverse)
+library(dslabs)
+```
+## Class competition
+
+```{r}
+library(tidyverse)
+clean <- function(x){
+  ret <- parse_number(str_remove(x,"%"))
+  ifelse(ret > 1, ret/100, ret)
+}
+odat <- read_csv("~/Downloads/Poll Competition（回复） - 第 1 张表单回复.csv") |>
+  setNames(c("stamp", "name", "estimate", "upper", "lower", "n"))  
+dat <- odat |>
+  mutate(id = as.character(1:n())) |>
+  mutate(across(c(estimate, upper, lower), clean)) |>
+  filter(estimate <= 1 & estimate > 0.2)
+
+dat |> ggplot(aes(id, estimate, ymin = lower, ymax = upper)) +
+  geom_errorbar() +
+  geom_point() +
+  geom_hline(yintercept = 0.471, lty = 2) +
+  coord_flip()
+
+dat |> 
+  ggplot(aes(id, estimate, ymin = lower, ymax = upper)) +
+  geom_errorbar() +
+  geom_point() +
+  geom_hline(yintercept = 0.471, lty = 2) +
+  coord_flip()
+
+```
+
 
 ## Data-driven models
 
@@ -12,9 +48,7 @@ set.seed(2)
 
 ### Poll aggregators
 
-```{r, message=FALSE, warning=FALSE, cache=FALSE}
-library(tidyverse)
-library(dslabs)
+```{r}
 mu <- 0.039
 Ns <- c(1298, 533, 1342, 897, 774, 254, 812, 324, 1291, 1056, 2172, 516)
 p <- (mu + 1) / 2
