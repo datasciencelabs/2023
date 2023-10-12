@@ -486,7 +486,7 @@ Note
 <ol class="example" type="1">
 <li>Suppose we can’t make a plot and want to compare the distributions side by side. We can’t just list all the numbers. Instead, we will look at the percentiles. Create a five row table showing <code>female_percentiles</code> and <code>male_percentiles</code> with the 10th, 30th, 50th, 70th, &amp; 90th percentiles for each sex. Then create a data frame with these two as columns.</li>
 </ol>
-<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-5_f0d3cc4a1c9be8e85f6e1f725fc4f65f">
+<div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-5_b6ea48052e1bd3adaf7581c1c30cc3b3">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>qs <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">90</span>,<span class="dv">20</span>)</span>
@@ -528,30 +528,6 @@ Note
 70%           71.00000         66.46417
 90%           73.22751         69.00000</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>heights <span class="sc">|&gt;</span> <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">quantile =</span> <span class="fu">paste0</span>(qs, <span class="st">"%"</span>), <span class="at">value =</span> <span class="fu">quantile</span>(height, qs<span class="sc">/</span><span class="dv">100</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sex) <span class="sc">|&gt;</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">female_percentiles =</span> Female, <span class="at">male_percentiles =</span> Male)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 3
-  quantile female_percentiles male_percentiles
-  &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;
-1 10%                    61               65  
-2 30%                    63               68  
-3 50%                    65.0             69  
-4 70%                    66.5             71  
-5 90%                    69               73.2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">c</span>(<span class="st">"x"</span>,<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"y"</span>), <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"a"</span>,<span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>), <span class="at">value =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sex, <span class="at">values_from =</span> value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 3
-  id        a     b
-  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 x         1     2
-2 y         3     4</code></pre>
-</div>
 </div>
 <ol start="2" class="example" type="1">
 <li>Study the following boxplots showing population sizes by country:</li>
@@ -577,9 +553,9 @@ Note
 <li>When using the log transformation, which continent shown above has the largest interquartile range?</li>
 </ol>
 <div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-6_133a22e900509cc736af3968d54452a3">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## We can see that it is Americas visually, but just in case here it is:</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>tab <span class="sc">|&gt;</span> <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">diff</span>(<span class="fu">quantile</span>(<span class="fu">log10</span>(population), <span class="fu">c</span>(.<span class="dv">25</span>,.<span class="dv">75</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## We can see that it is Americas visually, but just in case here it is:</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tab <span class="sc">|&gt;</span> <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">diff</span>(<span class="fu">quantile</span>(<span class="fu">log10</span>(population), <span class="fu">c</span>(.<span class="dv">25</span>,.<span class="dv">75</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   continent `diff(quantile(log10(population), c(0.25, 0.75)))`
@@ -595,8 +571,8 @@ Note
 <li>Load the height data set and create a vector <code>x</code> with just the male heights:</li>
 </ol>
 <div class="cell" data-hash="10-distributions_cache/html/unnamed-chunk-7_bd109d5eed8d3f1c2da0b161bea4fb35">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights<span class="sc">$</span>height[heights<span class="sc">$</span>sex<span class="sc">==</span><span class="st">"Male"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> heights<span class="sc">$</span>height[heights<span class="sc">$</span>sex<span class="sc">==</span><span class="st">"Male"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What proportion of the data is between 69 and 72 inches (taller than 69, but shorter or equal to 72)? Hint: use a logical operator and <code>mean</code>.</p>
 

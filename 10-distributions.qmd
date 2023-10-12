@@ -196,15 +196,6 @@ with(heights,
        quantile(height[sex == "Male"], qs/100),
        quantile(height[sex == "Female"], qs/100)
 )) |> setNames(c("female_percentiles", "male_percentiles"))
-
-heights |> group_by(sex) |>
-  
-  reframe(quantile = paste0(qs, "%"), value = quantile(height, qs/100)) |>
-  pivot_wider(names_from = sex) |>
-  rename(female_percentiles = Female, male_percentiles = Male)
-data.frame(id = c("x","x", "y", "y"), sex = c("a","b", "a", "b"), value = c(1,2,3,4)) |>
-  pivot_wider(names_from = sex, values_from = value)
-
 ```
 
 (@) Study the following boxplots showing population sizes by country:
