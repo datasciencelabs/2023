@@ -418,26 +418,26 @@ p <- 1/19
 (@) The payout for winning on green is \$17 dollars. This means that if you bet a dollar and it lands on green, you get \$17. Create a sampling model using sample to simulate the random variable $X$ for your winnings. 
 
 ```{r}
-sample(c(-1, 17), size = 1, replace = TRUE, prob = c(18/19, 1/19))
+sample(c(-1, 17), size = 1, replace = TRUE, prob = c(1-p, p))
 ```
 
 (@) Compute the expected value of $X$.
 
 ```{r}
--1 * 18/19 + 1*17/19
+-1 * (1-p) + 17*p
 ```
 
 (@) Compute the standard error of $X$.
 
 ```{r}
-18 * sqrt(18/19*1/19)
+18 * sqrt(p * (1-p))
 ```
 
 (@) Now create a random variable $S$ that is the sum of your winnings after betting on green 1000 times.
 
 ```{r}
 n <- 1000
-x <- sample(c(-1, 17), size = n, replace = TRUE, prob = c(18/19, 1/19))
+x <- sample(c(-1, 17), size = n, replace = TRUE, prob = c(1-p, p))
 sum(x)
 ```
 
@@ -445,7 +445,7 @@ sum(x)
 (@) What is the expected value of $S$?
 
 ```{r}
-mu <- n * p
+mu <- n * (-1 * (1-p) + 17*p)
 ```
 
 (@) What is the standard error of $S$?
@@ -473,7 +473,7 @@ s <- replicate(B,{
   x <- sample(c(-1, 17), size = n, replace = TRUE, prob = c(18/19, 1/19))
   sum(x)
 })
-mean(s<0)
+mean(s > 0)
 ```
 
 
