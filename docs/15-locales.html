@@ -314,13 +314,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>Notice the character on this file.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-1_87e3c74ba0d6cd4b662478ced8b4ebe7">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-1_374498014e097a9f018206f51839de6b">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>), <span class="st">"calificaciones.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Error in read_csv(fn) : could not find function "read_csv"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "\"nombre\",\"f.n.\",\"estampa\",\"puntuaci\xf3n\""                       
 [2] "\"Beyonc\xe9\",\"04 de septiembre de 1981\",2023-09-22 02:11:02,\"87,5\""
@@ -332,18 +328,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [8] "\"Thal\xeda\",\"26 de agosto de 1971\",2023-09-21 23:08:02,\"83,0\""     </code></pre>
 </div>
 </div>
+<p>The unrecognizable characters actually lead to <code>read.csv</code> failing:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-2_9c9f2975a182984bcad3ef688ff4b3a8">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({x <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(fn)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in make.names(col.names, unique = TRUE) : 
+  invalid multibyte string 4</code></pre>
+</div>
+</div>
 <p>This is because it is not UTF encoding, which is the default:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-2_8c4b2437221cc95c4b334161c04db79a">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-3_bace47023f0324c753a39619ddb0845d">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getlocale</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8"</code></pre>
 </div>
 </div>
 <p>The <code>locale</code> is a group of information about your system. This includes the encoding, the language, and the time zone. This can affect how data is read into R. A mismatch of encodings creates weird problems often without warning or error.</p>
-<p>You can use this function to predict the encoding of a character</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-3_546e392a2536aa03f1366a6253dfc1bf">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">readLines</span>(fn, <span class="at">n =</span> <span class="dv">1</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>stringi<span class="sc">::</span><span class="fu">stri_enc_detect</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can use the <code>stri_enc_detect</code> function in the <strong>stringi</strong> package to predict the encoding of a character:</p>
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-4_065d14c7117d3a9ac0539411c1657445">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringi)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">readLines</span>(fn, <span class="at">n =</span> <span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stri_enc_detect</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
     Encoding Language Confidence
@@ -357,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We can also use this <strong>readr</strong> function to detect encoding of files:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-4_42c4422463cd7018125156e9f01ccc5f">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-5_91b14518aec4ee582d6b498a0c236c24">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">guess_encoding</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -370,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The <code>read_csv</code> permits us to define elements of the encoding through the <code>locale</code> argument. It switches the local only temporarily, while running the parser <em>read_csv</em>. The locale for R remains the same after calling this.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-5_97d2342225956f24c023d9748c052bf0">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-6_e2c00939f618438b14ee398931cff9f8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 7 Columns: 4
@@ -398,7 +403,7 @@ dttm (1): estampa
 </div>
 </div>
 <p>Now notice the last column. Compare it to what we saw with <code>readLines</code>. They were numbers that used the European decimal point. This confuses <code>read_csv</code>. We can also change the encoding so the Europearn decimals are used.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-6_b5a41cf3506052bb398be137cdf09c23">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-7_bfb98eaa3e1794d6768f78f6ed15cf9b">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>, <span class="at">decimal_mark =</span> <span class="st">","</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 7 Columns: 4
@@ -426,7 +431,7 @@ dttm (1): estampa
 </div>
 </div>
 <p>Now let’s try to change the dates to date format:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-7_62e2c28a8de11b851e049b362016e7ba">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-8_b69e38cb8d7504e55bca41964f229348">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -446,7 +451,7 @@ Attaching package: 'lubridate'</code></pre>
 </div>
 </div>
 <p>Nothing gets correctly converted. This is because the dates are in Spanish. You can change the locale to use Spanish as the language:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-8_8fa1576656aaf44165500e52171f01c4">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-9_3cbc72b98235ca3410383f4e07d7d9e2">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_date</span>(x<span class="sc">$</span>f.n., <span class="at">format =</span> <span class="st">"%d de %B de %Y"</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">date_names =</span> <span class="st">"es"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1981-09-04" "1980-04-20" "1931-06-10" "1969-07-24" "1981-12-15"
@@ -454,21 +459,21 @@ Attaching package: 'lubridate'</code></pre>
 </div>
 </div>
 <p>Finally notice that two students turned in the homework past the deadline of September 21</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-9_7636410f25f0d96134d09bee072b197f">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-10_a70529f2d5dfcadb4e01422bd2ace553">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>estampa <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE</code></pre>
 </div>
 </div>
 <p>However, with times we have to be particularly careful as some functions default to UTC.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-10_82f56343764dd1fa806eba68472a709e">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-11_cdb1c9d40644d114d2d9a0e61092999c">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tz</span>(x<span class="sc">$</span>estampa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "UTC"</code></pre>
 </div>
 </div>
 <p>But these times are in the default GMT. If we change to out timezone:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-11_40a741a2edfba68fc92939fd7bd47dce">
+<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-12_743fda5e4a966a75932df4fefe278fd4">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with_tz</span>(x<span class="sc">$</span>estampa, <span class="at">tz =</span>  <span class="fu">Sys.timezone</span>()) <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>

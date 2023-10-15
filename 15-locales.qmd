@@ -4,8 +4,13 @@ Notice the character on this file.
 
 ```{r}
 fn <- file.path(system.file("extdata", package = "dslabs"), "calificaciones.csv")
-try({x <- read_csv(fn)})
 readLines(fn)
+```
+
+The unrecognizable characters actually lead to `read.csv` failing:
+
+```{r}
+try({x <- read.csv(fn)})
 ```
 
 This is because it is not UTF encoding, which is the default:
@@ -16,11 +21,12 @@ Sys.getlocale()
 
 The `locale` is a group of information about your system. This includes the encoding, the language, and the time zone. This can affect how data is read into R. A mismatch of encodings creates weird problems often without warning or error.
 
-You can use this function to predict the encoding of a character
+You can use the `stri_enc_detect` function in the **stringi** package to predict the encoding of a character:
 
 ```{r}
+library(stringi)
 x <- readLines(fn, n = 1)
-stringi::stri_enc_detect(x)
+stri_enc_detect(x)
 ```
 
 We can also use this **readr** function to detect encoding of files:
