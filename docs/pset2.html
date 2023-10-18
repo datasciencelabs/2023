@@ -425,17 +425,17 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="13" class="example" type="1">
-<li><p>Define an object <code>counts</code> by wrangling <code>puerto_rico_counts</code> to 1) include data only from 2000-2017, 2) remove the population column, and 3) to match our population, combine the counts for those 85 and older together.</p></li>
+<li><p>Define an object <code>counts</code> by wrangling <code>puerto_rico_counts</code> to 1) include data only from 2002-2017, 2) remove the population column, and 3) to match our population, combine the counts for those 85 and older together.</p></li>
 <li><p>Collapse the population data so that it combines agegroups like <code>counts</code>. Also change the <code>sex</code> column so that it matches <code>counts</code> as well.</p></li>
 <li><p>Add a population column to <code>counts</code> using the <code>population</code> data frame you just created.</p></li>
 <li><p>Use R to determine what day of the week did María make landfall in PR.</p></li>
 <li><p>Redefine the date column to be the start of the week that day is part of. Use the day of the week María made landfall as the first day. Now collapse the data frame to weekly data by redefining <code>outcome</code> to have the total deaths that week for each sex and agegroup. Remove weeks that have less the 7 days. Finally, add a column with the MMWR week. Name the resulting data frame <code>weekly_counts</code></p></li>
-<li><p>Make a per-week version of the plot we made for monthly totals. Make a boxplot for each week based on the 2000-2016 data, then add red points for 2017. Comment on the possibility that indirect effect went past October.</p></li>
-<li><p>If we look at 2017 data before September and compare each week to the average from 2000-2016. What percent are below the median?</p></li>
+<li><p>Make a per-week version of the plot we made for monthly totals. Make a boxplot for each week based on the 2002-2016 data, then add red points for 2017. Comment on the possibility that indirect effect went past October.</p></li>
+<li><p>If we look at 2017 data before September and compare each week to the average from 2002-2016. What percent are below the median?</p></li>
 <li><p>Why are 2017 totals somewhat below-average? Plot the population in millions against date. What do you see?</p></li>
 <li><p>When comparing mortalisty across populations of different sizes, we need to look at rates not totals. Because the population is decreasing, this is particularly important. Redo the boxplots but for rates instead of totals.</p></li>
 <li><p>Now the rates are all way above average! What is going on? Compute and plot the population sizes against year for each sex of the following age groups: 0-19, 20-39, 40-59, 60+. Describe what you see in this plot then explain why 2017 has higher average death rates.</p></li>
-<li><p>Compute the death rates (deaths per 1,000 per year) by the agegroups for each year 2000-2016. Use a transformation of the y-axis that permits us to see the data clearly. Make a separate plot for males and females. Describe in two sentences what you learn.</p></li>
+<li><p>Compute the death rates (deaths per 1,000 per year) by the agegroups for each year 2002-2016. Use a transformation of the y-axis that permits us to see the data clearly. Make a separate plot for males and females. Describe in two sentences what you learn.</p></li>
 <li><p>Repeat the above but use <code>facet_wrap</code> with <code>scales = "free_y"</code> to get a closer look at the patterns for each age group. In this case use color to distinguish the sexes. Describe the pattern observed for the death rate over time.</p></li>
 </ol>
 </section>
@@ -447,7 +447,7 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <li><p>Write a function that receives a data frame <code>tab</code>, fits a linear model with a line for the time trend, and returns a data frame with 2017 data including a prediction.</p></li>
 <li><p>Use the <code>group_modify</code> function to fit this model to each sex and agegroup. Save the results in <code>res</code>.</p></li>
 <li><p>For agegroup and by sex, plot the expected counts for each week with an error bar showing two standard deviations and in red the observed counts. Does the model appear to fit? Hint: Look to see if the red dots are inside the intervals before the hurricane.</p></li>
-<li><p>Now estimate weekly excess deaths for 2017 based on the rates esimated from 2000-2016 but the population sizes of 2017. Compare this to estimated standard deviation observed from year to year once we account for trends.</p></li>
+<li><p>Now estimate weekly excess deaths for 2017 based on the rates esimated from 2002-2016 but the population sizes of 2017. Compare this to estimated standard deviation observed from year to year once we account for trends.</p></li>
 <li><p>Plot cummulative excess death for 2017 including a standard error.</p></li>
 </ol>
 

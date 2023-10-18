@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>BST 260 Introduction to Data Science - 20&nbsp; Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./pset2.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./20-regression.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BST 260 Introduction to Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/datasciencelabs/2023" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course description</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-dates-and-times.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dates and times</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-importing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-dataviz-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-web-scraping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-text-mining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#case-study-is-height-hereditary" id="toc-case-study-is-height-hereditary" class="nav-link active" data-scroll-target="#case-study-is-height-hereditary"><span class="header-section-number">20.1</span> Case study: is height hereditary?</a></li>
+  <li><a href="#sec-corr-coef" id="toc-sec-corr-coef" class="nav-link" data-scroll-target="#sec-corr-coef"><span class="header-section-number">20.2</span> The correlation coefficient</a>
+  <ul class="collapse">
+  <li><a href="#sample-correlation-is-a-random-variable" id="toc-sample-correlation-is-a-random-variable" class="nav-link" data-scroll-target="#sample-correlation-is-a-random-variable"><span class="header-section-number">20.2.1</span> Sample correlation is a random variable</a></li>
+  <li><a href="#sec-ascombe" id="toc-sec-ascombe" class="nav-link" data-scroll-target="#sec-ascombe"><span class="header-section-number">20.2.2</span> Correlation is not always a useful summary</a></li>
+  </ul></li>
+  <li><a href="#sec-conditional-expectation" id="toc-sec-conditional-expectation" class="nav-link" data-scroll-target="#sec-conditional-expectation"><span class="header-section-number">20.3</span> Conditional expectations</a></li>
+  <li><a href="#the-regression-line" id="toc-the-regression-line" class="nav-link" data-scroll-target="#the-regression-line"><span class="header-section-number">20.4</span> The regression line</a></li>
+  <li><a href="#regression-improves-precision" id="toc-regression-improves-precision" class="nav-link" data-scroll-target="#regression-improves-precision"><span class="header-section-number">20.5</span> Regression improves precision</a></li>
+  <li><a href="#bivariate-normal-distribution" id="toc-bivariate-normal-distribution" class="nav-link" data-scroll-target="#bivariate-normal-distribution"><span class="header-section-number">20.6</span> Bivariate normal distribution</a></li>
+  <li><a href="#variance-explained" id="toc-variance-explained" class="nav-link" data-scroll-target="#variance-explained"><span class="header-section-number">20.7</span> Variance explained</a></li>
+  <li><a href="#there-are-two-regression-lines" id="toc-there-are-two-regression-lines" class="nav-link" data-scroll-target="#there-are-two-regression-lines"><span class="header-section-number">20.8</span> There are two regression lines</a></li>
+  <li><a href="#linear-models" id="toc-linear-models" class="nav-link" data-scroll-target="#linear-models"><span class="header-section-number">20.9</span> Linear models</a></li>
+  <li><a href="#sec-lse" id="toc-sec-lse" class="nav-link" data-scroll-target="#sec-lse"><span class="header-section-number">20.10</span> Least Squares Estimates</a></li>
+  <li><a href="#the-lm-function" id="toc-the-lm-function" class="nav-link" data-scroll-target="#the-lm-function"><span class="header-section-number">20.11</span> The <code>lm</code> function</a></li>
+  <li><a href="#lse-are-random-variables" id="toc-lse-are-random-variables" class="nav-link" data-scroll-target="#lse-are-random-variables"><span class="header-section-number">20.12</span> LSE are random variables</a></li>
+  <li><a href="#predicted-values-are-random-variables" id="toc-predicted-values-are-random-variables" class="nav-link" data-scroll-target="#predicted-values-are-random-variables"><span class="header-section-number">20.13</span> Predicted values are random variables</a></li>
+  <li><a href="#diagnostic-plots" id="toc-diagnostic-plots" class="nav-link" data-scroll-target="#diagnostic-plots"><span class="header-section-number">20.14</span> Diagnostic plots</a></li>
+  <li><a href="#the-regression-fallacy" id="toc-the-regression-fallacy" class="nav-link" data-scroll-target="#the-regression-fallacy"><span class="header-section-number">20.15</span> The regression fallacy</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">20.16</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/20-regression.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-regression" class="quarto-section-identifier"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="case-study-is-height-hereditary" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="case-study-is-height-hereditary"><span class="header-section-number">20.1</span> Case study: is height hereditary?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1983</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="ot">&lt;-</span> GaltonFamilies <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"male"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(family) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(father, childHeight) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">son =</span> childHeight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose we were asked to summarize the father and son data. Since both distributions are well approximated by the normal distribution, we could use the two averages and two standard deviations as summaries:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-2_e4f9b5dd2526502e1983a38f764b6390">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(father), <span class="fu">sd</span>(father), <span class="fu">mean</span>(son), <span class="fu">sd</span>(son))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  `mean(father)` `sd(father)` `mean(son)` `sd(son)`
+           &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1           69.1         2.55        69.2      2.71</code></pre>
+</div>
+</div>
+<p>However, this summary fails to describe an important characteristic of the data: the trend that the taller the father, the taller the son.</p>
+<div class="cell" data-hash="20-regression_cache/html/scatterplot_449c47d05fede66def27b40fde50f5ac">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(father, son)) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/scatterplot-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+</section>
+<section id="sec-corr-coef" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="sec-corr-coef"><span class="header-section-number">20.2</span> The correlation coefficient</h2>
+<p>The correlation coefficient is defined for a list of pairs <span class="math inline">\((x_1, y_1), \dots, (x_n,y_n)\)</span> as the average of the product of the standardized values:</p>
+<p><span class="math display">\[
+\rho = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i-\mu_x}{\sigma_x} \right)\left( \frac{y_i-\mu_y}{\sigma_y} \right)
+\]</span></p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-3_8c0f8057bd17e33375fe7494eef6e8a0">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">scale</span>(x) <span class="sc">*</span> <span class="fu">scale</span>(y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s see why this makes sense</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-4_36cdd633e9133ec3fae9ab86666c8a8b">
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The correlation coefficient is always between -1 and 1. We can show this mathematically: consider that we can’t have higher correlation than when we compare a list to itself (perfect correlation) and in this case the correlation is:</p>
+<p><span class="math display">\[
+\rho = \frac{1}{n} \sum_{i=1}^n \left( \frac{x_i-\mu_x}{\sigma_x} \right)^2 =
+\frac{1}{\sigma_x^2} \frac{1}{n} \sum_{i=1}^n \left( x_i-\mu_x \right)^2 =
+\frac{1}{\sigma_x^2} \sigma^2_x =
+1
+\]</span></p>
+<p>A similar derivation, but with <span class="math inline">\(x\)</span> and its exact opposite, proves the correlation has to be bigger or equal to -1.</p>
+<p>For other pairs, the correlation is in between -1 and 1. The correlation, computed with the function <code>cor</code>, between father and son’s heights is about 0.5:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-5_381bedb203c2e657430327e89c2e2213">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(father, son)) <span class="sc">|&gt;</span> <span class="fu">pull</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4334102</code></pre>
+</div>
+</div>
+<div class="{callout-warning}">
+<p>For reasons similar to those explained in Section <a href="19-models.html#sec-population-sd"><span>Section&nbsp;19.2.3</span></a> for the standard deviation, <code>cor(x,y)</code> divides by <code>length(x)-1</code> rather than <code>length(x)</code>.</p>
+</div>
+<p>To see what data looks like for different values of <span class="math inline">\(\rho\)</span>, here are six examples of pairs with correlations ranging from -0.9 to 0.99:</p>
+<div class="cell" data-hash="20-regression_cache/html/what-correlation-looks-like_c3b6702344b777722561e26c0d7dca4a">
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/what-correlation-looks-like-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="sample-correlation-is-a-random-variable" class="level3" data-number="20.2.1">
+<h3 data-number="20.2.1" class="anchored" data-anchor-id="sample-correlation-is-a-random-variable"><span class="header-section-number">20.2.1</span> Sample correlation is a random variable</h3>
+<p>Let’s consider our Galton heights to be the population and take random samples of size 25:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-6_f088ea51596c4fd3e5d6f3d62da42550">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(galton_heights, <span class="dv">25</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(father, son)) <span class="sc">|&gt;</span> <span class="fu">pull</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>`r`` is a random variable. We can run a Monte Carlo simulation to see its distribution:</p>
+<div class="cell" data-hash="20-regression_cache/html/sample-correlation-distribution_e97e0fe059a9f8a511a1f7d8b0bb9b74">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(galton_heights, N, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(father, son)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(r)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(r, <span class="at">breaks =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/sample-correlation-distribution-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We see that the expected value of `r`` is the population correlation:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-7_3d22f7539cee6d3d2608a9be71cbbba9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4316779</code></pre>
+</div>
+</div>
+<p>and that it has a relatively high standard error relative to the range of values <code>R</code> can take:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-8_ea6031fba985c9730c7655f47bb0345f">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1652205</code></pre>
+</div>
+</div>
+<p>So, when interpreting correlations, remember that correlations derived from samples are estimates containing uncertainty.</p>
+<p>Does CLT apply?</p>
+<p>The <code>SE</code> can be shown to be <span class="math inline">\(\sqrt{\frac{1-r^2}{N-2}}\)</span>.</p>
+<p>In our example, <span class="math inline">\(N=25\)</span> does not seem to be large enough to make the approximation a good one:</p>
+<div class="cell" data-hash="20-regression_cache/html/small-sample-correlation-not-normal_5fc81edc7154b97000f9928005c3bbae">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> r), <span class="at">data =</span> <span class="fu">data.frame</span>(r)) <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">mean</span>(r), <span class="at">slope =</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(r)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(N <span class="sc">-</span> <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/small-sample-correlation-not-normal-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+<p>If you increase <span class="math inline">\(N\)</span>, you will see the distribution converging to normal.</p>
+<div class="cell" data-hash="20-regression_cache/html/sample-correlation-distribution-2_96985ff27afd2fbcf1d7c6a4e14561ce">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(galton_heights, N, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">r =</span> <span class="fu">cor</span>(father, son)) <span class="sc">|&gt;</span> </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(r)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> r), <span class="at">data =</span> <span class="fu">data.frame</span>(r)) <span class="sc">+</span> </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">mean</span>(r), <span class="at">slope =</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(r)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(N <span class="sc">-</span> <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/sample-correlation-distribution-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="sec-ascombe" class="level3" data-number="20.2.2">
+<h3 data-number="20.2.2" class="anchored" data-anchor-id="sec-ascombe"><span class="header-section-number">20.2.2</span> Correlation is not always a useful summary</h3>
+<p>Correlation is not always a good summary of the relationship between two variables. The following four artificial datasets, referred to as Anscombe’s quartet, famously illustrate this point. All these pairs have a correlation of 0.82:</p>
+<div class="cell" data-hash="20-regression_cache/html/ascombe-quartet_ac386d557076cd8411906962646a122e">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/ascombe-quartet-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here are some other fun examples:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-9_502bc66a05e752873560a8283ec55d5c">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasauRus)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datasaurus_dozen, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> dataset)) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>dataset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Correlation is only meaningful in a particular context. To help us understand when it is that correlation is meaningful as a summary statistic, we will return to the example of predicting a son’s height using his father’s height. This will help motivate and define linear regression. We start by demonstrating how correlation can be useful for prediction.</p>
+</section>
+</section>
+<section id="sec-conditional-expectation" class="level2" data-number="20.3">
+<h2 data-number="20.3" class="anchored" data-anchor-id="sec-conditional-expectation"><span class="header-section-number">20.3</span> Conditional expectations</h2>
+<p>Suppose we are asked to guess the height of a randomly selected son and we don’t know his father’s height. How do we do this?</p>
+<p>Mathematically, we can show that the conditional expectation</p>
+<p><span class="math display">\[
+f(x) = \mbox{E}(Y \mid X = x)
+\]</span></p>
+<p>minimizes the expected squared error (MSE):</p>
+<p><span class="math display">\[
+\mbox{E}[\{Y -f(X)\}^2]
+\]</span> with <span class="math inline">\(x\)</span> representing the fixed value that defines that subset, for example 72 inches.</p>
+<p>We denote the standard deviation of the strata with</p>
+<p><span class="math display">\[
+\mbox{SD}(Y \mid X = x) = \sqrt{\mbox{Var}(Y \mid X = x)}
+\]</span></p>
+<p>Because the conditional expectation <span class="math inline">\(E(Y\mid X=x)\)</span> is the best predictor for the random variable <span class="math inline">\(Y\)</span> for an individual in the strata defined by <span class="math inline">\(X=x\)</span>, many data science challenges reduce to estimating this quantity. The conditional standard deviation quantifies the precision of the prediction.</p>
+<p>However, we oftern have a limited number of points to estimate this conditional expectation. For example</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-10_b4ab56993ba5c51d5f6f7ba6dcbbb826">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(galton_heights<span class="sc">$</span>father <span class="sc">==</span> <span class="dv">72</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+<p>fathers that are exactly 72-inches. If we change the number to 72.5, we get even fewer data points:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-11_77b19cf3d23cc6f3742d73a775b84c54">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(galton_heights<span class="sc">$</span>father <span class="sc">==</span> <span class="fl">72.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>A practical way to improve these estimates of the conditional expectations, is to define strata of with similar values of <span class="math inline">\(x\)</span>. In our example, we can round father heights to the nearest inch and assume that they are all 72 inches. If we do this, we end up with the following prediction for the son of a father that is 72 inches tall:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-12_c5c8e1f48db8422b5fabf2482e85b917">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>conditional_avg <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">round</span>(father) <span class="sc">==</span> <span class="dv">72</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(son)) <span class="sc">|&gt;</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(avg)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>conditional_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 70.5</code></pre>
+</div>
+</div>
+<p>Note that a 72-inch father is taller than average but smaller than 72. We see the same for someoen slightly shorted than average:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-13_c85b3a0aebfaf9eab77858ea8626733f">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>conditional_avg <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">round</span>(father) <span class="sc">==</span> <span class="dv">67</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(son)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(avg)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>conditional_avg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 68.71818</code></pre>
+</div>
+</div>
+<p>The sons of have <strong>regressed</strong> some to the average height. We notice that the reduction in how many SDs taller is about 0.5, which happens to be the correlation. As we will see in a later section, this is not a coincidence.</p>
+<p>If we want to make a prediction of any height, not just 72, we could apply the same approach to each strata. Stratification followed by boxplots lets us see the distribution of each group:</p>
+<div class="cell" data-hash="20-regression_cache/html/boxplot-1_ea887dc1fec03321ab9418ad2d3b2514">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">father_strata =</span> <span class="fu">factor</span>(<span class="fu">round</span>(father))) <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(father_strata, son)) <span class="sc">+</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/boxplot-1-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+<p>Not surprisingly, the centers of the groups are increasing with height. Furthermore, these centers appear to follow a linear relationship. Below we plot the averages of each group. If we take into account that these averages are random variables with standard errors, the data is consistent with these points following a straight line:</p>
+<div class="cell" data-hash="20-regression_cache/html/conditional-averages-follow-line_45edc22fb20219e96a14f55b9290e1ac">
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/conditional-averages-follow-line-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+<p>The fact that these conditional averages follow a line is not a coincidence. In the next section, we explain that the line these averages follow is what we call the <em>regression line</em>, which improves the precision of our estimates. However, it is not always appropriate to estimate conditional expectations with the regression line so we also describe Galton’s theoretical justification for using the regression line.</p>
+</section>
+<section id="the-regression-line" class="level2" data-number="20.4">
+<h2 data-number="20.4" class="anchored" data-anchor-id="the-regression-line"><span class="header-section-number">20.4</span> The regression line</h2>
+<p>If we are predicting a random variable <span class="math inline">\(Y\)</span> knowing the value of another <span class="math inline">\(X=x\)</span> using a regression line, then we predict that for every standard deviation, <span class="math inline">\(\sigma_X\)</span>, that <span class="math inline">\(x\)</span> increases above the average <span class="math inline">\(\mu_X\)</span>, our prediction <span class="math inline">\(\hat{Y}\)</span> increase <span class="math inline">\(\rho\)</span> standard deviations <span class="math inline">\(\sigma_Y\)</span> above the average <span class="math inline">\(\mu_Y\)</span> with <span class="math inline">\(\rho\)</span> the correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. The formula for the regression is therefore:</p>
+<p><span class="math display">\[
+\left( \frac{\hat{Y}-\mu_Y}{\sigma_Y} \right) = \rho \left( \frac{x-\mu_X}{\sigma_X} \right)
+\]</span></p>
+<p>We can rewrite it like this:</p>
+<p><span class="math display">\[
+\hat{Y} = \mu_Y + \rho \left( \frac{x-\mu_X}{\sigma_X} \right) \sigma_Y
+\]</span></p>
+<p>Note that if the correlation is positive and lower than 1, our prediction is closer, in standard units, to the average height than the value used to predict, <span class="math inline">\(x\)</span>, is to the average of the <span class="math inline">\(x\)</span>s. This is why we call it <em>regression</em>: the son regresses to the average height. In fact, the title of Galton’s paper was: <em>Regression toward mediocrity in hereditary stature</em>. To add regression lines to plots, we will need the above formula in the form:</p>
+<p><span class="math display">\[
+\hat{Y} = b + mx \mbox{ with slope } m = \rho \frac{\sigma_y}{\sigma_x} \mbox{ and intercept } b=\mu_y - m \mu_x
+\]</span></p>
+<p>Here we add the regression line to the original data:</p>
+<div class="cell" data-hash="20-regression_cache/html/regression-line_96900d14dcf1573b41b27a01fbeda952">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="fu">mean</span>(galton_heights<span class="sc">$</span>father)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(galton_heights<span class="sc">$</span>son)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>s_x <span class="ot">&lt;-</span> <span class="fu">sd</span>(galton_heights<span class="sc">$</span>father)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>s_y <span class="ot">&lt;-</span> <span class="fu">sd</span>(galton_heights<span class="sc">$</span>son)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(galton_heights<span class="sc">$</span>father, galton_heights<span class="sc">$</span>son)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(father, son)) <span class="sc">+</span> </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> r <span class="sc">*</span> s_y<span class="sc">/</span>s_x, <span class="at">intercept =</span> mu_y <span class="sc">-</span> r <span class="sc">*</span> s_y<span class="sc">/</span>s_x <span class="sc">*</span> mu_x) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/regression-line-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+<p>The regression formula implies that if we first standardize the variables, that is subtract the average and divide by the standard deviation, then the regression line has intercept 0 and slope equal to the correlation <span class="math inline">\(\rho\)</span>. You can make same plot, but using standard units like this:</p>
+<div class="cell" data-hash="20-regression_cache/html/regression-line-standard-units_9e8898a76a9def2f1382182746514a5a">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">scale</span>(father), <span class="fu">scale</span>(son))) <span class="sc">+</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> r) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/regression-line-standard-units-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+</section>
+<section id="regression-improves-precision" class="level2" data-number="20.5">
+<h2 data-number="20.5" class="anchored" data-anchor-id="regression-improves-precision"><span class="header-section-number">20.5</span> Regression improves precision</h2>
+<p>Let’s compare the two approaches to prediction that we have presented:</p>
+<ol type="1">
+<li>Round fathers’ heights to closest inch, stratify, and then take the average.</li>
+<li>Compute the regression line and use it to predict.</li>
+</ol>
+<p>We use a Monte Carlo simulation sampling <span class="math inline">\(N=50\)</span> families:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-14_a7c7d33c79fea4483bf8b6bc6097f548">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1983</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>conditional_avg <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(galton_heights, N)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  dat <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">round</span>(father) <span class="sc">==</span> <span class="dv">72</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(son)) <span class="sc">|&gt;</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(avg)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>regression_prediction <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">sample_n</span>(galton_heights, N)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  mu_x <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>father)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  mu_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>son)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  s_x <span class="ot">&lt;-</span> <span class="fu">sd</span>(dat<span class="sc">$</span>father)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  s_y <span class="ot">&lt;-</span> <span class="fu">sd</span>(dat<span class="sc">$</span>son)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">cor</span>(dat<span class="sc">$</span>father, dat<span class="sc">$</span>son)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  mu_y <span class="sc">+</span> r<span class="sc">*</span>(<span class="dv">72</span> <span class="sc">-</span> mu_x)<span class="sc">/</span>s_x<span class="sc">*</span>s_y</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Although the expected value of these two random variables is about the same:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-15_182eb2d766abc9f7ae874cfe67c60ef6">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(conditional_avg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 70.49368</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(regression_prediction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 70.50941</code></pre>
+</div>
+</div>
+<p>The standard error for the regression prediction is substantially smaller:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-16_ef65c68b2e1a39c6ae472d67fc8c8c56">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(conditional_avg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9635814</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(regression_prediction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4520833</code></pre>
+</div>
+</div>
+<p>The regression line is therefore much more stable than the conditional mean. There is an intuitive reason for this. The conditional average is computed on a relatively small subset: the fathers that are about 72 inches tall. In fact, in some of the permutations we have no data, which is why we use <code>na.rm=TRUE</code>. The regression always uses all the data.</p>
+</section>
+<section id="bivariate-normal-distribution" class="level2" data-number="20.6">
+<h2 data-number="20.6" class="anchored" data-anchor-id="bivariate-normal-distribution"><span class="header-section-number">20.6</span> Bivariate normal distribution</h2>
+<p>Correlation and the regression slope are a widely used summary statistic, but they are often misused or misinterpreted. Anscombe’s examples provide over-simplified cases of dataset in which summarizing with correlation would be a mistake. But there are many more real-life examples.</p>
+<p>The main way we motivate the use of correlation involves what is called the <em>bivariate normal distribution</em>.</p>
+<p>When a pair of random variables is approximated by the bivariate normal distribution, scatterplots look like ovals. As we saw in Section <a href="#sec-corr-coef"><span>Section&nbsp;20.2</span></a>), they can be thin (high correlation) or circle-shaped (no correlation.</p>
+<p>A more technical way to define the bivariate normal distribution is the following: if <span class="math inline">\(X\)</span> is a normally distributed random variable, <span class="math inline">\(Y\)</span> is also a normally distributed random variable, and the conditional distribution of <span class="math inline">\(Y\)</span> for any <span class="math inline">\(X=x\)</span> is approximately normal, then the pair is approximately bivariate normal. When three or more variables have the property that each pair is bivariate normal, we say the variables follow a <em>multivariate</em> normal distribution or that they are <em>jointly normal</em>.</p>
+<p>If we think the height data is well approximated by the bivariate normal distribution, then we should see the normal approximation hold for each strata. Here we stratify the son heights by the standardized father heights and see that the assumption appears to hold:</p>
+<div class="cell" data-hash="20-regression_cache/html/qqnorm-of-strata_e2efb5a8bb12486ea245b9f155898436">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z_father =</span> <span class="fu">round</span>((father <span class="sc">-</span> <span class="fu">mean</span>(father)) <span class="sc">/</span> <span class="fu">sd</span>(father))) <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(z_father <span class="sc">%in%</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>(<span class="fu">aes</span>(<span class="at">sample =</span> son)) <span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> z_father) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/qqnorm-of-strata-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we come back to defining correlation. Galton used mathematical statistics to demonstrate that, when two variables follow a bivariate normal distribution, computing the regression line is equivalent to computing conditional expectations. We don’t show the derivation here, but we can show that under this assumption, for any given value of <span class="math inline">\(x\)</span>, the expected value of the <span class="math inline">\(Y\)</span> in pairs for which <span class="math inline">\(X=x\)</span> is:</p>
+<p><span class="math display">\[
+\mbox{E}(Y | X=x) = \mu_Y +  \rho \frac{x-\mu_X}{\sigma_X}\sigma_Y
+\]</span></p>
+<p>This is the regression line, with slope <span class="math display">\[\rho \frac{\sigma_Y}{\sigma_X}\]</span> and intercept <span class="math inline">\(\mu_y - m\mu_X\)</span>. It is equivalent to the regression equation we showed earlier which can be written like this:</p>
+<p><span class="math display">\[
+\frac{\mbox{E}(Y \mid X=x)  - \mu_Y}{\sigma_Y} = \rho \frac{x-\mu_X}{\sigma_X}
+\]</span></p>
+<p>This implies that, if our data is approximately bivariate, the regression line gives the conditional probability. Therefore, we can obtain a much more stable estimate of the conditional expectation by finding the regression line and using it to predict.</p>
+<p>In summary, if our data is approximately bivariate, then the conditional expectation, the best prediction of <span class="math inline">\(Y\)</span> given we know the value of <span class="math inline">\(X\)</span>, is given by the regression line.</p>
+</section>
+<section id="variance-explained" class="level2" data-number="20.7">
+<h2 data-number="20.7" class="anchored" data-anchor-id="variance-explained"><span class="header-section-number">20.7</span> Variance explained</h2>
+<p>The bivariate normal theory also tells us that the standard deviation of the <em>conditional</em> distribution described above is:</p>
+<p><span class="math display">\[
+\mbox{SD}(Y \mid X=x ) = \sigma_Y \sqrt{1-\rho^2}
+\]</span></p>
+<p>To see why this is intuitive, notice that without conditioning, <span class="math inline">\(\mbox{SD}(Y) = \sigma_Y\)</span>, we are looking at the variability of all the sons. But once we condition, we are only looking at the variability of the sons with a tall, 72-inch, father. This group will all tend to be somewhat tall so the standard deviation is reduced.</p>
+<p>Specifically, it is reduced to <span class="math inline">\(\sqrt{1-\rho^2} = \sqrt{1 - 0.25}\)</span> = 0.87 of what it was originally. We could say that father heights “explain” 13% of the variability observed in son heights.</p>
+<p>The statement “<span class="math inline">\(X\)</span> explains such and such percent of the variability” is commonly used in academic papers. In this case, this percent actually refers to the variance (the SD squared). So if the data is bivariate normal, the variance is reduced by <span class="math inline">\(1-\rho^2\)</span>, so we say that <span class="math inline">\(X\)</span> explains <span class="math inline">\(1- (1-\rho^2)=\rho^2\)</span> (the correlation squared) of the variance.</p>
+<p>But it is important to remember that the “variance explained” statement only makes sense when the data is approximated by a bivariate normal distribution.</p>
+</section>
+<section id="there-are-two-regression-lines" class="level2" data-number="20.8">
+<h2 data-number="20.8" class="anchored" data-anchor-id="there-are-two-regression-lines"><span class="header-section-number">20.8</span> There are two regression lines</h2>
+<p>We computed a regression line to predict the son’s height from father’s height. We used these calculations:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-17_c5dca415ea53925705597b4ed3066bc6">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mu_x <span class="ot">&lt;-</span> <span class="fu">mean</span>(galton_heights<span class="sc">$</span>father)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>mu_y <span class="ot">&lt;-</span> <span class="fu">mean</span>(galton_heights<span class="sc">$</span>son)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>s_x <span class="ot">&lt;-</span> <span class="fu">sd</span>(galton_heights<span class="sc">$</span>father)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>s_y <span class="ot">&lt;-</span> <span class="fu">sd</span>(galton_heights<span class="sc">$</span>son)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(galton_heights<span class="sc">$</span>father, galton_heights<span class="sc">$</span>son)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>m_1 <span class="ot">&lt;-</span>  r <span class="sc">*</span> s_y <span class="sc">/</span> s_x</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> mu_y <span class="sc">-</span> m_1<span class="sc">*</span>mu_x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>which gives us the function <span class="math inline">\(\mbox{E}(Y\mid X=x) =\)</span> 37.3 + 0.46 <span class="math inline">\(x\)</span>.</p>
+<p>What if we want to predict the father’s height based on the son’s? It is important to know that this is not determined by computing the inverse function: <span class="math inline">\(x = \{ \mbox{E}(Y\mid X=x) -\)</span> 37.3 <span class="math inline">\(\} /\)</span> 0.5.</p>
+<p>We need to compute <span class="math inline">\(\mbox{E}(X \mid Y=y)\)</span>. Since the data is approximately bivariate normal, the theory described above tells us that this conditional expectation will follow a line with slope and intercept:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-18_f25a7be0a04563a0a56b0c72a85f4ed8">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>m_2 <span class="ot">&lt;-</span>  r <span class="sc">*</span> s_x <span class="sc">/</span> s_y</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">&lt;-</span> mu_x <span class="sc">-</span> m_2 <span class="sc">*</span> mu_y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So we get <span class="math inline">\(\mbox{E}(X \mid Y=y) =\)</span> 40.9 + 0.41y. Again we see regression to the average: the prediction for the father is closer to the father average than the son heights <span class="math inline">\(y\)</span> is to the son average.</p>
+<p>Here is a plot showing the two regression lines, with blue for the predicting son heights with father heights and red for predicting father heights with son heights:</p>
+<div class="cell" data-hash="20-regression_cache/html/two-regression-lines_7c44a4f7ff75987936201b90ebd541ed">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(father, son)) <span class="sc">+</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> b_1, <span class="at">slope =</span> m_1, <span class="at">col =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="sc">-</span>b_2<span class="sc">/</span>m_2, <span class="at">slope =</span> <span class="dv">1</span><span class="sc">/</span>m_2, <span class="at">col =</span> <span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/two-regression-lines-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+</section>
+<section id="linear-models" class="level2" data-number="20.9">
+<h2 data-number="20.9" class="anchored" data-anchor-id="linear-models"><span class="header-section-number">20.9</span> Linear models</h2>
+<p>Let’s learn about the connection between regression and <em>linear models</em>. We have described how if data is bivariate normal then the conditional expectations follow the regression line. The fact that the conditional expectation is a line is not an extra assumption but rather a derived result. However, in practice it is common to explicitly write down a model that describes the relationship between two or more variables using a <em>linear model</em>.</p>
+<p><em>linear</em> here does not refer to lines exclusively, but rather to the fact that the conditional expectation is a linear combination of known quantities. In mathematics, when we multiply each variable by a constant and then add them together, we say we formed a <em>linear combination</em> of the variables. For example,</p>
+<p><span class="math display">\[3x - 4y + 5z\]</span></p>
+<p>is a linear combination of <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span>.</p>
+<p>We can also add a constant so</p>
+<p><span class="math display">\[2 + 3x - 4y + 5z\]</span></p>
+<p>is also linear combination of <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span>.</p>
+<p>Note that if we write</p>
+<p><span class="math display">\[
+Y = \beta_0 + \beta_1 x + \varepsilon
+\]</span></p>
+<p>then if we assume <span class="math inline">\(\varepsilon\)</span> follows a normal distribution with expected value 0 and fixed standard deviation, then <span class="math inline">\(Y\)</span> has the same properties as the regression setup gave us: it follows a normal distribution, the expected value is a linear function <span class="math inline">\(x\)</span>, and the standard deviation does not depend on <span class="math inline">\(x\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In statistical textbooks, the <span class="math inline">\(\varepsilon\)</span>s are referred to as “errors,” which originally represented measurement errors in the initial applications of these models. These errors were associated with inaccuracies in measuring height, weight, or distance. However, the term “error” is now used more broadly, even when the <span class="math inline">\(\varepsilon\)</span>s do not necessarily signify an actual error. For instance, in the case of height, if someone is 2 inches taller than expected based on their parents’ height, those 2 inches should not be considered an error. Despite its lack of descriptive accuracy, the term “error” is employed to elucidate the unexplained variability in the model, unrelated to other included terms.</p>
+</div>
+</div>
+<p>Linear model for Galton’s data, we would denote the <span class="math inline">\(N\)</span> observed father heights with <span class="math inline">\(x_1, \dots, x_n\)</span>, then we model the <span class="math inline">\(N\)</span> son heights we are trying to predict with:</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \, i=1,\dots,N.
+\]</span></p>
+<p>We can further assume that <span class="math inline">\(\varepsilon_i\)</span> are independent from each other and all have the same standard deviation.</p>
+<p>To have a useful model for prediction, we need <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>. We estimate these from the data.</p>
+<p>Although this model is exactly the same one we derived earlier by assuming bivariate normal data, a somewhat nuanced difference is that in the first approach we assumed the data was bivariate normal and the linear model was derived, not assumed. In practice, linear models are just assumed without necessarily assuming normality: the distribution of the <span class="math inline">\(\varepsilon\)</span>s is not necessarily specified. Nevertheless, if your data is bivariate normal, the above linear model holds. If your data is not bivariate normal, then you will need to have other ways of justifying the model.</p>
+<p>One reason linear models are popular is that they are <em>interpretable</em>. In the case of Galton’s data, we can interpret the data like this: due to inherited genes, the son’s height prediction grows by <span class="math inline">\(\beta_1\)</span> for each inch we increase the father’s height <span class="math inline">\(x\)</span>. Because not all sons with fathers of height <span class="math inline">\(x\)</span> are of equal height, we need the term <span class="math inline">\(\varepsilon\)</span>, which explains the remaining variability. This remaining variability includes the mother’s genetic effect, environmental factors, and other biological randomness.</p>
+<p>Given how we wrote the model above, the intercept <span class="math inline">\(\beta_0\)</span> is not very interpretable as it is the predicted height of a son with a father with no height. Due to regression to the mean, the prediction will usually be a bit larger than 0. To make the slope parameter more interpretable, we can rewrite the model slightly as:</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 (x_i - \bar{x}) + \varepsilon_i, \, i=1,\dots,N
+\]</span></p>
+<p>In this case <span class="math inline">\(\beta_0\)</span> represents the height when <span class="math inline">\(x_i = \bar{x}\)</span>, which is the height of the son of an average father.</p>
+</section>
+<section id="sec-lse" class="level2" data-number="20.10">
+<h2 data-number="20.10" class="anchored" data-anchor-id="sec-lse"><span class="header-section-number">20.10</span> Least Squares Estimates</h2>
+<p>The standard approach to estimate the <span class="math inline">\(\beta\)</span>s is to find the values that minimize the distance of the fitted model to the data:</p>
+<p><span class="math display">\[
+RSS = \sum_{i=1}^n \left\{  y_i - \left(\beta_0 + \beta_1 x_i \right)\right\}^2
+\]</span></p>
+<p>This quantity is called the residual sum of squares (RSS). Once we find the values that minimize the RSS, we will call the values the least squares estimates (LSE) and denote them with <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span>. Let’s demonstrate this with the previously defined dataset:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-19_bdc513fd18006a449256097c9c3806ff">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1983</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="ot">&lt;-</span> GaltonFamilies <span class="sc">|&gt;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"male"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(family) <span class="sc">|&gt;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(father, childHeight) <span class="sc">|&gt;</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">son =</span> childHeight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s write a function that computes the RSS for any pair of values <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-20_40abb3f7d8b4c01fab9cc3ba06aa0362">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>rss <span class="ot">&lt;-</span> <span class="cf">function</span>(beta0, beta1, data){</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  resid <span class="ot">&lt;-</span> galton_heights<span class="sc">$</span>son <span class="sc">-</span> (beta0 <span class="sc">+</span> beta1<span class="sc">*</span>galton_heights<span class="sc">$</span>father)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(resid<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So for any pair of values, we get an RSS. Here is a plot of the RSS as a function of <span class="math inline">\(\beta_1\)</span> when we keep the <span class="math inline">\(\beta_0\)</span> fixed at 25.</p>
+<div class="cell" data-hash="20-regression_cache/html/rss-versus-estimate_91b299e99ec73cfb8e04e73793fce7be">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length =</span> <span class="fu">nrow</span>(galton_heights))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">beta1 =</span> beta1,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">rss =</span> <span class="fu">sapply</span>(beta1, rss, <span class="at">beta0 =</span> <span class="dv">25</span>))</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(beta1, rss)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(beta1, rss))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/rss-versus-estimate-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see a clear minimum for <span class="math inline">\(\beta_1\)</span> at around 0.65. However, this minimum for <span class="math inline">\(\beta_1\)</span> is for when <span class="math inline">\(\beta_0 = 25\)</span>, a value we arbitrarily picked. We don’t know if (25, 0.65) is the pair that minimizes the equation across all possible pairs. We don’t need trial and error because we can use calculus.</p>
+</section>
+<section id="the-lm-function" class="level2" data-number="20.11">
+<h2 data-number="20.11" class="anchored" data-anchor-id="the-lm-function"><span class="header-section-number">20.11</span> The <code>lm</code> function</h2>
+<p>In R, we can obtain the least squares estimates using the <code>lm</code> function. To fit the model:</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i
+\]</span></p>
+<p>with <span class="math inline">\(Y_i\)</span> the son’s height and <span class="math inline">\(x_i\)</span> the father’s height, we can use this code to obtain the least squares estimates.</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-21_f7bfcb83ac001c250f229200f1f9c0cb">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(son <span class="sc">~</span> father, <span class="at">data =</span> galton_heights)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>coef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)      father 
+  37.287605    0.461392 </code></pre>
+</div>
+</div>
+<p>The most common way we use <code>lm</code> is by using the character <code>~</code> to let <code>lm</code> know which is the variable we are predicting (left of <code>~</code>) and which we are using to predict (right of <code>~</code>). The intercept is added automatically to the model that will be fit.</p>
+<p>The object <code>fit</code> includes more information about the fit. We can use the function <code>summary</code> to extract more of this information (not shown):</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-22_83e4ea503791d15cc4f06bbdaf9402e6">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = son ~ father, data = galton_heights)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-9.3543 -1.5657 -0.0078  1.7263  9.4150 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 37.28761    4.98618   7.478 3.37e-12 ***
+father       0.46139    0.07211   6.398 1.36e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.45 on 177 degrees of freedom
+Multiple R-squared:  0.1878,    Adjusted R-squared:  0.1833 
+F-statistic: 40.94 on 1 and 177 DF,  p-value: 1.36e-09</code></pre>
+</div>
+</div>
+<p>To understand some of the information included in this summary we need to remember that the LSE are random variables. Mathematical statistics gives us some ideas of the distribution of these random variables.</p>
+</section>
+<section id="lse-are-random-variables" class="level2" data-number="20.12">
+<h2 data-number="20.12" class="anchored" data-anchor-id="lse-are-random-variables"><span class="header-section-number">20.12</span> LSE are random variables</h2>
+<p>The LSE is derived from the data <span class="math inline">\(y_1,\dots,y_N\)</span>, which are a realization of random variables <span class="math inline">\(Y_1, \dots, Y_N\)</span>. This implies that our estimates are random variables. Here is a Monte Carlo simulation demonstrating it:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-23_9702e67b07588c5224dc87cf45dd14f3">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>lse <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(galton_heights, N, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lm</span>(son <span class="sc">~</span> father, <span class="at">data =</span> _) <span class="sc">|&gt;</span> </span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coef</span>()</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>lse <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">beta_0 =</span> lse[<span class="dv">1</span>,], <span class="at">beta_1 =</span> lse[<span class="dv">2</span>,]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can see the variability of the estimates by plotting their distributions:</p>
+<div class="cell" data-hash="20-regression_cache/html/lse-distributions_8816d419a234465a6c8dade5886af7ca">
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'gridExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    combine</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/lse-distributions-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<p>The reason these look normal is because the central limit theorem applies here as well. The standard errors are a bit complicated to compute, but mathematical theory does allow us to compute them and they are included in the summary provided by the <code>lm</code> function. Here it is for one of our simulated data sets:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-24_2b713703e46e69bde3bc0517f8bd670c">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(galton_heights, N, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(son <span class="sc">~</span> father, <span class="at">data =</span> _) <span class="sc">|&gt;</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Estimate Std. Error  t value     Pr(&gt;|t|)
+(Intercept) 19.2791952 11.6564590 1.653950 0.1046637693
+father       0.7198756  0.1693834 4.249977 0.0000979167</code></pre>
+</div>
+</div>
+<p>You can see that the standard errors estimates reported by the <code>summary</code> are close to the standard errors from the simulation:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-25_b6c880ceeb124c9a717edc61e6a327f8">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>lse <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">se_0 =</span> <span class="fu">sd</span>(beta_0), <span class="at">se_1 =</span> <span class="fu">sd</span>(beta_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     se_0      se_1
+1 8.83591 0.1278812</code></pre>
+</div>
+</div>
+<p>The <code>summary</code> function also reports t-statistics (<code>t value</code>) and p-values (<code>Pr(&gt;|t|)</code>). The t-statistic is not actually based on the central limit theorem but rather on the assumption that the <span class="math inline">\(\varepsilon\)</span>s follow a normal distribution. Under this assumption, mathematical theory tells us that the LSE divided by their standard error, <span class="math inline">\(\hat{\beta}_0 / \hat{\mbox{SE}}(\hat{\beta}_0 )\)</span> and <span class="math inline">\(\hat{\beta}_1 / \hat{\mbox{SE}}(\hat{\beta}_1 )\)</span>, follow a t-distribution with <span class="math inline">\(N-p\)</span> degrees of freedom, with <span class="math inline">\(p\)</span> the number of parameters in our model. In the case of height <span class="math inline">\(p=2\)</span>, the two p-values are testing the null hypothesis that <span class="math inline">\(\beta_0 = 0\)</span> and <span class="math inline">\(\beta_1=0\)</span>, respectively.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Although we do not show examples in this book, hypothesis testing with regression models is commonly used in epidemiology and economics to make statements such as “the effect of A on B was statistically significant after adjusting for X, Y, and Z”. However, several assumptions have to hold for these statements to be true.</p>
+</div>
+</div>
+</section>
+<section id="predicted-values-are-random-variables" class="level2" data-number="20.13">
+<h2 data-number="20.13" class="anchored" data-anchor-id="predicted-values-are-random-variables"><span class="header-section-number">20.13</span> Predicted values are random variables</h2>
+<p>Once we fit our model, we can obtain prediction of <span class="math inline">\(Y\)</span> by plugging in the estimates into the regression model. For example, if the father’s height is <span class="math inline">\(x\)</span>, then our prediction <span class="math inline">\(\hat{Y}\)</span> for the son’s height will be:</p>
+<p><span class="math display">\[\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 x\]</span></p>
+<p>When we plot <span class="math inline">\(\hat{Y}\)</span> versus <span class="math inline">\(x\)</span>, we see the regression line.</p>
+<p>The <strong>ggplot2</strong> layer <code>geom_smooth(method = "lm")</code> that we previously used plots <span class="math inline">\(\hat{Y}\)</span> and surrounds it by confidence intervals:</p>
+<div class="cell" data-hash="20-regression_cache/html/father-son-regression_f3d7679b2d1bf0d8602f11cadc0fa8ca">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(son, father)) <span class="sc">+</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/father-son-regression-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The R function <code>predict</code> takes an <code>lm</code> object as input and returns the prediction. If requested, the standard errors and other information from which we can construct confidence intervals is provided:</p>
+<div class="cell" data-hash="20-regression_cache/html/father-son-predictor_9151a3f4e35afd0fa30214f94365a26b">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> <span class="fu">lm</span>(son <span class="sc">~</span> father, <span class="at">data =</span> _) </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>y_hat <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(y_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "fit"            "se.fit"         "df"             "residual.scale"</code></pre>
+</div>
+</div>
+</section>
+<section id="diagnostic-plots" class="level2" data-number="20.14">
+<h2 data-number="20.14" class="anchored" data-anchor-id="diagnostic-plots"><span class="header-section-number">20.14</span> Diagnostic plots</h2>
+<p>When the linear model is assumed rather than derived, all interpretations depend on the usefulness of the model. The <code>lm</code> function will fit the model and return summaries even when the model is wrong and unuseful.</p>
+<p>Visually inspecting residuals, defined as the difference between observed values and predicted values</p>
+<p><span class="math display">\[
+r = Y - \hat{Y} = Y - \left(\hat{\beta}_0 - \hat{\beta}_1 x_i\right),
+\]</span></p>
+<p>and summaries of the residuals, is a powerful way to diagnose if the model is useful. Note that the residuals can be thought of estimates of the errors since</p>
+<p><span class="math display">\[
+\varepsilon = Y - \left(\beta_0 + \beta_1 x_i \right).
+\]</span></p>
+<p>In fact, residuals are often denoted as <span class="math inline">\(\hat{\varepsilon}\)</span>. This motivates several <em>diagnostic</em> plots. Becasue we obervere, <span class="math inline">\(r\)</span> but don’t observe <span class="math inline">\(\varepsilon\)</span>, we based the plots on the residuals.</p>
+<ol type="1">
+<li><p>Because the errors are assumed not to depend on the expected value of <span class="math inline">\(Y\)</span>, a plot of <span class="math inline">\(r\)</span> versus the fitted values <span class="math inline">\(\hat{Y}\)</span> should show no relationship.</p></li>
+<li><p>In cases in which we assume the errors follow a normal distribtuion a qqplot of standardized <span class="math inline">\(r\)</span> should fall on a line when plotted against theoretical quantiles.</p></li>
+<li><p>Because we assume the standard deviation of the errors is constant, if we plot the absolute value of the residuals, it should appear constant.</p></li>
+</ol>
+<p>We prefer plots rather than summaries based on, for example, correlation because, as noted in Section <span class="citation" data-cites="ascombe">@ascombe</span>, correlation is not always the best summary of association. The function <code>plot</code> applied to an <code>lm</code> object automatically plots these.</p>
+<div class="cell" data-hash="20-regression_cache/html/diagnotics_fffe033d8518880f6cf852db404690d6">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">which =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This function can produce six different plots, and the argument <code>which</code> let’s you specify which you want to see. You can learn more by reading the <code>plot.lm</code> help file.</p>
+</section>
+<section id="the-regression-fallacy" class="level2" data-number="20.15">
+<h2 data-number="20.15" class="anchored" data-anchor-id="the-regression-fallacy"><span class="header-section-number">20.15</span> The regression fallacy</h2>
+<p>Wikipedia defines the <em>sophomore slump</em> as:</p>
+<blockquote class="blockquote">
+<p>A sophomore slump or sophomore jinx or sophomore jitters refers to an instance in which a second, or sophomore, effort fails to live up to the standards of the first effort. It is commonly used to refer to the apathy of students (second year of high school, college or university), the performance of athletes (second season of play), singers/bands (second album), television shows (second seasons) and movies (sequels/prequels).</p>
+</blockquote>
+<p>In Major League Baseball, the rookie of the year (ROY) award is given to the first-year player who is judged to have performed the best. The <em>sophmore slump</em> phrase is used to describe the observation that ROY award winners don’t do as well during their second year. For example, <a href="https://web.archive.org/web20160815063904/http://www.foxsports.com/mlb/story/kris-bryant-carlos-correa-rookies-of-year-award-matt-duffy-francisco-lindor-kang-sano-120715">this Fox Sports article</a> asks “Will MLB’s tremendous rookie class of 2015 suffer a sophomore slump?”.</p>
+<p>Does the data confirm the existence of a sophomore slump? Let’s take a look. Examining the data for widely used measure of success, the batting average, we see that this observation holds true for the top performing ROYs:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">nameFirst</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">nameLast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">rookie_year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">rookie</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">sophomore</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Willie</td>
+<td style="text-align: left;">McCovey</td>
+<td style="text-align: right;">1959</td>
+<td style="text-align: right;">0.3541667</td>
+<td style="text-align: right;">0.2384615</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ichiro</td>
+<td style="text-align: left;">Suzuki</td>
+<td style="text-align: right;">2001</td>
+<td style="text-align: right;">0.3497110</td>
+<td style="text-align: right;">0.3214838</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Al</td>
+<td style="text-align: left;">Bumbry</td>
+<td style="text-align: right;">1973</td>
+<td style="text-align: right;">0.3370787</td>
+<td style="text-align: right;">0.2333333</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fred</td>
+<td style="text-align: left;">Lynn</td>
+<td style="text-align: right;">1975</td>
+<td style="text-align: right;">0.3314394</td>
+<td style="text-align: right;">0.3136095</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Albert</td>
+<td style="text-align: left;">Pujols</td>
+<td style="text-align: right;">2001</td>
+<td style="text-align: right;">0.3288136</td>
+<td style="text-align: right;">0.3135593</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>In fact, the proportion of players that have a lower batting average their sophomore year is 0.6981132.</p>
+<p>So is it “jitters” or “jinx”? To answer this question, let’s turn our attention to all players that played the 2013 and 2014 seasons and batted more than 130 times (minimum to win Rookie of the Year).</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-27_3ffca8f1bd768a1c50fb855ca55f009f">
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'playerID'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+</div>
+<p>The same pattern arises when we look at the top performers: batting averages go down for most of the top performers.</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-28_e6d4529644fe9c6788f58d2ce4f7306b">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">nameFirst</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">nameLast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2013</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2014</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Miguel</td>
+<td style="text-align: left;">Cabrera</td>
+<td style="text-align: right;">0.3477477</td>
+<td style="text-align: right;">0.3126023</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hanley</td>
+<td style="text-align: left;">Ramirez</td>
+<td style="text-align: right;">0.3453947</td>
+<td style="text-align: right;">0.2828508</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">Cuddyer</td>
+<td style="text-align: right;">0.3312883</td>
+<td style="text-align: right;">0.3315789</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scooter</td>
+<td style="text-align: left;">Gennett</td>
+<td style="text-align: right;">0.3239437</td>
+<td style="text-align: right;">0.2886364</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Joe</td>
+<td style="text-align: left;">Mauer</td>
+<td style="text-align: right;">0.3235955</td>
+<td style="text-align: right;">0.2769231</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>But these are not rookies! Also, look at what happens to the worst performers of 2013:</p>
+<div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-29_8e22524e684b50f6a5d0fe7f3f5fd5cf">
+<div class="cell-output-display">
+<table class="table table-striped table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">nameFirst</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">nameLast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2013</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2014</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Danny</td>
+<td style="text-align: left;">Espinosa</td>
+<td style="text-align: right;">0.1582278</td>
+<td style="text-align: right;">0.2192192</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dan</td>
+<td style="text-align: left;">Uggla</td>
+<td style="text-align: right;">0.1785714</td>
+<td style="text-align: right;">0.1489362</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jeff</td>
+<td style="text-align: left;">Mathis</td>
+<td style="text-align: right;">0.1810345</td>
+<td style="text-align: right;">0.2000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B. J.</td>
+<td style="text-align: left;">Upton</td>
+<td style="text-align: right;">0.1841432</td>
+<td style="text-align: right;">0.2080925</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Adam</td>
+<td style="text-align: left;">Rosales</td>
+<td style="text-align: right;">0.1904762</td>
+<td style="text-align: right;">0.2621951</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Their batting averages mostly go up! Is this some sort of reverse sophomore slump? It is not. There is no such thing as the sophomore slump. This is all explained with a simple statistical fact: the correlation for performance in two separate years is high, but not perfect:</p>
+<div class="cell" data-hash="20-regression_cache/html/regression-fallacy_6089264169d224bbfa80ab71c92518d6">
+<div class="cell-output-display">
+<p><img src="20-regression_files/figure-html/regression-fallacy-1.png" class="img-fluid" style="width:40.0%"></p>
+</div>
+</div>
+<p>The correlation is 0.460254 and the data look very much like a bivariate normal distribution, which means we predict a 2014 batting average <span class="math inline">\(Y\)</span> for any given player that had a 2013 batting average <span class="math inline">\(X\)</span> with:</p>
+<p><span class="math display">\[ \frac{Y - .255}{.032} = 0.46 \left( \frac{X - .261}{.023}\right) \]</span></p>
+<p>Because the correlation is not perfect, regression tells us that, on average, expect high performers from 2013 to do a bit worse in 2014. It’s not a jinx; it’s just due to chance. The ROY are selected from the top values of <span class="math inline">\(X\)</span> so it is expected that <span class="math inline">\(Y\)</span> will regress to the mean.</p>
+</section>
+<section id="exercises" class="level2" data-number="20.16">
+<h2 data-number="20.16" class="anchored" data-anchor-id="exercises"><span class="header-section-number">20.16</span> Exercises</h2>
+<p>1. Load the <code>GaltonFamilies</code> data from the <strong>HistData</strong>. The children in each family are listed by gender and then by height. Create a dataset called <code>galton_heights</code> by picking a male and female at random.</p>
+<p>2. Make a scatterplot for heights between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons.</p>
+<p>3. Compute the correlation in heights between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./pset2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Problem Set 2</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

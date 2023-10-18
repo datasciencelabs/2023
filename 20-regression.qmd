@@ -148,12 +148,12 @@ In our example, $N=25$ does not seem to be large enough to make the approximatio
 ```{r small-sample-correlation-not-normal, out.width="40%"}
 ggplot(aes(sample = r), data = data.frame(r)) + 
   stat_qq() + 
-  geom_abline(intercept = mean(r), slope = sqrt((1 - mean(R)^2)/(N - 2)))
+  geom_abline(intercept = mean(r), slope = sqrt((1 - mean(r)^2)/(N - 2)))
 ```
 
 If you increase $N$, you will see the distribution converging to normal.
 
-```{r sample-correlation-distribution}
+```{r sample-correlation-distribution-2}
 B <- 1000
 N <- 50
 r <- replicate(B, {
@@ -163,7 +163,7 @@ r <- replicate(B, {
 })
 ggplot(aes(sample = r), data = data.frame(r)) + 
   stat_qq() + 
-  geom_abline(intercept = mean(r), slope = sqrt((1 - mean(R)^2)/(N - 2)))
+  geom_abline(intercept = mean(r), slope = sqrt((1 - mean(r)^2)/(N - 2)))
 ```
 
 ### Correlation is not always a useful summary {#sec-ascombe}
@@ -467,9 +467,19 @@ galton_heights |>
 
 Let's learn about the connection between regression and _linear models_.  We have described how if data is bivariate normal then the conditional expectations follow the regression line. The fact that the conditional expectation is a line is not an extra assumption but rather a derived result. However, in practice it is common to explicitly write down a model that describes the relationship between two or more variables using a *linear model*.
 
-We note that _linear_ here does not refer to lines exclusively, but rather to the fact that the conditional expectation is a linear combination of known quantities. In mathematics, when we multiply each variable by a constant and then add them together, we say we formed a _linear combination_ of the variables. For example, $3x - 4y + 5z$ is a linear combination of $x$, $y$, and $z$. We can also add a constant so $2 + 3x - 4y + 5z$ is also linear combination of $x$, $y$, and $z$.
+ _linear_ here does not refer to lines exclusively, but rather to the fact that the conditional expectation is a linear combination of known quantities. In mathematics, when we multiply each variable by a constant and then add them together, we say we formed a _linear combination_ of the variables. For example, 
+ 
+ $$3x - 4y + 5z$$
+ 
+ is a linear combination of $x$, $y$, and $z$. 
+ 
+ We can also add a constant so 
+ 
+ $$2 + 3x - 4y + 5z$$ 
+ 
+is also linear combination of $x$, $y$, and $z$.
 
-We previously described how if $X$ and $Y$ are bivariate normal, then if we look at only the pairs with $X=x$, then $Y \mid X=x$ follows a normal distribution with expected value $\mu_Y +  \rho \frac{x-\mu_X}{\sigma_X}\sigma_Y$, which is a linear function of $x$, and standard deviation $\sigma_Y \sqrt{1-\rho^2}$ that does not depend on $x$. Note that if we write 
+Note that if we write 
 
 $$
 Y = \beta_0 + \beta_1 x + \varepsilon
@@ -481,15 +491,15 @@ then if we assume $\varepsilon$ follows a normal distribution with expected valu
 In statistical textbooks, the $\varepsilon$s are referred to as "errors," which originally represented measurement errors in the initial applications of these models. These errors were associated with inaccuracies in measuring height, weight, or distance. However, the term "error" is now used more broadly, even when the $\varepsilon$s do not necessarily signify an actual error. For instance, in the case of height, if someone is 2 inches taller than expected based on their parents' height, those 2 inches should not be considered an error. Despite its lack of descriptive accuracy, the term "error" is employed to elucidate the unexplained variability in the model, unrelated to other included terms.
 :::
 
-If we were to specify a linear model for Galton's data, we would denote the $N$ observed father heights with $x_1, \dots, x_n$, then we model the $N$ son heights we are trying to predict with:
+Linear model for Galton's data, we would denote the $N$ observed father heights with $x_1, \dots, x_n$, then we model the $N$ son heights we are trying to predict with:
 
 $$ 
 Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \, i=1,\dots,N. 
 $$
 
-Here $x_i$ is the father's height, which is fixed (not random) due to the conditioning, and $Y_i$ is the random son's height that we want to predict. We can further assume that $\varepsilon_i$ are independent from each other and all have the same standard deviation.
+We can further assume that $\varepsilon_i$ are independent from each other and all have the same standard deviation.
 
-In the above model, we know the $x_i$, but to have a useful model for prediction, we need $\beta_0$ and $\beta_1$. We estimate these from the data. Once we do this, we can predict son's heights for any father's height $x$. We show how to do this in the next section.
+To have a useful model for prediction, we need $\beta_0$ and $\beta_1$. We estimate these from the data. 
 
 Although this model is exactly the same one we derived earlier by assuming bivariate normal data, a somewhat nuanced difference is that in the first approach we assumed the data was bivariate normal and the linear model was derived, not assumed. In practice, linear models are just assumed without necessarily assuming normality: the distribution of the $\varepsilon$s is not necessarily specified. Nevertheless, if your data is bivariate normal, the above linear model holds. If your data is not bivariate normal, then you will need to have other ways of justifying the model.
 
@@ -501,13 +511,11 @@ $$
 Y_i = \beta_0 + \beta_1 (x_i - \bar{x}) + \varepsilon_i, \, i=1,\dots,N 
 $$
 
-with $\bar{x} = 1/N \sum_{i=1}^N x_i$ the average of the $x$. In this case $\beta_0$ represents the height when $x_i = \bar{x}$, which is the height of the son of an average father.
-
-Later, specifically in Chapters @sec-multivariate-regression and @treatment-effect-models, we will see how the linear model representation permits us to use the same mathematical frameworks in other contexts and to achieve more complicated goals than predict one variable from another.
+In this case $\beta_0$ represents the height when $x_i = \bar{x}$, which is the height of the son of an average father.
 
 ## Least Squares Estimates  {#sec-lse}
 
-For linear models to be useful, we have to estimate the unknown $\beta$s. The standard approach in science is to find the values that minimize the distance of the fitted model to the data. The following is called the least squares (LS) equation and we will see it often in this chapter. For Galton's data, we would write:
+The standard approach to estimate the $\beta$s is to find the values that minimize the distance of the fitted model to the data:
 
 $$ 
 RSS = \sum_{i=1}^n \left\{  y_i - \left(\beta_0 + \beta_1 x_i \right)\right\}^2 
@@ -546,9 +554,7 @@ results |> ggplot(aes(beta1, rss)) + geom_line() +
   geom_line(aes(beta1, rss))
 ```
 
-We can see a clear minimum for $\beta_1$ at around 0.65. However, this minimum for $\beta_1$ is for when $\beta_0 = 25$, a value we arbitrarily picked. We don't know if (25, 0.65) is the pair that minimizes the equation across all possible pairs.
-
-Trial and error is not going to work in this case. We could search for a minimum within a fine grid of $\beta_0$ and $\beta_1$ values, but this is unnecessarily time-consuming since we can use calculus: take the partial derivatives, set them to 0 and solve for $\beta_1$ and $\beta_2$. Of course, if we have many parameters, these equations can get rather complex. But there are functions in R that do these calculations for us. We will learn these next. To learn the mathematics behind this, you can consult a book on linear models.
+We can see a clear minimum for $\beta_1$ at around 0.65. However, this minimum for $\beta_1$ is for when $\beta_0 = 25$, a value we arbitrarily picked. We don't know if (25, 0.65) is the pair that minimizes the equation across all possible pairs. We don't need trial and error because we can use calculus.
 
 ## The `lm` function
 
@@ -578,7 +584,7 @@ To understand some of the information included in this summary we need to rememb
 
 ## LSE are random variables
 
-The LSE is derived from the data $y_1,\dots,y_N$, which are a realization of random variables $Y_1, \dots, Y_N$. This implies that our estimates are random variables. To see this, we can run a Monte Carlo simulation in which we assume the son and father height data defines a population, take a random sample of size $N=50$, and compute the regression slope coefficient for each one:
+The LSE is derived from the data $y_1,\dots,y_N$, which are a realization of random variables $Y_1, \dots, Y_N$. This implies that our estimates are random variables. Here is a Monte Carlo simulation demonstrating it:
 
 ```{r}
 B <- 1000
@@ -602,7 +608,7 @@ p2 <- lse |> ggplot(aes(beta_1)) +
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-The reason these look normal is because the central limit theorem applies here as well: for large enough $N$, the least squares estimates will be approximately normal with expected value $\beta_0$ and $\beta_1$, respectively. The standard errors are a bit complicated to compute, but mathematical theory does allow us to compute them and they are included in the summary provided by the `lm` function. Here it is for one of our simulated data sets:
+The reason these look normal is because the central limit theorem applies here as well. The standard errors are a bit complicated to compute, but mathematical theory does allow us to compute them and they are included in the summary provided by the `lm` function. Here it is for one of our simulated data sets:
 
 ```{r}
 sample_n(galton_heights, N, replace = TRUE) |> 
@@ -619,9 +625,9 @@ lse |> summarize(se_0 = sd(beta_0), se_1 = sd(beta_1))
 
 The `summary` function also reports t-statistics (`t value`) and p-values (`Pr(>|t|)`). The t-statistic is not actually based on the central limit theorem but rather on the assumption that the $\varepsilon$s follow a normal distribution. Under this assumption, mathematical theory tells us that the LSE divided by their standard error, $\hat{\beta}_0 / \hat{\mbox{SE}}(\hat{\beta}_0 )$ and $\hat{\beta}_1 / \hat{\mbox{SE}}(\hat{\beta}_1 )$, follow a t-distribution with $N-p$ degrees of freedom, with $p$ the number of parameters in our model. In the case of height $p=2$, the two p-values are testing the null hypothesis that $\beta_0 = 0$ and $\beta_1=0$, respectively.
 
-Remember that, as we described in Section @sec-t-dist for large enough $N$, the CLT works and the t-distribution becomes almost the same as the normal distribution. Also, notice that we can construct confidence intervals, but we will soon learn about **broom**, an add-on package that makes this easy.
-
+:::{.callout-warning}
 Although we do not show examples in this book, hypothesis testing with regression models is commonly used in epidemiology and economics to make statements such as "the effect of A on B was statistically significant after adjusting for X, Y, and Z". However, several assumptions have to hold for these statements to be true.
+:::
 
 ## Predicted values are random variables
 
@@ -631,7 +637,7 @@ $$\hat{Y} = \hat{\beta}_0 + \hat{\beta}_1 x$$
 
 When we plot $\hat{Y}$ versus $x$, we see the regression line.
 
-Keep in mind that the prediction $\hat{Y}$ is also a random variable and mathematical theory tells us what the standard errors are. If we assume the errors are normal, or have a large enough sample size, we can use theory to construct confidence intervals as well. In fact, the **ggplot2** layer `geom_smooth(method = "lm")` that we previously used plots $\hat{Y}$ and surrounds it by confidence intervals:
+The **ggplot2** layer `geom_smooth(method = "lm")` that we previously used plots $\hat{Y}$ and surrounds it by confidence intervals:
 
 ```{r father-son-regression}
 galton_heights |> ggplot(aes(son, father)) +
@@ -658,12 +664,14 @@ Visually inspecting residuals, defined as the difference between observed values
 $$
 r = Y - \hat{Y} = Y - \left(\hat{\beta}_0 - \hat{\beta}_1 x_i\right),
 $$
+
 and summaries of the residuals, is a powerful way to diagnose if the model is useful. Note that the residuals can be thought of estimates of the errors since
 
 $$
 \varepsilon = Y - \left(\beta_0 + \beta_1 x_i \right).
 $$
-In fact residuals are often denoted as $\hat{\varepsilon}$. This motivates several _diagnostic_ plots. Becasue we obervere, $r$ but don't observe $\varepsilon$, we based the plots on the residuals. 
+
+In fact, residuals are often denoted as $\hat{\varepsilon}$. This motivates several _diagnostic_ plots. Becasue we obervere, $r$ but don't observe $\varepsilon$, we based the plots on the residuals. 
 
 1. Because the errors are assumed not to depend on the expected value of $Y$, a plot of $r$ versus the fitted values $\hat{Y}$ should show no relationship.
 
@@ -673,27 +681,15 @@ In fact residuals are often denoted as $\hat{\varepsilon}$. This motivates sever
 
 We prefer plots rather than summaries based on, for example,  correlation because, as noted in Section @ascombe, correlation is not always the best summary of association. The function `plot` applied to an `lm` object automatically plots these.
 
-```{r}
-#| echo: false
-#| out-width: 100%
 
 
-rafalib::mypar(1,3)
-plot(fit, which = 1:3)
-```
-
-
-```{r}
+```{r diagnotics}
 #| eval: false
 plot(fit, which = 1:3)
 ```
 
 
-This function can produce six different plots, and the argument `which` let's you specify which you want to see. You can learn more by reading the `plot.lm` help file. However, some of the plots are based on more advanced concepts beyond the scope of this book. To learn more we recommend an advanced book on regression analysis.
-
-In Chapters @sec-multivariate-regression and @sec-treatment-effect-models we introduce data analysis challenges in which more than one variables some not included in the model. In these cases an important diagnostic test to add checks if the residuals are related to variables not included in the model.
-
-
+This function can produce six different plots, and the argument `which` let's you specify which you want to see. You can learn more by reading the `plot.lm` help file.
 
 ## The regression fallacy
 
@@ -701,9 +697,7 @@ Wikipedia defines the *sophomore slump* as:
 
 > A sophomore slump or sophomore jinx or sophomore jitters refers to an instance in which a second, or sophomore, effort fails to live up to the standards of the first effort. It is commonly used to refer to the apathy of students (second year of high school, college or university), the performance of athletes (second season of play), singers/bands (second album), television shows (second seasons) and movies (sequels/prequels).
 
-In Major League Baseball, the rookie of the year (ROY) award is given to the first-year player who is judged to have performed the best. The *sophmore slump* phrase is used to describe the observation that ROY award winners don't do as well during their second year. For example, this Fox Sports article[^linear-models-1] asks "Will MLB's tremendous rookie class of 2015 suffer a sophomore slump?".
-
-[^linear-models-1]: http://www.foxsports.com/mlb/story/kris-bryant-carlos-correa-rookies-of-year-award-matt-duffy-francisco-lindor-kang-sano-120715
+In Major League Baseball, the rookie of the year (ROY) award is given to the first-year player who is judged to have performed the best. The *sophmore slump* phrase is used to describe the observation that ROY award winners don't do as well during their second year. For example, [this Fox Sports article](https://web.archive.org/web20160815063904/http://www.foxsports.com/mlb/story/kris-bryant-carlos-correa-rookies-of-year-award-matt-duffy-francisco-lindor-kang-sano-120715) asks "Will MLB's tremendous rookie class of 2015 suffer a sophomore slump?".
 
 Does the data confirm the existence of a sophomore slump? Let's take a look. Examining the data for widely used measure of success, the batting average, we see that this observation holds true for the top performing ROYs:
 
