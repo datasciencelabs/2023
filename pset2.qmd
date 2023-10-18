@@ -86,7 +86,7 @@ Read the PDF into R and extract the daily counts. Save the results to a data fra
 
 In June 2018, data was finally made public. This dataset gives you deaths by age group and sex obtained more recently from the Mortality Registry. In preparation for the analysis of these data, we will obtain population estimates from the US Census by age and gender. 
 
-We will be using three different APIs as that is how the Census makes the data available. Important to note that in two of these APIs, all ages 85 or above are grouped into one group. 
+We will be using two different APIs as that is how the Census makes the data available. Important to note that in two of these APIs, all ages 85 or above are grouped into one group. 
 
 If you wish to skip this section (though you will lose points), you can obtain the already wrangled population data [here](https://github.com/datasciencelabs/2023/raw/main/data/population.rds).
 

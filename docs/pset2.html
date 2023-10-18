@@ -389,7 +389,7 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <section id="us-census-apis" class="level2">
 <h2 class="anchored" data-anchor-id="us-census-apis">US Census APIs</h2>
 <p>In June 2018, data was finally made public. This dataset gives you deaths by age group and sex obtained more recently from the Mortality Registry. In preparation for the analysis of these data, we will obtain population estimates from the US Census by age and gender.</p>
-<p>We will be using three different APIs as that is how the Census makes the data available. Important to note that in two of these APIs, all ages 85 or above are grouped into one group.</p>
+<p>We will be using two different APIs as that is how the Census makes the data available. Important to note that in two of these APIs, all ages 85 or above are grouped into one group.</p>
 <p>If you wish to skip this section (though you will lose points), you can obtain the already wrangled population data <a href="https://github.com/datasciencelabs/2023/raw/main/data/population.rds">here</a>.</p>
 <ol start="9" class="example" type="1">
 <li><p>First step is to obtain a census key. You can request one here <a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a>. Once you have a key create a file in your directory called <code>census-key.R</code> that simply defines the variable <code>census_key</code> to be your personal key. Do not share this key publicly. The quarto file you turn in should not show your census key, instead it should source a file called <code>census-key.R</code> to define the variable. We will have a file on our end with our key so your script can knit.</p></li>
