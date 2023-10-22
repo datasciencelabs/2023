@@ -58,6 +58,23 @@ Create a directory for this homework. In this directory create two subdirectorie
 (@) Read in the PFD file into R and create a data frame with the data in Table 1 of the paper. The data frame should be tidy with columns `months`, `year`, and `deaths`. Your data frame need not include the confidence intervals or averages.
 
 
+```{r}
+filename <- "data/santoslozada-howard-2017-preprint.pdf"
+txt <- pdf_text(filename)[4]
+tmp <- str_split(txt, "\n")[[1]][2:14] |>
+  str_replace_all("\\s([A-Z])", "\\1") %>%
+  str_replace("\\s-\\s", "-") %>%
+  str_split("\\s+", simplify = TRUE) 
+tmp[1,1] <- "month"
+dat <- tmp |> 
+  row_to_names(1) |> 
+  as.data.frame() |>
+  select(month, `2010`:`2016`) |>
+  pivot_longer(-month, names_to = "year", values_to = "deaths") |>
+  mutate(month = match(month, month.name),
+           year = factor(year), deaths = parse_number(deaths))
+```
+
 (@) For each month compute the average and a 95% confidence interval to reproduce Figure 3 in the preprint.
 Make sure to show the month names on the x-axis, not numbers. Hint: Save the graph to an object to make an upcoming exercise easier.
 
@@ -76,6 +93,58 @@ with $\text{Var}(\varepsilon_{ij}) = \sigma^2_i$. The preprint reports the Septe
 (@) On December 8, 2017 the New York Times publishes an article with daily counts. They share the data that was provided to them by the Mortality Registry. It is PDF you can obtain [here](https://github.com/c2-d2/pr_mort_official/raw/master/data/Mortalidad-RegDem-2015-17-NYT-part1.pdf). 
 Read the PDF into R and extract the daily counts. Save the results to a data frame called `dat` with columns `data` and `deaths`. Make sure the data frame is ordered by date. 
 
+
+```{r}
+url <- "https://github.com/c2-d2/pr_mort_official/raw/master/data/Mortalidad-RegDem-2015-17-NYT-part1.pdf"
+pdf <- pdf_text(url) |> str_split("\n")
+dat <- lapply(pdf, function(s){
+  s <- str_trim(s)
+  s <- str_remove_all(s, "Registro Demográfico - División de Calidad y Estadísticas Vitales")
+  header_index <- str_which(s, "2015")[1]
+  tmp <- str_split(s[header_index], "\\s+", simplify = TRUE) |> str_remove_all("\\*") |>
+    str_replace_all("Y(201\\d)", "\\1")
+  month <- tmp[1]
+  header <- tmp[-c(1,5)]
+  tail_index  <- str_which(s, "Total")
+  n <- str_count(s, "\\d+")
+  out <- c(1:header_index, ## take out first lines
+           which(n <= 3), ## lines with just one number (plot y-axis ) or 3 (legend)
+           which(n >= 20 & n <= 31), ## take out lines with just numbers from plot x-axis
+           tail_index:length(s)) ## take out lines at end
+  if (month == "FEB") {
+   feb29 <- s[str_detect(s, "^29\\s+")] |> str_remove("29\\s+") |> parse_number()
+  }
+  s <- s[-out] |>  
+    str_remove_all("[^\\d\\s]") |> ## remove things that are not digits or space
+    str_trim() |> 
+    str_split_fixed("\\s+", n = 6)  ## split by any space
+  
+  if (month == "DEC") {
+    header <- header[1:2]
+    s <- s[,1:3]
+  } else {
+    s <- s[,1:4]
+  }
+  colnames(s) <- c("day", header)
+  
+  s <- s |> as_tibble() |> 
+    mutate(month = month, day = as.numeric(day)) |>
+    pivot_longer(-c(day, month), names_to = "year", values_to = "deaths") |>
+    mutate(deaths = as.numeric(deaths), month = str_to_title(month)) |>
+    mutate(month = if_else(month == "Ago", "Aug", month)) |>
+    mutate(month = match(month, month.abb)) |>
+    mutate(date = make_date(year, month, day)) |>
+    select(date, deaths) |>
+    arrange(date)
+
+  if (month == "FEB") {
+    s <- bind_rows(s, data.frame(date = make_date(2016, 2, 29), deaths = feb29)) 
+  }
+ 
+   return(s)
+})
+dat <- do.call("bind_rows", dat) |> arrange(date)
+```
 
 (@) Plot the deaths versus dates and describe what you see towards the end for 2017.
 

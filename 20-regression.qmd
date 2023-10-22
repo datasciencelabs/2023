@@ -141,7 +141,13 @@ Does CLT apply?
 
 
 
-The `SE` can be shown to be $\sqrt{\frac{1-r^2}{N-2}}$.
+The `SE` can be shown to be 
+
+$$
+\sqrt{\frac{1-r^2}{N-2}}
+$$
+
+
 
 In our example, $N=25$ does not seem to be large enough to make the approximation a good one:
 
@@ -210,6 +216,7 @@ minimizes the expected squared error (MSE):
 $$
 \mbox{E}[\{Y -f(X)\}^2]
 $$
+
 with $x$ representing the fixed value that defines that subset, for example 72 inches. 
 
 We denote the standard deviation of the strata with
@@ -221,7 +228,7 @@ $$
 Because the conditional expectation $E(Y\mid X=x)$ is the best predictor for the random variable $Y$ for an individual in the strata defined by $X=x$, many data science challenges reduce to estimating this quantity. The conditional standard deviation quantifies the precision of the prediction.
 
 
-However, we oftern have a limited number of points to estimate this conditional expectation. For example
+However, we often have a limited number of points to estimate this conditional expectation. For example
 
 ```{r}
 sum(galton_heights$father == 72)
@@ -243,7 +250,7 @@ conditional_avg <- galton_heights |>
 conditional_avg
 ```
 
-Note that a 72-inch father is taller than average but smaller than 72. We see the same for someoen slightly shorted than average:
+Note that a 72-inch father is taller than average but smaller than 72. We see the same for someone slightly shorted than average:
 
 ```{r}
 conditional_avg <- galton_heights |> 
@@ -260,7 +267,8 @@ The sons of have **regressed** some to the average height. We notice that the re
 If we want to make a prediction of any height, not just 72, we could apply the same approach to each strata. Stratification followed by boxplots lets us see the distribution of each group:
 
 ```{r boxplot-1, fig.height = 3, fig.width = 3, out.width="40%"}
-galton_heights |> mutate(father_strata = factor(round(father))) |> 
+galton_heights |> 
+  mutate(father_strata = factor(round(father))) |> 
   ggplot(aes(father_strata, son)) + 
   geom_boxplot() + 
   geom_point()
@@ -465,53 +473,60 @@ galton_heights |>
 
 ## Linear models
 
-Let's learn about the connection between regression and _linear models_.  We have described how if data is bivariate normal then the conditional expectations follow the regression line. The fact that the conditional expectation is a line is not an extra assumption but rather a derived result. However, in practice it is common to explicitly write down a model that describes the relationship between two or more variables using a *linear model*.
+* Let's learn about the connection between regression and _linear models_. 
 
- _linear_ here does not refer to lines exclusively, but rather to the fact that the conditional expectation is a linear combination of known quantities. In mathematics, when we multiply each variable by a constant and then add them together, we say we formed a _linear combination_ of the variables. For example, 
+* If data is bivariate normal then the conditional expectations follow the regression line. This resul is derived, not assumed
+
+* In practice it is common to explicitly write down a model that describes the relationship between two or more variables using a *linear model*.
+
+*  _linear_ here does not refer to lines exclusively, but rather to the fact that the conditional expectation is a linear combination of known quantities. For example, 
  
- $$3x - 4y + 5z$$
+ $$2 + 3x - 4y + 5z$$
  
  is a linear combination of $x$, $y$, and $z$. 
  
- We can also add a constant so 
- 
- $$2 + 3x - 4y + 5z$$ 
- 
-is also linear combination of $x$, $y$, and $z$.
 
-Note that if we write 
+* If we write 
 
 $$
 Y = \beta_0 + \beta_1 x + \varepsilon
 $$
 
-then if we assume $\varepsilon$ follows a normal distribution with expected value 0 and fixed standard deviation, then $Y$ has the same properties as the regression setup gave us: it follows a normal distribution, the expected value is a linear function $x$, and the standard deviation does not depend on $x$. 
+then if we assume $\varepsilon$ follows a normal distribution with expected value 0 and fixed standard deviation, then $Y$ has the same properties as the regression setup gave us.
 
 :::{.callout-note}
 In statistical textbooks, the $\varepsilon$s are referred to as "errors," which originally represented measurement errors in the initial applications of these models. These errors were associated with inaccuracies in measuring height, weight, or distance. However, the term "error" is now used more broadly, even when the $\varepsilon$s do not necessarily signify an actual error. For instance, in the case of height, if someone is 2 inches taller than expected based on their parents' height, those 2 inches should not be considered an error. Despite its lack of descriptive accuracy, the term "error" is employed to elucidate the unexplained variability in the model, unrelated to other included terms.
 :::
 
-Linear model for Galton's data, we would denote the $N$ observed father heights with $x_1, \dots, x_n$, then we model the $N$ son heights we are trying to predict with:
+* Linear model for Galton's data, we would denote the $N$ observed father heights with $x_1, \dots, x_n$, then we model the $N$ son heights we are trying to predict with:
 
 $$ 
 Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \, i=1,\dots,N. 
 $$
 
-We can further assume that $\varepsilon_i$ are independent from each other and all have the same standard deviation.
+*We can further assume that $\varepsilon_i$ are independent from each other and all have the same standard deviation.
 
-To have a useful model for prediction, we need $\beta_0$ and $\beta_1$. We estimate these from the data. 
+* To have a useful model for prediction, we need $\beta_0$ and $\beta_1$. We estimate these from the data. 
 
-Although this model is exactly the same one we derived earlier by assuming bivariate normal data, a somewhat nuanced difference is that in the first approach we assumed the data was bivariate normal and the linear model was derived, not assumed. In practice, linear models are just assumed without necessarily assuming normality: the distribution of the $\varepsilon$s is not necessarily specified. Nevertheless, if your data is bivariate normal, the above linear model holds. If your data is not bivariate normal, then you will need to have other ways of justifying the model.
+*  In practice, linear models are just assumed without necessarily assuming normality: the distribution of the $\varepsilon$s is not necessarily specified. Nevertheless, if your data is bivariate normal, the above linear model holds. If your data is not bivariate normal, then you will need to have other ways of justifying the model.
 
-One reason linear models are popular is that they are _interpretable_. In the case of Galton's data, we can interpret the data like this: due to inherited genes, the son's height prediction grows by $\beta_1$ for each inch we increase the father's height $x$. Because not all sons with fathers of height $x$ are of equal height, we need the term $\varepsilon$, which explains the remaining variability. This remaining variability includes the mother's genetic effect, environmental factors, and other biological randomness.
+* One reason linear models are popular is that they are _interpretable_. 
 
-Given how we wrote the model above, the intercept $\beta_0$ is not very interpretable as it is the predicted height of a son with a father with no height. Due to regression to the mean, the prediction will usually be a bit larger than 0. To make the slope parameter more interpretable, we can rewrite the model slightly as:
+* In the case of Galton's data, we can interpret the data like this: due to inherited genes, the son's height prediction grows by $\beta_1$ for each inch we increase the father's height $x$. 
+
+* Because not all sons with fathers of height $x$ are of equal height, we need the term $\varepsilon$, which explains the remaining variability. 
+
+* This remaining variability includes the mother's genetic effect, environmental factors, and other biological randomness.
+
+* Given how we wrote the model above, the intercept $\beta_0$ is not very interpretable as it is the predicted height of a son with a father with no height. Due to regression to the mean, the prediction will usually be a bit larger than 0. 
+
+* To make the slope parameter more interpretable, we can rewrite the model slightly as:
 
 $$ 
 Y_i = \beta_0 + \beta_1 (x_i - \bar{x}) + \varepsilon_i, \, i=1,\dots,N 
 $$
 
-In this case $\beta_0$ represents the height when $x_i = \bar{x}$, which is the height of the son of an average father.
+* In this case $\beta_0$ represents the height when $x_i = \bar{x}$, which is the height of the son of an average father.
 
 ## Least Squares Estimates  {#sec-lse}
 
@@ -521,7 +536,11 @@ $$
 RSS = \sum_{i=1}^n \left\{  y_i - \left(\beta_0 + \beta_1 x_i \right)\right\}^2 
 $$
 
-This quantity is called the residual sum of squares (RSS). Once we find the values that minimize the RSS, we will call the values the least squares estimates (LSE) and denote them with $\hat{\beta}_0$ and $\hat{\beta}_1$. Let's demonstrate this with the previously defined dataset:
+* This quantity is called the residual sum of squares (RSS). 
+
+* Once we find the values that minimize the RSS, we will call the values the least squares estimates (LSE) and denote them with $\hat{\beta}_0$ and $\hat{\beta}_1$. 
+
+* Let's demonstrate this with the previously defined dataset:
 
 ```{r, message=FALSE}
 library(HistData)
@@ -571,15 +590,17 @@ fit <- lm(son ~ father, data = galton_heights)
 fit$coef
 ```
 
-The most common way we use `lm` is by using the character `~` to let `lm` know which is the variable we are predicting (left of `~`) and which we are using to predict (right of `~`). The intercept is added automatically to the model that will be fit.
+* The most common way we use `lm` is by using the character `~` to let `lm` know which is the variable we are predicting (left of `~`) and which we are using to predict (right of `~`). 
 
-The object `fit` includes more information about the fit. We can use the function `summary` to extract more of this information (not shown):
+* The intercept is added automatically to the model that will be fit. To fit a model with no intercept you need to use `-1` in the rightside of the formula.
+
+* The object `fit` includes more information about the fit. We can use the function `summary` to extract more of this information (not shown):
 
 ```{r}
 summary(fit)
 ```
 
-To understand some of the information included in this summary we need to remember that the LSE are random variables. Mathematical statistics gives us some ideas of the distribution of these random variables.
+* To understand some of the information included in this summary we need to remember that the LSE are random variables. Mathematical statistics gives us some ideas of the distribution of these random variables.
 
 
 ## LSE are random variables
@@ -608,7 +629,11 @@ p2 <- lse |> ggplot(aes(beta_1)) +
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-The reason these look normal is because the central limit theorem applies here as well. The standard errors are a bit complicated to compute, but mathematical theory does allow us to compute them and they are included in the summary provided by the `lm` function. Here it is for one of our simulated data sets:
+* The reason these look normal is because the central limit theorem applies here as well. 
+
+* The standard errors are a bit complicated to compute, but mathematical theory does allow us to compute them and they are included in the summary provided by the `lm` function. 
+
+* Here it is for one of our simulated data sets:
 
 ```{r}
 sample_n(galton_heights, N, replace = TRUE) |> 
@@ -617,7 +642,7 @@ sample_n(galton_heights, N, replace = TRUE) |>
   coef()
 ```
 
-You can see that the standard errors estimates reported by the `summary` are close to the standard errors from the simulation:
+/8 You can see that the standard errors estimates reported by the `summary` are close to the standard errors from the simulation:
 
 ```{r}
 lse |> summarize(se_0 = sd(beta_0), se_1 = sd(beta_1))
@@ -645,7 +670,7 @@ galton_heights |> ggplot(aes(son, father)) +
   geom_smooth(method = "lm")
 ```
 
-The R function `predict` takes an `lm` object as input and returns the prediction. If requested, the standard errors and other information from which we can construct confidence intervals is provided:
+* The R function `predict` takes an `lm` object as input and returns the prediction. If requested, the standard errors and other information from which we can construct confidence intervals is provided:
 
 ```{r father-son-predictor}
 fit <- galton_heights |> lm(son ~ father, data = _) 
@@ -659,13 +684,15 @@ names(y_hat)
 
 When the linear model is assumed rather than derived,  all interpretations depend on the usefulness of the model. The `lm` function will fit the model and return summaries even when the model is wrong and unuseful.  
 
-Visually inspecting residuals, defined as the difference between observed values and predicted values
+* Visually inspecting residuals, defined as the difference between observed values and predicted values
 
 $$
 r = Y - \hat{Y} = Y - \left(\hat{\beta}_0 - \hat{\beta}_1 x_i\right),
 $$
 
-and summaries of the residuals, is a powerful way to diagnose if the model is useful. Note that the residuals can be thought of estimates of the errors since
+and summaries of the residuals, is a powerful way to diagnose if the model is useful. 
+
+* Note that the residuals can be thought of estimates of the errors since
 
 $$
 \varepsilon = Y - \left(\beta_0 + \beta_1 x_i \right).

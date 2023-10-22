@@ -293,6 +293,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -372,6 +378,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol class="example" type="1">
 <li><p>In December 2017 a preprint was published that includes data from the mortality registry. It is a Word document that you can download from <a href="https://osf.io/preprints/socarxiv/s7dmu/download" class="uri">https://osf.io/preprints/socarxiv/s7dmu/download</a>. Save a PDF copy of this document to your data directory.</p></li>
 <li><p>Read in the PFD file into R and create a data frame with the data in Table 1 of the paper. The data frame should be tidy with columns <code>months</code>, <code>year</code>, and <code>deaths</code>. Your data frame need not include the confidence intervals or averages.</p></li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-3_80b425643780b5b0090c0c3e254af3d1">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">"data/santoslozada-howard-2017-preprint.pdf"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>txt <span class="ot">&lt;-</span> <span class="fu">pdf_text</span>(filename)[<span class="dv">4</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">str_split</span>(txt, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)[[<span class="dv">1</span>]][<span class="dv">2</span><span class="sc">:</span><span class="dv">14</span>] <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s([A-Z])"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s-</span><span class="sc">\\</span><span class="st">s"</span>, <span class="st">"-"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_split</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>tmp[<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"month"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> tmp <span class="sc">|&gt;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_to_names</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(month, <span class="st">`</span><span class="at">2010</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2016</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>month, <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"deaths"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">match</span>(month, month.name),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">year =</span> <span class="fu">factor</span>(year), <span class="at">deaths =</span> <span class="fu">parse_number</span>(deaths))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" class="example" type="1">
 <li><p>For each month compute the average and a 95% confidence interval to reproduce Figure 3 in the preprint. Make sure to show the month names on the x-axis, not numbers. Hint: Save the graph to an object to make an upcoming exercise easier.</p></li>
 <li><p>The model here seems to be that the observed death for month <span class="math inline">\(i\)</span> and year <span class="math inline">\(j\)</span> is</p></li>
 </ol>
@@ -382,6 +406,59 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <ol start="5" class="example" type="1">
 <li><p>Make a plot now that includes the two points for 2017 and the 1.96 standard errors bars around them. Are the deaths statistically significantly different than the expected based on 2010-2016 data?</p></li>
 <li><p>On December 8, 2017 the New York Times publishes an article with daily counts. They share the data that was provided to them by the Mortality Registry. It is PDF you can obtain <a href="https://github.com/c2-d2/pr_mort_official/raw/master/data/Mortalidad-RegDem-2015-17-NYT-part1.pdf">here</a>. Read the PDF into R and extract the daily counts. Save the results to a data frame called <code>dat</code> with columns <code>data</code> and <code>deaths</code>. Make sure the data frame is ordered by date.</p></li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-4_6b78375f5f02f09a4fe7862650547514">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://github.com/c2-d2/pr_mort_official/raw/master/data/Mortalidad-RegDem-2015-17-NYT-part1.pdf"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pdf <span class="ot">&lt;-</span> <span class="fu">pdf_text</span>(url) <span class="sc">|&gt;</span> <span class="fu">str_split</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">lapply</span>(pdf, <span class="cf">function</span>(s){</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(s)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(s, <span class="st">"Registro Demográfico - División de Calidad y Estadísticas Vitales"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  header_index <span class="ot">&lt;-</span> <span class="fu">str_which</span>(s, <span class="st">"2015"</span>)[<span class="dv">1</span>]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">str_split</span>(s[header_index], <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">str_remove_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">*"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_replace_all</span>(<span class="st">"Y(201</span><span class="sc">\\</span><span class="st">d)"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  month <span class="ot">&lt;-</span> tmp[<span class="dv">1</span>]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  header <span class="ot">&lt;-</span> tmp[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  tail_index  <span class="ot">&lt;-</span> <span class="fu">str_which</span>(s, <span class="st">"Total"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">str_count</span>(s, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>header_index, <span class="do">## take out first lines</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>           <span class="fu">which</span>(n <span class="sc">&lt;=</span> <span class="dv">3</span>), <span class="do">## lines with just one number (plot y-axis ) or 3 (legend)</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>           <span class="fu">which</span>(n <span class="sc">&gt;=</span> <span class="dv">20</span> <span class="sc">&amp;</span> n <span class="sc">&lt;=</span> <span class="dv">31</span>), <span class="do">## take out lines with just numbers from plot x-axis</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>           tail_index<span class="sc">:</span><span class="fu">length</span>(s)) <span class="do">## take out lines at end</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (month <span class="sc">==</span> <span class="st">"FEB"</span>) {</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>   feb29 <span class="ot">&lt;-</span> s[<span class="fu">str_detect</span>(s, <span class="st">"^29</span><span class="sc">\\</span><span class="st">s+"</span>)] <span class="sc">|&gt;</span> <span class="fu">str_remove</span>(<span class="st">"29</span><span class="sc">\\</span><span class="st">s+"</span>) <span class="sc">|&gt;</span> <span class="fu">parse_number</span>()</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> s[<span class="sc">-</span>out] <span class="sc">|&gt;</span>  </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_remove_all</span>(<span class="st">"[^</span><span class="sc">\\</span><span class="st">d</span><span class="sc">\\</span><span class="st">s]"</span>) <span class="sc">|&gt;</span> <span class="do">## remove things that are not digits or space</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_trim</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split_fixed</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>, <span class="at">n =</span> <span class="dv">6</span>)  <span class="do">## split by any space</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (month <span class="sc">==</span> <span class="st">"DEC"</span>) {</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    header <span class="ot">&lt;-</span> header[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> s[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> s[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(s) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"day"</span>, header)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> s <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> month, <span class="at">day =</span> <span class="fu">as.numeric</span>(day)) <span class="sc">|&gt;</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(day, month), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"deaths"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">deaths =</span> <span class="fu">as.numeric</span>(deaths), <span class="at">month =</span> <span class="fu">str_to_title</span>(month)) <span class="sc">|&gt;</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">if_else</span>(month <span class="sc">==</span> <span class="st">"Ago"</span>, <span class="st">"Aug"</span>, month)) <span class="sc">|&gt;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">match</span>(month, month.abb)) <span class="sc">|&gt;</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">make_date</span>(year, month, day)) <span class="sc">|&gt;</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(date, deaths) <span class="sc">|&gt;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(date)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (month <span class="sc">==</span> <span class="st">"FEB"</span>) {</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(s, <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="fu">make_date</span>(<span class="dv">2016</span>, <span class="dv">2</span>, <span class="dv">29</span>), <span class="at">deaths =</span> feb29)) </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(s)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">"bind_rows"</span>, dat) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="7" class="example" type="1">
 <li><p>Plot the deaths versus dates and describe what you see towards the end for 2017.</p></li>
 <li><p>The reason you see a drop at the end is because it takes time to officially register deaths. It takes about 45 days for 99% of the data to be added. Remove the last 45 days and remake the plot, but this time showing deaths against day of the year (1 through 365 or 366) with color highlighting what happened after the hurricane. Do not include a legend.</p></li>
 </ol>
@@ -395,22 +472,22 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <li><p>First step is to obtain a census key. You can request one here <a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a>. Once you have a key create a file in your directory called <code>census-key.R</code> that simply defines the variable <code>census_key</code> to be your personal key. Do not share this key publicly. The quarto file you turn in should not show your census key, instead it should source a file called <code>census-key.R</code> to define the variable. We will have a file on our end with our key so your script can knit.</p></li>
 <li><p>Once you have your key you can use the <code>httr2</code> package to download the data directly from the Census data base. We will start downloading the intercensus data from 2000-2009 (<a href="https://www.census.gov/data/developers/data-sets/popest-popproj/popest/popest-vars.2000-2010_Intercensals.html#list-tab-794389051">data dictionary here</a>). We will download it only for Puerto Rico which has region ID 72. The following code downloads the data.</p></li>
 </ol>
-<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-3_96edd9f63d6203430417b36d1bc32aad">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2000/pep"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"int_charage?get=POP,SEX,AGE,DATE_&amp;for=state:72&amp;key="</span>, census_key)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">request</span>(url) <span class="sc">|&gt;</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(endpoint) <span class="sc">|&gt;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-5_50cb87ddb60e2647f22af8b1afa7717f">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2000/pep"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"int_charage?get=POP,SEX,AGE,DATE_&amp;for=state:72&amp;key="</span>, census_key)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">request</span>(url) <span class="sc">|&gt;</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(endpoint) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The data is now included in <code>response</code> and you can access it using the <code>resp</code> functions in <strong>httr2</strong>. Examine the results you obtain when applying <code>resp_body_string</code>. Write code to convert this into a data frame with columns names <code>year</code>, <code>sex</code>, <code>age</code>, and <code>population</code> and call it <code>pop1</code>. Hint: Use the function <code>fromJSON</code> from the <strong>jsonlite</strong> package. The functions <code>row_to_names</code> and <code>clean_names</code> from the <strong>janitor</strong> package might also be handy. Use the codebook to understand how the <code>date</code> column relates to year.</p>
 <ol start="11" class="example" type="1">
 <li>Now we will obtain data for 2010-2019. The intercensal data is not available so we will use <em>Vintage</em> 2019 data (<a href="https://www.census.gov/data/developers/data-sets/popest-popproj/popest/popest-vars.Vintage_2019.html">data dictionary here</a>). We can follow a similar procedure but with the following API and endpoints:</li>
 </ol>
-<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-4_2062f489d534a6c89441bbcbfb8cffa9">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2019/pep"</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"charage?get=POP,SEX,AGE,DATE_CODE&amp;for=state:72&amp;key="</span>, census_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-6_aaf56ec1026c5a74a3b5d9633caac43e">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2019/pep"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"charage?get=POP,SEX,AGE,DATE_CODE&amp;for=state:72&amp;key="</span>, census_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Download the data and write code to convert this into a data frame with columns names <code>year</code>, <code>sex</code>, <code>age</code>, and <code>population</code> and call it <code>pop2</code>.</p>
 <ol start="12" class="example" type="1">
@@ -421,8 +498,8 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <h2 class="unnumbered anchored" data-anchor-id="daily-count-data">Daily count data</h2>
 <p>Let’s repeat the analysis done in the preprint but now using 2002-2016 data and, to better see the effect of the hurricane, let’s use weekly instead of monthly and start our weeks on the day the hurricane hit.</p>
 <p>You can load the data from the <strong>excessmort</strong> package.</p>
-<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-5_242aa88a90ef0233bdc45ef01302de1d">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-7_ca3f9efc65282a5685d4abebed2f8be7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="13" class="example" type="1">
 <li><p>Define an object <code>counts</code> by wrangling <code>puerto_rico_counts</code> to 1) include data only from 2002-2017, 2) remove the population column, and 3) to match our population, combine the counts for those 85 and older together.</p></li>

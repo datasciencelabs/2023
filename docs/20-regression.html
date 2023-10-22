@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./21-multivariate-regression.html" rel="next">
 <link href="./pset2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -295,6 +296,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -459,7 +466,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>So, when interpreting correlations, remember that correlations derived from samples are estimates containing uncertainty.</p>
 <p>Does CLT apply?</p>
-<p>The <code>SE</code> can be shown to be <span class="math inline">\(\sqrt{\frac{1-r^2}{N-2}}\)</span>.</p>
+<p>The <code>SE</code> can be shown to be</p>
+<p><span class="math display">\[
+\sqrt{\frac{1-r^2}{N-2}}
+\]</span></p>
 <p>In our example, <span class="math inline">\(N=25\)</span> does not seem to be large enough to make the approximation a good one:</p>
 <div class="cell" data-hash="20-regression_cache/html/small-sample-correlation-not-normal_5fc81edc7154b97000f9928005c3bbae">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> r), <span class="at">data =</span> <span class="fu">data.frame</span>(r)) <span class="sc">+</span> </span>
@@ -521,13 +531,14 @@ f(x) = \mbox{E}(Y \mid X = x)
 <p>minimizes the expected squared error (MSE):</p>
 <p><span class="math display">\[
 \mbox{E}[\{Y -f(X)\}^2]
-\]</span> with <span class="math inline">\(x\)</span> representing the fixed value that defines that subset, for example 72 inches.</p>
+\]</span></p>
+<p>with <span class="math inline">\(x\)</span> representing the fixed value that defines that subset, for example 72 inches.</p>
 <p>We denote the standard deviation of the strata with</p>
 <p><span class="math display">\[
 \mbox{SD}(Y \mid X = x) = \sqrt{\mbox{Var}(Y \mid X = x)}
 \]</span></p>
 <p>Because the conditional expectation <span class="math inline">\(E(Y\mid X=x)\)</span> is the best predictor for the random variable <span class="math inline">\(Y\)</span> for an individual in the strata defined by <span class="math inline">\(X=x\)</span>, many data science challenges reduce to estimating this quantity. The conditional standard deviation quantifies the precision of the prediction.</p>
-<p>However, we oftern have a limited number of points to estimate this conditional expectation. For example</p>
+<p>However, we often have a limited number of points to estimate this conditional expectation. For example</p>
 <div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-10_b4ab56993ba5c51d5f6f7ba6dcbbb826">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(galton_heights<span class="sc">$</span>father <span class="sc">==</span> <span class="dv">72</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -552,7 +563,7 @@ f(x) = \mbox{E}(Y \mid X = x)
 <pre><code>[1] 70.5</code></pre>
 </div>
 </div>
-<p>Note that a 72-inch father is taller than average but smaller than 72. We see the same for someoen slightly shorted than average:</p>
+<p>Note that a 72-inch father is taller than average but smaller than 72. We see the same for someone slightly shorted than average:</p>
 <div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-13_c85b3a0aebfaf9eab77858ea8626733f">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>conditional_avg <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">round</span>(father) <span class="sc">==</span> <span class="dv">67</span>) <span class="sc">|&gt;</span></span>
@@ -565,11 +576,12 @@ f(x) = \mbox{E}(Y \mid X = x)
 </div>
 <p>The sons of have <strong>regressed</strong> some to the average height. We notice that the reduction in how many SDs taller is about 0.5, which happens to be the correlation. As we will see in a later section, this is not a coincidence.</p>
 <p>If we want to make a prediction of any height, not just 72, we could apply the same approach to each strata. Stratification followed by boxplots lets us see the distribution of each group:</p>
-<div class="cell" data-hash="20-regression_cache/html/boxplot-1_ea887dc1fec03321ab9418ad2d3b2514">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">father_strata =</span> <span class="fu">factor</span>(<span class="fu">round</span>(father))) <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(father_strata, son)) <span class="sc">+</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="20-regression_cache/html/boxplot-1_1ccfbdf03cb6bfc0cf8224dda5a4d4ac">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">father_strata =</span> <span class="fu">factor</span>(<span class="fu">round</span>(father))) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(father_strata, son)) <span class="sc">+</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="20-regression_files/figure-html/boxplot-1-1.png" class="img-fluid" style="width:40.0%"></p>
 </div>
@@ -751,18 +763,21 @@ f(x) = \mbox{E}(Y \mid X = x)
 </section>
 <section id="linear-models" class="level2" data-number="20.9">
 <h2 data-number="20.9" class="anchored" data-anchor-id="linear-models"><span class="header-section-number">20.9</span> Linear models</h2>
-<p>Let’s learn about the connection between regression and <em>linear models</em>. We have described how if data is bivariate normal then the conditional expectations follow the regression line. The fact that the conditional expectation is a line is not an extra assumption but rather a derived result. However, in practice it is common to explicitly write down a model that describes the relationship between two or more variables using a <em>linear model</em>.</p>
-<p><em>linear</em> here does not refer to lines exclusively, but rather to the fact that the conditional expectation is a linear combination of known quantities. In mathematics, when we multiply each variable by a constant and then add them together, we say we formed a <em>linear combination</em> of the variables. For example,</p>
-<p><span class="math display">\[3x - 4y + 5z\]</span></p>
-<p>is a linear combination of <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span>.</p>
-<p>We can also add a constant so</p>
+<ul>
+<li><p>Let’s learn about the connection between regression and <em>linear models</em>.</p></li>
+<li><p>If data is bivariate normal then the conditional expectations follow the regression line. This resul is derived, not assumed</p></li>
+<li><p>In practice it is common to explicitly write down a model that describes the relationship between two or more variables using a <em>linear model</em>.</p></li>
+<li><p><em>linear</em> here does not refer to lines exclusively, but rather to the fact that the conditional expectation is a linear combination of known quantities. For example,</p></li>
+</ul>
 <p><span class="math display">\[2 + 3x - 4y + 5z\]</span></p>
-<p>is also linear combination of <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span>.</p>
-<p>Note that if we write</p>
+<p>is a linear combination of <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span>.</p>
+<ul>
+<li>If we write</li>
+</ul>
 <p><span class="math display">\[
 Y = \beta_0 + \beta_1 x + \varepsilon
 \]</span></p>
-<p>then if we assume <span class="math inline">\(\varepsilon\)</span> follows a normal distribution with expected value 0 and fixed standard deviation, then <span class="math inline">\(Y\)</span> has the same properties as the regression setup gave us: it follows a normal distribution, the expected value is a linear function <span class="math inline">\(x\)</span>, and the standard deviation does not depend on <span class="math inline">\(x\)</span>.</p>
+<p>then if we assume <span class="math inline">\(\varepsilon\)</span> follows a normal distribution with expected value 0 and fixed standard deviation, then <span class="math inline">\(Y\)</span> has the same properties as the regression setup gave us.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -776,19 +791,29 @@ Note
 <p>In statistical textbooks, the <span class="math inline">\(\varepsilon\)</span>s are referred to as “errors,” which originally represented measurement errors in the initial applications of these models. These errors were associated with inaccuracies in measuring height, weight, or distance. However, the term “error” is now used more broadly, even when the <span class="math inline">\(\varepsilon\)</span>s do not necessarily signify an actual error. For instance, in the case of height, if someone is 2 inches taller than expected based on their parents’ height, those 2 inches should not be considered an error. Despite its lack of descriptive accuracy, the term “error” is employed to elucidate the unexplained variability in the model, unrelated to other included terms.</p>
 </div>
 </div>
-<p>Linear model for Galton’s data, we would denote the <span class="math inline">\(N\)</span> observed father heights with <span class="math inline">\(x_1, \dots, x_n\)</span>, then we model the <span class="math inline">\(N\)</span> son heights we are trying to predict with:</p>
+<ul>
+<li>Linear model for Galton’s data, we would denote the <span class="math inline">\(N\)</span> observed father heights with <span class="math inline">\(x_1, \dots, x_n\)</span>, then we model the <span class="math inline">\(N\)</span> son heights we are trying to predict with:</li>
+</ul>
 <p><span class="math display">\[
 Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \, i=1,\dots,N.
 \]</span></p>
-<p>We can further assume that <span class="math inline">\(\varepsilon_i\)</span> are independent from each other and all have the same standard deviation.</p>
-<p>To have a useful model for prediction, we need <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>. We estimate these from the data.</p>
-<p>Although this model is exactly the same one we derived earlier by assuming bivariate normal data, a somewhat nuanced difference is that in the first approach we assumed the data was bivariate normal and the linear model was derived, not assumed. In practice, linear models are just assumed without necessarily assuming normality: the distribution of the <span class="math inline">\(\varepsilon\)</span>s is not necessarily specified. Nevertheless, if your data is bivariate normal, the above linear model holds. If your data is not bivariate normal, then you will need to have other ways of justifying the model.</p>
-<p>One reason linear models are popular is that they are <em>interpretable</em>. In the case of Galton’s data, we can interpret the data like this: due to inherited genes, the son’s height prediction grows by <span class="math inline">\(\beta_1\)</span> for each inch we increase the father’s height <span class="math inline">\(x\)</span>. Because not all sons with fathers of height <span class="math inline">\(x\)</span> are of equal height, we need the term <span class="math inline">\(\varepsilon\)</span>, which explains the remaining variability. This remaining variability includes the mother’s genetic effect, environmental factors, and other biological randomness.</p>
-<p>Given how we wrote the model above, the intercept <span class="math inline">\(\beta_0\)</span> is not very interpretable as it is the predicted height of a son with a father with no height. Due to regression to the mean, the prediction will usually be a bit larger than 0. To make the slope parameter more interpretable, we can rewrite the model slightly as:</p>
+<p>*We can further assume that <span class="math inline">\(\varepsilon_i\)</span> are independent from each other and all have the same standard deviation.</p>
+<ul>
+<li><p>To have a useful model for prediction, we need <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>. We estimate these from the data.</p></li>
+<li><p>In practice, linear models are just assumed without necessarily assuming normality: the distribution of the <span class="math inline">\(\varepsilon\)</span>s is not necessarily specified. Nevertheless, if your data is bivariate normal, the above linear model holds. If your data is not bivariate normal, then you will need to have other ways of justifying the model.</p></li>
+<li><p>One reason linear models are popular is that they are <em>interpretable</em>.</p></li>
+<li><p>In the case of Galton’s data, we can interpret the data like this: due to inherited genes, the son’s height prediction grows by <span class="math inline">\(\beta_1\)</span> for each inch we increase the father’s height <span class="math inline">\(x\)</span>.</p></li>
+<li><p>Because not all sons with fathers of height <span class="math inline">\(x\)</span> are of equal height, we need the term <span class="math inline">\(\varepsilon\)</span>, which explains the remaining variability.</p></li>
+<li><p>This remaining variability includes the mother’s genetic effect, environmental factors, and other biological randomness.</p></li>
+<li><p>Given how we wrote the model above, the intercept <span class="math inline">\(\beta_0\)</span> is not very interpretable as it is the predicted height of a son with a father with no height. Due to regression to the mean, the prediction will usually be a bit larger than 0.</p></li>
+<li><p>To make the slope parameter more interpretable, we can rewrite the model slightly as:</p></li>
+</ul>
 <p><span class="math display">\[
 Y_i = \beta_0 + \beta_1 (x_i - \bar{x}) + \varepsilon_i, \, i=1,\dots,N
 \]</span></p>
-<p>In this case <span class="math inline">\(\beta_0\)</span> represents the height when <span class="math inline">\(x_i = \bar{x}\)</span>, which is the height of the son of an average father.</p>
+<ul>
+<li>In this case <span class="math inline">\(\beta_0\)</span> represents the height when <span class="math inline">\(x_i = \bar{x}\)</span>, which is the height of the son of an average father.</li>
+</ul>
 </section>
 <section id="sec-lse" class="level2" data-number="20.10">
 <h2 data-number="20.10" class="anchored" data-anchor-id="sec-lse"><span class="header-section-number">20.10</span> Least Squares Estimates</h2>
@@ -796,7 +821,11 @@ Y_i = \beta_0 + \beta_1 (x_i - \bar{x}) + \varepsilon_i, \, i=1,\dots,N
 <p><span class="math display">\[
 RSS = \sum_{i=1}^n \left\{  y_i - \left(\beta_0 + \beta_1 x_i \right)\right\}^2
 \]</span></p>
-<p>This quantity is called the residual sum of squares (RSS). Once we find the values that minimize the RSS, we will call the values the least squares estimates (LSE) and denote them with <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span>. Let’s demonstrate this with the previously defined dataset:</p>
+<ul>
+<li><p>This quantity is called the residual sum of squares (RSS).</p></li>
+<li><p>Once we find the values that minimize the RSS, we will call the values the least squares estimates (LSE) and denote them with <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span>.</p></li>
+<li><p>Let’s demonstrate this with the previously defined dataset:</p></li>
+</ul>
 <div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-19_bdc513fd18006a449256097c9c3806ff">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1983</span>)</span>
@@ -843,8 +872,11 @@ Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i
   37.287605    0.461392 </code></pre>
 </div>
 </div>
-<p>The most common way we use <code>lm</code> is by using the character <code>~</code> to let <code>lm</code> know which is the variable we are predicting (left of <code>~</code>) and which we are using to predict (right of <code>~</code>). The intercept is added automatically to the model that will be fit.</p>
-<p>The object <code>fit</code> includes more information about the fit. We can use the function <code>summary</code> to extract more of this information (not shown):</p>
+<ul>
+<li><p>The most common way we use <code>lm</code> is by using the character <code>~</code> to let <code>lm</code> know which is the variable we are predicting (left of <code>~</code>) and which we are using to predict (right of <code>~</code>).</p></li>
+<li><p>The intercept is added automatically to the model that will be fit. To fit a model with no intercept you need to use <code>-1</code> in the rightside of the formula.</p></li>
+<li><p>The object <code>fit</code> includes more information about the fit. We can use the function <code>summary</code> to extract more of this information (not shown):</p></li>
+</ul>
 <div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-22_83e4ea503791d15cc4f06bbdaf9402e6">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -868,7 +900,9 @@ Multiple R-squared:  0.1878,    Adjusted R-squared:  0.1833
 F-statistic: 40.94 on 1 and 177 DF,  p-value: 1.36e-09</code></pre>
 </div>
 </div>
-<p>To understand some of the information included in this summary we need to remember that the LSE are random variables. Mathematical statistics gives us some ideas of the distribution of these random variables.</p>
+<ul>
+<li>To understand some of the information included in this summary we need to remember that the LSE are random variables. Mathematical statistics gives us some ideas of the distribution of these random variables.</li>
+</ul>
 </section>
 <section id="lse-are-random-variables" class="level2" data-number="20.12">
 <h2 data-number="20.12" class="anchored" data-anchor-id="lse-are-random-variables"><span class="header-section-number">20.12</span> LSE are random variables</h2>
@@ -898,7 +932,11 @@ Attaching package: 'gridExtra'</code></pre>
 <p><img src="20-regression_files/figure-html/lse-distributions-1.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
-<p>The reason these look normal is because the central limit theorem applies here as well. The standard errors are a bit complicated to compute, but mathematical theory does allow us to compute them and they are included in the summary provided by the <code>lm</code> function. Here it is for one of our simulated data sets:</p>
+<ul>
+<li><p>The reason these look normal is because the central limit theorem applies here as well.</p></li>
+<li><p>The standard errors are a bit complicated to compute, but mathematical theory does allow us to compute them and they are included in the summary provided by the <code>lm</code> function.</p></li>
+<li><p>Here it is for one of our simulated data sets:</p></li>
+</ul>
 <div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-24_2b713703e46e69bde3bc0517f8bd670c">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(galton_heights, N, <span class="at">replace =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(son <span class="sc">~</span> father, <span class="at">data =</span> _) <span class="sc">|&gt;</span> </span>
@@ -910,7 +948,7 @@ Attaching package: 'gridExtra'</code></pre>
 father       0.7198756  0.1693834 4.249977 0.0000979167</code></pre>
 </div>
 </div>
-<p>You can see that the standard errors estimates reported by the <code>summary</code> are close to the standard errors from the simulation:</p>
+<p>/8 You can see that the standard errors estimates reported by the <code>summary</code> are close to the standard errors from the simulation:</p>
 <div class="cell" data-hash="20-regression_cache/html/unnamed-chunk-25_b6c880ceeb124c9a717edc61e6a327f8">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>lse <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">se_0 =</span> <span class="fu">sd</span>(beta_0), <span class="at">se_1 =</span> <span class="fu">sd</span>(beta_1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -950,7 +988,9 @@ Warning
 <p><img src="20-regression_files/figure-html/father-son-regression-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The R function <code>predict</code> takes an <code>lm</code> object as input and returns the prediction. If requested, the standard errors and other information from which we can construct confidence intervals is provided:</p>
+<ul>
+<li>The R function <code>predict</code> takes an <code>lm</code> object as input and returns the prediction. If requested, the standard errors and other information from which we can construct confidence intervals is provided:</li>
+</ul>
 <div class="cell" data-hash="20-regression_cache/html/father-son-predictor_9151a3f4e35afd0fa30214f94365a26b">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> <span class="fu">lm</span>(son <span class="sc">~</span> father, <span class="at">data =</span> _) </span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -965,11 +1005,16 @@ Warning
 <section id="diagnostic-plots" class="level2" data-number="20.14">
 <h2 data-number="20.14" class="anchored" data-anchor-id="diagnostic-plots"><span class="header-section-number">20.14</span> Diagnostic plots</h2>
 <p>When the linear model is assumed rather than derived, all interpretations depend on the usefulness of the model. The <code>lm</code> function will fit the model and return summaries even when the model is wrong and unuseful.</p>
-<p>Visually inspecting residuals, defined as the difference between observed values and predicted values</p>
+<ul>
+<li>Visually inspecting residuals, defined as the difference between observed values and predicted values</li>
+</ul>
 <p><span class="math display">\[
 r = Y - \hat{Y} = Y - \left(\hat{\beta}_0 - \hat{\beta}_1 x_i\right),
 \]</span></p>
-<p>and summaries of the residuals, is a powerful way to diagnose if the model is useful. Note that the residuals can be thought of estimates of the errors since</p>
+<p>and summaries of the residuals, is a powerful way to diagnose if the model is useful.</p>
+<ul>
+<li>Note that the residuals can be thought of estimates of the errors since</li>
+</ul>
 <p><span class="math display">\[
 \varepsilon = Y - \left(\beta_0 + \beta_1 x_i \right).
 \]</span></p>
@@ -1413,6 +1458,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./21-multivariate-regression.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

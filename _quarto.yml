@@ -36,6 +36,7 @@ book:
     - 19-models.qmd
     - pset2.qmd
     - 20-regression.qmd
+    - 21-multivariate-regression.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023

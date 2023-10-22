@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>BST 260 Introduction to Data Science - 21&nbsp; Multivariate Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./20-regression.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./21-multivariate-regression.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BST 260 Introduction to Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/datasciencelabs/2023" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course description</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-dates-and-times.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dates and times</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-importing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-dataviz-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-web-scraping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-text-mining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#case-study-moneyball" id="toc-case-study-moneyball" class="nav-link active" data-scroll-target="#case-study-moneyball"><span class="header-section-number">21.1</span> Case study: Moneyball</a></li>
+  <li><a href="#baseball-basics" id="toc-baseball-basics" class="nav-link" data-scroll-target="#baseball-basics"><span class="header-section-number">21.2</span> Baseball basics</a></li>
+  <li><a href="#no-awards-for-bb" id="toc-no-awards-for-bb" class="nav-link" data-scroll-target="#no-awards-for-bb"><span class="header-section-number">21.3</span> No awards for BB</a></li>
+  <li><a href="#base-on-balls-or-stolen-bases" id="toc-base-on-balls-or-stolen-bases" class="nav-link" data-scroll-target="#base-on-balls-or-stolen-bases"><span class="header-section-number">21.4</span> Base on balls or stolen bases?</a></li>
+  <li><a href="#regression-applied-to-baseball-statistics" id="toc-regression-applied-to-baseball-statistics" class="nav-link" data-scroll-target="#regression-applied-to-baseball-statistics"><span class="header-section-number">21.5</span> Regression applied to baseball statistics</a></li>
+  <li><a href="#the-broom-package" id="toc-the-broom-package" class="nav-link" data-scroll-target="#the-broom-package"><span class="header-section-number">21.6</span> The broom package</a></li>
+  <li><a href="#confounding" id="toc-confounding" class="nav-link" data-scroll-target="#confounding"><span class="header-section-number">21.7</span> Confounding</a></li>
+  <li><a href="#understanding-confounding-through-stratification" id="toc-understanding-confounding-through-stratification" class="nav-link" data-scroll-target="#understanding-confounding-through-stratification"><span class="header-section-number">21.8</span> Understanding confounding through stratification</a></li>
+  <li><a href="#sec-regression-in-r" id="toc-sec-regression-in-r" class="nav-link" data-scroll-target="#sec-regression-in-r"><span class="header-section-number">21.9</span> Multivariable regression</a></li>
+  <li><a href="#building-a-baseball-team" id="toc-building-a-baseball-team" class="nav-link" data-scroll-target="#building-a-baseball-team"><span class="header-section-number">21.10</span> Building a baseball team</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">21.11</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/21-multivariate-regression.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-multivariate-regression" class="quarto-section-identifier"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<ul>
+<li><p>Since Galton’s original development, regression has become one of the most widely used tools in data analysis.</p></li>
+<li><p>The original regression approach, based on linear models, permits us to find relationships between two variables taking into account the effects of other variables that affect both.</p></li>
+<li><p>Popular in fields where randomized experiments are hard to run, such as economics and epidemiology.</p></li>
+<li><p>For example, consider estimating the effect of eating fast foods on life expectancy using data collected from a random sample of people in a jurisdiction.</p></li>
+<li><p>Fast food consumers are more likely to be smokers, drinkers, and have lower incomes. Therefore, a naive regression model may lead to an overestimate of the negative health effect of fast food.</p></li>
+<li><p>So how do we account for confounding in practice? In this chapter we learn how <em>multivariate regression</em> can help with such situations and can be used to describe how one or more variables affect an outcome variable. We illustrate with a real-world example in which data was used to help pick underappreciated players to improve a resource limited sports team.</p></li>
+</ul>
+<section id="case-study-moneyball" class="level2" data-number="21.1">
+<h2 data-number="21.1" class="anchored" data-anchor-id="case-study-moneyball"><span class="header-section-number">21.1</span> Case study: Moneyball</h2>
+<ul>
+<li><p><em>Moneyball: The Art of Winning an Unfair Game</em> is a book by Michael Lewis about the Oakland Athletics (A’s) baseball team and its general manager, the person tasked with building the team, Billy Beane.</p></li>
+<li><p>Traditionally, baseball teams use <em>scouts</em> to help them decide what players to hire. Scouts tend to favor athletic players with observable physical abilities. For this reason, scouts tend to agree on who the best players are and, as a result, these players tend to be in high demand.</p></li>
+<li><p>In 1995 the A’s team ownercut the budget drastically, leaving then general manager, Sandy Alderson (Billy Bean’s mentor), with one of the lowest payrolls in baseball. Alderson began using a statistical approach to find inefficiencies in the market. Billy Beane, became GM in 1998 and fully embraced a data approach.</p></li>
+<li><p>As motivation for today’s lecture, we will pretend it is 2002 and try to build a baseball team with a limited budget, just like the A’s had to do. To appreciate what you are up against, note that in 2002 the Yankees’ payroll of $125,928,583 more than tripled the Oakland A’s $39,679,746:</p></li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/mlb-2002-payroll_1067ce11091b3a786b01fc9b6124850a">
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/mlb-2002-payroll-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="baseball-basics" class="level2" data-number="21.2">
+<h2 data-number="21.2" class="anchored" data-anchor-id="baseball-basics"><span class="header-section-number">21.2</span> Baseball basics</h2>
+<p>To see how regression will help us find undervalued players, we actually don’t need to understand all the details about the game of baseball, which has over 100 rules. Here, we distill the sport to the basic knowledge one needs to know how to effectively attack the data science problem.</p>
+<ul>
+<li><p>The goal of a baseball game is to score more runs (points) than the other team.</p></li>
+<li><p>Each team has 9 batters that have an opportunity to hit a ball with a bat in a predetermined order. After the 9th batter has had their turn, the first batter bats again, then the second, and so on.</p></li>
+<li><p>Each time a batter has an opportunity to bat, we call it a <em>plate appearance</em> (PA). At each PA, the other team’s <em>pitcher</em> throws the ball and the batter tries to hit it.</p></li>
+<li><p>The PA ends with an binary outcome: the batter either makes an <em>out</em> (failure) and returns to the bench or the batter doesn’t (success) and can run around the bases, and potentially score a run (reach all 4 bases).</p></li>
+<li><p>Each team gets nine tries, referred to as <em>innings</em>, to score runs and each inning ends after three outs (three failures).</p></li>
+<li><p>There is a lot of chance involved in a plate appearance.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=HL-XjMCPfio">Here is a video showing a success</a>.</li>
+<li><a href="https://www.youtube.com/watch?v=NeloljCx-1g">And here is one showing a failure</a>.</li>
+</ul></li>
+<li><p>There are several ways to succeed. Understanding this distinction will be important for our analysis. When the batter hits the ball, the batter wants to pass as many <em>bases</em> as possible. There are four bases with the fourth one called <em>home plate</em>. Home plate is where batters start by trying to hit, so the bases form a cycle.</p></li>
+</ul>
+<p><img src="https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/img/Baseball_Diamond1.png" class="img-fluid"></p>
+<ul>
+<li><p>A batter who <em>goes around the bases</em> and arrives home, scores a run.</p></li>
+<li><p>We are simplifying a bit, but there are five ways a batter can succeed, that is, not make an out:</p>
+<ol type="1">
+<li>Single - Batter hits the ball and gets to first base.</li>
+<li>Double (2B) - Batter hits the ball and gets to second base.</li>
+<li>Triple (3B) - Batter hits the ball and gets to third base.</li>
+<li>Home Run (HR) - Batter hits the ball and goes all the way home and scores a run.</li>
+<li>Bases on balls (BB) - the pitcher fails to throw the ball through a predefined area considered to be hittable (the strikezone), so the batter is permitted to go to first base.</li>
+</ol></li>
+</ul>
+<p><a href="https://www.youtube.com/watch?v=xYxSZJ9GZ-w">Here is an example of a HR</a>.</p>
+<ul>
+<li><p>While the batter is <em>on base</em>, the batter can also try to <em>steal a base</em> (SB). <a href="https://www.youtube.com/watch?v=JSE5kfxkzfk">Here is an example of a stolen base</a>.</p></li>
+<li><p>All these events are kept track of during the season and are available to us through the <strong>Lahman</strong> package:</p></li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-1_3bfec94cbb1c724783617a11ffa7aebb">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="no-awards-for-bb" class="level2" data-number="21.3">
+<h2 data-number="21.3" class="anchored" data-anchor-id="no-awards-for-bb"><span class="header-section-number">21.3</span> No awards for BB</h2>
+<p><img src="https://rafalab.dfci.harvard.edu/dsbook-part-2/linear-models/img/JumboTron.png" class="img-fluid"></p>
+<ul>
+<li><p>One of the first data-driven insights, made by Bill James, is that the batting average ignores BB, but a BB is a success.</p></li>
+<li><p>James proposed we use the <em>on base percentage</em> (OBP) instead of batting average. He defined OBP as (H+BB)/PA which is simply the proportion of plate appearances that don’t result in an out, a very intuitive measure.</p></li>
+<li><p>A player that gets many more BB than the average player might not be recognized if the batter does not excel in batting average. But is this player not helping produce runs?</p></li>
+<li><p>No award is given to the player with the most BB. However, bad habits are hard to break and baseball did not immediately adopt OBP as an important statistic.</p></li>
+<li><p>In contrast, total <a href="http://www.baseball-almanac.com/awards/lou_brock_award.shtml">stolen bases</a> were considered important and an awards given to the player with the most. But players with high totals of SB also made more outs as they did not always succeed.</p></li>
+<li><p>Does a player with high SB total help produce runs? Can we use data science to determine if it’s better to pay for players with high BB or SB?</p></li>
+</ul>
+</section>
+<section id="base-on-balls-or-stolen-bases" class="level2" data-number="21.4">
+<h2 data-number="21.4" class="anchored" data-anchor-id="base-on-balls-or-stolen-bases"><span class="header-section-number">21.4</span> Base on balls or stolen bases?</h2>
+<p>Let’s explore if stolen bases or</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> Teams <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID <span class="sc">%in%</span> <span class="dv">1962</span><span class="sc">:</span><span class="dv">2002</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">team =</span> teamID, <span class="at">year =</span> yearID, <span class="at">r =</span> R<span class="sc">/</span>G, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">singles =</span> (H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR)<span class="sc">/</span>G, <span class="at">doubles =</span> X2B<span class="sc">/</span>G, <span class="at">triples =</span> X3B<span class="sc">/</span>G, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">hr =</span> HR<span class="sc">/</span>G,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">sb =</span> SB<span class="sc">/</span>G, <span class="at">bb =</span> BB<span class="sc">/</span>G) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(team, year, r, singles, doubles, triples, hr, sb, bb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s start with a obvious question: does teams that hit more home runs score more runs? The visualization of choice when exploring the relationship between two variables is a scatter plot.</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/runs-vs-hrs_91465e6b0625594bf0eefa1e3b227f56">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(hr, r)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/runs-vs-hrs-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We defined <code>p</code> because we will add to this plot latter. The plot shows a strong association: teams with more HRs tend to score more runs. Now let’s examine the relationship between stolen bases and runs:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/runs-vs-sb_64978b5fc46078bf9097918b7395eebb">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(sb, r)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/runs-vs-sb-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here the relationship is not as clear. Finally, let’s examine the relationship between BB and runs:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/runs-vs-bb_c6fbc485339b25e4c188aa244e8eae29">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(bb, r)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/runs-vs-bb-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here again we see a clear association. But does this mean that increasing a team’s BBs <strong>causes</strong> an increase in runs? One of the most important lessons you learn in this book is that <strong>association is not causation.</strong> In fact, it looks like BBs and HRs are also associated:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/bb-vs-hrs_f26b3cc32f3a666ec0c00a9571d2c735">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(hr, bb)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/bb-vs-hrs-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>We know that HRs cause runs because when a player hits a HR they are guaranteed at least one run. Could it be that HRs also cause BB and this makes it appear as if BB cause runs? When this happens we say there is <em>confounding</em>, an important concept we will learn more about throughout this chapter.</li>
+</ul>
+<p>8 Linear regression will help us parse all this out and quantify the associations.</p>
+</section>
+<section id="regression-applied-to-baseball-statistics" class="level2" data-number="21.5">
+<h2 data-number="21.5" class="anchored" data-anchor-id="regression-applied-to-baseball-statistics"><span class="header-section-number">21.5</span> Regression applied to baseball statistics</h2>
+<ul>
+<li><p>Can we use regression with these data?</p></li>
+<li><p>Does the bivariate normal model work?</p></li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/hr-by-runs-qq_f3b04dee614f1db6961f9cad5b2e1720">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">z_hr =</span> <span class="fu">round</span>(<span class="fu">scale</span>(hr))) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(z_hr <span class="sc">%in%</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span>  </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>(<span class="fu">aes</span>(<span class="at">sample =</span> r)) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>z_hr) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/hr-by-runs-qq-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Let’s use linear regression to predict the number of runs a team will score if we know how many home runs the team hits using regression:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/hr-versus-runs-regression_e89e585c41a5c4f0800ce88655e965de">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>hr_fit  <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> hr, <span class="at">data =</span> dat)<span class="sc">$</span>coef</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_abline</span>(<span class="at">intercept =</span> hr_fit[[<span class="dv">1</span>]], <span class="at">slope =</span> hr_fit[[<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/hr-versus-runs-regression-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Faster with <code>geom_smooth</code>:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/hr-versus-runs-regression-easy_9ca9551c215f498bd9dc065b5adf95b6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/hr-versus-runs-regression-easy-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The slope is</p>
+<p><span class="math display">\[
+lm(r ~ hr, data = dat)$coef[[2]]
+\]</span></p>
+<ul>
+<li><p>So this tells us that teams that hit 1 more HR per game than the average team, score this coefficient amount of runs per game than the average team.</p></li>
+<li><p>Not surprisingly, HR hitters are very expensive we will need to find some other way to increase wins. We will use linear regression.</p></li>
+</ul>
+</section>
+<section id="the-broom-package" class="level2" data-number="21.6">
+<h2 data-number="21.6" class="anchored" data-anchor-id="the-broom-package"><span class="header-section-number">21.6</span> The broom package</h2>
+<p>The <strong>broom</strong> package facilitates the use of R function such as <code>lm</code> within the tidyverse.</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-3_e9f454dae877a74d8ed644191b7898bc">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> bb, <span class="at">data =</span> dat)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    1.93     0.116       16.7 1.91e-55
+2 bb             0.739    0.0348      21.2 1.90e-83</code></pre>
+</div>
+</div>
+<p>We can add other important summaries, such as confidence intervals:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-4_09689c22b922620f50d52fc79f2fdbb1">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    1.93     0.116       16.7 1.91e-55    1.70      2.15 
+2 bb             0.739    0.0348      21.2 1.90e-83    0.671     0.807</code></pre>
+</div>
+</div>
+<p>Another useful function in <strong>broom</strong>:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-5_a796ef59532a12d8f80f98cd30d1c2e6">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 12
+  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     0.304         0.303 0.493      451. 1.90e-83     1  -737. 1480. 1495.
+# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>As an alternative to</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-6_1d8aaac38163d91ef5802b4a516ceaa3">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = r ~ bb, data = dat)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.34598 -0.34959 -0.00931  0.35370  1.60233 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.92615    0.11556   16.67   &lt;2e-16 ***
+bb           0.73887    0.03477   21.25   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4926 on 1036 degrees of freedom
+Multiple R-squared:  0.3035,    Adjusted R-squared:  0.3029 
+F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="confounding" class="level2" data-number="21.7">
+<h2 data-number="21.7" class="anchored" data-anchor-id="confounding"><span class="header-section-number">21.7</span> Confounding</h2>
+<ul>
+<li>Previously, we noted a strong relationship between Runs and BB. If we find the regression line for predicting runs from bases on balls, we a get slope of:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-7_af6fc16c0ba9802a83d4e2abbb34347f">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>bb_slope <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> bb, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>bb_slope </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       bb 
+0.7388725 </code></pre>
+</div>
+</div>
+<ul>
+<li><p>So does this mean that if we go and hire low salary players with many BB, and who therefore increase the number of walks per game by 2, our team will score these many more runs per game? <strong>Association is not causation</strong>.</p></li>
+<li><p>Note that if we compute the regression line slope for singles we get:</p></li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-8_abf8928a827127b2b9edf5d815311fc3">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(r <span class="sc">~</span> singles, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  singles 
+0.4324101 </code></pre>
+</div>
+</div>
+<ul>
+<li>The reason this happen is because of confounding. Here we show the correlation between HR, BB, and singles:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-9_d24a1c53655a62507f2128acff12c113">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">cor</span>(bb, hr), <span class="fu">cor</span>(singles, hr), <span class="fu">cor</span>(bb, singles))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  cor(bb, hr) cor(singles, hr) cor(bb, singles)
+1   0.4064585       -0.1862848      -0.05126617</code></pre>
+</div>
+</div>
+<ul>
+<li>Explanation from experts: pitchers, afraid of HRs, will sometimes avoid throwing strikes to HR hitters.</li>
+</ul>
+</section>
+<section id="understanding-confounding-through-stratification" class="level2" data-number="21.8">
+<h2 data-number="21.8" class="anchored" data-anchor-id="understanding-confounding-through-stratification"><span class="header-section-number">21.8</span> Understanding confounding through stratification</h2>
+<p>Does the relationship between BB and R hold if we keep HR fixed?</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/runs-vs-bb-by-hr-strata_72398616982d819f5b2f2862f12dac9e">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hr_strata =</span> <span class="fu">round</span>(hr, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hr_strata <span class="sc">&gt;=</span> <span class="fl">0.4</span> <span class="sc">&amp;</span> hr_strata <span class="sc">&lt;=</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(bb, r)) <span class="sc">+</span>  </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hr_strata) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/runs-vs-bb-by-hr-strata-1.png" class="img-fluid" style="width:80.0%"></p>
+</div>
+</div>
+<ul>
+<li>Remember that the regression slope for predicting runs with BB was</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-10_bbc4df0d58179b8e41d3148ce0da57a2">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(bb_slope, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> bb 
+0.7 </code></pre>
+</div>
+</div>
+<ul>
+<li>Once we stratify by HR, these slopes are substantially reduced:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-11_5b3532c5c3c62a240bc113e1470a9081">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hr_strata =</span> <span class="fu">round</span>(hr, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hr_strata <span class="sc">&gt;=</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> hr_strata <span class="sc">&lt;=</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hr_strata) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="fu">tidy</span>(<span class="fu">lm</span>(r <span class="sc">~</span> bb))) <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"bb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 6
+  hr_strata term  estimate std.error statistic  p.value
+      &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1       0.5 bb       0.566    0.110       5.14 3.02e- 6
+2       0.6 bb       0.405    0.0984      4.12 7.46e- 5
+3       0.7 bb       0.284    0.0717      3.96 1.13e- 4
+4       0.8 bb       0.378    0.0638      5.92 1.75e- 8
+5       0.9 bb       0.254    0.0762      3.33 1.08e- 3
+6       1   bb       0.506    0.0720      7.02 9.46e-11
+7       1.1 bb       0.444    0.0878      5.06 2.77e- 6
+8       1.2 bb       0.469    0.0804      5.84 2.91e- 7</code></pre>
+</div>
+</div>
+<ul>
+<li><p>The slopes are reduced, but they are not 0, which indicates that BBs are helpful for producing runs, just not as much as previously thought.</p></li>
+<li><p>In fact, the values above are closer to the slope we obtained from singles,</p></li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-12_c0533a2ce119c00ccd7535424657cc09">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">lm</span>(r<span class="sc">~</span>singles, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>singles 
+    0.4 </code></pre>
+</div>
+</div>
+<ul>
+<li>This is more consistent with our intuition since both singles and BB get us to first base, they should have about the same predictive power.</li>
+</ul>
+</section>
+<section id="sec-regression-in-r" class="level2" data-number="21.9">
+<h2 data-number="21.9" class="anchored" data-anchor-id="sec-regression-in-r"><span class="header-section-number">21.9</span> Multivariable regression</h2>
+<ul>
+<li>It is somewhat complex to be computing regression lines for each strata. We are essentially fitting models like this:</li>
+</ul>
+<p><span class="math display">\[
+\mbox{E}[R \mid BB = x_1, \, HR = x_2] = \beta_0 + \beta_1(x_2) x_1 + \beta_2(x_1) x_2
+\]</span></p>
+<ul>
+<li><p>If we take random variability into account, the slopes in the strata don’t appear to change much. If these slopes are in fact the same, this implies that <span class="math inline">\(\beta_1(x_2)\)</span> and <span class="math inline">\(\beta_2(x_1)\)</span> are constants.</p></li>
+<li><p>This in turn implies that the expectation of runs conditioned on HR and BB can be written like this:</p></li>
+</ul>
+<p><span class="math display">\[
+\mbox{E}[R \mid BB = x_1, \, HR = x_2] = \beta_0 + \beta_1 x_1 + \beta_2 x_2
+\]</span></p>
+<ul>
+<li>In this analysis, referred to as <em>multivariable regression</em>, you will often hear people say that the BB slope <span class="math inline">\(\beta_1\)</span> is <em>adjusted</em> for the HR effect.</li>
+</ul>
+<p>8 Because the data is approximately normal and conditional distributions were also normal we are justified in using a linear model:</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \varepsilon_i
+\]</span></p>
+<p>with <span class="math inline">\(Y_i\)</span> runs per game for team <span class="math inline">\(i\)</span>, <span class="math inline">\(x_{i,1}\)</span> walks per game, and <span class="math inline">\(x_{i,2}\)</span>.</p>
+<ul>
+<li>To use <code>lm</code> here, we need to let the function know we have two predictor variables. So we use the <code>+</code> symbol as follows:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-13_a2c22c29b6158b5efa20cbc672c9327b">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">lm</span>(r <span class="sc">~</span> bb <span class="sc">+</span> hr, <span class="at">data =</span> dat), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    1.74     0.0820      21.2 3.38e- 83    1.58      1.90 
+2 bb             0.387    0.0269      14.4 8.41e- 43    0.334     0.440
+3 hr             1.57     0.0488      32.1 1.39e-157    1.47      1.66 </code></pre>
+</div>
+</div>
+<p>When we fit the model with only one variable, the estimated slopes were</p>
+<p><span class="math display">\[
+lm(r ~ bb, data = dat)$coef[2]
+lm(r ~ hr, data = dat)$coef[2]
+\]</span></p>
+<p>Note that when fitting the multivariable model both go down, with the BB effect decreasing much more.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You are ready to do exercises 1-12 if you want to practice before continuing.</p>
+</div>
+</div>
+</section>
+<section id="building-a-baseball-team" class="level2" data-number="21.10">
+<h2 data-number="21.10" class="anchored" data-anchor-id="building-a-baseball-team"><span class="header-section-number">21.10</span> Building a baseball team</h2>
+<ul>
+<li>We take somewhat of a “leap of faith” and assume that these five variables are jointly normal.</li>
+</ul>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{i,4} + \beta_5 x_{i,5} + \varepsilon_i
+\]</span></p>
+<p>with <span class="math inline">\(x_{i,1}, x_{i,2}, x_{i,3}, x_{i,4}, x_{i,5}\)</span> representing BB, singles, doubles, triples, and HR respectively.</p>
+<ul>
+<li>Using <code>lm</code>, we can quickly find the LSE for the parameters using:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-14_bb320e73523592b5815886dc614c985d">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span>  <span class="fu">filter</span>(year <span class="sc">&lt;=</span> <span class="dv">2001</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(r <span class="sc">~</span> bb <span class="sc">+</span> singles <span class="sc">+</span> doubles <span class="sc">+</span> triples <span class="sc">+</span> hr, <span class="at">data =</span> _)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Note we fit the model to data up until 2001, the year before we will construct our team.</p></li>
+<li><p>Here are the resulting estimates:</p></li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-15_8f1fd3efd2f7cc0c5ad92278c7df67b5">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  term    estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 bb         0.370    0.0119      31.2 1.00e-149    0.347     0.393
+2 singles    0.517    0.0128      40.5 5.29e-213    0.492     0.543
+3 doubles    0.775    0.0229      33.8 7.09e-168    0.730     0.820
+4 triples    1.24     0.0778      15.9 4.62e- 51    1.09      1.39 
+5 hr         1.44     0.0248      58.1 1.98e-323    1.39      1.49 </code></pre>
+</div>
+</div>
+<p>To see how well our metric actually predicts runs, we can predict the number of runs for each team in 2002 using the function <code>predict</code>, then make a plot:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/model-predicts-runs_61d30bab3203413528f2b671f8401afd">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">r_hat =</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> dat)) <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(r_hat, r, <span class="at">label =</span> team)) <span class="sc">+</span> </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_x =</span> <span class="fl">0.1</span>, <span class="at">cex =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/model-predicts-runs-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>This motivates the definition of a new statistic that is more related to run production:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-16_8f295a41de7aaaa24e96d7016756788a">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">coef</span>(fit), <span class="dv">2</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(b[<span class="dv">1</span>], <span class="st">"+"</span>, </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">2</span>], <span class="st">"x BB +"</span>, </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">3</span>], <span class="st">"x singles +"</span>, </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">4</span>], <span class="st">"x doubles +"</span>,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">5</span>], <span class="st">"x triples +"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">6</span>], <span class="st">"x HR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-2.76 + 0.37 x BB + 0.52 x singles + 0.78 x doubles + 1.24 x triples + 1.44 x HR</code></pre>
+</div>
+</div>
+<ul>
+<li>We apply to statistic to each player but using a per plate appearance:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-17_6de920ed82ccf56b9c85c044ef42220d">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pa_per_game <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(teamID) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pa_per_game =</span> <span class="fu">sum</span>(AB <span class="sc">+</span> BB)<span class="sc">/</span><span class="dv">162</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(pa_per_game) <span class="sc">|&gt;</span> </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> </span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">%in%</span> <span class="dv">1997</span><span class="sc">:</span><span class="dv">2001</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pa =</span> BB <span class="sc">+</span> AB) <span class="sc">|&gt;</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">g =</span> <span class="fu">sum</span>(pa)<span class="sc">/</span>pa_per_game,</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">bb =</span> <span class="fu">sum</span>(BB)<span class="sc">/</span>g,</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">singles =</span> <span class="fu">sum</span>(H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR)<span class="sc">/</span>g,</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">doubles =</span> <span class="fu">sum</span>(X2B)<span class="sc">/</span>g, </span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">triples =</span> <span class="fu">sum</span>(X3B)<span class="sc">/</span>g, </span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr =</span> <span class="fu">sum</span>(HR)<span class="sc">/</span>g,</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg =</span> <span class="fu">sum</span>(H)<span class="sc">/</span><span class="fu">sum</span>(AB),</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">pa =</span> <span class="fu">sum</span>(pa)) <span class="sc">|&gt;</span></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pa <span class="sc">&gt;=</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>g)</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>players<span class="sc">$</span>r_hat <span class="ot">=</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The distribution shows that there is wide variability across players:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/r-hat-hist_76a7923ab864145860d06591aca1754e">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(players<span class="sc">$</span>r_hat, <span class="at">main =</span> <span class="st">"Predicted runs per game"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/r-hat-hist-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>To actually build the team, we will need to know their salaries as well as their defensive position.</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-18_4983fb498a41c6103e6f0a5e54c6d185">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> Salaries <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, salary) <span class="sc">|&gt;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Next add their defensive position</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-19_13f4f52f77531b9c7ddd7f081ce6aa6c">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>position_names <span class="ot">&lt;-</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"G_"</span>, <span class="fu">c</span>(<span class="st">"p"</span>,<span class="st">"c"</span>,<span class="st">"1b"</span>,<span class="st">"2b"</span>,<span class="st">"3b"</span>,<span class="st">"ss"</span>,<span class="st">"lf"</span>,<span class="st">"cf"</span>,<span class="st">"rf"</span>, <span class="st">"dh"</span>))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> Appearances <span class="sc">|&gt;</span> </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize_at</span>(position_names, sum) <span class="sc">|&gt;</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>pos <span class="ot">&lt;-</span> tmp <span class="sc">|&gt;</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(position_names)) <span class="sc">|&gt;</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">X =</span> _, <span class="dv">1</span>, which.max) </span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">playerID =</span> tmp<span class="sc">$</span>playerID, <span class="at">POS =</span> position_names[pos]) <span class="sc">|&gt;</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">POS =</span> <span class="fu">str_to_upper</span>(<span class="fu">str_remove</span>(POS, <span class="st">"G_"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(POS <span class="sc">!=</span> <span class="st">"P"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(POS)  <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(salary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Finally, we add their first and last name:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-20_098b8b4dfb64ac95faf4aa9309f29d06">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> People <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, nameFirst, nameLast, debut) <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">debut =</span> <span class="fu">as.Date</span>(debut)) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you are a baseball fan, you will recognize the top 10 players according to our new metric:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-21_2bb9a062f852209fb2d420996f8327d0">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>players <span class="sc">|&gt;</span> <span class="fu">select</span>(nameFirst, nameLast, POS, salary, r_hat) <span class="sc">|&gt;</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(r_hat)) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   nameFirst nameLast POS   salary    r_hat
+1      Barry    Bonds  LF 15000000 8.052460
+2      Larry   Walker  RF 12666667 7.960583
+3       Todd   Helton  1B  5000000 7.403074
+4      Manny  Ramirez  LF 15462727 7.352475
+5      Sammy     Sosa  RF 15000000 7.201670
+6       Jeff  Bagwell  1B 11000000 7.053805
+7       Mike   Piazza   C 10571429 6.993616
+8      Jason   Giambi  1B 10428571 6.916405
+9      Edgar Martinez  DH  7086668 6.912145
+10       Jim    Thome  1B  8000000 6.885270</code></pre>
+</div>
+</div>
+<ul>
+<li>On average, players with a higher metric have higher salaries:</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/predicted-runs-vs-salary_b37202561986b34b2fdd9d89114e44c0">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>players <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(salary, r_hat, <span class="at">color =</span> POS)) <span class="sc">+</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="21-multivariate-regression_files/figure-html/predicted-runs-vs-salary-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>We can search for good deals by looking at players who produce many more runs than others with similar salaries.</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  nameFirst  nameLast POS   salary    r_hat
+1      Todd    Helton  1B  5000000 7.403074
+2      Mike    Piazza   C 10571429 6.993616
+3     Edgar  Martinez  DH  7086668 6.912145
+4       Jim   Edmonds  CF  7333333 6.231373
+5      Jeff      Kent  2B  6000000 6.079064
+6      Phil     Nevin  3B  2600000 5.857409
+7      Matt    Stairs  RF   500000 5.758631
+8     Henry Rodriguez  LF   300000 5.640563
+9      John  Valentin  SS   550000 5.000417</code></pre>
+</div>
+</div>
+<ul>
+<li>We see that all these players have above average BB and most have above average HR rates, while the same is not true for singles and batting average. Here is a table with statistics standardized across players so that, for example, above average HR hitters have values above 0.</li>
+</ul>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-23_22f23ec62a93a656fa8ce742dbc5f958">
+<div class="cell-output cell-output-stdout">
+<pre><code>   nameLast        bb      singles     doubles    triples          hr
+1    Helton 0.9088340 -0.214782777  2.64899973 -0.3105275  1.52212542
+2    Piazza 0.3281058  0.423121711  0.20371605 -1.4181571  1.82536533
+3  Martinez 2.1352215 -0.005170206  1.26490438 -1.2242578  0.80798171
+4   Edmonds 1.0706548 -0.557910413  0.79123812 -1.1517126  0.97300516
+5      Kent 0.2316321 -0.732290164  2.01139875  0.4483097  0.76586929
+6     Nevin 0.3066863 -0.905122480  0.47876338 -1.1908955  1.19270552
+7    Stairs 1.0996635 -1.512756207 -0.04608759 -1.1285395  1.12090808
+8 Rodriguez 0.2011513 -1.596359532  0.33245570 -0.7823620  1.32027344
+9  Valentin 0.1802855 -0.928706889  1.79403790 -0.4348410 -0.04524622
+         avg       r_hat
+1  2.6704562  2.54160226
+2  2.1990055  2.09347964
+3  2.2032836  2.00431446
+4  0.8543566  1.25925673
+5  0.7871932  1.09256504
+6  0.1048721  0.84997981
+7 -0.5608456  0.74187395
+8 -0.6723416  0.61265636
+9 -0.4717038 -0.08793886</code></pre>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="21.11">
+<h2 data-number="21.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">21.11</span> Exercises</h2>
+<p>We have shown how BB and singles have similar predictive power for scoring runs. Another way to compare the usefulness of these baseball metrics is by assessing how stable they are across the years. Since we have to pick players based on their previous performances, we will prefer metrics that are more stable. In these exercises, we will compare the stability of singles and BBs.</p>
+<p>1. Before we get started, we want to generate two tables. One for 2002 and another for the average of 1999-2001 seasons. We want to define per plate appearance statistics. Here is how we create the 2017 table. Keeping only players with more than 100 plate appearances.</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-24_f3bedf017d0724f73371adc83a01de25">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pa =</span> AB <span class="sc">+</span> BB, </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">singles =</span> (H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR) <span class="sc">/</span> pa, <span class="at">bb =</span> BB <span class="sc">/</span> pa) <span class="sc">|&gt;</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pa <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, singles, bb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now compute a similar table but with rates computed over 1999-2001.</p>
+<p>2. You can use the <code>inner_join</code> function to combine the 2001 data and averages in the same table:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-25_c8a78aadab2e2a009302e6f7ab1d9dfe">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(dat, avg, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Compute the correlation between 2002 and the previous seasons for singles and BB.</p>
+<p>3. Note that the correlation is higher for BB. To quickly get an idea of the uncertainty associated with this correlation estimate, we will fit a linear model and compute confidence intervals for the slope coefficient. However, first make scatterplots to confirm that fitting a linear model is appropriate.</p>
+<p>4. Now fit a linear model for each metric and use the <code>confint</code> function to compare the estimates.</p>
+<p>5. In a previous section, we computed the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons, and noticed that the highest correlation is between fathers and sons and the lowest is between mothers and sons. We can compute these correlations using:</p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-26_4ec6b3945f96b79bbb6152af218e975b">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="ot">&lt;-</span> GaltonFamilies <span class="sc">|&gt;</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(family, gender) <span class="sc">|&gt;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>cors <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(father<span class="sc">:</span>mother, <span class="at">names_to =</span> <span class="st">"parent"</span>, <span class="at">values_to =</span> <span class="st">"parentHeight"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">child =</span> <span class="fu">ifelse</span>(gender <span class="sc">==</span> <span class="st">"female"</span>, <span class="st">"daughter"</span>, <span class="st">"son"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(pair, <span class="fu">c</span>(<span class="st">"parent"</span>, <span class="st">"child"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pair) <span class="sc">|&gt;</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">cor =</span> <span class="fu">cor</span>(parentHeight, childHeight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Are these differences statistically significant? To answer this, we will compute the slopes of the regression line along with their standard errors. Start by using <code>lm</code> and the <strong>broom</strong> package to compute the slopes LSE and the standard errors.</p>
+<p>6. Repeat the exercise above, but compute a confidence interval as well.</p>
+<p>7. Plot the confidence intervals and notice that they overlap, which implies that the data is consistent with the inheritance of height being independent of sex.</p>
+<p>8. Because we are selecting children at random, we can actually do something like a permutation test here. Repeat the computation of correlations 100 times taking a different sample each time. Hint: use similar code to what we used with simulations.</p>
+<p>9. Fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the <code>tidy</code> function in the <strong>broom</strong> package to obtain the results in a data frame.</p>
+<p>10. Now let’s repeat the above for each year since 1962 and make a plot. Use <code>summarize</code> and the <strong>broom</strong> package to fit this model for every year since 1962.</p>
+<p>11. Use the results of the previous exercise to plot the estimated effects of BB on runs.</p>
+<p>12. <strong>Advanced</strong>. Write a function that takes R, HR, and BB as arguments and fits two linear models: <code>R ~ BB</code> and <code>R~BB+HR</code>. Then use the <code>summary</code> function to obtain the <code>BB</code> for both models for each year since 1962. Then plot these against each other as a function of time.</p>
+<p>13. Since the 1980s, sabermetricians have used a summary statistic different from batting average to evaluate players. They realized walks were important and that doubles, triples, and HRs, should be weighed more than singles. As a result, they proposed the following metric:</p>
+<p><span class="math display">\[
+\frac{\mbox{BB}}{\mbox{PA}} + \frac{\mbox{Singles} + 2 \mbox{Doubles} + 3 \mbox{Triples} + 4\mbox{HR}}{\mbox{AB}}
+\]</span></p>
+<p>They called this on-base-percentage plus slugging percentage (OPS). Although the sabermetricians probably did not use regression, here we show how this metric is close to what one gets with regression.</p>
+<p>Compute the OPS for each team in the 2001 season. Then plot Runs per game versus OPS.</p>
+<p>14. For every year since 1962, compute the correlation between runs per game and OPS; then plot these correlations as a function of year.</p>
+<p>15. Note that we can rewrite OPS as a weighted average of BBs, singles, doubles, triples, and HRs. We know that the weights for doubles, triples, and HRs are 2, 3, and 4 times that of singles. But what about BB? What is the weight for BB relative to singles? Hint: the weight for BB relative to singles will be a function of AB and PA.</p>
+<p>16. Note that the weight for BB, <span class="math inline">\(\frac{\mbox{AB}}{\mbox{PA}}\)</span>, will change from team to team. To see how variable it is, compute and plot this quantity for each team for each year since 1962. Then plot it again, but instead of computing it for every team, compute and plot the ratio for the entire year. Then, once you are convinced that there is not much of a time or team trend, report the overall average.</p>
+<p>17. So now we know that the formula for OPS is proportional to <span class="math inline">\(0.91 \times \mbox{BB} + \mbox{singles} + 2 \times \mbox{doubles} + 3 \times \mbox{triples} + 4 \times \mbox{HR}\)</span>. Let’s see how these coefficients compare to those obtained with regression. Fit a regression model to the data after 1962, as done earlier: using per game statistics for each year for each team. After fitting this model, report the coefficients as weights relative to the coefficient for singles.</p>
+<p>18. We see that our linear regression model coefficients follow the same general trend as those used by OPS, but with slightly less weight for metrics other than singles. For each team in years after 1962, compute the OPS, the predicted runs with the regression model and compute the correlation between the two as well as the correlation with runs per game.</p>
+<p>19. We see that using the regression approach predicts runs slightly better than OPS, but not that much. However, note that we have been computing OPS and predicting runs for teams when these measures are used to evaluate players. Let’s show that OPS is quite similar to what one obtains with regression at the player level. For the 1962 season and after, compute the OPS and the predicted runs from our model for each player and plot them. Use the PA per game correction we used in the previous chapter:</p>
+<p>20. What players have show the largest difference between their rank by predicted runs and OPS?</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./20-regression.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
