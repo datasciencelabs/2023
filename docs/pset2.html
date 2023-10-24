@@ -299,6 +299,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./22-linear-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -472,7 +478,7 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <li><p>First step is to obtain a census key. You can request one here <a href="https://api.census.gov/data/key_signup.html" class="uri">https://api.census.gov/data/key_signup.html</a>. Once you have a key create a file in your directory called <code>census-key.R</code> that simply defines the variable <code>census_key</code> to be your personal key. Do not share this key publicly. The quarto file you turn in should not show your census key, instead it should source a file called <code>census-key.R</code> to define the variable. We will have a file on our end with our key so your script can knit.</p></li>
 <li><p>Once you have your key you can use the <code>httr2</code> package to download the data directly from the Census data base. We will start downloading the intercensus data from 2000-2009 (<a href="https://www.census.gov/data/developers/data-sets/popest-popproj/popest/popest-vars.2000-2010_Intercensals.html#list-tab-794389051">data dictionary here</a>). We will download it only for Puerto Rico which has region ID 72. The following code downloads the data.</p></li>
 </ol>
-<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-5_50cb87ddb60e2647f22af8b1afa7717f">
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-5_07db2ef4f9ce9cb376f54c6aff435f0d">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2000/pep"</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"int_charage?get=POP,SEX,AGE,DATE_&amp;for=state:72&amp;key="</span>, census_key)</span>
@@ -481,15 +487,43 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The data is now included in <code>response</code> and you can access it using the <code>resp</code> functions in <strong>httr2</strong>. Examine the results you obtain when applying <code>resp_body_string</code>. Write code to convert this into a data frame with columns names <code>year</code>, <code>sex</code>, <code>age</code>, and <code>population</code> and call it <code>pop1</code>. Hint: Use the function <code>fromJSON</code> from the <strong>jsonlite</strong> package. The functions <code>row_to_names</code> and <code>clean_names</code> from the <strong>janitor</strong> package might also be handy. Use the codebook to understand how the <code>date</code> column relates to year.</p>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-6_720b70bfbbe44b7d779b8064828ecbc7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pop1 <span class="ot">&lt;-</span> response <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>(<span class="at">flatten =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_to_names</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), parse_number)) <span class="sc">|&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">!=</span> <span class="dv">999</span> <span class="sc">&amp;</span> sex <span class="sc">!=</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">between</span>(date , <span class="dv">2</span>, <span class="dv">11</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">factor</span>(sex, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>)), <span class="at">year =</span>  <span class="dv">2000</span> <span class="sc">+</span> date <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(date, state))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ol start="11" class="example" type="1">
 <li>Now we will obtain data for 2010-2019. The intercensal data is not available so we will use <em>Vintage</em> 2019 data (<a href="https://www.census.gov/data/developers/data-sets/popest-popproj/popest/popest-vars.Vintage_2019.html">data dictionary here</a>). We can follow a similar procedure but with the following API and endpoints:</li>
 </ol>
-<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-6_aaf56ec1026c5a74a3b5d9633caac43e">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2019/pep"</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"charage?get=POP,SEX,AGE,DATE_CODE&amp;for=state:72&amp;key="</span>, census_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-7_5059455efdacc6ada6cc69a3dea4c906">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://api.census.gov/data/2019/pep"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"census-key.R"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>endpoint <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"charage?get=POP,SEX,AGE,DATE_CODE&amp;for=state:72&amp;key="</span>, census_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Download the data and write code to convert this into a data frame with columns names <code>year</code>, <code>sex</code>, <code>age</code>, and <code>population</code> and call it <code>pop2</code>.</p>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-8_ae81460e5a5c8c32c3b8f5545ad00815">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">request</span>(url) <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_url_path_append</span>(endpoint) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">req_perform</span>()  </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span> response <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">resp_body_string</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>(<span class="at">flatten =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_to_names</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), parse_number)) <span class="sc">|&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age <span class="sc">!=</span> <span class="dv">999</span> <span class="sc">&amp;</span> sex <span class="sc">!=</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">between</span>(date_code , <span class="dv">3</span>, <span class="dv">12</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">factor</span>(sex, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>)), <span class="at">year =</span> <span class="dv">2010</span> <span class="sc">+</span> date_code <span class="sc">-</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(date_code, state)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ol start="12" class="example" type="1">
 <li>Combine the data frames <code>pop1</code> and <code>pop2</code> created in the previous exercises to form one population data frame called <code>population</code> and including all year. Make sure the 85+ category is correctly computed on the two datasets. Save it to a file called <code>population.rds</code> in your rds.</li>
 </ol>
@@ -498,8 +532,8 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <h2 class="unnumbered anchored" data-anchor-id="daily-count-data">Daily count data</h2>
 <p>Let’s repeat the analysis done in the preprint but now using 2002-2016 data and, to better see the effect of the hurricane, let’s use weekly instead of monthly and start our weeks on the day the hurricane hit.</p>
 <p>You can load the data from the <strong>excessmort</strong> package.</p>
-<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-7_ca3f9efc65282a5685d4abebed2f8be7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-9_fba36171f2a55cb28d8768f49a4bab33">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="13" class="example" type="1">
 <li><p>Define an object <code>counts</code> by wrangling <code>puerto_rico_counts</code> to 1) include data only from 2002-2017, 2) remove the population column, and 3) to match our population, combine the counts for those 85 and older together.</p></li>

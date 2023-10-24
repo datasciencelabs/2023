@@ -23,6 +23,7 @@
 * As motivation for today's lecture, we will pretend it is 2002 and try to build a baseball team with a limited budget, just like the A's had to do. To appreciate what you are up against, note that in 2002 the Yankees' payroll of \$125,928,583 more than tripled the Oakland A's \$39,679,746:
 
 ```{r mlb-2002-payroll, echo=FALSE, message=FALSE, warning=FALSE, fig.height = 4.5}
+library(Lahman)
 library(tidyverse)
 library(rvest)
 url <- "http://www.stevetheump.com/Payrolls.htm"
@@ -137,7 +138,7 @@ Here the relationship is not as clear. Finally, let's examine the relationship b
 dat |> ggplot(aes(bb, r)) + geom_point(alpha = 0.5)
 ```
 
-Here again we see a clear association. But does this mean that increasing a team's BBs **causes** an increase in runs? One of the most important lessons you learn in this book is that **association is not causation.** In fact, it looks like BBs and HRs are also associated:
+Here again we see a clear association. But does this mean that increasing a team's BBs **causes** an increase in runs? One of the most important lessons you learn in this course is that **association is not causation.** In fact, it looks like BBs and HRs are also associated:
 
 ```{r bb-vs-hrs}
 dat |> ggplot(aes(hr, bb)) + geom_point(alpha = 0.5)
@@ -537,7 +538,7 @@ Compute the correlation between 2002 and the previous seasons for singles and BB
 4\. Now fit a linear model for each metric and use the `confint` function to compare the estimates.
 
 
-5\. In a previous section, we computed the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons, and noticed that the highest correlation is between fathers and sons and the lowest is between mothers and sons. We can compute these correlations using:
+5\. We cam compute the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons (we randomly pick one offspring) using the following:
 
 ```{r, eval=FALSE}
 library(HistData)
@@ -569,8 +570,7 @@ Are these differences statistically significant? To answer this, we will compute
 
 11\. Use the results of the previous exercise to plot the estimated effects of BB on runs.
 
-12\. **Advanced**. Write a function that takes R, HR, and BB as arguments and fits two linear models: `R ~ BB` and `R~BB+HR`. Then use the `summary` function to obtain the `BB` for both models for each year since 1962. Then plot these against each other as a function of time.
-
+12\. Write a function that takes R, HR, and BB as arguments and fits two linear models: `R ~ BB` and `R~BB+HR`. Then use the `summary` function to obtain the `BB` for both models for each year since 1962. Then plot these against each other as a function of time.
 
 
 13\. Since the 1980s, sabermetricians have used a summary statistic different from batting average to evaluate players. They realized walks were important and that doubles, triples, and HRs, should be weighed more than singles. As a result, they proposed the following metric:

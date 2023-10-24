@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>BST 260 Introduction to Data Science - 22&nbsp; Linear models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./21-multivariate-regression.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./22-linear-models.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BST 260 Introduction to Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/datasciencelabs/2023" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course description</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-dates-and-times.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dates and times</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-importing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-dataviz-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-web-scraping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-text-mining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./22-linear-models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#measurement-error-models" id="toc-measurement-error-models" class="nav-link active" data-scroll-target="#measurement-error-models"><span class="header-section-number">22.1</span> Measurement error models</a>
+  <ul class="collapse">
+  <li><a href="#example-falling-object" id="toc-example-falling-object" class="nav-link" data-scroll-target="#example-falling-object"><span class="header-section-number">22.1.1</span> Example: falling object</a></li>
+  </ul></li>
+  <li><a href="#sec-treatment-effect-models" id="toc-sec-treatment-effect-models" class="nav-link" data-scroll-target="#sec-treatment-effect-models"><span class="header-section-number">22.2</span> Treatment effect models</a></li>
+  <li><a href="#mice-weights" id="toc-mice-weights" class="nav-link" data-scroll-target="#mice-weights"><span class="header-section-number">22.3</span> Mice weights</a></li>
+  <li><a href="#comparing-group-means" id="toc-comparing-group-means" class="nav-link" data-scroll-target="#comparing-group-means"><span class="header-section-number">22.4</span> Comparing group means</a></li>
+  <li><a href="#hypothesis-testing-review" id="toc-hypothesis-testing-review" class="nav-link" data-scroll-target="#hypothesis-testing-review"><span class="header-section-number">22.5</span> Hypothesis testing review</a></li>
+  <li><a href="#one-factor-design" id="toc-one-factor-design" class="nav-link" data-scroll-target="#one-factor-design"><span class="header-section-number">22.6</span> One factor design</a></li>
+  <li><a href="#two-factor-designs" id="toc-two-factor-designs" class="nav-link" data-scroll-target="#two-factor-designs"><span class="header-section-number">22.7</span> Two factor designs</a></li>
+  <li><a href="#analysis-of-variance" id="toc-analysis-of-variance" class="nav-link" data-scroll-target="#analysis-of-variance"><span class="header-section-number">22.8</span> Analysis of variance</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">22.9</span> Exercises</a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1"><span class="header-section-number">22.10</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/22-linear-models.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="measurement-error-models" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="measurement-error-models"><span class="header-section-number">22.1</span> Measurement error models</h2>
+<ul>
+<li><p>Another major application of linear models comes from measurement errors models.</p></li>
+<li><p>In these applications, it is common to have a non-random covariate, such as time, and randomness is introduced from measurement error rather than sampling or natural variability.</p></li>
+</ul>
+<section id="example-falling-object" class="level3" data-number="22.1.1">
+<h3 data-number="22.1.1" class="anchored" data-anchor-id="example-falling-object"><span class="header-section-number">22.1.1</span> Example: falling object</h3>
+<ul>
+<li><p>Use <strong>dslabs</strong> function <code>rfalling_object</code> generates measurements of position taken from a falling object:</p></li>
+<li><p>Here is the data:</p></li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/gravity_5362e9192d60cfeb952cbf7a32192cb7">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>falling_object <span class="sc">|&gt;</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, observed_distance)) <span class="sc">+</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Distance in meters"</span>) <span class="sc">+</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Time in seconds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="22-linear-models_files/figure-html/gravity-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>The data seems to imply the trajectory follows a parabola, which we can write like this:</li>
+</ul>
+<p><span class="math display">\[
+f(x) = \beta_0 + \beta_1 x + \beta_2 x^2
+\]</span></p>
+<ul>
+<li>But data does not fall exactly on a parabola. This most likely due to measurement error.</li>
+</ul>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \varepsilon_i, i=1,\dots,n
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(Y_i\)</span> representing distance in meters</p></li>
+<li><p><span class="math inline">\(x_i\)</span> representing time in seconds</p></li>
+<li><p><span class="math inline">\(\varepsilon\)</span> accounting for measurement error.</p></li>
+<li><p>The measurement error is assumed to be random, independent from each other, and having the same distribution for each <span class="math inline">\(i\)</span>. We also assume that there is no bias, which means the expected value <span class="math inline">\(\mbox{E}[\varepsilon] = 0\)</span>.</p></li>
+</ul>
+<p>Is this a liner model?</p>
+<ul>
+<li>Note that LSE calculations do not require the errors to be approximately normal so we can use <code>lm</code> to find the <span class="math inline">\(\beta\)</span>s:</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-2_f81dc090d4860ebb399056077c64e469">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> falling_object <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_sq =</span> time<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(observed_distance<span class="sc">~</span>time<span class="sc">+</span>time_sq, <span class="at">data =</span> _)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    57.5      0.813     70.8  5.56e-16
+2 time           -2.31     1.16      -1.99 7.16e- 2
+3 time_sq        -4.31     0.344    -12.5  7.59e- 8</code></pre>
+</div>
+</div>
+<p>Let’s check if the estimated parabola fits the data. The <strong>broom</strong> function <code>augment</code> lets us do this easily:</p>
+<div class="cell" data-hash="22-linear-models_cache/html/falling-object-fit_d5ec5f36d1c13da59b4b3058b2578c3a">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit) <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(time, observed_distance)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(time, .fitted), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="22-linear-models_files/figure-html/falling-object-fit-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>We actually know that the equation for the trajectory of a falling object is:</li>
+</ul>
+<p><span class="math display">\[
+d(t) = h_0 + v_0 t -  0.5 \times 9.8 \, t^2
+\]</span></p>
+<p>with <span class="math inline">\(h_0\)</span> and <span class="math inline">\(v_0\)</span> the starting height and velocity, respectively.</p>
+<ul>
+<li>These are consistent with the parameter estimates:</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-3_23edc1bbe848254b0a9fcf8ba584d4c3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)    57.5      0.813     70.8  5.56e-16    55.7     59.3  
+2 time           -2.31     1.16      -1.99 7.16e- 2    -4.87     0.241
+3 time_sq        -4.31     0.344    -12.5  7.59e- 8    -5.07    -3.55 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-treatment-effect-models" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="sec-treatment-effect-models"><span class="header-section-number">22.2</span> Treatment effect models</h2>
+<ul>
+<li><p>Linear models can also be used to quantify treatment effects in randomized and controlled experiments.</p></li>
+<li><p>One of the first applications was in agriculture,In fact the use of <span class="math inline">\(Y\)</span> for the outcome in Statistics, is due to the mathematical theory being developed for crop <em>yield</em> as the outcome.</p></li>
+<li><p>Since, the same ideas have been applied in other areas, such as randomized trials and <em>A/B testing</em></p></li>
+<li><p>Furthermore, the use of these models has been extended to observational studies to adjust for <em>factors</em> such as age, sex, and smoking status.</p></li>
+</ul>
+</section>
+<section id="mice-weights" class="level2" data-number="22.3">
+<h2 data-number="22.3" class="anchored" data-anchor-id="mice-weights"><span class="header-section-number">22.3</span> Mice weights</h2>
+<p>We are going to examine data from an experiment to see if a high fat diet increases weight.</p>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-4_9a8ae2583e8da679878d998f3bf2b765">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mice_weights<span class="sc">$</span>diet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+chow   hf 
+ 394  386 </code></pre>
+</div>
+</div>
+<ul>
+<li>A boxplot shows that the high fat diet mice are, on average, heavier.</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/weight-by-diet-boxplots_740d19ae092b9585edf8cfc67c9b0c4e">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(mice_weights, <span class="fu">boxplot</span>(body_weight <span class="sc">~</span> diet))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="22-linear-models_files/figure-html/weight-by-diet-boxplots-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>But, given that we divided the mice at random, is it possible the observed difference is simply due to chance?</li>
+</ul>
+</section>
+<section id="comparing-group-means" class="level2" data-number="22.4">
+<h2 data-number="22.4" class="anchored" data-anchor-id="comparing-group-means"><span class="header-section-number">22.4</span> Comparing group means</h2>
+<p>The sample averages for the two groups, high-fat and chow diets, are different:</p>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-5_6f738e3b0610d7b95a96a48c15b3f37e">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mice_weights <span class="sc">|&gt;</span> <span class="fu">group_by</span>(diet) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">average =</span> <span class="fu">mean</span>(body_weight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  diet  average
+  &lt;fct&gt;   &lt;dbl&gt;
+1 chow     31.5
+2 hf       36.7</code></pre>
+</div>
+</div>
+<p>Is this difference due to chance?</p>
+</section>
+<section id="hypothesis-testing-review" class="level2" data-number="22.5">
+<h2 data-number="22.5" class="anchored" data-anchor-id="hypothesis-testing-review"><span class="header-section-number">22.5</span> Hypothesis testing review</h2>
+<ul>
+<li><p>Denote with <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\sigma_1\)</span> the high-fat diet population average and standard deviation for weight.</p></li>
+<li><p>Define <span class="math inline">\(\mu_0\)</span> and <span class="math inline">\(\sigma_0\)</span> similarly for the chow diet.</p></li>
+<li><p>Define <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_0\)</span> as the sample sizes, let’s call them <span class="math inline">\(\bar{X}_1\)</span> and <span class="math inline">\(\bar{X}_0\)</span> as the sample averages, and <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_0\)</span> the sample standard deviations for the for the high-fat and chow diets, respectively.</p></li>
+<li><p>Because this is a random sample the central limit theorem tells us that the difference in averages</p></li>
+</ul>
+<p><span class="math display">\[
+bar{X}_1 - \bar{X}_0
+\]</span></p>
+<p>follows a normal distribution with expected value <span class="math inline">\(\mu_1-\mu_0\)</span> and standard error <span class="math inline">\(\sqrt{\frac{s_1^2}{N_1} + \frac{s_0^2}{N_0}}\)</span>.</p>
+<ul>
+<li>If we define the null hypothesis as the high-fat diet having no effect, or <span class="math inline">\(\mu_1 - \mu_0 = 0\)</span>, the the following summary statistic</li>
+</ul>
+<p><span class="math display">\[
+t = \frac{\bar{X}_1 - \bar{X}_0}{\sqrt{\frac{s_1^2}{N_1} + \frac{s_0^2}{N_0}}}
+\]</span></p>
+<p>follows a standard normal distribution when the null hypothesis is true, which implies we can easily compute the probability of observing a value as large as the one we did:</p>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-6_36bb92744acac398250078dbe294e125">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> mice_weights <span class="sc">|&gt;</span> <span class="fu">group_by</span>(diet) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">xbar =</span> <span class="fu">mean</span>(body_weight), <span class="at">s =</span> <span class="fu">sd</span>(body_weight), <span class="at">n =</span> <span class="fu">n</span>()) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>t_stat <span class="ot">&lt;-</span> <span class="fu">with</span>(stats, (xbar[<span class="dv">2</span>] <span class="sc">-</span> xbar[<span class="dv">1</span>])<span class="sc">/</span><span class="fu">sqrt</span>(s[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n[<span class="dv">2</span>] <span class="sc">+</span> s[<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n[<span class="dv">1</span>]))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>t_stat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.339096</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Here <span class="math inline">\(t\)</span> is well over 3, so we don’t really need to compute the p-value <code>1-pnorm(t_stat)</code> as we know it will be very small.</p></li>
+<li><p>Note that when <span class="math inline">\(N\)</span> is not large, then the CLT does not apply. However, if the outcome data, in this case weight, follows a normal distribution, then <span class="math inline">\(t\)</span> follows a t-distribution with <span class="math inline">\(N_1+N_2-2\)</span> degrees of freedom.</p></li>
+<li><p>So the calculation of the p-value is the same except we use <code>1-pt(t_stat, with(stats, n[2]+n[1]-2)</code> to compute the p-value.</p></li>
+<li><p>Because using differences in mean are so common in scientific studies, this <em>t-statistic</em> is one of the most widely reported summaries. When use it in a hypothesis testing setting, it is referred to a performing a <em>t test</em>.</p></li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the computation above we computed the probability of <code>t</code> being as large as what we observed. However, when we are equally interested in both directions, for example, either an increase or decrease in weight, then we need to compute the probability of <code>t</code> being <em>as extreme</em> as what we observe. The formula simply changes to using the absolute value: <code>1 - pnorm(abs(t-test))</code> or <code>1-pt(t_stat, with(stats, n[2]+n[1]-2)</code>.</p>
+</div>
+</div>
+</section>
+<section id="one-factor-design" class="level2" data-number="22.6">
+<h2 data-number="22.6" class="anchored" data-anchor-id="one-factor-design"><span class="header-section-number">22.6</span> One factor design</h2>
+<ul>
+<li><p>Although the t-test is useful for cases in which we only account for two treatments, it is common to have other variables affect our outcomes.</p></li>
+<li><p>Linear models permit hypothesis testing in more general situations.</p></li>
+<li><p>We start the description of the use linear models for estimating treatment effects by demonstrating how they can be used to perform t-tests.</p></li>
+<li><p>If we assume that the weight distributions for both chow and high-fat diets are normally distributed, we can write the following linear model to represent the data:</p></li>
+</ul>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i
+\]</span></p>
+<ul>
+<li><p>with <span class="math inline">\(X_i\)</span> 1 if the <span class="math inline">\(i\)</span>-th mice was fed the high-fat diet and 0 otherwise and the errors <span class="math inline">\(\varepsilon_i\)</span> independent and normally distributed with expected value 0 and standard deviation <span class="math inline">\(\sigma\)</span>.</p></li>
+<li><p>Notice that now <span class="math inline">\(\beta_0\)</span> represents the population average height of the mice on the chow diet and <span class="math inline">\(\beta_0 + \beta_1\)</span> represents the population average for the weight of the mice on the high-fat diet.</p></li>
+<li><p>A nice feature of this model is that <span class="math inline">\(\beta_1\)</span> represents the <em>treatment effect</em> of receiving the high-fat diet.</p></li>
+<li><p>If the null hypothesis that the high-fat diet has no effect can be quantified as <span class="math inline">\(\beta_1 = 0\)</span>.</p></li>
+<li><p>We can then estimate <span class="math inline">\(\beta_1\)</span> and answer the question of weather or not the observed difference is real by computing the estimates being as large as it was under the null.</p></li>
+<li><p>A powerful characteristics of linear models is that we can can estimate the parameters <span class="math inline">\(\beta\)</span>s and their standard errors with the same LSE machinery:</p></li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-7_32f7710fea27bdc331ef20f59cea22fa">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_weight <span class="sc">~</span> diet, <span class="at">data =</span> mice_weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Because <code>diet</code> is a factor with two entries, the <code>lm</code> function knows to fit the model above with a <span class="math inline">\(x_i\)</span> a indicator variable. The <code>summary</code> function shows us the resulting estimate, standard error, and p-value:</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-8_e37d6d62a3cce9745da94bdc3190c086">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coefficients</span>(<span class="fu">summary</span>(fit))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Estimate Std. Error   t value     Pr(&gt;|t|)
+(Intercept) 31.537005  0.3858192 81.740369 0.000000e+00
+diethf       5.136078  0.5484506  9.364705 8.021959e-20</code></pre>
+</div>
+</div>
+<p>or using <code>broom</code> we can write:</p>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-9_a78ed0376bd4a27e069c45fe86962c1b">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"diethf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 7
+  term   estimate std.error statistic  p.value conf.low conf.high
+  &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 diethf     5.14     0.548      9.36 8.02e-20     4.06      6.21</code></pre>
+</div>
+</div>
+<ul>
+<li>The <code>statistic</code> computed here is the estimate divided by its standard error:</li>
+</ul>
+<p><span class="math display">\[
+\hat{\beta}_1 / \hat{\mbox{SE}}(\hat{\beta}_1)
+\]</span></p>
+<ul>
+<li>In the case for the simple one-factor model, we can show that this statistic is almost equivalent to the t-test.</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-10_e3bc12a138954dfb7173d516862f35ea">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coefficients</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>,<span class="dv">3</span>], t_stat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.364705 9.339096</code></pre>
+</div>
+</div>
+<ul>
+<li>One minor difference is that the linear model does not assume a different standard deviation for each population.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the linear model description provided here we assumed <span class="math inline">\(\varepsilon\)</span> follows a normal distribution. This assumption permits us to show that the statistics formed by dividing estimates by their estimated standard errors follow t-distribution, which in turn permits us to estimate p-values or confidence intervals. However, note that we do not need this assumption to compute the expected value and standard error of the least squared estimates. Furthermore, if the number of observations in large enough, then the central limit theorem applies and we can obtain p-values and confidence intervals even without the normal distribution assumption.</p>
+</div>
+</div>
+</section>
+<section id="two-factor-designs" class="level2" data-number="22.7">
+<h2 data-number="22.7" class="anchored" data-anchor-id="two-factor-designs"><span class="header-section-number">22.7</span> Two factor designs</h2>
+<ul>
+<li><p>Note that this experiment included male and female mice, and male mice are known to be heavier. ’</p></li>
+<li><p>Note the residuals depend on the sex variable:</p></li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/lm-residual-boxplots_7a3e2eb584ad2a769628d0ebe2836e00">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(fit<span class="sc">$</span>residuals <span class="sc">~</span> mice_weights<span class="sc">$</span>sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="22-linear-models_files/figure-html/lm-residual-boxplots-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>This misspecification can have real implications since if more male mice received the high-fat diet, then this could explain the increase.</p></li>
+<li><p>Or if less received it, then we might underestimate the diet effect. Sex might be a confounder. Our model can certainly be improved.</p></li>
+<li><p>From examining the data:</p></li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/weight-by-sex-diet-boxplots_77c18ccaf9cbc6732caadd2bacd43c21">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mice_weights <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(diet, <span class="fu">log2</span>(body_weight), <span class="at">fill =</span> sex)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="22-linear-models_files/figure-html/weight-by-sex-diet-boxplots-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>we see that there diet effect is observed for both sexes and that males are heavier than females.</p>
+<ul>
+<li>Although not nearly as obvious, it also appears the diet effect is stronger in males. A linear models that permits a different expected value four groups, 1) female on chow diet, 2) females on high-fat diet, 3) male on chow diet, and 4)males on high-fat diet,</li>
+</ul>
+<p><span class="math display">\[
+Y_i = \beta_1 x_{i,1} + \beta_2 x_{i,2}  + \beta_3 x_{i,3}  + \beta_4 x_{i,4}  + \varepsilon_i
+\]</span></p>
+<p>with the <span class="math inline">\(x_i\)</span>s indicator variables for each of the four groups.</p>
+<ul>
+<li><p>However, with this representation, none of the <span class="math inline">\(\beta\)</span>s represent the effect of interest: the diet effect.</p></li>
+<li><p>Furthermore, we now are accounting for the possibility that the diet effect is different for males and females have a different, and can test that hypothesis as well.</p></li>
+<li><p>A powerful feature of linear models is that we can rewrite the model so that we still have a different expected value for each group, but the parameters represent effects we are interested. So, for example, in the representation</p></li>
+</ul>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_{i,1}  + \beta_2 x_{i,2}  + \beta_3 x_{i,1} x_{i,2}  + \varepsilon_i
+\]</span></p>
+<p>with <span class="math inline">\(x_{i,1}\)</span> and indicator that is one if you have the treatment and <span class="math inline">\(x_{i,2}\)</span> an indicator that is one if you are male, the <span class="math inline">\(\beta_1\)</span> can be interpreted as the treatment effect for females, <span class="math inline">\(\beta_2\)</span> as the difference between males and females, and <span class="math inline">\(\beta_3\)</span> the added treatment effect for males.</p>
+<ul>
+<li><p>This last effect is referred to as an <em>interaction</em> effect.</p></li>
+<li><p>The <span class="math inline">\(\beta_0\)</span> is consider the baseline value which is the average weight of females on the chow diet.</p></li>
+<li><p>Statistical textbooks describes several other ways in which the model can be rewritten to obtain other types of interpretations. For example, we might want <span class="math inline">\(\beta_2\)</span> to represent the average treatment effect between females and males, rather that the female treatment effects. This is achieved by defining what <em>contrasts</em> we are interested.</p></li>
+<li><p>In R we can specific this model using the following</p></li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-11_c1c5f4b3f6ca70c014e7a2843a30d884">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_weight <span class="sc">~</span> diet<span class="sc">*</span>sex, <span class="at">data =</span> mice_weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The <code>*</code> implies that the term that multiplies <span class="math inline">\(x_{i,1}\)</span> and <span class="math inline">\(x_{i,2}\)</span> should be included, along with the <span class="math inline">\(x_{i,1}\)</span> and <span class="math inline">\(x_{i,2}\)</span> terms.</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-12_d97714b2452001b1b852c39a5d1edb29">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(term, <span class="st">"Intercept"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 7
+  term        estimate std.error statistic  p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 diethf          3.88     0.624      6.22 8.02e-10    2.66       5.10
+2 sexM            7.53     0.627     12.0  1.27e-30    6.30       8.76
+3 diethf:sexM     2.66     0.891      2.99 2.91e- 3    0.912      4.41</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Note that the male effect is larger that the diet effect, and the diet effect is statistically significant for both sexes, with the males having a higher effect by between 1 and 4.5 grams.</p></li>
+<li><p>A common approach applied when more than one factor is thought to affect the measurement is to simply include an additive effect for each factor like this:</p></li>
+</ul>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 x_{i,1}  + \beta_2 x_{i,2}   + \varepsilon_i
+\]</span></p>
+<ul>
+<li>In this model, the <span class="math inline">\(\beta_1\)</span> is a general diet effect that applies regardless of sex. In R we use the following code using a <code>+</code> instead of <code>*</code>:</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-13_2e1afbc6453a2933acc5db03af4da7a3">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_weight <span class="sc">~</span> diet <span class="sc">+</span> sex, <span class="at">data =</span> mice_weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Because their a strong interaction effect, a diagnostic plots shows that the residuals are biased: the average negative for females on the diet and positive for the males on the diet, rather than 0.</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/lm-diagnostic-plot_7dde00b6743cc287a88d7556e62ccd2e">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">which =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="22-linear-models_files/figure-html/lm-diagnostic-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>Scientific studies, particularly within epidemiology and social sciences, frequently omit interaction terms from models due to the high number of variables.</p></li>
+<li><p>Adding interactions necessitates numerous parameters, which, in extreme cases, may prevent the model from fitting. However, this approach assumes that the interaction terms are zero, which, if incorrect, can skew the results’ interpretation.</p></li>
+<li><p>Conversely, when this assumption is valid, models excluding interactions are simpler to interpret as parameters are typically viewed as the extent to which the outcome increases with the assigned treatment.</p></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Linear models are very flexible and can be applied in many contexts. For example, we can include many more factors than 2. We have just scratched the surface of how linear models can be used to estimate treatment effects. We highly recommend learning more about this through linear model textbooks and R manuals on using the <code>lm</code>, <code>contrasts</code>, and <code>model.matrix</code> functions.</p>
+</div>
+</div>
+</section>
+<section id="analysis-of-variance" class="level2" data-number="22.8">
+<h2 data-number="22.8" class="anchored" data-anchor-id="analysis-of-variance"><span class="header-section-number">22.8</span> Analysis of variance</h2>
+<ul>
+<li><p>Often we have variables of interest that have more than one level.</p></li>
+<li><p>For example, we might have tested a third diet on the mice.</p></li>
+<li><p>In statistics textbooks these variables are referred to as <em>factor</em>.</p></li>
+<li><p>In these cases it is common to want to know rather than the effect of each levels of the factor, a more general quantification regarding the variability across the levels.</p></li>
+<li><p>Analysis of variances or ANOVA does just this.</p></li>
+<li><p>The summary used to quantify the variability of a factor is the mean squared error of the estimated effects of each level.</p></li>
+<li><p>As an example, consider that the mice in our dataset are actually from several generations:</p></li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-14_af7d0be9ec53b993202ff3285f56e824">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(mice_weights<span class="sc">$</span>gen)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  4   7   8   9  11 
+ 97 195 193  97 198 </code></pre>
+</div>
+</div>
+<ul>
+<li>We can fit a linear model that fits an effect for each of these generations along with diet and sex model previously fit:</li>
+</ul>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-15_09501b0054109c84e4c4f4e82bf8b7ef">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_weight <span class="sc">~</span> diet <span class="sc">*</span> sex <span class="sc">+</span> gen,  <span class="at">data =</span> mice_weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then perform an analysis of variance with the R <code>aov</code> function:</p>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-16_6a4ef601eef16cbe10b5c76141c1a794">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(fit))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+diet          1   5143    5143 133.581 &lt;2e-16 ***
+sex           1  15260   15260 396.329 &lt;2e-16 ***
+gen           4    295      74   1.914 0.1061    
+diet:sex      1    349     349   9.061 0.0027 ** 
+Residuals   772  29725      39                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>This analysis shows that the largest variation is explained by sex and then diet. The generation factor explains very little variation in comparison and is not found to be statistically significant.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this book, we do not provide the details for how we compute this p-value. There are several books on analysis of variance and textbooks on linear models often include chapters on this topic. Those interested in learning more about these topics can consult these textbooks.</p>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="22.9">
+<h2 data-number="22.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">22.9</span> Exercises</h2>
+</section>
+<section id="exercises-1" class="level2" data-number="22.10">
+<h2 data-number="22.10" class="anchored" data-anchor-id="exercises-1"><span class="header-section-number">22.10</span> Exercises</h2>
+<ol class="example" type="1">
+<li>Plot of co2 evels for the first 12 months of the <code>co2</code> dataset and notice it seems to follow a sin wave with frequency 1 cycle per month. This means that a measurement error model that might work is</li>
+</ol>
+<p><span class="math display">\[
+y_i = \mu + A \sin(2\pi t_i / 12 + \phi) + \varepsilon_i
+\]</span> with <span class="math inline">\(t_i\)</span> the month number of observation <span class="math inline">\(i\)</span>. Is this a linear model for the parameters <span class="math inline">\(mu\)</span>, <span class="math inline">\(A\)</span> and <span class="math inline">\(\phi\)</span>?</p>
+<ol start="2" class="example" type="1">
+<li>Using trigonometry we can show that we can rewrite this model as</li>
+</ol>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 \sin(2\pi t_i/12) + \beta_2 \cos(2\pi t_i/12) + \varepsilon_i
+\]</span></p>
+<ol start="3" class="example" type="1">
+<li><p>Find least square estimates for the <span class="math inline">\(\beta\)</span>s using <code>lm</code>. Show a plot of <span class="math inline">\(y_i\)</span> versus <span class="math inline">\(t_i\)</span> with a curve on the same plot showing <span class="math inline">\(\hat{Y}_i\)</span> versus <span class="math inline">\(t_i\)</span>.</p></li>
+<li><p>Now fit a measurement error model to the entire <code>co2</code> dataset that includes a trend term that is a parabola as well as the sine wave model.</p></li>
+<li><p>Run diagnostic plots for the fitted model and describe the results.</p></li>
+<li><p>Generate a sample of size <span class="math inline">\(N=50\)</span> from an urn model with 50% blue beads:</p></li>
+</ol>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-17_32a457393f14009dc6f7bc263883b424">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then compute a p-value testing if <span class="math inline">\(p=0.5\)</span>. Repeat this 10,000 times and report how often do we incorrectly is the p-value lower than 0.05? How often is it lower than 0.01?</p>
+<ol start="7" class="example" type="1">
+<li>Make a histogram of the p-values you generated in exercise 1. Which of the following seems to be true:</li>
+</ol>
+<ol type="a">
+<li>The p-values are all 0.05</li>
+<li>The p-values are normally distributed, CLT seems to hold.</li>
+<li>The p-values are uniformly distributed</li>
+<li>The p-values</li>
+</ol>
+<ol start="8" class="example" type="1">
+<li>Generate a sample of size <span class="math inline">\(N=50\)</span> from an urn model with 52% blue beads:</li>
+</ol>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-18_b61de5716973c638b98f9328fab49f8d">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fl">0.52</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then compute a p-value testing if <span class="math inline">\(p=0.5\)</span>. Repeat this 10,000 times and report how often do we incorrectly is the p-value larger than 0.05? Note that you are computing 1 - power.</p>
+<ol start="9" class="example" type="1">
+<li>Repeat exercise for but for the following values:</li>
+</ol>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-19_c2c6e9f876fce6855d0bfef0f624e800">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">N =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>), <span class="at">p =</span> <span class="fu">seq</span>(<span class="fl">0.51</span> ,<span class="fl">0.75</span>, <span class="fl">0.01</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Plot power as a function of <span class="math inline">\(N\)</span> with a different color curve for each value of <code>p</code>.</p>
+<ol start="10" class="example" type="1">
+<li>Once you fit a model, the estimate of the standard error <span class="math inline">\(\sigma\)</span> can be obtained like this:</li>
+</ol>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-20_7c9d785bd39f40d2939eb9947d1a3f35">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(body_weight <span class="sc">~</span> diet, <span class="at">data =</span> mice_weights)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)<span class="sc">$</span>sigma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Compute the estimate of <span class="math inline">\(\sigma\)</span> using the model that includes just diet and a model that accounts for sex. Are the estimates the same? If not, why not?</p>
+<ol start="11" class="example" type="1">
+<li>One of the assumption of the linear model fit by <code>lm</code> is that the standard deviation of the errors <span class="math inline">\(\varepsilon_i\)</span> is equal for all <span class="math inline">\(i\)</span>. This implies it does not depend on the expected value. Group the mice by their weight like this:</li>
+</ol>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-21_465a5e60bc09a0ee4cfe31a3df56e6bb">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="fu">with</span>(mice_weights, <span class="fu">seq</span>(<span class="fu">min</span>(body_weight), <span class="fu">max</span>(body_weight), <span class="dv">1</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">mutate</span>(mice_weights, <span class="at">group =</span> <span class="fu">cut</span>(body_weight, breaks, <span class="at">include_lowest =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Compute the average and standard deviation for groups having more than 10 observations and use data exploration to see if this assumption holds?</p>
+<ol start="12" class="example" type="1">
+<li><p>The dataset also includes a variable indicating which litter the mice came from. Create a boxplot showing weights by litter. Use faceting to make separate plots for each diet and sex combination.</p></li>
+<li><p>Use a linear model to test for a litter effect. Account for sex and diet. Use ANOVA to compare the variability explained by litter to other factors.</p></li>
+<li><p>The <code>mouse_weights</code> data includes two other outcomes: bone density and percent fat. Make a boxplot showing bone density by sex and diet. Compare what the visualizations shows for the diet effect by sex.</p></li>
+<li><p>Fit a linear model and test for the diet effect on bone density separately for each sex. Note that the diet effect is statistically significant for females but not for males. Then fit the model to the entire dataset that includes diet, sex and their interaction. Note that the diet effect is significant, yet the interaction effect is not. Explain how this can happen? Hint: To fit a model to the entire dataset that fit a separate effect for males and females you can use the formula <code>~ sex + diet:sex</code></p></li>
+<li><p>We previously talkedabout pollster bias. We used visualization to motivate the presence of such bias. Here we will give it a more rigorous treatment. We will consider two pollsters that conducted daily polls. We will look at national polls for the month before the election.</p></li>
+</ol>
+<div class="cell" data-hash="22-linear-models_cache/html/unnamed-chunk-22_8e5f5b653c937c30eaf54dfd6450504a">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>polls <span class="ot">&lt;-</span> polls_us_election_2016 <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pollster <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Rasmussen Reports/Pulse Opinion Research"</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"The Times-Picayune/Lucid"</span>) <span class="sc">&amp;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>           enddate <span class="sc">&gt;=</span> <span class="st">"2016-10-15"</span> <span class="sc">&amp;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>           state <span class="sc">==</span> <span class="st">"U.S."</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">spread =</span> rawpoll_clinton<span class="sc">/</span><span class="dv">100</span> <span class="sc">-</span> rawpoll_trump<span class="sc">/</span><span class="dv">100</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We want to answer the question: is there pollsetr bias? Make a plot showing the spreads for each pollster.</p>
+<ol start="17" class="example" type="1">
+<li>The data does seem to suggest there is a difference. However, these data are subject to variability. Perhaps the differences we observe are due to chance.</li>
+</ol>
+<p>The urn model theory says nothing about pollster effect. Under the urn model, both pollsters have the same expected value: the election day difference, that we call <span class="math inline">\(\mu\)</span>. Use a linear model approach to answer thestion “is there an urn model?”,</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./21-multivariate-regression.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

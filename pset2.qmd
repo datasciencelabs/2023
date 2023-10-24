@@ -166,8 +166,6 @@ If you wish to skip this section (though you will lose points), you can obtain t
 (@) Once you have your key you can use the `httr2` package to download the data directly from the Census data base. We will start downloading the intercensus data from 2000-2009 ([data dictionary here](https://www.census.gov/data/developers/data-sets/popest-popproj/popest/popest-vars.2000-2010_Intercensals.html#list-tab-794389051)). We will download it only for Puerto Rico which has region ID 72. The following code downloads the data.
 
 ```{r}
-#| eval: false
-
 url <- "https://api.census.gov/data/2000/pep"
 source("census-key.R")
 endpoint <- paste0("int_charage?get=POP,SEX,AGE,DATE_&for=state:72&key=", census_key)
@@ -179,16 +177,45 @@ response <- request(url) |>
 The data is now included in `response` and you can access it using the `resp` functions in **httr2**. Examine the results you obtain when applying `resp_body_string`. Write code to convert this into a data frame with columns names `year`, `sex`, `age`, and `population` and call it `pop1`. Hint: Use the function `fromJSON` from the **jsonlite** package. The functions `row_to_names` and `clean_names` from the **janitor** package might also be handy. Use the codebook to understand how the `date` column relates to year.
 
 
+```{r}
+pop1 <- response |>
+  resp_body_string() |> 
+  fromJSON(flatten = TRUE) |>
+  as.data.frame() |>
+  row_to_names(1) |>
+  clean_names() |>
+  mutate(across(everything(), parse_number)) |>
+  filter(age != 999 & sex != 0 & between(date , 2, 11)) |>
+  mutate(sex = factor(sex, labels = c("M", "F")), year =  2000 + date - 2) |> 
+  select(-c(date, state))
+```
+
 (@) Now we will obtain data for 2010-2019. The intercensal data is not available so we will use _Vintage_ 2019 data ([data dictionary here](https://www.census.gov/data/developers/data-sets/popest-popproj/popest/popest-vars.Vintage_2019.html)). We can follow a similar procedure but with the following API and endpoints:
 
 ```{r}
-#| eval: false
 url <- "https://api.census.gov/data/2019/pep"
 source("census-key.R")
 endpoint <- paste0("charage?get=POP,SEX,AGE,DATE_CODE&for=state:72&key=", census_key)
 ```
 
 Download the data and write code to convert this into a data frame with columns names `year`, `sex`, `age`, and `population` and call it `pop2`. 
+
+```{r}
+response <- request(url) |> 
+  req_url_path_append(endpoint) |>
+  req_perform()  
+
+pop2 <- response |>
+  resp_body_string() |> 
+  fromJSON(flatten = TRUE) |>
+  as.data.frame() |>
+  row_to_names(1) |>
+  clean_names() |>
+  mutate(across(everything(), parse_number)) |>
+  filter(age != 999 & sex != 0 & between(date_code , 3, 12)) |>
+  mutate(sex = factor(sex, labels = c("M", "F")), year = 2010 + date_code - 3) |> 
+  select(-c(date_code, state)) 
+```
 
 
 (@) Combine the data frames `pop1` and `pop2`  created in the previous exercises to form one population 

@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./22-linear-models.html" rel="next">
 <link href="./20-regression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -298,6 +299,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./22-linear-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -358,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>In 1995 the A’s team ownercut the budget drastically, leaving then general manager, Sandy Alderson (Billy Bean’s mentor), with one of the lowest payrolls in baseball. Alderson began using a statistical approach to find inefficiencies in the market. Billy Beane, became GM in 1998 and fully embraced a data approach.</p></li>
 <li><p>As motivation for today’s lecture, we will pretend it is 2002 and try to build a baseball team with a limited budget, just like the A’s had to do. To appreciate what you are up against, note that in 2002 the Yankees’ payroll of $125,928,583 more than tripled the Oakland A’s $39,679,746:</p></li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/mlb-2002-payroll_1067ce11091b3a786b01fc9b6124850a">
+<div class="cell" data-hash="21-multivariate-regression_cache/html/mlb-2002-payroll_ccce9924aca96e33ad1c95bb69a97d21">
 <div class="cell-output-display">
 <p><img src="21-multivariate-regression_files/figure-html/mlb-2002-payroll-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -447,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="21-multivariate-regression_files/figure-html/runs-vs-bb-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Here again we see a clear association. But does this mean that increasing a team’s BBs <strong>causes</strong> an increase in runs? One of the most important lessons you learn in this book is that <strong>association is not causation.</strong> In fact, it looks like BBs and HRs are also associated:</p>
+<p>Here again we see a clear association. But does this mean that increasing a team’s BBs <strong>causes</strong> an increase in runs? One of the most important lessons you learn in this course is that <strong>association is not causation.</strong> In fact, it looks like BBs and HRs are also associated:</p>
 <div class="cell" data-hash="21-multivariate-regression_cache/html/bb-vs-hrs_f26b3cc32f3a666ec0c00a9571d2c735">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(hr, bb)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -953,7 +960,7 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <p>Compute the correlation between 2002 and the previous seasons for singles and BB.</p>
 <p>3. Note that the correlation is higher for BB. To quickly get an idea of the uncertainty associated with this correlation estimate, we will fit a linear model and compute confidence intervals for the slope coefficient. However, first make scatterplots to confirm that fitting a linear model is appropriate.</p>
 <p>4. Now fit a linear model for each metric and use the <code>confint</code> function to compare the estimates.</p>
-<p>5. In a previous section, we computed the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons, and noticed that the highest correlation is between fathers and sons and the lowest is between mothers and sons. We can compute these correlations using:</p>
+<p>5. We cam compute the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons (we randomly pick one offspring) using the following:</p>
 <div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-26_4ec6b3945f96b79bbb6152af218e975b">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
@@ -976,7 +983,7 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <p>9. Fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the <code>tidy</code> function in the <strong>broom</strong> package to obtain the results in a data frame.</p>
 <p>10. Now let’s repeat the above for each year since 1962 and make a plot. Use <code>summarize</code> and the <strong>broom</strong> package to fit this model for every year since 1962.</p>
 <p>11. Use the results of the previous exercise to plot the estimated effects of BB on runs.</p>
-<p>12. <strong>Advanced</strong>. Write a function that takes R, HR, and BB as arguments and fits two linear models: <code>R ~ BB</code> and <code>R~BB+HR</code>. Then use the <code>summary</code> function to obtain the <code>BB</code> for both models for each year since 1962. Then plot these against each other as a function of time.</p>
+<p>12. Write a function that takes R, HR, and BB as arguments and fits two linear models: <code>R ~ BB</code> and <code>R~BB+HR</code>. Then use the <code>summary</code> function to obtain the <code>BB</code> for both models for each year since 1962. Then plot these against each other as a function of time.</p>
 <p>13. Since the 1980s, sabermetricians have used a summary statistic different from batting average to evaluate players. They realized walks were important and that doubles, triples, and HRs, should be weighed more than singles. As a result, they proposed the following metric:</p>
 <p><span class="math display">\[
 \frac{\mbox{BB}}{\mbox{PA}} + \frac{\mbox{Singles} + 2 \mbox{Doubles} + 3 \mbox{Triples} + 4\mbox{HR}}{\mbox{AB}}
@@ -1235,6 +1242,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./22-linear-models.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
