@@ -22,7 +22,7 @@
 
 * As motivation for today's lecture, we will pretend it is 2002 and try to build a baseball team with a limited budget, just like the A's had to do. To appreciate what you are up against, note that in 2002 the Yankees' payroll of \$125,928,583 more than tripled the Oakland A's \$39,679,746:
 
-```{r mlb-2002-payroll, echo=FALSE, message=FALSE, warning=FALSE, fig.height = 4.5}
+```{r mlb-2002-payroll, echo=FALSE, message=FALSE, warning=FALSE, cache = FALSE, fig.height = 4.5}
 library(Lahman)
 library(tidyverse)
 library(rvest)
@@ -512,7 +512,7 @@ tmp
 
 We have shown how BB and singles have similar predictive power for scoring runs. Another way to compare the usefulness of these baseball metrics is by assessing how stable they are across the years. Since we have to pick players based on their previous performances, we will prefer metrics that are more stable. In these exercises, we will compare the stability of singles and BBs.
 
-1\. Before we get started, we want to generate two tables. One for 2002 and another for the average of 1999-2001 seasons. We want to define per plate appearance statistics. Here is how we create the 2017 table. Keeping only players with more than 100 plate appearances.
+(@) Before we get started, we want to generate two tables. One for 2002 and another for the average of 1999-2001 seasons. We want to define per plate appearance statistics. Here is how we create the 2017 table. Keeping only players with more than 100 plate appearances.
 
 ```{r, eval=FALSE}
 library(Lahman)
@@ -525,7 +525,7 @@ dat <- Batting |> filter(yearID == 2002) |>
 
 Now compute a similar table but with rates computed over 1999-2001.
 
-2\. You can use the `inner_join` function to combine the 2001 data and averages in the same table:
+(@) You can use the `inner_join` function to combine the 2001 data and averages in the same table:
 
 ```{r, eval = FALSE}
 dat <- inner_join(dat, avg, by = "playerID")
@@ -533,12 +533,12 @@ dat <- inner_join(dat, avg, by = "playerID")
 
 Compute the correlation between 2002 and the previous seasons for singles and BB.
 
-3\. Note that the correlation is higher for BB. To quickly get an idea of the uncertainty associated with this correlation estimate, we will fit a linear model and compute confidence intervals for the slope coefficient. However, first make scatterplots to confirm that fitting a linear model is appropriate.
+(@) Note that the correlation is higher for BB. To quickly get an idea of the uncertainty associated with this correlation estimate, we will fit a linear model and compute confidence intervals for the slope coefficient. However, first make scatterplots to confirm that fitting a linear model is appropriate.
 
-4\. Now fit a linear model for each metric and use the `confint` function to compare the estimates.
+(@) Now fit a linear model for each metric and use the `confint` function to compare the estimates.
 
 
-5\. We cam compute the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons (we randomly pick one offspring) using the following:
+(@) We cam compute the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons (we randomly pick one offspring) using the following:
 
 ```{r, eval=FALSE}
 library(HistData)
@@ -558,22 +558,24 @@ cors <- galton_heights |>
 
 Are these differences statistically significant? To answer this, we will compute the slopes of the regression line along with their standard errors. Start by using `lm` and the **broom** package to compute the slopes LSE and the standard errors.
 
-6\. Repeat the exercise above, but compute a confidence interval as well.
+(@) Repeat the exercise above, but compute a confidence interval as well.
 
-7\. Plot the confidence intervals and notice that they overlap, which implies that the data is consistent with the inheritance of height being independent of sex.
+(@) Plot the confidence intervals and notice that they overlap, which implies that the data is consistent with the inheritance of height being independent of sex.
 
-8\. Because we are selecting children at random, we can actually do something like a permutation test here. Repeat the computation of correlations 100 times taking a different sample each time. Hint: use similar code to what we used with simulations.
+(@) Because we are selecting children at random, we can actually do something like a permutation test here. Repeat the computation of correlations 100 times taking a different sample each time. Hint: use similar code to what we used with simulations.
 
-9\. Fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the `tidy` function in the **broom** package to obtain the results in a data frame.
+(@) Fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the `tidy` function in the **broom** package to obtain the results in a data frame.
 
-10\. Now let's repeat the above for each year since 1962 and make a plot. Use `summarize` and the **broom** package to fit this model for every year since 1962.
+(@) Now let's repeat the above for each year since 1962 and make a plot. Use `summarize` and the **broom** package to fit this model for every year since 1962.
 
-11\. Use the results of the previous exercise to plot the estimated effects of BB on runs.
+(@) Use the results of the previous exercise to plot the estimated effects of BB on runs.
 
-12\. Write a function that takes R, HR, and BB as arguments and fits two linear models: `R ~ BB` and `R~BB+HR`. Then use the `summary` function to obtain the `BB` for both models for each year since 1962. Then plot these against each other as a function of time.
+(@) Write a function that takes R, HR, and BB as arguments and fits two linear models: `R ~ BB` and `R~BB+HR`. Then use the `summary` function to obtain the `BB` for both models for each year since 1962. Then plot these against each other as a function of time.
 
 
-13\. Since the 1980s, sabermetricians have used a summary statistic different from batting average to evaluate players. They realized walks were important and that doubles, triples, and HRs, should be weighed more than singles. As a result, they proposed the following metric:
+## Optional Exercises (will not appear in midterm)
+
+(@) Since the 1980s, sabermetricians have used a summary statistic different from batting average to evaluate players. They realized walks were important and that doubles, triples, and HRs, should be weighed more than singles. As a result, they proposed the following metric:
 
 $$
 \frac{\mbox{BB}}{\mbox{PA}} + \frac{\mbox{Singles} + 2 \mbox{Doubles} + 3 \mbox{Triples} + 4\mbox{HR}}{\mbox{AB}}
@@ -583,19 +585,19 @@ They called this on-base-percentage plus slugging percentage (OPS). Although the
 
 Compute the OPS for each team in the 2001 season. Then plot Runs per game versus OPS.
 
-14\. For every year since 1962, compute the correlation between runs per game and OPS; then plot these correlations as a function of year.
+(@) For every year since 1962, compute the correlation between runs per game and OPS; then plot these correlations as a function of year.
 
-15\. Note that we can rewrite OPS as a weighted average of BBs, singles, doubles, triples, and HRs. We know that the weights for doubles, triples, and HRs are 2, 3, and 4 times that of singles. But what about BB? What is the weight for BB relative to singles? Hint: the weight for BB relative to singles will be a function of AB and PA.
+(@) Note that we can rewrite OPS as a weighted average of BBs, singles, doubles, triples, and HRs. We know that the weights for doubles, triples, and HRs are 2, 3, and 4 times that of singles. But what about BB? What is the weight for BB relative to singles? Hint: the weight for BB relative to singles will be a function of AB and PA.
 
-16\. Note that the weight for BB, $\frac{\mbox{AB}}{\mbox{PA}}$, will change from team to team. To see how variable it is, compute and plot this quantity for each team for each year since 1962. Then plot it again, but instead of computing it for every team, compute and plot the ratio for the entire year. Then, once you are convinced that there is not much of a time or team trend, report the overall average.
+(@) Note that the weight for BB, $\frac{\mbox{AB}}{\mbox{PA}}$, will change from team to team. To see how variable it is, compute and plot this quantity for each team for each year since 1962. Then plot it again, but instead of computing it for every team, compute and plot the ratio for the entire year. Then, once you are convinced that there is not much of a time or team trend, report the overall average.
 
-17\. So now we know that the formula for OPS is proportional to $0.91 \times \mbox{BB} + \mbox{singles} + 2 \times \mbox{doubles} + 3 \times \mbox{triples} + 4 \times \mbox{HR}$. Let's see how these coefficients compare to those obtained with regression. Fit a regression model to the data after 1962, as done earlier: using per game statistics for each year for each team. After fitting this model, report the coefficients as weights relative to the coefficient for singles.
+(@) So now we know that the formula for OPS is proportional to $0.91 \times \mbox{BB} + \mbox{singles} + 2 \times \mbox{doubles} + 3 \times \mbox{triples} + 4 \times \mbox{HR}$. Let's see how these coefficients compare to those obtained with regression. Fit a regression model to the data after 1962, as done earlier: using per game statistics for each year for each team. After fitting this model, report the coefficients as weights relative to the coefficient for singles.
 
-18\. We see that our linear regression model coefficients follow the same general trend as those used by OPS, but with slightly less weight for metrics other than singles. For each team in years after 1962, compute the OPS, the predicted runs with the regression model and compute the correlation between the two as well as the correlation with runs per game.
+(@) We see that our linear regression model coefficients follow the same general trend as those used by OPS, but with slightly less weight for metrics other than singles. For each team in years after 1962, compute the OPS, the predicted runs with the regression model and compute the correlation between the two as well as the correlation with runs per game.
 
-19\. We see that using the regression approach predicts runs slightly better than OPS, but not that much. However, note that we have been computing OPS and predicting runs for teams when these measures are used to evaluate players. Let's show that OPS is quite similar to what one obtains with regression at the player level. For the 1962 season and after, compute the OPS and the predicted runs from our model for each player and plot them. Use the PA per game correction we used in the previous chapter:
+(@) We see that using the regression approach predicts runs slightly better than OPS, but not that much. However, note that we have been computing OPS and predicting runs for teams when these measures are used to evaluate players. Let's show that OPS is quite similar to what one obtains with regression at the player level. For the 1962 season and after, compute the OPS and the predicted runs from our model for each player and plot them. Use the PA per game correction we used in the previous chapter:
 
-20\. What players have show the largest difference between their rank by predicted runs and OPS?
+(@) What players have show the largest difference between their rank by predicted runs and OPS?
 
 
 
