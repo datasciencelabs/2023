@@ -503,9 +503,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The slope is</p>
-<p><span class="math display">\[
-lm(r ~ hr, data = dat)$coef[[2]]
-\]</span></p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-3_677996a61b23729e366524ae580dccbf">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(r <span class="sc">~</span> hr, <span class="at">data =</span> dat)<span class="sc">$</span>coef[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.851745</code></pre>
+</div>
+</div>
 <ul>
 <li><p>So this tells us that teams that hit 1 more HR per game than the average team, score this coefficient amount of runs per game than the average team.</p></li>
 <li><p>Not surprisingly, HR hitters are very expensive we will need to find some other way to increase wins. We will use linear regression.</p></li>
@@ -514,10 +517,10 @@ lm(r ~ hr, data = dat)$coef[[2]]
 <section id="the-broom-package" class="level2" data-number="21.6">
 <h2 data-number="21.6" class="anchored" data-anchor-id="the-broom-package"><span class="header-section-number">21.6</span> The broom package</h2>
 <p>The <strong>broom</strong> package facilitates the use of R function such as <code>lm</code> within the tidyverse.</p>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-3_e9f454dae877a74d8ed644191b7898bc">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> bb, <span class="at">data =</span> dat)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-4_1bd2b5b112ca83c6666fa7747bd8b521">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> bb, <span class="at">data =</span> dat)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic  p.value
@@ -527,8 +530,8 @@ lm(r ~ hr, data = dat)$coef[[2]]
 </div>
 </div>
 <p>We can add other important summaries, such as confidence intervals:</p>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-4_09689c22b922620f50d52fc79f2fdbb1">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-5_6349b2331afc1b5568193fb712938e83">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic  p.value conf.low conf.high
@@ -538,8 +541,8 @@ lm(r ~ hr, data = dat)$coef[[2]]
 </div>
 </div>
 <p>Another useful function in <strong>broom</strong>:</p>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-5_a796ef59532a12d8f80f98cd30d1c2e6">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-6_1e67df6c456339f7540d9458fe5fd6cc">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 12
   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
@@ -549,8 +552,8 @@ lm(r ~ hr, data = dat)$coef[[2]]
 </div>
 </div>
 <p>As an alternative to</p>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-6_1d8aaac38163d91ef5802b4a516ceaa3">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-7_6b9deb1684a3718d6f9b9418138b9fa8">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -578,9 +581,9 @@ F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
 <ul>
 <li>Previously, we noted a strong relationship between Runs and BB. If we find the regression line for predicting runs from bases on balls, we a get slope of:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-7_af6fc16c0ba9802a83d4e2abbb34347f">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>bb_slope <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> bb, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>bb_slope </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-8_3d64c215fb86f796d2bfeda498dc61ca">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bb_slope <span class="ot">&lt;-</span> <span class="fu">lm</span>(r <span class="sc">~</span> bb, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>bb_slope </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       bb 
 0.7388725 </code></pre>
@@ -590,8 +593,8 @@ F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li><p>So does this mean that if we go and hire low salary players with many BB, and who therefore increase the number of walks per game by 2, our team will score these many more runs per game? <strong>Association is not causation</strong>.</p></li>
 <li><p>Note that if we compute the regression line slope for singles we get:</p></li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-8_abf8928a827127b2b9edf5d815311fc3">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(r <span class="sc">~</span> singles, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-9_9da8d4c19b8589c78cb8b4df6cacf0bd">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(r <span class="sc">~</span> singles, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  singles 
 0.4324101 </code></pre>
@@ -600,8 +603,8 @@ F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
 <ul>
 <li>The reason this happen is because of confounding. Here we show the correlation between HR, BB, and singles:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-9_d24a1c53655a62507f2128acff12c113">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">cor</span>(bb, hr), <span class="fu">cor</span>(singles, hr), <span class="fu">cor</span>(bb, singles))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-10_ed47f3590abe747bdcc316e1a1594f47">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">cor</span>(bb, hr), <span class="fu">cor</span>(singles, hr), <span class="fu">cor</span>(bb, singles))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  cor(bb, hr) cor(singles, hr) cor(bb, singles)
 1   0.4064585       -0.1862848      -0.05126617</code></pre>
@@ -615,12 +618,12 @@ F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2 data-number="21.8" class="anchored" data-anchor-id="understanding-confounding-through-stratification"><span class="header-section-number">21.8</span> Understanding confounding through stratification</h2>
 <p>Does the relationship between BB and R hold if we keep HR fixed?</p>
 <div class="cell" data-hash="21-multivariate-regression_cache/html/runs-vs-bb-by-hr-strata_72398616982d819f5b2f2862f12dac9e">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hr_strata =</span> <span class="fu">round</span>(hr, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hr_strata <span class="sc">&gt;=</span> <span class="fl">0.4</span> <span class="sc">&amp;</span> hr_strata <span class="sc">&lt;=</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(bb, r)) <span class="sc">+</span>  </span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hr_strata) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hr_strata =</span> <span class="fu">round</span>(hr, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hr_strata <span class="sc">&gt;=</span> <span class="fl">0.4</span> <span class="sc">&amp;</span> hr_strata <span class="sc">&lt;=</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(bb, r)) <span class="sc">+</span>  </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hr_strata) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="21-multivariate-regression_files/figure-html/runs-vs-bb-by-hr-strata-1.png" class="img-fluid" style="width:80.0%"></p>
 </div>
@@ -628,8 +631,8 @@ F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
 <ul>
 <li>Remember that the regression slope for predicting runs with BB was</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-10_bbc4df0d58179b8e41d3148ce0da57a2">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(bb_slope, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-11_1e81249c2ec24c3bc4aa039ce2fe8882">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(bb_slope, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> bb 
 0.7 </code></pre>
@@ -638,12 +641,12 @@ F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
 <ul>
 <li>Once we stratify by HR, these slopes are substantially reduced:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-11_5b3532c5c3c62a240bc113e1470a9081">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hr_strata =</span> <span class="fu">round</span>(hr, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hr_strata <span class="sc">&gt;=</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> hr_strata <span class="sc">&lt;=</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span>  </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hr_strata) <span class="sc">|&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="fu">tidy</span>(<span class="fu">lm</span>(r <span class="sc">~</span> bb))) <span class="sc">|&gt;</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"bb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-12_86e9aef4c5021e0ab788928f06efb383">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">hr_strata =</span> <span class="fu">round</span>(hr, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hr_strata <span class="sc">&gt;=</span> <span class="fl">0.5</span> <span class="sc">&amp;</span> hr_strata <span class="sc">&lt;=</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hr_strata) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="fu">tidy</span>(<span class="fu">lm</span>(r <span class="sc">~</span> bb))) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"bb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 6
   hr_strata term  estimate std.error statistic  p.value
@@ -662,8 +665,8 @@ F-statistic: 451.5 on 1 and 1036 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li><p>The slopes are reduced, but they are not 0, which indicates that BBs are helpful for producing runs, just not as much as previously thought.</p></li>
 <li><p>In fact, the values above are closer to the slope we obtained from singles,</p></li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-12_c0533a2ce119c00ccd7535424657cc09">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">lm</span>(r<span class="sc">~</span>singles, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-13_12003bdef0555725e39170c39c7d98ff">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">lm</span>(r<span class="sc">~</span>singles, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>singles 
     0.4 </code></pre>
@@ -699,8 +702,8 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \varepsilon_i
 <ul>
 <li>To use <code>lm</code> here, we need to let the function know we have two predictor variables. So we use the <code>+</code> symbol as follows:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-13_a2c22c29b6158b5efa20cbc672c9327b">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">lm</span>(r <span class="sc">~</span> bb <span class="sc">+</span> hr, <span class="at">data =</span> dat), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-14_d1f776b57340c0daba5ef946ccebd927">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">lm</span>(r <span class="sc">~</span> bb <span class="sc">+</span> hr, <span class="at">data =</span> dat), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 7
   term        estimate std.error statistic   p.value conf.low conf.high
@@ -711,10 +714,18 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \varepsilon_i
 </div>
 </div>
 <p>When we fit the model with only one variable, the estimated slopes were</p>
-<p><span class="math display">\[
-lm(r ~ bb, data = dat)$coef[2]
-lm(r ~ hr, data = dat)$coef[2]
-\]</span></p>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-15_d37bd288724574cdb2573524cddd30e7">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(r <span class="sc">~</span> bb, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       bb 
+0.7388725 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(r <span class="sc">~</span> hr, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      hr 
+1.851745 </code></pre>
+</div>
+</div>
 <p>Note that when fitting the multivariable model both go down, with the BB effect decreasing much more.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -742,16 +753,16 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <ul>
 <li>Using <code>lm</code>, we can quickly find the LSE for the parameters using:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-14_bb320e73523592b5815886dc614c985d">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span>  <span class="fu">filter</span>(year <span class="sc">&lt;=</span> <span class="dv">2001</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(r <span class="sc">~</span> bb <span class="sc">+</span> singles <span class="sc">+</span> doubles <span class="sc">+</span> triples <span class="sc">+</span> hr, <span class="at">data =</span> _)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-16_0f1c87caf3b263888a07dbfc3394fd10">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span>  <span class="fu">filter</span>(year <span class="sc">&lt;=</span> <span class="dv">2001</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(r <span class="sc">~</span> bb <span class="sc">+</span> singles <span class="sc">+</span> doubles <span class="sc">+</span> triples <span class="sc">+</span> hr, <span class="at">data =</span> _)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>Note we fit the model to data up until 2001, the year before we will construct our team.</p></li>
 <li><p>Here are the resulting estimates:</p></li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-15_8f1fd3efd2f7cc0c5ad92278c7df67b5">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-17_7ac91fbec60d61ed2993dcc4ee8407e9">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 7
   term    estimate std.error statistic   p.value conf.low conf.high
@@ -765,12 +776,12 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 </div>
 <p>To see how well our metric actually predicts runs, we can predict the number of runs for each team in 2002 using the function <code>predict</code>, then make a plot:</p>
 <div class="cell" data-hash="21-multivariate-regression_cache/html/model-predicts-runs_61d30bab3203413528f2b671f8401afd">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">r_hat =</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> dat)) <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(r_hat, r, <span class="at">label =</span> team)) <span class="sc">+</span> </span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_x =</span> <span class="fl">0.1</span>, <span class="at">cex =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">r_hat =</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> dat)) <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(r_hat, r, <span class="at">label =</span> team)) <span class="sc">+</span> </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">nudge_x =</span> <span class="fl">0.1</span>, <span class="at">cex =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="21-multivariate-regression_files/figure-html/model-predicts-runs-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -778,14 +789,14 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <ul>
 <li>This motivates the definition of a new statistic that is more related to run production:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-16_8f295a41de7aaaa24e96d7016756788a">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">coef</span>(fit), <span class="dv">2</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(b[<span class="dv">1</span>], <span class="st">"+"</span>, </span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">2</span>], <span class="st">"x BB +"</span>, </span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">3</span>], <span class="st">"x singles +"</span>, </span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">4</span>], <span class="st">"x doubles +"</span>,</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">5</span>], <span class="st">"x triples +"</span>,</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">6</span>], <span class="st">"x HR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-18_88833bbc17c915ef07129d626a1f6ac2">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">coef</span>(fit), <span class="dv">2</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(b[<span class="dv">1</span>], <span class="st">"+"</span>, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">2</span>], <span class="st">"x BB +"</span>, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">3</span>], <span class="st">"x singles +"</span>, </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">4</span>], <span class="st">"x doubles +"</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">5</span>], <span class="st">"x triples +"</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    b[<span class="dv">6</span>], <span class="st">"x HR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>-2.76 + 0.37 x BB + 0.52 x singles + 0.78 x doubles + 1.24 x triples + 1.44 x HR</code></pre>
 </div>
@@ -793,35 +804,35 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <ul>
 <li>We apply to statistic to each player but using a per plate appearance:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-17_6de920ed82ccf56b9c85c044ef42220d">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>pa_per_game <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(teamID) <span class="sc">|&gt;</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pa_per_game =</span> <span class="fu">sum</span>(AB <span class="sc">+</span> BB)<span class="sc">/</span><span class="dv">162</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(pa_per_game) <span class="sc">|&gt;</span> </span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> </span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">%in%</span> <span class="dv">1997</span><span class="sc">:</span><span class="dv">2001</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pa =</span> BB <span class="sc">+</span> AB) <span class="sc">|&gt;</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">g =</span> <span class="fu">sum</span>(pa)<span class="sc">/</span>pa_per_game,</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">bb =</span> <span class="fu">sum</span>(BB)<span class="sc">/</span>g,</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">singles =</span> <span class="fu">sum</span>(H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR)<span class="sc">/</span>g,</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">doubles =</span> <span class="fu">sum</span>(X2B)<span class="sc">/</span>g, </span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">triples =</span> <span class="fu">sum</span>(X3B)<span class="sc">/</span>g, </span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr =</span> <span class="fu">sum</span>(HR)<span class="sc">/</span>g,</span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg =</span> <span class="fu">sum</span>(H)<span class="sc">/</span><span class="fu">sum</span>(AB),</span>
-<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">pa =</span> <span class="fu">sum</span>(pa)) <span class="sc">|&gt;</span></span>
-<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pa <span class="sc">&gt;=</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
-<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>g)</span>
-<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>players<span class="sc">$</span>r_hat <span class="ot">=</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-19_6f42c98cd898052f18abbaa6ed096fe5">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pa_per_game <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(teamID) <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pa_per_game =</span> <span class="fu">sum</span>(AB <span class="sc">+</span> BB)<span class="sc">/</span><span class="dv">162</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(pa_per_game) <span class="sc">|&gt;</span> </span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> </span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">%in%</span> <span class="dv">1997</span><span class="sc">:</span><span class="dv">2001</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pa =</span> BB <span class="sc">+</span> AB) <span class="sc">|&gt;</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">g =</span> <span class="fu">sum</span>(pa)<span class="sc">/</span>pa_per_game,</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">bb =</span> <span class="fu">sum</span>(BB)<span class="sc">/</span>g,</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">singles =</span> <span class="fu">sum</span>(H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR)<span class="sc">/</span>g,</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">doubles =</span> <span class="fu">sum</span>(X2B)<span class="sc">/</span>g, </span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">triples =</span> <span class="fu">sum</span>(X3B)<span class="sc">/</span>g, </span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">hr =</span> <span class="fu">sum</span>(HR)<span class="sc">/</span>g,</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg =</span> <span class="fu">sum</span>(H)<span class="sc">/</span><span class="fu">sum</span>(AB),</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">pa =</span> <span class="fu">sum</span>(pa)) <span class="sc">|&gt;</span></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pa <span class="sc">&gt;=</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>g)</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>players<span class="sc">$</span>r_hat <span class="ot">=</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>The distribution shows that there is wide variability across players:</li>
 </ul>
 <div class="cell" data-hash="21-multivariate-regression_cache/html/r-hat-hist_76a7923ab864145860d06591aca1754e">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(players<span class="sc">$</span>r_hat, <span class="at">main =</span> <span class="st">"Predicted runs per game"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(players<span class="sc">$</span>r_hat, <span class="at">main =</span> <span class="st">"Predicted runs per game"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="21-multivariate-regression_files/figure-html/r-hat-hist-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -829,48 +840,48 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <ul>
 <li>To actually build the team, we will need to know their salaries as well as their defensive position.</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-18_4983fb498a41c6103e6f0a5e54c6d185">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> Salaries <span class="sc">|&gt;</span> </span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, salary) <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-20_e8a98a187cba51c50ca39614495ae0e1">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> Salaries <span class="sc">|&gt;</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, salary) <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Next add their defensive position</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-19_13f4f52f77531b9c7ddd7f081ce6aa6c">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>position_names <span class="ot">&lt;-</span> </span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"G_"</span>, <span class="fu">c</span>(<span class="st">"p"</span>,<span class="st">"c"</span>,<span class="st">"1b"</span>,<span class="st">"2b"</span>,<span class="st">"3b"</span>,<span class="st">"ss"</span>,<span class="st">"lf"</span>,<span class="st">"cf"</span>,<span class="st">"rf"</span>, <span class="st">"dh"</span>))</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> Appearances <span class="sc">|&gt;</span> </span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize_at</span>(position_names, sum) <span class="sc">|&gt;</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>pos <span class="ot">&lt;-</span> tmp <span class="sc">|&gt;</span></span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(position_names)) <span class="sc">|&gt;</span></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">X =</span> _, <span class="dv">1</span>, which.max) </span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">playerID =</span> tmp<span class="sc">$</span>playerID, <span class="at">POS =</span> position_names[pos]) <span class="sc">|&gt;</span></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">POS =</span> <span class="fu">str_to_upper</span>(<span class="fu">str_remove</span>(POS, <span class="st">"G_"</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(POS <span class="sc">!=</span> <span class="st">"P"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(POS)  <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(salary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-21_111fa952eca87a614eaf25c2c80405af">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>position_names <span class="ot">&lt;-</span> </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"G_"</span>, <span class="fu">c</span>(<span class="st">"p"</span>,<span class="st">"c"</span>,<span class="st">"1b"</span>,<span class="st">"2b"</span>,<span class="st">"3b"</span>,<span class="st">"ss"</span>,<span class="st">"lf"</span>,<span class="st">"cf"</span>,<span class="st">"rf"</span>, <span class="st">"dh"</span>))</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> Appearances <span class="sc">|&gt;</span> </span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(playerID) <span class="sc">|&gt;</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize_at</span>(position_names, sum) <span class="sc">|&gt;</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>pos <span class="ot">&lt;-</span> tmp <span class="sc">|&gt;</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(position_names)) <span class="sc">|&gt;</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(<span class="at">X =</span> _, <span class="dv">1</span>, which.max) </span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">playerID =</span> tmp<span class="sc">$</span>playerID, <span class="at">POS =</span> position_names[pos]) <span class="sc">|&gt;</span></span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">POS =</span> <span class="fu">str_to_upper</span>(<span class="fu">str_remove</span>(POS, <span class="st">"G_"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(POS <span class="sc">!=</span> <span class="st">"P"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(POS)  <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(salary))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Finally, we add their first and last name:</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-20_098b8b4dfb64ac95faf4aa9309f29d06">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> People <span class="sc">|&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, nameFirst, nameLast, debut) <span class="sc">|&gt;</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">debut =</span> <span class="fu">as.Date</span>(debut)) <span class="sc">|&gt;</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-22_9e32db1657e615f610bfbed4343b51c4">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> People <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, nameFirst, nameLast, debut) <span class="sc">|&gt;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">debut =</span> <span class="fu">as.Date</span>(debut)) <span class="sc">|&gt;</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(players, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If you are a baseball fan, you will recognize the top 10 players according to our new metric:</p>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-21_2bb9a062f852209fb2d420996f8327d0">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>players <span class="sc">|&gt;</span> <span class="fu">select</span>(nameFirst, nameLast, POS, salary, r_hat) <span class="sc">|&gt;</span> </span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(r_hat)) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-23_30df4db0e43f4ab25bde7210cdda4468">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>players <span class="sc">|&gt;</span> <span class="fu">select</span>(nameFirst, nameLast, POS, salary, r_hat) <span class="sc">|&gt;</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(r_hat)) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   nameFirst nameLast POS   salary    r_hat
 1      Barry    Bonds  LF 15000000 8.052460
@@ -889,9 +900,9 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <li>On average, players with a higher metric have higher salaries:</li>
 </ul>
 <div class="cell" data-hash="21-multivariate-regression_cache/html/predicted-runs-vs-salary_b37202561986b34b2fdd9d89114e44c0">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>players <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(salary, r_hat, <span class="at">color =</span> POS)) <span class="sc">+</span> </span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>players <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(salary, r_hat, <span class="at">color =</span> POS)) <span class="sc">+</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="21-multivariate-regression_files/figure-html/predicted-runs-vs-salary-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -916,7 +927,7 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <ul>
 <li>We see that all these players have above average BB and most have above average HR rates, while the same is not true for singles and batting average. Here is a table with statistics standardized across players so that, for example, above average HR hitters have values above 0.</li>
 </ul>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-23_22f23ec62a93a656fa8ce742dbc5f958">
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-25_9b25f42d324ef8f1982106a875a871cd">
 <div class="cell-output cell-output-stdout">
 <pre><code>   nameLast        bb      singles     doubles    triples          hr
 1    Helton 0.9088340 -0.214782777  2.64899973 -0.3105275  1.52212542
@@ -947,20 +958,20 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <ol class="example" type="1">
 <li>Before we get started, we want to generate two tables. One for 2002 and another for the average of 1999-2001 seasons. We want to define per plate appearance statistics. Here is how we create the 2017 table. Keeping only players with more than 100 plate appearances.</li>
 </ol>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-24_f3bedf017d0724f73371adc83a01de25">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pa =</span> AB <span class="sc">+</span> BB, </span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">singles =</span> (H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR) <span class="sc">/</span> pa, <span class="at">bb =</span> BB <span class="sc">/</span> pa) <span class="sc">|&gt;</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pa <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, singles, bb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-26_4cdb16856f10438222770b8a096be42f">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> Batting <span class="sc">|&gt;</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">2002</span>) <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pa =</span> AB <span class="sc">+</span> BB, </span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">singles =</span> (H <span class="sc">-</span> X2B <span class="sc">-</span> X3B <span class="sc">-</span> HR) <span class="sc">/</span> pa, <span class="at">bb =</span> BB <span class="sc">/</span> pa) <span class="sc">|&gt;</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pa <span class="sc">&gt;=</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(playerID, singles, bb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now compute a similar table but with rates computed over 1999-2001.</p>
 <ol start="2" class="example" type="1">
 <li>You can use the <code>inner_join</code> function to combine the 2001 data and averages in the same table:</li>
 </ol>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-25_c8a78aadab2e2a009302e6f7ab1d9dfe">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(dat, avg, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-27_6d26c4b980f595150f7d03cac77dbc9d">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(dat, avg, <span class="at">by =</span> <span class="st">"playerID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Compute the correlation between 2002 and the previous seasons for singles and BB.</p>
 <ol start="3" class="example" type="1">
@@ -968,20 +979,20 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <li><p>Now fit a linear model for each metric and use the <code>confint</code> function to compare the estimates.</p></li>
 <li><p>We cam compute the correlation between mothers and daughters, mothers and sons, fathers and daughters, and fathers and sons (we randomly pick one offspring) using the following:</p></li>
 </ol>
-<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-26_4ec6b3945f96b79bbb6152af218e975b">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="ot">&lt;-</span> GaltonFamilies <span class="sc">|&gt;</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(family, gender) <span class="sc">|&gt;</span></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>cors <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> </span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(father<span class="sc">:</span>mother, <span class="at">names_to =</span> <span class="st">"parent"</span>, <span class="at">values_to =</span> <span class="st">"parentHeight"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">child =</span> <span class="fu">ifelse</span>(gender <span class="sc">==</span> <span class="st">"female"</span>, <span class="st">"daughter"</span>, <span class="st">"son"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(pair, <span class="fu">c</span>(<span class="st">"parent"</span>, <span class="st">"child"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pair) <span class="sc">|&gt;</span></span>
-<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">cor =</span> <span class="fu">cor</span>(parentHeight, childHeight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="21-multivariate-regression_cache/html/unnamed-chunk-28_65e9177636a0bde3472ee895db6d73ff">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HistData)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="ot">&lt;-</span> GaltonFamilies <span class="sc">|&gt;</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(family, gender) <span class="sc">|&gt;</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>cors <span class="ot">&lt;-</span> galton_heights <span class="sc">|&gt;</span> </span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(father<span class="sc">:</span>mother, <span class="at">names_to =</span> <span class="st">"parent"</span>, <span class="at">values_to =</span> <span class="st">"parentHeight"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">child =</span> <span class="fu">ifelse</span>(gender <span class="sc">==</span> <span class="st">"female"</span>, <span class="st">"daughter"</span>, <span class="st">"son"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(pair, <span class="fu">c</span>(<span class="st">"parent"</span>, <span class="st">"child"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pair) <span class="sc">|&gt;</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">cor =</span> <span class="fu">cor</span>(parentHeight, childHeight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Are these differences statistically significant? To answer this, we will compute the slopes of the regression line along with their standard errors. Start by using <code>lm</code> and the <strong>broom</strong> package to compute the slopes LSE and the standard errors.</p>
 <ol start="6" class="example" type="1">

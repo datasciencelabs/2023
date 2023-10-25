@@ -222,6 +222,15 @@ pop2 <- response |>
 data frame called `population` and including all year. Make sure the 85+ category is correctly computed on the two datasets.
 Save it to a file called `population.rds` in your rds. 
 
+```{r}
+pop2 <- pop2 |>
+  mutate(age = pmin(age, 85)) |>
+  group_by(sex, age, year) |>
+  summarize(pop = sum(pop), .groups = "drop")
+
+population <- bind_rows(pop1, pop2)
+#saveRDS(population, file = "rdas/population.rds")
+```
 
 ## Daily count data {.unnumbered}
 
@@ -231,13 +240,31 @@ Let's repeat the analysis done in the preprint but now using 2002-2016 data and,
 You can load the data from the **excessmort** package.
 
 ```{r}
+library(excessmort)
 data("puerto_rico_counts")
 ```
 
 (@) Define an object `counts` by wrangling `puerto_rico_counts` to 1) include data only from 2002-2017, 2) remove the population column, and 3)  to match our population, combine the counts for those 85 and older together.
 
+```{r}
+library(forcats)
+counts <- puerto_rico_counts |> 
+  filter(between(year(date), 2002, 2017)) |>
+  select(-population) |>
+  mutate(agegroup = fct_collapse(agegroup, 
+                                 "85-Inf" = c("85-89", "90-94", "95-99", "100-Inf"))) |>
+  group_by(date, sex, agegroup) |>
+  summarize(outcome = sum(outcome), .groups = "drop")
+```
+
 
 (@) Collapse the population data so that it combines agegroups like `counts`. Also change the `sex` column so that it matches `counts` as well.
+
+```{r}
+cuts <- c(seq(0,85,5), Inf)
+labels <- paste0(head(cuts, -1), "-", tail(cuts,-1))
+cut(0:100, cuts, right = FALSE, labels = labels) ## to see how it works
+```
 
 
 (@) Add a population column to `counts` using the `population` data frame you just created.

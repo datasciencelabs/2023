@@ -527,17 +527,60 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <ol start="12" class="example" type="1">
 <li>Combine the data frames <code>pop1</code> and <code>pop2</code> created in the previous exercises to form one population data frame called <code>population</code> and including all year. Make sure the 85+ category is correctly computed on the two datasets. Save it to a file called <code>population.rds</code> in your rds.</li>
 </ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-9_d2a1d903f6831c1553e09a32f234dade">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pop2 <span class="ot">&lt;-</span> pop2 <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">pmin</span>(age, <span class="dv">85</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, age, year) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pop =</span> <span class="fu">sum</span>(pop), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pop1, pop2)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(population, file = "rdas/population.rds")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="daily-count-data" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="daily-count-data">Daily count data</h2>
 <p>Let’s repeat the analysis done in the preprint but now using 2002-2016 data and, to better see the effect of the hurricane, let’s use weekly instead of monthly and start our weeks on the day the hurricane hit.</p>
 <p>You can load the data from the <strong>excessmort</strong> package.</p>
-<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-9_fba36171f2a55cb28d8768f49a4bab33">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-10_c7e4495c5f2a63f5fd56e7311bd39001">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(excessmort)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"puerto_rico_counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="13" class="example" type="1">
-<li><p>Define an object <code>counts</code> by wrangling <code>puerto_rico_counts</code> to 1) include data only from 2002-2017, 2) remove the population column, and 3) to match our population, combine the counts for those 85 and older together.</p></li>
-<li><p>Collapse the population data so that it combines agegroups like <code>counts</code>. Also change the <code>sex</code> column so that it matches <code>counts</code> as well.</p></li>
+<li>Define an object <code>counts</code> by wrangling <code>puerto_rico_counts</code> to 1) include data only from 2002-2017, 2) remove the population column, and 3) to match our population, combine the counts for those 85 and older together.</li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-11_6243376055a0481cfae40ad1e782814e">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> puerto_rico_counts <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">between</span>(<span class="fu">year</span>(date), <span class="dv">2002</span>, <span class="dv">2017</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>population) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">agegroup =</span> <span class="fu">fct_collapse</span>(agegroup, </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"85-Inf"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"85-89"</span>, <span class="st">"90-94"</span>, <span class="st">"95-99"</span>, <span class="st">"100-Inf"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date, sex, agegroup) <span class="sc">|&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">outcome =</span> <span class="fu">sum</span>(outcome), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="14" class="example" type="1">
+<li>Collapse the population data so that it combines agegroups like <code>counts</code>. Also change the <code>sex</code> column so that it matches <code>counts</code> as well.</li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-12_06683b361ae478065a97d492cc2b387e">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cuts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">85</span>,<span class="dv">5</span>), <span class="cn">Inf</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">head</span>(cuts, <span class="sc">-</span><span class="dv">1</span>), <span class="st">"-"</span>, <span class="fu">tail</span>(cuts,<span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">100</span>, cuts, <span class="at">right =</span> <span class="cn">FALSE</span>, <span class="at">labels =</span> labels) <span class="do">## to see how it works</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 0-5    0-5    0-5    0-5    0-5    5-10   5-10   5-10   5-10   5-10  
+ [11] 10-15  10-15  10-15  10-15  10-15  15-20  15-20  15-20  15-20  15-20 
+ [21] 20-25  20-25  20-25  20-25  20-25  25-30  25-30  25-30  25-30  25-30 
+ [31] 30-35  30-35  30-35  30-35  30-35  35-40  35-40  35-40  35-40  35-40 
+ [41] 40-45  40-45  40-45  40-45  40-45  45-50  45-50  45-50  45-50  45-50 
+ [51] 50-55  50-55  50-55  50-55  50-55  55-60  55-60  55-60  55-60  55-60 
+ [61] 60-65  60-65  60-65  60-65  60-65  65-70  65-70  65-70  65-70  65-70 
+ [71] 70-75  70-75  70-75  70-75  70-75  75-80  75-80  75-80  75-80  75-80 
+ [81] 80-85  80-85  80-85  80-85  80-85  85-Inf 85-Inf 85-Inf 85-Inf 85-Inf
+ [91] 85-Inf 85-Inf 85-Inf 85-Inf 85-Inf 85-Inf 85-Inf 85-Inf 85-Inf 85-Inf
+[101] 85-Inf
+18 Levels: 0-5 5-10 10-15 15-20 20-25 25-30 30-35 35-40 40-45 45-50 ... 85-Inf</code></pre>
+</div>
+</div>
+<ol start="15" class="example" type="1">
 <li><p>Add a population column to <code>counts</code> using the <code>population</code> data frame you just created.</p></li>
 <li><p>Use R to determine what day of the week did María make landfall in PR.</p></li>
 <li><p>Redefine the date column to be the start of the week that day is part of. Use the day of the week María made landfall as the first day. Now collapse the data frame to weekly data by redefining <code>outcome</code> to have the total deaths that week for each sex and agegroup. Remove weeks that have less the 7 days. Finally, add a column with the MMWR week. Name the resulting data frame <code>weekly_counts</code></p></li>

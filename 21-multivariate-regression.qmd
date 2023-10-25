@@ -177,9 +177,9 @@ p + geom_smooth(method = "lm")
 
 The slope is 
 
-$$
+```{r}
 lm(r ~ hr, data = dat)$coef[[2]]
-$$
+```
 
 * So this tells us that teams that hit 1 more HR per game than the average team, score this coefficient  amount of  runs per game than the average team. 
 
@@ -317,10 +317,10 @@ tidy(lm(r ~ bb + hr, data = dat), conf.int = TRUE)
 
 When we fit the model with only one variable, the estimated slopes were 
 
-$$
+```{r}
 lm(r ~ bb, data = dat)$coef[2]
 lm(r ~ hr, data = dat)$coef[2]
-$$
+```
 
 
 Note that when fitting the multivariable model both go down, with the BB effect decreasing much more.
