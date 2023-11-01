@@ -39,7 +39,8 @@ book:
     - 21-multivariate-regression.qmd
     - 22-linear-models.qmd
     - 23-association-tests.qmd 
-    - 24-corrleation-not-causation.qmd 
+    - 24-corrleation-not-causation.qmd
+    - 25-matrices-in-R.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023

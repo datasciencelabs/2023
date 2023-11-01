@@ -222,7 +222,7 @@ We can see the results of the request by looking at the returned object.
 response
 ```
 
-To extract the body, which is where the data are, we can use `resp_body_string` and send the result, a comma delimited string, to `read_csv`
+To extract the body, which is where the data are, we can use `resp_body_string` and send the result, a comma delimited string, to `read_csv`.
 
 ```{r}
 tab <- response |> resp_body_string() |> read_csv()

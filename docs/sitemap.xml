@@ -70,7 +70,7 @@
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/14-web-scraping.html</loc>
-    <lastmod>2023-10-29T17:40:56.024Z</lastmod>
+    <lastmod>2023-11-01T03:40:16.605Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/15-locales.html</loc>
@@ -115,5 +115,9 @@
   <url>
     <loc>http://datasciencelabs.github.io/2023/24-corrleation-not-causation.html</loc>
     <lastmod>2023-10-29T17:40:56.191Z</lastmod>
+  </url>
+  <url>
+    <loc>http://datasciencelabs.github.io/2023/25-matrices-in-R.html</loc>
+    <lastmod>2023-11-01T03:39:28.523Z</lastmod>
   </url>
 </urlset>
