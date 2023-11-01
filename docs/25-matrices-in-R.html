@@ -721,8 +721,8 @@ Attaching package: 'matrixStats'</code></pre>
 <ul>
 <li>We can also use logical indexes to determine which columns or rows to keep.</li>
 </ul>
-<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-24_3645eff077243430f1e56d13e02634c6">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> x[ ,<span class="fu">colSds</span>(x) <span class="sc">&gt;</span> <span class="dv">60</span>]</span>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-24_7047f8735ddee7b2dae04ea81f51da4b">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>new_x <span class="ot">&lt;-</span> x[,<span class="fu">colSds</span>(x) <span class="sc">&gt;</span> <span class="dv">60</span>]</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(new_x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 300 316</code></pre>
@@ -732,12 +732,12 @@ Attaching package: 'matrixStats'</code></pre>
 <li><p>Only the columns for which the standard deviation is above 60 are kept, which removes over half the predictors.</p></li>
 <li><p>Here we add an important warning related to subsetting matrices: if you select one column or one row, the result is no longer a matrix but a vector.</p></li>
 </ul>
-<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-25_802b1150fd5120183f3e42e5a782b7e1">
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-25_3b76a6a636d41e37a6019894b08e6770">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x[, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "integer"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x[<span class="dv">1</span>, ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x[,<span class="dv">1</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>NULL</code></pre>
 </div>
@@ -785,17 +785,17 @@ Attaching package: 'matrixStats'</code></pre>
 <ul>
 <li>To see what this does, we look at a smaller matrix:</li>
 </ul>
-<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-30_99a41bf456d3438f48ddbc88da189d3e">
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-30_09233c318f8cdefd9703cb07746afd55">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="dv">5</span>, <span class="dv">3</span>)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>mat[mat <span class="sc">&lt;</span> <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>mat[mat <span class="sc">&lt;</span> <span class="dv">9</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
-[1,]    0    6   11
-[2,]    0    7   12
-[3,]    3    8   13
-[4,]    4    9   14
-[5,]    5   10   15</code></pre>
+[1,]    0    0   11
+[2,]    0    0   12
+[3,]    0    0   13
+[4,]    0    9   14
+[5,]    0   10   15</code></pre>
 </div>
 </div>
 <ul>
@@ -826,8 +826,16 @@ Attaching package: 'matrixStats'</code></pre>
 <ul>
 <li>We can also convert to a matrix of logicals and then coerce to numbers like this:</li>
 </ul>
-<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-33_afb23f97f8fa61e333ec101d2df77623">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>bin_X <span class="ot">&lt;-</span> (x <span class="sc">&gt;</span> <span class="dv">255</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-33_ec8bc34e35d88951381e6180b6658f72">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>bin_X <span class="ot">&lt;-</span> (x <span class="sc">&gt;</span> <span class="dv">255</span><span class="sc">/</span><span class="dv">2</span>)<span class="sc">*</span><span class="dv">1</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="fu">matrix</span>(x[<span class="dv">3</span>,], <span class="dv">28</span>, <span class="dv">28</span>)[,<span class="dv">28</span><span class="sc">:</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="25-matrices-in-R_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="fu">matrix</span>(bin_X[<span class="dv">3</span>,], <span class="dv">28</span>, <span class="dv">28</span>)[,<span class="dv">28</span><span class="sc">:</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="25-matrices-in-R_files/figure-html/unnamed-chunk-33-2.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </section>
 <section id="vectorization-for-matrices" class="level2" data-number="25.10">
@@ -859,44 +867,104 @@ a_n
 <li>The same holds true for other arithmetic operations. This implies that we can scale each row of a matrix like this:</li>
 </ul>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-34_f659a19c2c92665991e77d062ded306b">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">-</span> <span class="fu">rowMeans</span>(x)) <span class="sc">/</span> <span class="fu">rowSds</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>(x <span class="sc">-</span> <span class="fu">rowMeans</span>(x)) <span class="sc">/</span> <span class="fu">rowSds</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>If you want to scale each column, be careful since this approach does not work for columns. To perform a similar operation, we convert the columns to rows using the transpose <code>t</code>, proceed as above, and then transpose back:</li>
 </ul>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-35_4711aa26fec0958f99a6da81d6b24ca7">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(X) <span class="sc">-</span> <span class="fu">colMeans</span>(X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(X) <span class="sc">-</span> <span class="fu">colMeans</span>(X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>We can also use a function called <code>sweep</code> that works similarly to <code>apply</code>. It takes each entry of a vector and subtracts it from the corresponding row or column.</li>
 </ul>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-36_2f22bac9d8f30581f53c48de307c7629">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>X_mean_0 <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x, <span class="dv">2</span>, <span class="fu">colMeans</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>X_mean_0 <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x, <span class="dv">2</span>, <span class="fu">colMeans</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>The function <code>sweep</code> actually has another argument that lets you define the arithmetic operation. So to divide by the standard deviation, we do the following:</li>
 </ul>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-37_139a37678926f65ef1a21dee8f525ff7">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>x_mean_0 <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x, <span class="dv">2</span>, <span class="fu">colMeans</span>(x))</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>x_standardized <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x_mean_0, <span class="dv">2</span>, <span class="fu">colSds</span>(x), <span class="at">FUN =</span> <span class="st">"/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>x_mean_0 <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x, <span class="dv">2</span>, <span class="fu">colMeans</span>(x))</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>x_standardized <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x_mean_0, <span class="dv">2</span>, <span class="fu">colSds</span>(x), <span class="at">FUN =</span> <span class="st">"/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>In R, if you add, subtract, nultiple or divide two matrices, the operation is done elementwise. For example, if two matrices are stored in <code>x</code> and <code>y</code>, then</li>
 </ul>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-38_8f06d5e6d920e4bcd1e3829f9fd0b0b8">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>does not result in matrix multiplication. Instead, the entry in row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> of this product is the product of the entryin row <span class="math inline">\(i\)</span> and column <span class="math inline">\(j\)</span> of <code>x</code> and <code>y</code>, respectively.</p>
 </section>
 <section id="exercises" class="level2" data-number="25.11">
 <h2 data-number="25.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">25.11</span> Exercises</h2>
 <p>1. Create a 100 by 10 matrix of randomly generated normal numbers. Put the result in <code>x</code>.</p>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-39_e69e3c167f7eb8e6f166f45e0472dcfc">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">100</span><span class="sc">*</span><span class="dv">10</span>), <span class="at">nrow =</span> <span class="dv">100</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>2. Apply the three R functions that give you the dimension of <code>x</code>, the number of rows of <code>x</code>, and the number of columns of <code>x</code>, respectively.</p>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-40_54f0ad1aca62c311c774831be0dcbb90">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 100  10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 100</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+</div>
 <p>3. Add the scalar 1 to row 1, the scalar 2 to row 2, and so on, to the matrix <code>x</code>.</p>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-41_e18c96b6ee29738e853fc5cff10a4dc0">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co">#x &lt;- sweep(x, 1, 1:nrow(x), FUN = "+")</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>4. Add the scalar 1 to column 1, the scalar 2 to column 2, and so on, to the matrix <code>x</code>. Hint: use <code>sweep</code> with <code>FUN = "+"</code>.</p>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-42_77fdc71b6097d0727ac55ddd894a30c7">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x, <span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x), <span class="at">FUN =</span> <span class="st">"+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>5. Compute the average of each row of <code>x</code>.</p>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-43_78ed3c7b754f2885f0dc0208f9d96db6">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1]   6.311712   7.262276   8.280774   9.508621  10.448815  11.208498
+  [7]  12.649779  13.544918  14.664659  15.649286  16.422083  16.891446
+ [13]  18.304230  19.460868  20.215525  21.289184  22.596369  23.121266
+ [19]  24.126266  25.184904  26.714983  27.374163  28.253119  29.683923
+ [25]  30.814929  32.037379  32.153997  33.698605  34.468531  35.199221
+ [31]  36.806503  37.869719  38.414550  38.969514  41.120735  40.858975
+ [37]  42.762588  43.173385  44.272497  45.439035  46.343887  46.951471
+ [43]  48.066535  49.166415  51.040917  51.231408  52.208522  53.884549
+ [49]  54.652918  55.709186  56.649384  57.745459  58.243961  59.724772
+ [55]  60.780581  61.543283  62.456269  63.712961  64.284296  65.864588
+ [61]  66.617867  68.013207  68.391369  69.015147  71.136004  71.724490
+ [67]  73.212061  73.622016  73.732635  75.369983  75.978819  77.367540
+ [73]  78.557701  79.560610  80.652778  81.811916  82.874330  83.841745
+ [79]  84.631853  85.573357  86.455791  87.930036  89.097902  90.145393
+ [85]  90.946667  91.316131  92.472991  93.589754  94.757042  95.513973
+ [91]  96.679863  97.076634  97.976238  99.556156 100.614466 101.289247
+ [97] 101.997199 104.176267 105.300074 105.025743</code></pre>
+</div>
+</div>
 <p>6. Compute the average of each column of <code>x</code>.</p>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-44_0a6fcdd9f49846a41865e28bab5cc57b">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 51.53172 52.61284 53.52679 54.43087 55.55627 56.55138 57.76508 58.49040
+ [9] 59.27735 60.36652</code></pre>
+</div>
+</div>
 <p>7. For each digit in the MNIST training data, compute the proportion of pixels that are in a <em>grey area</em>, defined as values between 50 and 205. Make boxplot by digit class. Hint: use logical operators and <code>rowMeans</code>.</p>
+<div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-45_d24292d04f1e86a3caada953baebbc4a">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>ga <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(mnist<span class="sc">$</span>train<span class="sc">$</span>images <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> mnist<span class="sc">$</span>train<span class="sc">$</span>images <span class="sc">&lt;</span> <span class="dv">205</span>)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ga <span class="sc">~</span> mnist<span class="sc">$</span>train<span class="sc">$</span>labels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="25-matrices-in-R_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>

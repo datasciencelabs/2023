@@ -277,6 +277,17 @@ cut(0:100, cuts, right = FALSE, labels = labels) ## to see how it works
 (@) Redefine the date column to be the start of the week that day is part of. Use the day of the week María made landfall as the first day. Now collapse the data frame to weekly data by redefining `outcome` to have the total deaths that week for each sex and agegroup. Remove weeks that have less the 7 days. Finally, add a column with the MMWR week. Name the resulting data frame `weekly_counts`
 
 
+```{r}
+#| eval: false
+weekly_counts <- counts |>
+  mutate(date = floor_date(data, unit = "week", week_start = ??)) |> ## previous exercise gives you ??
+  group_by(date, sex, agegroup) |>
+  summarize(outcome = sum(outcome), population = population[1], n = n(), .groups = "drop") |>
+  filter(n == 7) |>
+  mutate(week = epiweek(date))
+```
+
+
 (@) Make a per-week version of the plot we made for monthly totals. Make a boxplot for each week based on the 2002-2016 data, then add red points for 2017. Comment on the possibility that indirect effect went past October.
 
 
@@ -308,6 +319,14 @@ Compute the average number of deaths per week by agegroup and sex for 2016. Base
 
 
 (@) Use the `group_modify` function to fit this model to each sex and agegroup. Save the results in `res`.
+
+```{r}
+#| eval: false
+res <- dat |>
+  group_by(agegroup, sex) |>
+  group_modify(~fit(.x)) |>
+  ungroup()
+```
 
 (@) For agegroup and by sex, plot the expected counts for each week with an error bar showing two standard deviations and in red the observed counts. Does the model appear to fit? Hint: Look to see if the red dots are inside the intervals before the hurricane.
 

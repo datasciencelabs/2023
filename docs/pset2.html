@@ -602,6 +602,16 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <li><p>Add a population column to <code>counts</code> using the <code>population</code> data frame you just created.</p></li>
 <li><p>Use R to determine what day of the week did María make landfall in PR.</p></li>
 <li><p>Redefine the date column to be the start of the week that day is part of. Use the day of the week María made landfall as the first day. Now collapse the data frame to weekly data by redefining <code>outcome</code> to have the total deaths that week for each sex and agegroup. Remove weeks that have less the 7 days. Finally, add a column with the MMWR week. Name the resulting data frame <code>weekly_counts</code></p></li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-13_5e1064e628aa09f77ed00c03a8c12849">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>weekly_counts <span class="ot">&lt;-</span> counts <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">floor_date</span>(data, <span class="at">unit =</span> <span class="st">"week"</span>, <span class="at">week_start =</span> ??)) <span class="sc">|&gt;</span> <span class="do">## previous exercise gives you ??</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date, sex, agegroup) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">outcome =</span> <span class="fu">sum</span>(outcome), <span class="at">population =</span> population[<span class="dv">1</span>], <span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">==</span> <span class="dv">7</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">week =</span> <span class="fu">epiweek</span>(date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="18" class="example" type="1">
 <li><p>Make a per-week version of the plot we made for monthly totals. Make a boxplot for each week based on the 2002-2016 data, then add red points for 2017. Comment on the possibility that indirect effect went past October.</p></li>
 <li><p>If we look at 2017 data before September and compare each week to the average from 2002-2016. What percent are below the median?</p></li>
 <li><p>Why are 2017 totals somewhat below-average? Plot the population in millions against date. What do you see?</p></li>
@@ -618,6 +628,14 @@ Y_{ij} = \mu_i + \varepsilon_{ij}
 <li><p>Create a new dataset called <code>dat</code> that collapses the counts into agegroups with enough deaths to fit a linear model. Remove any week with MMWR week 53 and add a column <code>t</code> that includes the number of weeks since the first week in the first year.</p></li>
 <li><p>Write a function that receives a data frame <code>tab</code>, fits a linear model with a line for the time trend, and returns a data frame with 2017 data including a prediction.</p></li>
 <li><p>Use the <code>group_modify</code> function to fit this model to each sex and agegroup. Save the results in <code>res</code>.</p></li>
+</ol>
+<div class="cell" data-hash="pset2_cache/html/unnamed-chunk-14_fbd62a216e9d365a8c57f61f4612bb23">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(agegroup, sex) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_modify</span>(<span class="sc">~</span><span class="fu">fit</span>(.x)) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="29" class="example" type="1">
 <li><p>For agegroup and by sex, plot the expected counts for each week with an error bar showing two standard deviations and in red the observed counts. Does the model appear to fit? Hint: Look to see if the red dots are inside the intervals before the hurricane.</p></li>
 <li><p>Now estimate weekly excess deaths for 2017 based on the rates esimated from 2002-2016 but the population sizes of 2017. Compare this to estimated standard deviation observed from year to year once we account for trends.</p></li>
 <li><p>Plot cummulative excess death for 2017 including a standard error.</p></li>
