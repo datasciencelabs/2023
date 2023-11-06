@@ -271,7 +271,7 @@ $$
 
 * We to transformation with the property $\mathbf{A} \mathbf{A}^\top = \mathbf{I}$ as _orthogonal transformations_ and they are guaranteed to preserves the distance between any two points.
 
-* Notice that $\mathbf{A}$ being orthogonal also guarantees that the total sum of squares of any row in $\mathbf$ is preserved after the transformation:
+* Notice that $\mathbf{A}$ being orthogonal also guarantees that the total sum of squares of any row in $\mathbf{X}$ is preserved after the transformation:
 
 $$
 ||\mathbf{z}^\top_i||^2 =  ||\mathbf{x}^\top_i\mathbf{A}||^2 = \mathbf{x}_i \mathbf{A}\mathbf{A}^\top  \mathbf{x}^\top_i =  \mathbf{x}_i   \mathbf{x}^\top_i = ||\mathbf{x}^\top_i||^2
