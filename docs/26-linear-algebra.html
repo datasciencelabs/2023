@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>BST 260 Introduction to Data Science - 26&nbsp; Applied Linear Algebra</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./27-dimension-reduction.html" rel="next">
+<link href="./25-matrices-in-R.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./26-linear-algebra.html"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BST 260 Introduction to Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/datasciencelabs/2023" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course description</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-dates-and-times.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dates and times</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-importing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-dataviz-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-web-scraping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-text-mining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./22-linear-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./23-association-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Association tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24-corrleation-not-causation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Association is not causation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./25-matrices-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Matrices in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26-linear-algebra.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./27-dimension-reduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Dimension reduction</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#transpose-of-a-matrix" id="toc-transpose-of-a-matrix" class="nav-link active" data-scroll-target="#transpose-of-a-matrix"><span class="header-section-number">26.1</span> Transpose of a matrix</a></li>
+  <li><a href="#matrix-multiplication" id="toc-matrix-multiplication" class="nav-link" data-scroll-target="#matrix-multiplication"><span class="header-section-number">26.2</span> Matrix multiplication</a></li>
+  <li><a href="#the-identity-matrix" id="toc-the-identity-matrix" class="nav-link" data-scroll-target="#the-identity-matrix"><span class="header-section-number">26.3</span> The identity matrix</a></li>
+  <li><a href="#distance" id="toc-distance" class="nav-link" data-scroll-target="#distance"><span class="header-section-number">26.4</span> Distance</a></li>
+  <li><a href="#sec-predictor-space" id="toc-sec-predictor-space" class="nav-link" data-scroll-target="#sec-predictor-space"><span class="header-section-number">26.5</span> Spaces</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">26.6</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/26-linear-algebra.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-matrix-algebra" class="quarto-section-identifier"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="transpose-of-a-matrix" class="level2" data-number="26.1">
+<h2 data-number="26.1" class="anchored" data-anchor-id="transpose-of-a-matrix"><span class="header-section-number">26.1</span> Transpose of a matrix</h2>
+<p>If</p>
+<p><span class="math display">\[
+\mathbf{X} =
+\begin{pmatrix}
+  x_{1,1}&amp;x_{1,2}&amp;\dots &amp; x_{1,p} \\
+  x_{2,1}&amp;x_{2,2}&amp;\dots &amp; x_{2,p} \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \\
+  x_{n,1}&amp;x_{n,2}&amp;\dots &amp; x_{n,p}
+  \end{pmatrix}
+\]</span></p>
+<p>The transponse</p>
+<p><span class="math display">\[
+\mathbf{X}^\top =
+\begin{pmatrix}
+  x_{1,1}&amp;x_{2,1}&amp;\dots &amp; x_{n,1} \\
+  x_{1,2}&amp;x_{2,2}&amp;\dots &amp; x_{n,2} \\
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \\
+  x_{1,p}&amp;x_{2,p}&amp;\dots &amp; x_{n,p}
+  \end{pmatrix}
+\]</span></p>
+<p>If we are writing out a column, such as <span class="math inline">\(\mathbf{x}_1\)</span> defined above, in a sentence we often use the notation: <span class="math inline">\(\mathbf{x}_1 = ( x_{1,1}, \dots x_{n,1})^\top\)</span> to avoid wasting vertical space in the text.</p>
+<p>In R we compute the transpose using the function <code>t</code></p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-2_bf7ba005a6db2f85f810ad69a8142eac">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 300 784</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">t</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 784 300</code></pre>
+</div>
+</div>
+</section>
+<section id="matrix-multiplication" class="level2" data-number="26.2">
+<h2 data-number="26.2" class="anchored" data-anchor-id="matrix-multiplication"><span class="header-section-number">26.2</span> Matrix multiplication</h2>
+<p>Linear algebra was born from mathematicians developing systematic ways to solve systems of linear equations, for example</p>
+<p><span class="math display">\[
+\begin{align}
+x +  3 y  - 2 z  &amp;= 5\\
+3x + 5y + 6z &amp;= 7\\
+2x + 4y + 3z &amp;= 8.
+\end{align}
+\]</span></p>
+<p>To explain matrix multiplication, define two matrices <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span></p>
+<p><span class="math display">\[
+\mathbf{A} =
+\begin{pmatrix}
+a_{11}&amp;a_{12}&amp;\dots&amp;a_{1n}\\
+a_{21}&amp;a_{22}&amp;\dots&amp;a_{2n}\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\
+a_{m1}&amp;a_{2}&amp;\dots&amp;a_{mn}
+\end{pmatrix}, \,
+\mathbf{B} = \begin{pmatrix}
+b_{11}&amp;b_{12}&amp;\dots&amp;b_{1p}\\
+b_{21}&amp;b_{22}&amp;\dots&amp;b_{2p}\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\
+b_{n1}&amp;b_{n2}&amp;\dots&amp;b_{np}
+\end{pmatrix}
+\]</span></p>
+<p>and define the product of matrices <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> as the matrix <span class="math inline">\(\mathbf{C} = \mathbf{A}\mathbf{B}\)</span> that has entries <span class="math inline">\(c_{ij}\)</span> equal to the sum of the component-wise product of the <span class="math inline">\(i\)</span>th row of <span class="math inline">\(\mathbf{A}\)</span> with the <span class="math inline">\(j\)</span>th column of <span class="math inline">\(\mathbf{B}\)</span>. Using R code we can define <span class="math inline">\(\mathbf{C}= \mathbf{A}\mathbf{B}\)</span> as follows:</p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-3_d595ac51bf5033295b77a0a77dc340e9">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(A)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ncol</span>(B)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, m, p)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m){</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p){</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    C[i,j] <span class="ot">&lt;-</span> <span class="fu">sum</span>(A[i,] <span class="sc">*</span> B[,j])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Because this operation is so common, R includes a mathematical operator <code>%*%</code> for matrix multiplication:</p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-4_450370542d63e92df43ddc1d20904678">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> A <span class="sc">%*%</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using mathematical notation <span class="math inline">\(\mathbf{C} = \mathbf{A}\mathbf{B}\)</span> looks like this:</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+a_{11}b_{11} + \dots + a_{1n}b_{n1}&amp;
+a_{11}b_{12} + \dots + a_{1n}b_{n2}&amp;
+\dots&amp;
+a_{11}b_{1p} + \dots + a_{1n}b_{np}\\
+a_{21}b_{11} + \dots + a_{2n}b_{n1}&amp;
+a_{21}b_{n2} + \dots + a_{2n}b_{n2}&amp;
+\dots&amp;
+a_{21}b_{1p} + \dots + a_{2n}b_{np}\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\
+a_{m1}b_{11} + \dots +a_{mn}b_{n1}&amp;
+a_{m1}b_{n2} + \dots + a_{mn}b_{n2}&amp;
+\dots&amp;
+a_{m1}b_{1p} + \dots + a_{mn}b_{np}\\
+\end{pmatrix}
+\]</span></p>
+<p>Note this definition implies that the multiplication <span class="math inline">\(\mathbf{A}\mathbf{B}\)</span> is only possible when the number of rows of <span class="math inline">\(\mathbf{A}\)</span> matches the number of columns of <span class="math inline">\(\mathbf{B}\)</span>.</p>
+<p>So how does this definition of matrix multiplication help solve systems of equations? First, any system of equations with unknowns <span class="math inline">\(x_1, \dots x_n\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+a_{11} x_1 + a_{12} x_2 \dots + a_{1n}x_n &amp;= b_1\\
+a_{21} x_1 + a_{22} x_2 \dots + a_{2n}x_n &amp;= b_2\\
+\vdots\\
+a_{n1} x_1 + a_{n2} x_2 \dots + a_{nn}x_n &amp;= b_n\\
+\end{align}
+\]</span></p>
+<p>can now be represented as matrix multiplication by defining the following matrices:</p>
+<p><span class="math display">\[
+\mathbf{A} =\begin{pmatrix}
+a_{11}&amp;a_{12}&amp;\dots&amp;a_{1n}\\
+a_{21}&amp;a_{22}&amp;\dots&amp;a_{2n}\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\
+a_{m1}&amp;a_{22}&amp;\dots&amp;a_{nn}
+\end{pmatrix}
+,\,
+\mathbf{b} =
+\begin{pmatrix}
+b_1\\
+b_2\\
+\vdots\\
+b_n
+\end{pmatrix}
+,\, \mbox{ and }
+\mathbf{x} =
+\begin{pmatrix}
+x_1\\
+x_2\\
+\vdots\\
+x_n
+\end{pmatrix}
+\]</span></p>
+<p>and rewriting the equation simply as</p>
+<p><span class="math display">\[
+\mathbf{A}\mathbf{x} =  \mathbf{b}
+\]</span></p>
+<p>The linear algebra algorithms listed above, such as Gaussian elimination, provide a way to compute the <em>inverse</em> matrix <span class="math inline">\(A^{-1}\)</span> that solves the equation for <span class="math inline">\(\mathbf{x}\)</span>:</p>
+<p><span class="math display">\[
+\mathbf{A}^{-1}\mathbf{A}\mathbf{x} =   \mathbf{x} = \mathbf{A}^{-1} \mathbf{b}
+\]</span></p>
+<p>To solve the first equation we wrote out in R, we can use the function <code>solve</code>:</p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-5_e5b91fe6e22de8055a3299356139824b">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">3</span>, <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-identity-matrix" class="level2" data-number="26.3">
+<h2 data-number="26.3" class="anchored" data-anchor-id="the-identity-matrix"><span class="header-section-number">26.3</span> The identity matrix</h2>
+<p>The identity matrix, represented with a bold 1, is like the number 1, but for matrices: if you multiply a matrix by the identity matrix, you get back the matrix.</p>
+<p><span class="math display">\[
+\mathbf{1}\mathbf{x} = \mathbf{x}
+\]</span></p>
+<p>If you do some math with the definition of matrix multiplication you will realize that <span class="math inline">\(\mathbf{1}\)</span> is a matrix with the same number of rows and columns (refereed to as square matrix) with 0s everywhere except the diagonal:</p>
+<p><span class="math display">\[
+\mathbf{1}=\begin{pmatrix}
+1&amp;0&amp;\dots&amp;0\\
+0&amp;1&amp;\dots&amp;0\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\
+0&amp;0&amp;\dots&amp;1
+\end{pmatrix}
+\]</span></p>
+<p>It also implies that due to the definition of an inverse matrix we have</p>
+<p><span class="math display">\[
+\mathbf{A}^{-1}\mathbf{A} = \mathbf{1}
+\]</span></p>
+<p>Because the default for the second argument in <code>solve</code> is an identity matrix, if we simply type <code>solve(A)</code>, we obtain the inverse <span class="math inline">\(\mathbf{A}^{-1}\)</span>. This means we can also obtain a solution to our system of equations with:</p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-6_d2e8518e47f7cf0f3d7291c18444bf3c">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A) <span class="sc">%*%</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="distance" class="level2" data-number="26.4">
+<h2 data-number="26.4" class="anchored" data-anchor-id="distance"><span class="header-section-number">26.4</span> Distance</h2>
+<p>To define distance, we introduce another linear algebra concept: the <em>norm</em>. Recall that a point in two dimensions can represented in polar coordinates as:</p>
+<div class="cell" data-fig.asp="0.7" data-hash="26-linear-algebra_cache/html/unnamed-chunk-7_13312b5803ec84981967d41355d18882">
+<div class="cell-output-display">
+<p><img src="26-linear-algebra_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>with <span class="math inline">\(\theta = \arctan{\frac{x2}{x1}}\)</span> and <span class="math inline">\(r = \sqrt{x_1^2 + x_2^2}\)</span>.</p>
+<ul>
+<li><p>If we think of the point as two dimensional vector <span class="math inline">\(\mathbf{x} = (x_1, x_2)^\top\)</span>, <span class="math inline">\(r\)</span> defines the norm of <span class="math inline">\(\mathbf{x}\)</span>.</p></li>
+<li><p>The norm can be thought of as the <em>size</em> of the two-dimensional vector disregarding the direction: if we change the angle, the vector changes but the size does not.</p></li>
+<li><p>The point of defining the norm is that we can extrapolated the concept of <em>size</em> to higher dimensions.</p></li>
+<li><p>Specifically, we write the norm for any vector <span class="math inline">\(\mathbf{x}\)</span> as:</p></li>
+</ul>
+<p><span class="math display">\[
+||\mathbf{x}|| = \sqrt{x_1^2 + x_2^2 + \dots + x_n^2}
+\]</span></p>
+<ul>
+<li>We can use the linear algebra concepts we have learned to define the norm like this:</li>
+</ul>
+<p><span class="math display">\[
+||\mathbf{x}||^2 = \mathbf{x}^\top\mathbf{x}
+\]</span></p>
+<ul>
+<li>To define distance, suppose we have two two-dimensional points <span class="math inline">\(\mathbf{x}_1\)</span> and <span class="math inline">\(\mathbf{x}_2\)</span>. We can define how similar they are by simply using euclidean distance.</li>
+</ul>
+<div class="cell" data-fig.asp="0.7" data-hash="26-linear-algebra_cache/html/unnamed-chunk-8_b5db065258b3db6576a1c675aeb3d932">
+<div class="cell-output-display">
+<p><img src="26-linear-algebra_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>We know that the distance is equal to the length of the hypotenuse:</li>
+</ul>
+<p><span class="math display">\[
+\sqrt{(x_{11} - x_{12})^2 + (x_{21} - x_{22})^2}
+\]</span></p>
+<ul>
+<li><p>The reason we introduced the norm is because this distance is the size of the vector between the two points and this can be extrapolated to any dimension.</p></li>
+<li><p>The distance between two points, regardless of the dimensions, is defined as the norm of the difference:</p></li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x}_1 - \mathbf{x}_2||.
+\]</span></p>
+<ul>
+<li>If we use the digit data, the distance between the first and second observation will compute distance using all 784 features:</li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x}_1 - \mathbf{x}_2 || = \sqrt{ \sum_{j=1}^{784} (x_{1,j}-x_{2,j })^2 }
+\]</span></p>
+<ul>
+<li>To demonstrate, let’s pick the features for three digits:</li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-9_c888d4d5ebe05a08f926160700b35319">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x_1 <span class="ot">&lt;-</span> x[<span class="dv">6</span>,]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x_2 <span class="ot">&lt;-</span> x[<span class="dv">17</span>,]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x_3 <span class="ot">&lt;-</span> x[<span class="dv">16</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We can compute the distances between each pair using the definitions we just learned:</li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-10_a286fe075526b57bfc7c0061d944d411">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sum</span>((x_1 <span class="sc">-</span> x_2)<span class="sc">^</span><span class="dv">2</span>), <span class="fu">sum</span>((x_1 <span class="sc">-</span> x_3)<span class="sc">^</span><span class="dv">2</span>), <span class="fu">sum</span>((x_2 <span class="sc">-</span> x_3)<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2319.867 2331.210 2518.969</code></pre>
+</div>
+</div>
+<ul>
+<li>In R, the function <code>crossprod(x)</code> is convenient for computing norms it multiplies <code>t(x)</code> by <code>x</code></li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-11_197936ae5fb30d9e103a1df29f6988e2">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">crossprod</span>(x_1 <span class="sc">-</span> x_2), <span class="fu">crossprod</span>(x_1 <span class="sc">-</span> x_3), <span class="fu">crossprod</span>(x_2 <span class="sc">-</span> x_3)) <span class="sc">|&gt;</span> <span class="fu">sqrt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2319.867 2331.210 2518.969</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Note <code>crossprod</code> takes a matrix as the first argument and therefore the vectors used here are being coerced into single column matrices.</p></li>
+<li><p>Also note that <code>crossprod(x,y)</code> multiples <code>t(x)</code> by <code>y</code>.</p></li>
+<li><p>We can see that the distance is smaller between the first two.</p></li>
+<li><p>This is in agreement with the fact that the first two are 2s and the third is a 7.</p></li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-12_452ca89f758a1b6557ecd3ff74a7b665">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>y[<span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">17</span>, <span class="dv">16</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 2 7</code></pre>
+</div>
+</div>
+<ul>
+<li>We can also compute <strong>all</strong> the distances at once relatively quickly using the function <code>dist</code>, which computes the distance between each row and produces an object of class <code>dist</code>:</li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-13_ad3b3e1fe85add154a470d49b589b099">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(x)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "dist"</code></pre>
+</div>
+</div>
+<ul>
+<li><p>To access the entries using row and column indices, we need to coerce it into a matrix.</p></li>
+<li><p>We can see the distance we calculated above like this:</p></li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-14_9a8a504e2303dc4f354026562cdaf273">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(d)[<span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">17</span>, <span class="dv">16</span>), <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">17</span>, <span class="dv">16</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          6       17       16
+6     0.000 2319.867 2331.210
+17 2319.867    0.000 2518.969
+16 2331.210 2518.969    0.000</code></pre>
+</div>
+</div>
+<ul>
+<li>We can quickly see an image of these distances using this code:</li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/distance-image_38630086b010c9eb2db4726e53ee10be">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="fu">as.matrix</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>If we order this distance by the labels, we can see yellowish squares near the diagonal.</p></li>
+<li><p>This is because observations from the same digits tend to be closer than to different digits:</p></li>
+</ul>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-15_0459c17a6798511c0d7743792a4d4571">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(<span class="fu">as.matrix</span>(d)[<span class="fu">order</span>(y), <span class="fu">order</span>(y)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="26-linear-algebra_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="sec-predictor-space" class="level2" data-number="26.5">
+<h2 data-number="26.5" class="anchored" data-anchor-id="sec-predictor-space"><span class="header-section-number">26.5</span> Spaces</h2>
+<ul>
+<li><p><em>Predictor space</em> is a concept that is often used to describe machine learning algorithms.</p></li>
+<li><p>The term <em>space</em> refers to an advanced mathematical definition for which we provide a simplified explanation to help understand the term predictor space when used in the context of machine learning algorithms.</p></li>
+<li><p>We can think of all predictors <span class="math inline">\((x_{i,1}, \dots, x_{i,n})\)</span> for all observations <span class="math inline">\(i=1,\dots,n\)</span> as <span class="math inline">\(n\)</span> points.</p></li>
+<li><p>A <em>space</em> can be thought of as the collection of all possible points that should be considered for the data analysis in question.</p></li>
+<li><p>This includes points we could see, but have not been observed yet.</p></li>
+<li><p>In the case of the handwritten digits, we can think of the predictor space as any point <span class="math inline">\((x_{1}, \dots, x_{n})\)</span> as long as each entry <span class="math inline">\(x_i, i = 1, \dots, n\)</span> is between 0 and 255.</p></li>
+<li><p>Some Machine Learning algorithms also define subspaces.</p></li>
+<li><p>A common approach is to define neighborhoods of points that are close to a <em>center</em>.</p></li>
+<li><p>We can do this by selecting a center <span class="math inline">\(\mathbf{x}_0\)</span>, a minimum distance <span class="math inline">\(r\)</span>, and defining the subspace as the collection of points <span class="math inline">\(\mathbf{x}\)</span> that satisfy</p></li>
+</ul>
+<p><span class="math display">\[
+|| \mathbf{x} - \mathbf{x}_0 || \leq r.
+\]</span></p>
+<ul>
+<li><p>We can think of this a multidimensional sphere since, as in a circle or sphere, every point is the same distance away from the center.</p></li>
+<li><p>Other machine learning algorithms partition the predictor space into non-overlapping regions and then make different predictions for each region using the data in the region.</p></li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="26.6">
+<h2 data-number="26.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">26.6</span> Exercises</h2>
+<p>1. Generate two matrix, <code>A</code> and <code>B</code>, containing randomly generated and normally distributed numbers. The dimensions of these two matrices should <span class="math inline">\(4 \times 3\)</span> and <span class="math inline">\(3 \times 6\)</span>, respectively. Confirm that <code>C &lt;- A %*% B</code> produce the same results as:</p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-16_e3d436fe222985b5bd0aaad3e32d1552">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(A)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ncol</span>(B)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, m, p)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>m){</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p){</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    C[i,j] <span class="ot">&lt;-</span> <span class="fu">sum</span>(A[i,] <span class="sc">*</span> B[,j])</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>2. Solve the following system of equations using R:</p>
+<p><span class="math display">\[
+\begin{align}
+x + y + z + w &amp;= 10\\
+2x + 3y - z - w &amp;= 5\\
+3x - y + 4z - 2w &amp;= 15\\
+2x + 2y + 2z + 2w &amp;= 20\\
+\end{align}
+\]</span></p>
+<p>3. Define <code>x</code></p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-17_7d2c79837ddb39ce1d31121105e8f5ee">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mnist <span class="ot">&lt;-</span> <span class="fu">read_mnist</span>()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> mnist<span class="sc">$</span>train<span class="sc">$</span>images[<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>,] </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> mnist<span class="sc">$</span>train<span class="sc">$</span>labels[<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and compute the distance matrix</p>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-18_229ae7adeac6010c953848a765f952d8">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(x)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Generate a boxplot showing the distances for the second row of <code>d</code> stratified by digits. Do not include the distance to itself which we know it is 0. Can you predict what digit is represented by the second row of <code>x</code>?</p>
+<p>4. Use the <code>apply</code> function and matrix algebra to compute the distance between the second digit <code>mnist$train$images[4,]</code> and all other digits represented in <code>mnist$train$images</code>. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.</p>
+<p>5. Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./25-matrices-in-R.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Matrices in R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./27-dimension-reduction.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Dimension reduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
