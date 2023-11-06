@@ -41,6 +41,8 @@ book:
     - 23-association-tests.qmd 
     - 24-corrleation-not-causation.qmd
     - 25-matrices-in-R.qmd
+    - 26-linear-algebra.qmd  
+    - 27-dimension-reduction.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023
