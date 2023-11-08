@@ -21,20 +21,27 @@ pData(e)
 
 1. Described the distribution of ethnic groups
 
-2. Remove the `HAN` group
+2. Create a factor`x` with the ethnic group information and a matrix `y` with the gene expression matrix.
 
-3. Compute a t-test comparing `ASN` to `CEU`. How many genes have p-values smaller than 0.05 / number of tests?
+3. Remove the `HAN` group. Make sure you remove from both `x` and `y`
 
+4. Compute a t-test for the first gene comparing `ASN` to `CEU`. 
 
-4. Plot p-values versue effect size.
+5. Now use rowwise operations to compute t-test for each gene. How many genes have p-values smaller than 0.05 / number of tests?
 
-5. How many genes are significant after bonferroni 
+6. If the null hypothesis is true for all genes, and the genes are independent of each other, what distribution do you expect p-values to have? You can use a Monte Carlo.
 
-6. For the top 5 genes with smallest p-values plot the expression values as a function of time with the color representing ethnicity.
+7. Under the null how many p-values smaller than 0.05 do you expect across all genes.
 
-7. Compute the first 5 PCs and see how they vary across year.
+8. Make histogram of the observed p-values.
 
-8. For the top genes, fit a linear model that accounts for batch.
+9. For the top 5 genes with smallest p-values make a boxplot of gene expression by group.
+
+10. Compute the first 5 PCs and see how they vary across time.
+
+11. Use the PCs to identified groups other than ethnic group.
+
+12. For the top genes, fit a linear model that includes these newly identified groups.
 
 
 

@@ -631,13 +631,17 @@ Attaching package: 'BiocGenerics'</code></pre>
 </div>
 <ol type="1">
 <li><p>Described the distribution of ethnic groups</p></li>
-<li><p>Remove the <code>HAN</code> group</p></li>
-<li><p>Compute a t-test comparing <code>ASN</code> to <code>CEU</code>. How many genes have p-values smaller than 0.05 / number of tests?</p></li>
-<li><p>Plot p-values versue effect size.</p></li>
-<li><p>How many genes are significant after bonferroni</p></li>
-<li><p>For the top 5 genes with smallest p-values plot the expression values as a function of time with the color representing ethnicity.</p></li>
-<li><p>Compute the first 5 PCs and see how they vary across year.</p></li>
-<li><p>For the top genes, fit a linear model that accounts for batch.</p></li>
+<li><p>Create a factor<code>x</code> with the ethnic group information and a matrix <code>y</code> with the gene expression matrix.</p></li>
+<li><p>Remove the <code>HAN</code> group. Make sure you remove from both <code>x</code> and <code>y</code></p></li>
+<li><p>Compute a t-test for the first gene comparing <code>ASN</code> to <code>CEU</code>.</p></li>
+<li><p>Now use rowwise operations to compute t-test for each gene. How many genes have p-values smaller than 0.05 / number of tests?</p></li>
+<li><p>If the null hypothesis is true for all genes, and the genes are independent of each other, what distribution do you expect p-values to have? You can use a Monte Carlo.</p></li>
+<li><p>Under the null how many p-values smaller than 0.05 do you expect across all genes.</p></li>
+<li><p>Make histogram of the observed p-values.</p></li>
+<li><p>For the top 5 genes with smallest p-values make a boxplot of gene expression by group.</p></li>
+<li><p>Compute the first 5 PCs and see how they vary across time.</p></li>
+<li><p>Use the PCs to identified groups other than ethnic group.</p></li>
+<li><p>For the top genes, fit a linear model that includes these newly identified groups.</p></li>
 </ol>
 
 
