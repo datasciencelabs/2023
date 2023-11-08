@@ -17,7 +17,7 @@ if (!require("devtools", quietly = TRUE))
 devtools::install_github("genomicsclass/GSE5859")
 ```
 
-```{r}
+```{r, message=FALSE}
 library(Biobase)
 library(GSE5859)
 data(GSE5859)
