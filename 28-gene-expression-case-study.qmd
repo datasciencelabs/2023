@@ -1,5 +1,7 @@
 # Case Study: Differential expression between ethnicity 
 
+Paper here: <https://pubmed.ncbi.nlm.nih.gov/17206142/>
+
 >>> Variation in DNA sequence contributes to individual differences in quantitative traits, but in humans the specific sequence variants are known for very few traits. We characterized variation in gene expression in cells from individuals belonging to three major population groups. This quantitative phenotype differs significantly between European-derived and Asian-derived populations for 1,097 of 4,197 genes tested. For the phenotypes with the strongest evidence of cis determinants, most of the variation is due to allele frequency differences at cis-linked regulators. The results show that specific genetic variation among populations contributes appreciably to differences in gene expression phenotypes. Populations differ in prevalence of many complex genetic diseases, such as diabetes and cardiovascular disease. As some of these are probably influenced by the level of gene expression, our results suggest that allele frequency differences at regulatory polymorphisms also account for some population differences in prevalence of complex diseases.
 
 ```{r}
@@ -20,34 +22,136 @@ library(Biobase)
 library(GSE5859)
 data(GSE5859)
 dim(exprs(e))
-pData(e)
+dim(pData(e))
 ```
 
 
 1. Described the distribution of ethnic groups
 
+```{r}
+table(pData(e)$ethnicity)
+pData(e) |> dplyr::count(ethnicity)
+```
+
 2. Create a factor`x` with the ethnic group information and a matrix `y` with the gene expression matrix.
+
+```{r}
+x <- pData(e)$ethnicity
+y <- exprs(e)
+y <- y[-grep("AFFX", rownames(y)),] ## remove control genes
+d <- lubridate::ymd(pData(e)$date)
+```
 
 3. Remove the `HAN` group. Make sure you remove from both `x` and `y`
 
+```{r}
+ind <- which(x != "HAN")
+x <- x[ind]
+x <- droplevels(x)
+y <- y[,ind]
+d <- d[ind]
+```
+
 4. Compute a t-test for the first gene comparing `ASN` to `CEU`. 
+
+```{r}
+ind0 <- x == "ASN"
+y1 <- y[1,!ind0]
+y0 <- y[1, ind0]
+tt <- (mean(y1) - mean(y0))/sqrt(sd(y1)^2/length(y1) + sd(y0)^2/length(y0))
+2*(1 - pnorm(abs(tt)))
+```
 
 5. Now use rowwise operations to compute t-test for each gene. How many genes have p-values smaller than 0.05 / number of tests?
 
+```{r}
+library(matrixStats) #home of rowVars()
+ind0 <- x == "ASN"
+y1 <- y[,!ind0]
+y0 <- y[,ind0]
+m1 <- rowMeans(y1)
+m0 <- rowMeans(y0)
+v1 <- rowVars(y1)
+v0 <- rowVars(y0)
+stat <- (m1 - m0)/sqrt(v1/ncol(y1) + v0/ncol(y0))
+p_value <-  2*(1 - pnorm(abs(stat)))
+```
+
 6. If the null hypothesis is true for all genes, and the genes are independent of each other, what distribution do you expect p-values to have? You can use a Monte Carlo.
+
+
+```{r}
+ind0 <- x == "ASN"
+null <- matrix(rnorm(ncol(y)*nrow(y)), nrow(y), ncol(y))
+y1 <- null[,!ind0]
+y0 <- null[,ind0]
+m1 <- rowMeans(y1)
+m0 <- rowMeans(y0)
+v1 <- rowVars(y1)
+v0 <- rowVars(y0)
+null_stat <- (m1 - m0)/sqrt(v1/ncol(y1) + v0/ncol(y0))
+null_p_value <-  2*(1 - pnorm(abs(null_stat)))
+hist(null_p_value)
+```
+
 
 7. Under the null how many p-values smaller than 0.05 do you expect across all genes.
 
-8. Make histogram of the observed p-values.
+```{r}
+0.05*nrow(y)
+sum(null_p_value < 0.05)
+```
+
+
+8. Make a histogram of the observed p-values.
+
+```{r}
+hist(p_value)
+sum(p_value<0.05)
+```
 
 9. For the top 5 genes with smallest p-values make a boxplot of gene expression by group.
 
+```{r}
+log_p_value <- pnorm(-abs(stat), log.p = TRUE) + log(2)
+top_ind <- order(log_p_value)[6:10]
+for (i in top_ind) {
+  boxplot(y[i,]~x)
+  points(jitter(as.numeric(x)), y[i,])
+}
+```
+
+
 10. Compute the first 5 PCs and see how they vary across time.
+
+```{r}
+library(ggplot2)
+pca <- prcomp(t(y), center = TRUE, rank. = 5)
+## change 1 to other numbers to see other PCs
+data.frame(date = d, PC = pca$x[,1], eth = x) |>
+  ggplot(aes(date, PC, color = eth)) +
+  geom_point()
+```
+
 
 11. Use the PCs to identified groups other than ethnic group.
 
+```{r}
+g <- factor(lubridate::year(d))
+```
+
 12. For the top genes, fit a linear model that includes these newly identified groups.
 
+```{r}
+for (i in top_ind) {
+  print(rownames(y)[i])
+  fit <- lm(y[i,]~x)
+  print(summary(fit)$coef[2,])
+  fit <- lm(y[i,]~x+g)
+  print(summary(fit)$coef[2,])
+}
+```
 
+More here: <https://pubmed.ncbi.nlm.nih.gov/17597765/>
 
 

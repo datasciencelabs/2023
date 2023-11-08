@@ -366,6 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<p>Paper here: <a href="https://pubmed.ncbi.nlm.nih.gov/17206142/" class="uri">https://pubmed.ncbi.nlm.nih.gov/17206142/</a></p>
 <blockquote class="blockquote">
 <blockquote class="blockquote">
 <blockquote class="blockquote">
@@ -384,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"genomicsclass/GSE5859"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-2_712fc1405d26a0a5e76e1ce7e8ab5e9e">
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-2_68cdab4df5c507d7ec967c36bce94097">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Biobase)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: BiocGenerics</code></pre>
@@ -421,233 +422,216 @@ Attaching package: 'BiocGenerics'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8793  208</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pData</span>(e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">pData</span>(e))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    ethnicity       date         filename
-1         CEU 2003-02-04  GSM25349.CEL.gz
-2         CEU 2003-02-04  GSM25350.CEL.gz
-3         CEU 2002-12-17  GSM25356.CEL.gz
-4         CEU 2003-01-30  GSM25357.CEL.gz
-5         CEU 2003-01-03  GSM25358.CEL.gz
-6         CEU 2003-01-16  GSM25359.CEL.gz
-7         CEU 2003-01-03  GSM25360.CEL.gz
-8         CEU 2003-02-04  GSM25361.CEL.gz
-9         CEU 2002-12-17  GSM25377.CEL.gz
-10        CEU 2002-12-17  GSM25378.CEL.gz
-11        CEU 2002-12-17  GSM25385.CEL.gz
-12        CEU 2003-01-03  GSM25386.CEL.gz
-13        CEU 2002-12-17  GSM25399.CEL.gz
-14        CEU 2002-12-17  GSM25400.CEL.gz
-15        CEU 2002-11-22  GSM25401.CEL.gz
-16        CEU 2002-12-06  GSM25402.CEL.gz
-17        CEU 2003-01-03  GSM25409.CEL.gz
-18        CEU 2003-02-21  GSM25410.CEL.gz
-19        CEU 2003-02-21  GSM25426.CEL.gz
-20        CEU 2002-12-19  GSM25427.CEL.gz
-21        CEU 2002-11-19  GSM25479.CEL.gz
-22        CEU 2002-11-21  GSM25480.CEL.gz
-23        CEU 2002-11-19  GSM25481.CEL.gz
-24        CEU 2002-11-21  GSM25482.CEL.gz
-25        CEU 2002-11-21  GSM25524.CEL.gz
-26        CEU 2002-11-27  GSM25525.CEL.gz
-27        CEU 2002-12-06  GSM25526.CEL.gz
-28        CEU 2002-12-06  GSM25527.CEL.gz
-29        CEU 2002-11-21  GSM25528.CEL.gz
-30        CEU 2002-11-27  GSM25529.CEL.gz
-31        CEU 2002-11-21  GSM25530.CEL.gz
-32        CEU 2002-12-06  GSM25531.CEL.gz
-33        CEU 2003-01-16  GSM25540.CEL.gz
-34        CEU 2003-01-16  GSM25541.CEL.gz
-35        CEU 2003-01-22  GSM25542.CEL.gz
-36        CEU 2003-01-22  GSM25543.CEL.gz
-37        CEU 2003-03-11  GSM25548.CEL.gz
-38        CEU 2003-03-11  GSM25549.CEL.gz
-39        CEU 2003-03-07  GSM25550.CEL.gz
-40        CEU 2003-03-07  GSM25551.CEL.gz
-41        CEU 2003-04-04  GSM25552.CEL.gz
-42        CEU 2003-04-04  GSM25553.CEL.gz
-43        CEU 2003-01-23  GSM25561.CEL.gz
-44        CEU 2003-01-30  GSM25562.CEL.gz
-45        CEU 2003-01-23  GSM25563.CEL.gz
-46        CEU 2003-01-30  GSM25564.CEL.gz
-47        CEU 2003-02-16  GSM25565.CEL.gz
-48        CEU 2003-02-04  GSM25566.CEL.gz
-49        CEU 2003-01-23  GSM25568.CEL.gz
-50        CEU 2003-02-16  GSM25569.CEL.gz
-51        CEU 2003-03-11  GSM25570.CEL.gz
-52        CEU 2003-03-11  GSM25571.CEL.gz
-53        CEU 2002-10-31  GSM25578.CEL.gz
-54        CEU 2002-11-15  GSM25579.CEL.gz
-55        CEU 2002-10-31  GSM25580.CEL.gz
-56        CEU 2002-11-15  GSM25581.CEL.gz
-57        CEU 2002-12-19  GSM25624.CEL.gz
-58        CEU 2003-01-03  GSM25625.CEL.gz
-59        CEU 2003-01-03  GSM25626.CEL.gz
-60        CEU 2003-01-23  GSM25627.CEL.gz
-61        CEU 2003-01-16  GSM25628.CEL.gz
-62        CEU 2003-01-16  GSM25629.CEL.gz
-63        CEU 2003-01-23  GSM25630.CEL.gz
-64        CEU 2003-03-04  GSM25631.CEL.gz
-65        CEU 2003-01-14  GSM25632.CEL.gz
-66        CEU 2003-01-14  GSM25633.CEL.gz
-67        CEU 2003-01-14  GSM25634.CEL.gz
-68        CEU 2003-01-14  GSM25635.CEL.gz
-69        CEU 2003-01-22  GSM25656.CEL.gz
-70        CEU 2002-11-22  GSM25657.CEL.gz
-71        CEU 2002-12-19  GSM25658.CEL.gz
-72        CEU 2003-01-31  GSM25659.CEL.gz
-73        CEU 2002-12-19  GSM25660.CEL.gz
-74        CEU 2002-12-19  GSM25661.CEL.gz
-75        CEU 2003-02-26  GSM25662.CEL.gz
-76        CEU 2003-02-26  GSM25663.CEL.gz
-77        CEU 2003-02-21  GSM25680.CEL.gz
-78        CEU 2003-02-21  GSM25681.CEL.gz
-79        CEU 2003-02-26  GSM25682.CEL.gz
-80        CEU 2003-02-26  GSM25683.CEL.gz
-81        CEU 2003-02-26  GSM25684.CEL.gz
-82        CEU 2003-02-26  GSM25685.CEL.gz
-83        CEU 2003-02-26  GSM25686.CEL.gz
-84        CEU 2003-02-26  GSM25687.CEL.gz
-85        CEU 2004-04-30  GSM48650.CEL.gz
-86        CEU 2004-04-30  GSM48651.CEL.gz
-87        CEU 2004-04-30  GSM48652.CEL.gz
-88        CEU 2004-04-30  GSM48653.CEL.gz
-89        CEU 2004-12-22  GSM48654.CEL.gz
-90        CEU 2004-11-04  GSM48655.CEL.gz
-91        CEU 2004-11-04  GSM48656.CEL.gz
-92        CEU 2004-11-18  GSM48657.CEL.gz
-93        CEU 2004-11-04  GSM48658.CEL.gz
-94        CEU 2004-11-18  GSM48660.CEL.gz
-95        CEU 2004-12-22  GSM48661.CEL.gz
-96        CEU 2004-11-18  GSM48662.CEL.gz
-97        CEU 2004-11-18  GSM48663.CEL.gz
-98        CEU 2002-11-22  GSM48664.CEL.gz
-99        CEU 2002-11-22  GSM48665.CEL.gz
-100       ASN 2005-05-13 GSM136441.CEL.gz
-101       ASN 2005-06-10 GSM136442.CEL.gz
-102       ASN 2005-06-10 GSM136443.CEL.gz
-103       ASN 2005-06-10 GSM136444.CEL.gz
-104       ASN 2005-06-10 GSM136445.CEL.gz
-105       ASN 2005-06-10 GSM136506.CEL.gz
-106       ASN 2005-06-23 GSM136507.CEL.gz
-107       ASN 2005-06-23 GSM136508.CEL.gz
-108       ASN 2005-06-23 GSM136509.CEL.gz
-109       ASN 2005-06-23 GSM136510.CEL.gz
-110       ASN 2005-06-23 GSM136514.CEL.gz
-111       ASN 2005-06-23 GSM136515.CEL.gz
-112       ASN 2005-06-27 GSM136516.CEL.gz
-113       ASN 2005-06-27 GSM136517.CEL.gz
-114       ASN 2005-06-27 GSM136518.CEL.gz
-115       ASN 2005-06-27 GSM136520.CEL.gz
-116       ASN 2005-06-27 GSM136521.CEL.gz
-117       ASN 2005-06-27 GSM136522.CEL.gz
-118       ASN 2005-06-27 GSM136523.CEL.gz
-119       ASN 2005-06-27 GSM136524.CEL.gz
-120       ASN 2005-06-27 GSM136528.CEL.gz
-121       ASN 2005-06-27 GSM136529.CEL.gz
-122       ASN 2005-06-27 GSM136530.CEL.gz
-123       ASN 2005-07-07 GSM136531.CEL.gz
-124       ASN 2005-07-07 GSM136532.CEL.gz
-125       ASN 2005-07-07 GSM136534.CEL.gz
-126       ASN 2005-07-07 GSM136535.CEL.gz
-127       ASN 2005-07-07 GSM136536.CEL.gz
-128       ASN 2005-07-07 GSM136537.CEL.gz
-129       ASN 2006-06-13 GSM136538.CEL.gz
-130       ASN 2006-06-13 GSM136539.CEL.gz
-131       ASN 2005-08-18 GSM136540.CEL.gz
-132       ASN 2005-08-18 GSM136541.CEL.gz
-133       ASN 2005-08-18 GSM136542.CEL.gz
-134       ASN 2005-08-18 GSM136543.CEL.gz
-135       ASN 2005-08-18 GSM136544.CEL.gz
-136       ASN 2005-08-18 GSM136545.CEL.gz
-137       ASN 2005-08-18 GSM136546.CEL.gz
-138       ASN 2005-08-18 GSM136547.CEL.gz
-139       ASN 2005-08-18 GSM136548.CEL.gz
-140       ASN 2005-08-18 GSM136549.CEL.gz
-141       ASN 2005-08-18 GSM136550.CEL.gz
-142       ASN 2005-08-18 GSM136551.CEL.gz
-143       ASN 2005-09-29 GSM136552.CEL.gz
-144       ASN 2005-09-29 GSM136553.CEL.gz
-145       ASN 2005-09-29 GSM136555.CEL.gz
-146       ASN 2005-09-29 GSM136556.CEL.gz
-147       ASN 2005-09-29 GSM136557.CEL.gz
-148       ASN 2005-09-29 GSM136558.CEL.gz
-149       ASN 2005-10-07 GSM136559.CEL.gz
-150       ASN 2005-10-07 GSM136563.CEL.gz
-151       ASN 2005-10-07 GSM136564.CEL.gz
-152       ASN 2005-10-07 GSM136565.CEL.gz
-153       ASN 2005-10-07 GSM136566.CEL.gz
-154       ASN 2005-10-07 GSM136567.CEL.gz
-155       ASN 2005-10-07 GSM136568.CEL.gz
-156       ASN 2005-10-07 GSM136569.CEL.gz
-157       ASN 2005-10-07 GSM136570.CEL.gz
-158       ASN 2005-10-07 GSM136571.CEL.gz
-159       ASN 2005-10-07 GSM136572.CEL.gz
-160       ASN 2005-10-07 GSM136573.CEL.gz
-161       ASN 2005-10-07 GSM136574.CEL.gz
-162       ASN 2005-10-28 GSM136575.CEL.gz
-163       ASN 2005-10-28 GSM136576.CEL.gz
-164       ASN 2005-10-28 GSM136577.CEL.gz
-165       ASN 2005-11-18 GSM136658.CEL.gz
-166       ASN 2005-11-18 GSM136659.CEL.gz
-167       ASN 2005-11-18 GSM136660.CEL.gz
-168       ASN 2005-11-18 GSM136661.CEL.gz
-169       ASN 2005-11-18 GSM136662.CEL.gz
-170       ASN 2005-11-18 GSM136663.CEL.gz
-171       ASN 2005-11-18 GSM136664.CEL.gz
-172       ASN 2005-11-18 GSM136665.CEL.gz
-173       ASN 2005-11-18 GSM136666.CEL.gz
-174       ASN 2005-11-18 GSM136667.CEL.gz
-175       ASN 2005-11-18 GSM136668.CEL.gz
-176       ASN 2005-11-18 GSM136669.CEL.gz
-177       ASN 2005-11-18 GSM136670.CEL.gz
-178       ASN 2005-12-21 GSM136671.CEL.gz
-179       ASN 2005-12-21 GSM136672.CEL.gz
-180       ASN 2005-12-21 GSM136673.CEL.gz
-181       HAN 2006-04-28 GSM136674.CEL.gz
-182       HAN 2006-04-28 GSM136675.CEL.gz
-183       HAN 2006-04-28 GSM136676.CEL.gz
-184       HAN 2006-04-28 GSM136677.CEL.gz
-185       HAN 2006-04-28 GSM136705.CEL.gz
-186       HAN 2006-04-28 GSM136706.CEL.gz
-187       HAN 2006-04-28 GSM136707.CEL.gz
-188       HAN 2006-04-28 GSM136708.CEL.gz
-189       HAN 2006-04-28 GSM136709.CEL.gz
-190       HAN 2006-04-28 GSM136710.CEL.gz
-191       HAN 2006-04-28 GSM136711.CEL.gz
-192       HAN 2006-04-28 GSM136712.CEL.gz
-193       HAN 2006-04-28 GSM136713.CEL.gz
-194       HAN 2006-04-28 GSM136714.CEL.gz
-195       HAN 2006-04-28 GSM136715.CEL.gz
-196       HAN 2006-04-28 GSM136716.CEL.gz
-197       HAN 2006-04-28 GSM136717.CEL.gz
-198       HAN 2006-04-28 GSM136718.CEL.gz
-199       HAN 2006-04-28 GSM136719.CEL.gz
-200       HAN 2006-04-28 GSM136720.CEL.gz
-201       HAN 2006-04-28 GSM136721.CEL.gz
-202       HAN 2006-04-28 GSM136722.CEL.gz
-203       HAN 2006-04-28 GSM136723.CEL.gz
-204       HAN 2006-04-28 GSM136724.CEL.gz
-205       CEU 2005-02-16 GSM136725.CEL.gz
-206       CEU 2005-02-16 GSM136726.CEL.gz
-207       CEU 2005-06-10 GSM136727.CEL.gz
-208       ASN 2005-05-13 GSM136729.CEL.gz</code></pre>
+<pre><code>[1] 208   3</code></pre>
 </div>
 </div>
 <ol type="1">
-<li><p>Described the distribution of ethnic groups</p></li>
-<li><p>Create a factor<code>x</code> with the ethnic group information and a matrix <code>y</code> with the gene expression matrix.</p></li>
-<li><p>Remove the <code>HAN</code> group. Make sure you remove from both <code>x</code> and <code>y</code></p></li>
-<li><p>Compute a t-test for the first gene comparing <code>ASN</code> to <code>CEU</code>.</p></li>
-<li><p>Now use rowwise operations to compute t-test for each gene. How many genes have p-values smaller than 0.05 / number of tests?</p></li>
-<li><p>If the null hypothesis is true for all genes, and the genes are independent of each other, what distribution do you expect p-values to have? You can use a Monte Carlo.</p></li>
-<li><p>Under the null how many p-values smaller than 0.05 do you expect across all genes.</p></li>
-<li><p>Make histogram of the observed p-values.</p></li>
-<li><p>For the top 5 genes with smallest p-values make a boxplot of gene expression by group.</p></li>
-<li><p>Compute the first 5 PCs and see how they vary across time.</p></li>
-<li><p>Use the PCs to identified groups other than ethnic group.</p></li>
-<li><p>For the top genes, fit a linear model that includes these newly identified groups.</p></li>
+<li>Described the distribution of ethnic groups</li>
 </ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-3_0ab7702ea8d1a9bcbca73aa5d80d9549">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">pData</span>(e)<span class="sc">$</span>ethnicity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ASN CEU HAN 
+ 82 102  24 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pData</span>(e) <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">count</span>(ethnicity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ethnicity   n
+1       ASN  82
+2       CEU 102
+3       HAN  24</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Create a factor<code>x</code> with the ethnic group information and a matrix <code>y</code> with the gene expression matrix.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-4_14f809dccc0714decc554b4d0ed29920">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">pData</span>(e)<span class="sc">$</span>ethnicity</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">exprs</span>(e)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> y[<span class="sc">-</span><span class="fu">grep</span>(<span class="st">"AFFX"</span>, <span class="fu">rownames</span>(y)),] <span class="do">## remove control genes</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">pData</span>(e)<span class="sc">$</span>date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Remove the <code>HAN</code> group. Make sure you remove from both <code>x</code> and <code>y</code></li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-5_63dd30dd91f6407c357585e3edb46fbc">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">which</span>(x <span class="sc">!=</span> <span class="st">"HAN"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x[ind]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(x)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> y[,ind]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d[ind]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>Compute a t-test for the first gene comparing <code>ASN</code> to <code>CEU</code>.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-6_11e6082a875eb96901a013f390312e17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ind0 <span class="ot">&lt;-</span> x <span class="sc">==</span> <span class="st">"ASN"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y[<span class="dv">1</span>,<span class="sc">!</span>ind0]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> y[<span class="dv">1</span>, ind0]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>tt <span class="ot">&lt;-</span> (<span class="fu">mean</span>(y1) <span class="sc">-</span> <span class="fu">mean</span>(y0))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">sd</span>(y1)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">length</span>(y1) <span class="sc">+</span> <span class="fu">sd</span>(y0)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="fu">length</span>(y0))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(tt)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.80249e-09</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Now use rowwise operations to compute t-test for each gene. How many genes have p-values smaller than 0.05 / number of tests?</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-7_013181743643a31c722438c9d50dce39">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(matrixStats) <span class="co">#home of rowVars()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'matrixStats'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:Biobase':
+
+    anyMissing, rowMedians</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ind0 <span class="ot">&lt;-</span> x <span class="sc">==</span> <span class="st">"ASN"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y[,<span class="sc">!</span>ind0]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> y[,ind0]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(y1)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(y0)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">rowVars</span>(y1)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>v0 <span class="ot">&lt;-</span> <span class="fu">rowVars</span>(y0)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> (m1 <span class="sc">-</span> m0)<span class="sc">/</span><span class="fu">sqrt</span>(v1<span class="sc">/</span><span class="fu">ncol</span>(y1) <span class="sc">+</span> v0<span class="sc">/</span><span class="fu">ncol</span>(y0))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span>  <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(stat)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="6" type="1">
+<li>If the null hypothesis is true for all genes, and the genes are independent of each other, what distribution do you expect p-values to have? You can use a Monte Carlo.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-8_57736ec422d02620dfd212208839555d">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ind0 <span class="ot">&lt;-</span> x <span class="sc">==</span> <span class="st">"ASN"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>null <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">ncol</span>(y)<span class="sc">*</span><span class="fu">nrow</span>(y)), <span class="fu">nrow</span>(y), <span class="fu">ncol</span>(y))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> null[,<span class="sc">!</span>ind0]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> null[,ind0]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(y1)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(y0)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">rowVars</span>(y1)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>v0 <span class="ot">&lt;-</span> <span class="fu">rowVars</span>(y0)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>null_stat <span class="ot">&lt;-</span> (m1 <span class="sc">-</span> m0)<span class="sc">/</span><span class="fu">sqrt</span>(v1<span class="sc">/</span><span class="fu">ncol</span>(y1) <span class="sc">+</span> v0<span class="sc">/</span><span class="fu">ncol</span>(y0))</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>null_p_value <span class="ot">&lt;-</span>  <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(null_stat)))</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(null_p_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="7" type="1">
+<li>Under the null how many p-values smaller than 0.05 do you expect across all genes.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-9_2f3533fc8ee87e1291a71fdfe034caf1">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.05</span><span class="sc">*</span><span class="fu">nrow</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 437.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(null_p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 442</code></pre>
+</div>
+</div>
+<ol start="8" type="1">
+<li>Make a histogram of the observed p-values.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-10_c5ab30759abee67d6230820867ea138f">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(p_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(p_value<span class="sc">&lt;</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6296</code></pre>
+</div>
+</div>
+<ol start="9" type="1">
+<li>For the top 5 genes with smallest p-values make a boxplot of gene expression by group.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-11_12f1f252a23257a20419de3b6338cd0e">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>log_p_value <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(stat), <span class="at">log.p =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">2</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>top_ind <span class="ot">&lt;-</span> <span class="fu">order</span>(log_p_value)[<span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> top_ind) {</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">boxplot</span>(y[i,]<span class="sc">~</span>x)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(<span class="fu">jitter</span>(<span class="fu">as.numeric</span>(x)), y[i,])</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-11-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-11-5.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="10" type="1">
+<li>Compute the first 5 PCs and see how they vary across time.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-12_10964a63cd383829d15f759bfd37b52f">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(y), <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">rank. =</span> <span class="dv">5</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="do">## change 1 to other numbers to see other PCs</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">date =</span> d, <span class="at">PC =</span> pca<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">eth =</span> x) <span class="sc">|&gt;</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(date, PC, <span class="at">color =</span> eth)) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="28-gene-expression-case-study_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="11" type="1">
+<li>Use the PCs to identified groups other than ethnic group.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-13_8c3f6099d43f61f2f7fd2da0baae072c">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">factor</span>(lubridate<span class="sc">::</span><span class="fu">year</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="12" type="1">
+<li>For the top genes, fit a linear model that includes these newly identified groups.</li>
+</ol>
+<div class="cell" data-hash="28-gene-expression-case-study_cache/html/unnamed-chunk-14_ba0b943b38d89156595fd35901e54629">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> top_ind) {</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">rownames</span>(y)[i])</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[i,]<span class="sc">~</span>x)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(fit)<span class="sc">$</span>coef[<span class="dv">2</span>,])</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y[i,]<span class="sc">~</span>x<span class="sc">+</span>g)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(fit)<span class="sc">$</span>coef[<span class="dv">2</span>,])</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "202100_at"
+     Estimate    Std. Error       t value      Pr(&gt;|t|) 
+-7.286322e-01  4.848757e-02 -1.502720e+01  1.027943e-33 
+  Estimate Std. Error    t value   Pr(&gt;|t|) 
+-0.1151998  0.1721053 -0.6693565  0.5041354 
+[1] "220371_s_at"
+    Estimate   Std. Error      t value     Pr(&gt;|t|) 
+6.641708e-01 4.796013e-02 1.384839e+01 2.969254e-30 
+  Estimate Std. Error    t value   Pr(&gt;|t|) 
+ 0.1245036  0.1485252  0.8382657  0.4030057 
+[1] "204826_at"
+    Estimate   Std. Error      t value     Pr(&gt;|t|) 
+7.532823e-01 5.079853e-02 1.482882e+01 3.914570e-33 
+  Estimate Std. Error    t value   Pr(&gt;|t|) 
+ 0.1417954  0.1623541  0.8733715  0.3836373 
+[1] "208104_s_at"
+    Estimate   Std. Error      t value     Pr(&gt;|t|) 
+7.452066e-01 5.367906e-02 1.388263e+01 2.354390e-30 
+  Estimate Std. Error    t value   Pr(&gt;|t|) 
+0.01811893 0.16958223 0.10684454 0.91503264 
+[1] "202073_at"
+     Estimate    Std. Error       t value      Pr(&gt;|t|) 
+-7.009949e-01  4.855401e-02 -1.443743e+01  5.504128e-32 
+  Estimate Std. Error    t value   Pr(&gt;|t|) 
+0.02581273 0.16842121 0.15326295 0.87836452 </code></pre>
+</div>
+</div>
+<p>More here: <a href="https://pubmed.ncbi.nlm.nih.gov/17597765/" class="uri">https://pubmed.ncbi.nlm.nih.gov/17597765/</a></p>
 
 
 
