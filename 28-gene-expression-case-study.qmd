@@ -8,6 +8,11 @@ if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("Biobase")
+
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")
+
+devtools::install_github("genomicsclass/GSE5859")
 ```
 
 ```{r}
