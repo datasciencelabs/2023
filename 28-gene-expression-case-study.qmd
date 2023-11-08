@@ -1,0 +1,41 @@
+# Case Study: Differential expression between ethnicity 
+
+>>> Variation in DNA sequence contributes to individual differences in quantitative traits, but in humans the specific sequence variants are known for very few traits. We characterized variation in gene expression in cells from individuals belonging to three major population groups. This quantitative phenotype differs significantly between European-derived and Asian-derived populations for 1,097 of 4,197 genes tested. For the phenotypes with the strongest evidence of cis determinants, most of the variation is due to allele frequency differences at cis-linked regulators. The results show that specific genetic variation among populations contributes appreciably to differences in gene expression phenotypes. Populations differ in prevalence of many complex genetic diseases, such as diabetes and cardiovascular disease. As some of these are probably influenced by the level of gene expression, our results suggest that allele frequency differences at regulatory polymorphisms also account for some population differences in prevalence of complex diseases.
+
+```{r}
+#| eval: false
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Biobase")
+```
+
+```{r}
+library(Biobase)
+library(GSE5859)
+data(GSE5859)
+dim(exprs(e))
+pData(e)
+```
+
+
+1. Described the distribution of ethnic groups
+
+2. Remove the `HAN` group
+
+3. Compute a t-test comparing `ASN` to `CEU`. How many genes have p-values smaller than 0.05 / number of tests?
+
+
+4. Plot p-values versue effect size.
+
+5. How many genes are significant after bonferroni 
+
+6. For the top 5 genes with smallest p-values plot the expression values as a function of time with the color representing ethnicity.
+
+7. Compute the first 5 PCs and see how they vary across year.
+
+8. For the top genes, fit a linear model that accounts for batch.
+
+
+
+
