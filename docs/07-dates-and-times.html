@@ -339,6 +339,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -381,7 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="the-date-data-type" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="the-date-data-type"><span class="header-section-number">7.1</span> The date data type</h2>
-<p>We have described three main types of vectors: numeric, character, and logical. When analyzing data, we often encounter variables that are dates. Although we can represent a date with a string, for example November 07, 2023`, once we pick a reference day, referred to as the <em>epoch</em> by computer programmers, they can be converted to numbers by calculating the number of days since the epoch. In R and Unix, the epoch is defined as January 1, 1970. So, for example, January 2, 1970 is day 1, December 31, 1969 is day -1, and so on.</p>
+<p>We have described three main types of vectors: numeric, character, and logical. When analyzing data, we often encounter variables that are dates. Although we can represent a date with a string, for example November 13, 2023`, once we pick a reference day, referred to as the <em>epoch</em> by computer programmers, they can be converted to numbers by calculating the number of days since the epoch. In R and Unix, the epoch is defined as January 1, 1970. So, for example, January 2, 1970 is day 1, December 31, 1969 is day -1, and so on.</p>
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-1_2dce14b7f30e6887796d7e14937995f4">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"1970-01-01"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -401,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 19638</code></pre>
+<pre><code>[1] 19669</code></pre>
 </div>
 </div>
 <p>The date class let’s R know that it is date so you can extract year, months, days of the week etc…</p>
@@ -409,14 +421,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-3_528d7f04b5b18e9b9454c0c4919bfd4b">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(x, <span class="st">"%B %d, %Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "October 08, 2023"</code></pre>
+<pre><code>[1] "November 08, 2023"</code></pre>
 </div>
 </div>
 <p>There are many formats:</p>
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-4_6fbce11f5e6962b86905da0a23c16c5a">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(x, <span class="st">"%b %d %y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Oct 08 23"</code></pre>
+<pre><code>[1] "Nov 08 23"</code></pre>
 </div>
 </div>
 <p>To see all the possibilities you can consult the data and time formats <a href="https://devhints.io/datetime">cheat sheet</a></p>
@@ -452,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-8_1dc521a9bb7245dac99d44fbdfff09e6">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">today</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2023-10-08"</code></pre>
+<pre><code>[1] "2023-11-08"</code></pre>
 </div>
 </div>
 <p>We can generate random dates like this:</p>
@@ -517,14 +529,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-14_9614ebb3c66b7dd6d7e660b59c2ca80d">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2023-10-08 17:16:50 EDT"</code></pre>
+<pre><code>[1] "2023-11-08 11:18:35 EST"</code></pre>
 </div>
 </div>
 <p>You can provide time zones too:</p>
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-15_4d875ab7740769e0c4130d9449ba35e5">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>(<span class="st">"GMT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2023-10-08 21:16:50 GMT"</code></pre>
+<pre><code>[1] "2023-11-08 16:18:35 GMT"</code></pre>
 </div>
 </div>
 <p>You can see all the available time zones with <code>OlsonNames()</code> function.</p>
@@ -532,15 +544,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-16_1744248575f8707ba7cf15ef9780d2bf">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>() <span class="sc">|&gt;</span> <span class="fu">hour</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 17</code></pre>
+<pre><code>[1] 11</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>() <span class="sc">|&gt;</span> <span class="fu">minute</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16</code></pre>
+<pre><code>[1] 18</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>() <span class="sc">|&gt;</span> <span class="fu">second</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 50.63752</code></pre>
+<pre><code>[1] 35.65565</code></pre>
 </div>
 </div>
 <p>The package also includes a function to parse strings into times as well as parsers for time objects that include dates:</p>
@@ -570,28 +582,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">floor_date</span>(x, <span class="at">unit =</span> <span class="st">"week"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-2022-10-09 2022-10-16 2022-10-23 2022-10-30 2022-11-06 2022-11-13 2022-11-20 
+2022-11-06 2022-11-13 2022-11-20 2022-11-27 2022-12-04 2022-12-11 2022-12-18 
+         4          7          7          7          7          7          7 
+2022-12-25 2023-01-01 2023-01-08 2023-01-15 2023-01-22 2023-01-29 2023-02-05 
          7          7          7          7          7          7          7 
-2022-11-27 2022-12-04 2022-12-11 2022-12-18 2022-12-25 2023-01-01 2023-01-08 
+2023-02-12 2023-02-19 2023-02-26 2023-03-05 2023-03-12 2023-03-19 2023-03-26 
          7          7          7          7          7          7          7 
-2023-01-15 2023-01-22 2023-01-29 2023-02-05 2023-02-12 2023-02-19 2023-02-26 
+2023-04-02 2023-04-09 2023-04-16 2023-04-23 2023-04-30 2023-05-07 2023-05-14 
          7          7          7          7          7          7          7 
-2023-03-05 2023-03-12 2023-03-19 2023-03-26 2023-04-02 2023-04-09 2023-04-16 
+2023-05-21 2023-05-28 2023-06-04 2023-06-11 2023-06-18 2023-06-25 2023-07-02 
          7          7          7          7          7          7          7 
-2023-04-23 2023-04-30 2023-05-07 2023-05-14 2023-05-21 2023-05-28 2023-06-04 
+2023-07-09 2023-07-16 2023-07-23 2023-07-30 2023-08-06 2023-08-13 2023-08-20 
          7          7          7          7          7          7          7 
-2023-06-11 2023-06-18 2023-06-25 2023-07-02 2023-07-09 2023-07-16 2023-07-23 
+2023-08-27 2023-09-03 2023-09-10 2023-09-17 2023-09-24 2023-10-01 2023-10-08 
          7          7          7          7          7          7          7 
-2023-07-30 2023-08-06 2023-08-13 2023-08-20 2023-08-27 2023-09-03 2023-09-10 
-         7          7          7          7          7          7          7 
-2023-09-17 2023-09-24 2023-10-01 2023-10-08 
-         7          7          7          1 </code></pre>
+2023-10-15 2023-10-22 2023-10-29 2023-11-05 
+         7          7          7          4 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">floor_date</span>(x, <span class="at">unit =</span> <span class="st">"year"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 2022-01-01 2023-01-01 
-        84        281 </code></pre>
+        53        312 </code></pre>
 </div>
 </div>
 <p>What if I want to start counting on Mondays?</p>
@@ -599,18 +611,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">today</span>() <span class="sc">-</span> <span class="fu">weeks</span>(<span class="dv">1</span>) <span class="sc">+</span> <span class="dv">1</span>, <span class="fu">today</span>(), <span class="at">by =</span> <span class="st">"days"</span>)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wday</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 3 4 5 6 7 1</code></pre>
+<pre><code>[1] 5 6 7 1 2 3 4</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">day =</span> x, <span class="at">week =</span> <span class="fu">floor_date</span>(x, <span class="at">unit =</span> <span class="st">"week"</span>, <span class="at">week_start =</span> <span class="st">"Sun"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         day       week
-1 2023-10-02 2023-10-01
-2 2023-10-03 2023-10-01
-3 2023-10-04 2023-10-01
-4 2023-10-05 2023-10-01
-5 2023-10-06 2023-10-01
-6 2023-10-07 2023-10-01
-7 2023-10-08 2023-10-08</code></pre>
+1 2023-11-02 2023-10-29
+2 2023-11-03 2023-10-29
+3 2023-11-04 2023-10-29
+4 2023-11-05 2023-11-05
+5 2023-11-06 2023-11-05
+6 2023-11-07 2023-11-05
+7 2023-11-08 2023-11-05</code></pre>
 </div>
 </div>
 </section>
@@ -619,7 +631,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="07-dates-and-times_cache/html/unnamed-chunk-21_19abbc0462784dd72a86adf56c44faae">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">yday</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 275 276 277 278 279 280 281</code></pre>
+<pre><code>[1] 306 307 308 309 310 311 312</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mday</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

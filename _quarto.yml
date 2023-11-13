@@ -43,7 +43,9 @@ book:
     - 25-matrices-in-R.qmd
     - 26-linear-algebra.qmd  
     - 27-dimension-reduction.qmd
-    - 28-gene-expression-case-study.qmd 
+    - 28-gene-expression-case-study.qmd
+    - 29-regularization.qmd
+    - 30-matrix-factorization.qmd
     
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023

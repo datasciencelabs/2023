@@ -341,6 +341,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -419,20 +431,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 1,000,000 × 2
     group     r
     &lt;int&gt; &lt;dbl&gt;
- 1 244616 0.825
- 2 867390 0.789
- 3 786648 0.785
- 4 304435 0.782
- 5 317076 0.775
- 6 268683 0.767
- 7 262264 0.764
- 8     21 0.758
- 9 401401 0.754
-10 335060 0.753
+ 1 916036 0.790
+ 2 892957 0.789
+ 3 304981 0.787
+ 4  80588 0.766
+ 5 570177 0.764
+ 6 739040 0.764
+ 7 426622 0.760
+ 8 580805 0.760
+ 9 894761 0.745
+10 407281 0.744
 # ℹ 999,990 more rows</code></pre>
 </div>
 </div>
-<p>We see a maximum correlation of 0.8252061 and if you just plot the data from the group achieving this correlation, it shows a convincing plot that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are in fact correlated:</p>
+<p>We see a maximum correlation of 0.7903123 and if you just plot the data from the group achieving this correlation, it shows a convincing plot that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are in fact correlated:</p>
 <div class="cell" data-hash="24-corrleation-not-causation_cache/html/dredging_63f62c1be15d13028bdcce2c5de16e15">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sim_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(group <span class="sc">==</span> res<span class="sc">$</span>group[<span class="fu">which.max</span>(res<span class="sc">$</span>r)]) <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
@@ -452,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="24-corrleation-not-causation_files/figure-html/null-corr-hist-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It’s just a mathematical fact that if we observe random correlations that are expected to be 0, but have a standard error of 0.2043045, the largest one will be close to 1.</p>
+<p>It’s just a mathematical fact that if we observe random correlations that are expected to be 0, but have a standard error of 0.2039534, the largest one will be close to 1.</p>
 <p>If we performed regression on this group and interpreted the p-value, we would incorrectly claim this was a statistically significant relation:</p>
 <div class="cell" data-hash="24-corrleation-not-causation_cache/html/unnamed-chunk-3_2e8e2638176c62f9102c022463d0b821">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
@@ -462,9 +474,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 5
-  term  estimate std.error statistic     p.value
-  &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
-1 x        0.745     0.106      7.01 0.000000386</code></pre>
+  term  estimate std.error statistic    p.value
+  &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 x        0.843     0.136      6.19 0.00000260</code></pre>
 </div>
 </div>
 <p>This particular form of data dredging is referred to as <em>p-hacking</em>. P-hacking is a topic of much discussion because it is a problem in scientific publications. Because publishers tend to reward statistically significant results over negative results, there is an incentive to report significant results. In epidemiology and the social sciences, for example, researchers may look for associations between an adverse outcome and several exposures and report only the one exposure that resulted in a small p-value. Furthermore, they might try fitting several different models to account for confounding and pick the one that yields the smallest p-value. In experimental disciplines, an experiment might be repeated more than once, yet only the results of the one experiment with a small p-value reported. This does not necessarily happen due to unethical behavior, but rather as a result of statistical ignorance or wishful thinking. In advanced statistics courses, you can learn methods to adjust for these multiple comparisons.</p>
@@ -538,7 +550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A very likely possibility is that the children needing regular parental help, receive this help because they don’t perform well in school.</p>
 <p>We can easily construct an example of cause and effect reversal using the father and son height data. If we fit the model:</p>
 <p><span class="math display">\[X_i = \beta_0 + \beta_1 y_i + \varepsilon_i, i=1, \dots, N\]</span></p>
-<p>to the father and son height data, with <span class="math inline">\(X_i\)</span> the father height and <span class="math inline">\(y_i\)</span> the son height, we do get a statistically significant result. We use the <code>galton_heights</code> dataset defined in Chapter <a href="20-regression.html"><span>Chapter&nbsp;20</span></a>:</p>
+<p>to the father and son height data, with <span class="math inline">\(X_i\)</span> the father height and <span class="math inline">\(y_i\)</span> the son height, we do get a statistically significant result. We use the <code>galton_heights</code> dataset defined in Chapter <a href="#sec-regression"><span class="quarto-unresolved-ref">sec-regression</span></a>:</p>
 <div class="cell" data-hash="24-corrleation-not-causation_cache/html/unnamed-chunk-10_a4c2b986ff3da137acf71bbffbfa5517">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>galton_heights <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">tidy</span>(<span class="fu">lm</span>(father <span class="sc">~</span> son)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">

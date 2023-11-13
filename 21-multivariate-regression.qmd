@@ -564,7 +564,7 @@ Are these differences statistically significant? To answer this, we will compute
 
 (@) Because we are selecting children at random, we can actually do something like a permutation test here. Repeat the computation of correlations 100 times taking a different sample each time. Hint: use similar code to what we used with simulations.
 
-(@) Fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the `tidy` function in the **broom** package to obtain the results in a data frame.
+(@) Use the `Teams` dataset to fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the `tidy` function in the **broom** package to obtain the results in a data frame. 
 
 (@) Now let's repeat the above for each year since 1962 and make a plot. Use `summarize` and the **broom** package to fit this model for every year since 1962.
 

@@ -339,6 +339,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -1600,7 +1612,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"5'10"</span>, <span class="st">"6'1"</span>)</span>
 <span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In Section <a href="#sec-separate"><span>Section&nbsp;13.1.3</span></a> we learned about the <code>separate</code> function, which can be used to achieve our current goal:</p>
+<p>In Section <a href="#sec-separate"><span class="quarto-unresolved-ref">sec-separate</span></a> we learned about the <code>separate</code> function, which can be used to achieve our current goal:</p>
 <div class="cell" data-hash="13-wrangling_cache/html/unnamed-chunk-87_793f20134eceeba6d36a2ac0bd5d9ddf">
 <div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a>tab <span class="sc">|&gt;</span> <span class="fu">separate</span>(x, <span class="fu">c</span>(<span class="st">"feet"</span>, <span class="st">"inches"</span>), <span class="at">sep =</span> <span class="st">"'"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

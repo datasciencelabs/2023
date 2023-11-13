@@ -344,6 +344,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -463,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="{callout-warning}">
-<p>For reasons similar to those explained in Section <a href="19-models.html#sec-population-sd"><span>Section&nbsp;19.2.3</span></a> for the standard deviation, <code>cor(x,y)</code> divides by <code>length(x)-1</code> rather than <code>length(x)</code>.</p>
+<p>For reasons similar to those explained in Section <a href="#sec-population-sd"><span class="quarto-unresolved-ref">sec-population-sd</span></a> for the standard deviation, <code>cor(x,y)</code> divides by <code>length(x)-1</code> rather than <code>length(x)</code>.</p>
 </div>
 <p>To see what data looks like for different values of <span class="math inline">\(\rho\)</span>, here are six examples of pairs with correlations ranging from -0.9 to 0.99:</p>
 <div class="cell" data-hash="20-regression_cache/html/what-correlation-looks-like_c3b6702344b777722561e26c0d7dca4a">
@@ -735,7 +747,7 @@ f(x) = \mbox{E}(Y \mid X = x)
 <h2 data-number="20.6" class="anchored" data-anchor-id="bivariate-normal-distribution"><span class="header-section-number">20.6</span> Bivariate normal distribution</h2>
 <p>Correlation and the regression slope are a widely used summary statistic, but they are often misused or misinterpreted. Anscombe’s examples provide over-simplified cases of dataset in which summarizing with correlation would be a mistake. But there are many more real-life examples.</p>
 <p>The main way we motivate the use of correlation involves what is called the <em>bivariate normal distribution</em>.</p>
-<p>When a pair of random variables is approximated by the bivariate normal distribution, scatterplots look like ovals. As we saw in Section <a href="#sec-corr-coef"><span>Section&nbsp;20.2</span></a>), they can be thin (high correlation) or circle-shaped (no correlation.</p>
+<p>When a pair of random variables is approximated by the bivariate normal distribution, scatterplots look like ovals. As we saw in Section <a href="#sec-corr-coef"><span class="quarto-unresolved-ref">sec-corr-coef</span></a>), they can be thin (high correlation) or circle-shaped (no correlation.</p>
 <p>A more technical way to define the bivariate normal distribution is the following: if <span class="math inline">\(X\)</span> is a normally distributed random variable, <span class="math inline">\(Y\)</span> is also a normally distributed random variable, and the conditional distribution of <span class="math inline">\(Y\)</span> for any <span class="math inline">\(X=x\)</span> is approximately normal, then the pair is approximately bivariate normal. When three or more variables have the property that each pair is bivariate normal, we say the variables follow a <em>multivariate</em> normal distribution or that they are <em>jointly normal</em>.</p>
 <p>If we think the height data is well approximated by the bivariate normal distribution, then we should see the normal approximation hold for each strata. Here we stratify the son heights by the standardized father heights and see that the assumption appears to hold:</p>
 <div class="cell" data-hash="20-regression_cache/html/qqnorm-of-strata_e2efb5a8bb12486ea245b9f155898436">

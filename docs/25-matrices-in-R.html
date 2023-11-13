@@ -341,6 +341,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -949,31 +961,31 @@ a_n
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-43_78ed3c7b754f2885f0dc0208f9d96db6">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1]   6.311712   7.262276   8.280774   9.508621  10.448815  11.208498
-  [7]  12.649779  13.544918  14.664659  15.649286  16.422083  16.891446
- [13]  18.304230  19.460868  20.215525  21.289184  22.596369  23.121266
- [19]  24.126266  25.184904  26.714983  27.374163  28.253119  29.683923
- [25]  30.814929  32.037379  32.153997  33.698605  34.468531  35.199221
- [31]  36.806503  37.869719  38.414550  38.969514  41.120735  40.858975
- [37]  42.762588  43.173385  44.272497  45.439035  46.343887  46.951471
- [43]  48.066535  49.166415  51.040917  51.231408  52.208522  53.884549
- [49]  54.652918  55.709186  56.649384  57.745459  58.243961  59.724772
- [55]  60.780581  61.543283  62.456269  63.712961  64.284296  65.864588
- [61]  66.617867  68.013207  68.391369  69.015147  71.136004  71.724490
- [67]  73.212061  73.622016  73.732635  75.369983  75.978819  77.367540
- [73]  78.557701  79.560610  80.652778  81.811916  82.874330  83.841745
- [79]  84.631853  85.573357  86.455791  87.930036  89.097902  90.145393
- [85]  90.946667  91.316131  92.472991  93.589754  94.757042  95.513973
- [91]  96.679863  97.076634  97.976238  99.556156 100.614466 101.289247
- [97] 101.997199 104.176267 105.300074 105.025743</code></pre>
+<pre><code>  [1]   6.737727   7.304325   8.499529   9.683629  10.699226  11.349037
+  [7]  12.512175  13.613440  14.697801  15.493873  16.032540  16.806283
+ [13]  18.323159  19.899960  20.538438  21.577929  22.367372  23.349248
+ [19]  24.950428  25.253444  26.423994  27.637137  29.001086  29.505621
+ [25]  30.611720  32.143465  33.187756  34.110574  34.445767  35.534072
+ [31]  36.245699  37.169995  38.543295  39.437583  40.520919  41.399886
+ [37]  42.215944  43.272923  44.611939  45.449651  46.773646  47.745788
+ [43]  48.613904  49.633373  50.343502  51.693452  52.403710  53.449480
+ [49]  54.568156  55.235041  56.332400  57.625282  58.486386  59.938580
+ [55]  60.725769  61.188331  63.160664  63.251635  64.574100  65.843247
+ [61]  66.455081  67.133963  68.217656  69.261613  70.233250  71.422475
+ [67]  72.310164  74.063423  75.192272  75.982792  77.052459  78.030086
+ [73]  78.910506  79.098465  80.258880  81.545706  82.341974  83.423835
+ [79]  84.688077  85.276201  86.428143  87.447961  88.544712  89.206771
+ [85]  90.113363  92.209865  92.519337  93.954762  94.536334  95.298432
+ [91]  96.642020  97.963450  98.512561  99.179124 101.103816 101.618830
+ [97] 102.203501 103.705329 104.714950 105.163159</code></pre>
 </div>
 </div>
 <p>6. Compute the average of each column of <code>x</code>.</p>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-44_0a6fcdd9f49846a41865e28bab5cc57b">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 51.53172 52.61284 53.52679 54.43087 55.55627 56.55138 57.76508 58.49040
- [9] 59.27735 60.36652</code></pre>
+<pre><code> [1] 51.49230 52.62673 53.47499 54.59494 55.42164 56.70316 57.57283 58.37115
+ [9] 59.52773 60.68557</code></pre>
 </div>
 </div>
 <p>7. For each digit in the MNIST training data, compute the proportion of pixels that are in a <em>grey area</em>, defined as values between 50 and 205. Make boxplot by digit class. Hint: use logical operators and <code>rowMeans</code>.</p>

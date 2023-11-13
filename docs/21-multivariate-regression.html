@@ -341,6 +341,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -1035,7 +1047,7 @@ Y_i = \beta_0 + \beta_1 x_{i,1} + \beta_2 x_{i,2} + \beta_3 x_{i,3}+ \beta_4 x_{
 <li><p>Repeat the exercise above, but compute a confidence interval as well.</p></li>
 <li><p>Plot the confidence intervals and notice that they overlap, which implies that the data is consistent with the inheritance of height being independent of sex.</p></li>
 <li><p>Because we are selecting children at random, we can actually do something like a permutation test here. Repeat the computation of correlations 100 times taking a different sample each time. Hint: use similar code to what we used with simulations.</p></li>
-<li><p>Fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the <code>tidy</code> function in the <strong>broom</strong> package to obtain the results in a data frame.</p></li>
+<li><p>Use the <code>Teams</code> dataset to fit a linear regression model to obtain the effects of BB and HR on Runs (at the team level) in 1971. Use the <code>tidy</code> function in the <strong>broom</strong> package to obtain the results in a data frame.</p></li>
 <li><p>Now let’s repeat the above for each year since 1962 and make a plot. Use <code>summarize</code> and the <strong>broom</strong> package to fit this model for every year since 1962.</p></li>
 <li><p>Use the results of the previous exercise to plot the estimated effects of BB on runs.</p></li>
 <li><p>Write a function that takes R, HR, and BB as arguments and fits two linear models: <code>R ~ BB</code> and <code>R~BB+HR</code>. Then use the <code>summary</code> function to obtain the <code>BB</code> for both models for each year since 1962. Then plot these against each other as a function of time.</p></li>

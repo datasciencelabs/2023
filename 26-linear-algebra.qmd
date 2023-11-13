@@ -430,7 +430,7 @@ class(d)
 
 Generate a boxplot showing the distances for the second row of `d` stratified by digits. Do not include the distance to itself which we know it is 0. Can you predict what digit is represented by the second row of `x`? 
 
-4\. Use the `apply` function and matrix algebra to compute the distance between the second digit `mnist$train$images[4,]` and all other digits represented in `mnist$train$images`. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.
+4\. Use the `apply` function and matrix algebra to compute the distance between the fourth digit `mnist$train$images[4,]` and all other digits represented in `mnist$train$images`. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.
 
 
 5\. Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.
