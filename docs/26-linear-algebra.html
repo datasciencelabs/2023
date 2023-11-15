@@ -353,6 +353,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -712,7 +718,9 @@ x_n
 </section>
 <section id="exercises" class="level2" data-number="26.6">
 <h2 data-number="26.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">26.6</span> Exercises</h2>
-<p>1. Generate two matrix, <code>A</code> and <code>B</code>, containing randomly generated and normally distributed numbers. The dimensions of these two matrices should <span class="math inline">\(4 \times 3\)</span> and <span class="math inline">\(3 \times 6\)</span>, respectively. Confirm that <code>C &lt;- A %*% B</code> produce the same results as:</p>
+<ol class="example" type="1">
+<li>Generate two matrix, <code>A</code> and <code>B</code>, containing randomly generated and normally distributed numbers. The dimensions of these two matrices should <span class="math inline">\(4 \times 3\)</span> and <span class="math inline">\(3 \times 6\)</span>, respectively. Confirm that <code>C &lt;- A %*% B</code> produce the same results as:</li>
+</ol>
 <div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-16_e3d436fe222985b5bd0aaad3e32d1552">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">nrow</span>(A)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ncol</span>(B)</span>
@@ -723,7 +731,9 @@ x_n
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>2. Solve the following system of equations using R:</p>
+<ol start="2" class="example" type="1">
+<li>Solve the following system of equations using R:</li>
+</ol>
 <p><span class="math display">\[
 \begin{align}
 x + y + z + w &amp;= 10\\
@@ -732,7 +742,9 @@ x + y + z + w &amp;= 10\\
 2x + 2y - 2z - 2w &amp;= 20\\
 \end{align}
 \]</span></p>
-<p>3. Define <code>x</code></p>
+<ol start="3" class="example" type="1">
+<li>Define <code>x</code></li>
+</ol>
 <div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-17_7d2c79837ddb39ce1d31121105e8f5ee">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mnist <span class="ot">&lt;-</span> <span class="fu">read_mnist</span>()</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> mnist<span class="sc">$</span>train<span class="sc">$</span>images[<span class="dv">1</span><span class="sc">:</span><span class="dv">300</span>,] </span>
@@ -744,8 +756,10 @@ x + y + z + w &amp;= 10\\
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Generate a boxplot showing the distances for the second row of <code>d</code> stratified by digits. Do not include the distance to itself which we know it is 0. Can you predict what digit is represented by the second row of <code>x</code>?</p>
-<p>4. Use the <code>apply</code> function and matrix algebra to compute the distance between the fourth digit <code>mnist$train$images[4,]</code> and all other digits represented in <code>mnist$train$images</code>. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.</p>
-<p>5. Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.</p>
+<ol start="4" class="example" type="1">
+<li><p>Use the <code>apply</code> function and matrix algebra to compute the distance between the fourth digit <code>mnist$train$images[4,]</code> and all other digits represented in <code>mnist$train$images</code>. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.</p></li>
+<li><p>Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.</p></li>
+</ol>
 
 
 </section>

@@ -353,6 +353,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -929,11 +935,15 @@ a_n
 </section>
 <section id="exercises" class="level2" data-number="25.11">
 <h2 data-number="25.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">25.11</span> Exercises</h2>
-<p>1. Create a 100 by 10 matrix of randomly generated normal numbers. Put the result in <code>x</code>.</p>
+<ol class="example" type="1">
+<li>Create a 100 by 10 matrix of randomly generated normal numbers. Put the result in <code>x</code>.</li>
+</ol>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-39_e69e3c167f7eb8e6f166f45e0472dcfc">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">100</span><span class="sc">*</span><span class="dv">10</span>), <span class="at">nrow =</span> <span class="dv">100</span>, <span class="at">ncol =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>2. Apply the three R functions that give you the dimension of <code>x</code>, the number of rows of <code>x</code>, and the number of columns of <code>x</code>, respectively.</p>
+<ol start="2" class="example" type="1">
+<li>Apply the three R functions that give you the dimension of <code>x</code>, the number of rows of <code>x</code>, and the number of columns of <code>x</code>, respectively.</li>
+</ol>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-40_54f0ad1aca62c311c774831be0dcbb90">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -948,47 +958,57 @@ a_n
 <pre><code>[1] 10</code></pre>
 </div>
 </div>
-<p>3. Add the scalar 1 to row 1, the scalar 2 to row 2, and so on, to the matrix <code>x</code>.</p>
+<ol start="3" class="example" type="1">
+<li>Add the scalar 1 to row 1, the scalar 2 to row 2, and so on, to the matrix <code>x</code>.</li>
+</ol>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-41_e18c96b6ee29738e853fc5cff10a4dc0">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co">#x &lt;- sweep(x, 1, 1:nrow(x), FUN = "+")</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>4. Add the scalar 1 to column 1, the scalar 2 to column 2, and so on, to the matrix <code>x</code>. Hint: use <code>sweep</code> with <code>FUN = "+"</code>.</p>
+<ol start="4" class="example" type="1">
+<li>Add the scalar 1 to column 1, the scalar 2 to column 2, and so on, to the matrix <code>x</code>. Hint: use <code>sweep</code> with <code>FUN = "+"</code>.</li>
+</ol>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-42_77fdc71b6097d0727ac55ddd894a30c7">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sweep</span>(x, <span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x), <span class="at">FUN =</span> <span class="st">"+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>5. Compute the average of each row of <code>x</code>.</p>
+<ol start="5" class="example" type="1">
+<li>Compute the average of each row of <code>x</code>.</li>
+</ol>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-43_78ed3c7b754f2885f0dc0208f9d96db6">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1]   6.737727   7.304325   8.499529   9.683629  10.699226  11.349037
-  [7]  12.512175  13.613440  14.697801  15.493873  16.032540  16.806283
- [13]  18.323159  19.899960  20.538438  21.577929  22.367372  23.349248
- [19]  24.950428  25.253444  26.423994  27.637137  29.001086  29.505621
- [25]  30.611720  32.143465  33.187756  34.110574  34.445767  35.534072
- [31]  36.245699  37.169995  38.543295  39.437583  40.520919  41.399886
- [37]  42.215944  43.272923  44.611939  45.449651  46.773646  47.745788
- [43]  48.613904  49.633373  50.343502  51.693452  52.403710  53.449480
- [49]  54.568156  55.235041  56.332400  57.625282  58.486386  59.938580
- [55]  60.725769  61.188331  63.160664  63.251635  64.574100  65.843247
- [61]  66.455081  67.133963  68.217656  69.261613  70.233250  71.422475
- [67]  72.310164  74.063423  75.192272  75.982792  77.052459  78.030086
- [73]  78.910506  79.098465  80.258880  81.545706  82.341974  83.423835
- [79]  84.688077  85.276201  86.428143  87.447961  88.544712  89.206771
- [85]  90.113363  92.209865  92.519337  93.954762  94.536334  95.298432
- [91]  96.642020  97.963450  98.512561  99.179124 101.103816 101.618830
- [97] 102.203501 103.705329 104.714950 105.163159</code></pre>
+<pre><code>  [1]   6.477288   7.367261   8.181667   9.660570  11.028052  11.544575
+  [7]  12.441120  13.039651  14.019369  16.046838  16.242200  17.047185
+ [13]  18.309173  19.905317  20.500210  21.835051  22.260542  23.135782
+ [19]  24.460199  25.879866  26.754392  27.425336  28.415541  29.511094
+ [25]  30.541871  31.116494  32.499914  33.209959  35.490908  35.815862
+ [31]  36.802065  37.400740  38.001311  39.800111  40.443514  41.449242
+ [37]  42.537396  43.532097  45.056531  45.166026  46.242811  47.645917
+ [43]  48.993353  49.992419  50.854520  51.925613  52.211193  53.560072
+ [49]  54.211283  55.803137  56.178404  58.024011  59.075901  59.633904
+ [55]  60.205026  61.060169  62.424013  63.335907  64.611784  65.543338
+ [61]  66.695806  67.349716  68.624622  69.045593  70.186725  71.419169
+ [67]  71.869221  73.213363  74.176837  75.266510  76.443212  77.719628
+ [73]  78.784417  79.850226  80.681503  81.482931  82.950850  83.593832
+ [79]  85.062871  85.921158  86.279011  87.316271  88.245355  88.840018
+ [85]  90.640814  92.010270  92.204402  93.022158  94.872883  95.490450
+ [91]  96.877535  97.841359  98.208877  99.693700 100.201428 101.793013
+ [97] 102.555899 103.488157 104.236679 105.676375</code></pre>
 </div>
 </div>
-<p>6. Compute the average of each column of <code>x</code>.</p>
+<ol start="6" class="example" type="1">
+<li>Compute the average of each column of <code>x</code>.</li>
+</ol>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-44_0a6fcdd9f49846a41865e28bab5cc57b">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 51.49230 52.62673 53.47499 54.59494 55.42164 56.70316 57.57283 58.37115
- [9] 59.52773 60.68557</code></pre>
+<pre><code> [1] 51.41577 52.54656 53.46062 54.62697 55.54851 56.62446 57.60971 58.37201
+ [9] 59.45493 60.51226</code></pre>
 </div>
 </div>
-<p>7. For each digit in the MNIST training data, compute the proportion of pixels that are in a <em>grey area</em>, defined as values between 50 and 205. Make boxplot by digit class. Hint: use logical operators and <code>rowMeans</code>.</p>
+<ol start="7" class="example" type="1">
+<li>For each digit in the MNIST training data, compute the proportion of pixels that are in a <em>grey area</em>, defined as values between 50 and 205. Make boxplot by digit class. Hint: use logical operators and <code>rowMeans</code>.</li>
+</ol>
 <div class="cell" data-hash="25-matrices-in-R_cache/html/unnamed-chunk-45_d24292d04f1e86a3caada953baebbc4a">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>ga <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(mnist<span class="sc">$</span>train<span class="sc">$</span>images <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> mnist<span class="sc">$</span>train<span class="sc">$</span>images <span class="sc">&lt;</span> <span class="dv">205</span>)</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ga <span class="sc">~</span> mnist<span class="sc">$</span>train<span class="sc">$</span>labels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

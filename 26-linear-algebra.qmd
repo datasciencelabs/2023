@@ -381,7 +381,7 @@ $$
 
 ## Exercises
 
-1\. Generate two matrix, `A` and `B`, containing randomly generated and normally distributed numbers. The dimensions of these two matrices should $4 \times 3$ and $3 \times 6$, respectively. Confirm that `C <- A %*% B` produce the same results as:
+(@) Generate two matrix, `A` and `B`, containing randomly generated and normally distributed numbers. The dimensions of these two matrices should $4 \times 3$ and $3 \times 6$, respectively. Confirm that `C <- A %*% B` produce the same results as:
 
 
 ```{r, eval=FALSE}
@@ -396,7 +396,7 @@ for(i in 1:m){
 ```
 
 
-2\. Solve the following system of equations using R:
+(@) Solve the following system of equations using R:
 
 $$
 \begin{align}
@@ -409,7 +409,7 @@ $$
 
 
 
-3\. Define `x` 
+(@) Define `x` 
 
 ```{r}
 #| eval: false
@@ -430,10 +430,10 @@ class(d)
 
 Generate a boxplot showing the distances for the second row of `d` stratified by digits. Do not include the distance to itself which we know it is 0. Can you predict what digit is represented by the second row of `x`? 
 
-4\. Use the `apply` function and matrix algebra to compute the distance between the fourth digit `mnist$train$images[4,]` and all other digits represented in `mnist$train$images`. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.
+(@) Use the `apply` function and matrix algebra to compute the distance between the fourth digit `mnist$train$images[4,]` and all other digits represented in `mnist$train$images`. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.
 
 
-5\. Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.
+(@) Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.
 
 
 

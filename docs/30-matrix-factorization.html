@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./31-ml-intro.html" rel="next">
 <link href="./29-regularization.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -352,6 +353,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -363,8 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#sec-factor-analysis" id="toc-sec-factor-analysis" class="nav-link active" data-scroll-target="#sec-factor-analysis"><span class="header-section-number">30.1</span> Factor analysis</a></li>
-  <li><a href="#connection-to-svd-and-pca" id="toc-connection-to-svd-and-pca" class="nav-link" data-scroll-target="#connection-to-svd-and-pca"><span class="header-section-number">30.2</span> Connection to SVD and PCA</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">30.3</span> Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">30.2</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/30-matrix-factorization.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -566,138 +572,58 @@ Y_{u,i} = \mu + b_i + b_u + p_{u,1} q_{1,i} + p_{u,2} q_{2,i} + \varepsilon_{u,i
 \]</span></p>
 <p>Note that in an actual data application, we need to fit this model to data. To explain the complex correlation we observe in real data, we usually permit the entries of <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> to be continuous values, rather than discrete ones as we used in the simulation. For example, rather than dividing movies into gangster or romance, we define a continuum. Also note that this is not a linear model and to fit it we need to use an algorithm other than the one used by <code>lm</code> to find the parameters that minimize the least squares. The winning algorithms for the Netflix challenge fit a model similar to the above and used regularization to penalize for large values of <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, rather than using least squares. Implementing this approach is beyond the scope of this book.</p>
 </section>
-<section id="connection-to-svd-and-pca" class="level2" data-number="30.2">
-<h2 data-number="30.2" class="anchored" data-anchor-id="connection-to-svd-and-pca"><span class="header-section-number">30.2</span> Connection to SVD and PCA</h2>
-<p>The decomposition:</p>
-<p><span class="math display">\[
-r_{u,i} \approx p_{u,1} q_{1,i} + p_{u,2} q_{2,i}
-\]</span></p>
-<p>is very much related to SVD and PCA. SVD and PCA are complicated concepts, but one way to understand them is that SVD is an algorithm that finds the vectors <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> that permit us to rewrite the matrix <span class="math inline">\(\mbox{r}\)</span> with <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns as:</p>
-<p><span class="math display">\[
-r_{u,i} = p_{u,1} q_{1,i} + p_{u,2} q_{2,i} + \dots + p_{u,n} q_{n,i}
-\]</span></p>
-<p>with the variability of each term decreasing and with the <span class="math inline">\(p\)</span>s uncorrelated. The algorithm also computes this variability so that we can know how much of the matrices, total variability is explained as we add new terms. This may permit us to see that, with just a few terms, we can explain most of the variability. To illustrate this we will only consider a small subset of movies with many ratings and users that have rated many movies:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-15_1b578f13992a6bb0b981ff5203ace7c4">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(missMDA)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ind_x <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(r)) <span class="sc">&gt;=</span> <span class="dv">250</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ind_y <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(r[ind_x,])) <span class="sc">&gt;=</span> <span class="dv">50</span> <span class="co">#| colnames(r) %in% keep</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> y[ind_x, ind_y]</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">3.1</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">mean</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(y))</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>b_i_reg <span class="ot">&lt;-</span> <span class="fu">colSums</span>(y <span class="sc">-</span> mu, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> (n <span class="sc">+</span> lambda)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>b_u <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">sweep</span>(y <span class="sc">-</span> mu, <span class="dv">2</span>, b_i_reg), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">sweep</span>(y <span class="sc">-</span> mu, <span class="dv">2</span>, b_i_reg) <span class="sc">-</span> b_u</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(r) <span class="ot">&lt;-</span> <span class="fu">with</span>(movie_map, title[<span class="fu">match</span>(<span class="fu">colnames</span>(r), movieId)])</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>impute <span class="ot">&lt;-</span> <span class="fu">imputePCA</span>(r, <span class="at">ncp =</span> <span class="dv">10</span>)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(impute<span class="sc">$</span>completeObs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The <span class="math inline">\(q\)</span> vectors are called the principal components and they are stored in this matrix:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-16_f242fa5301868904537eaeef58280208">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(pca<span class="sc">$</span>rotation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 136 105</code></pre>
-</div>
-</div>
-<p>While the <span class="math inline">\(p\)</span>, or the user effects, are here:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-17_5b851588890a908aab5152d00d253d92">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(pca<span class="sc">$</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 105 105</code></pre>
-</div>
-</div>
-<p>We can see the variability of each of the vectors:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/pca-sds_06fd83357309257450552e012de476f5">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(pca<span class="sc">$</span>x), pca<span class="sc">$</span>sdev, <span class="at">xlab =</span> <span class="st">"PC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `qplot()` was deprecated in ggplot2 3.4.0.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="30-matrix-factorization_files/figure-html/pca-sds-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>We also notice that the first two principal components are related to the structure in opinions about movies:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/movies-pca_faac979e3b143e78f4db6d45a4827355">
-<div class="cell-output-display">
-<p><img src="30-matrix-factorization_files/figure-html/movies-pca-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Just by looking at the top 10 in each direction, we see a meaningful patterns. The first PC shows the difference between Hollywood blockbusters on one side:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-18_d204355c5a377ad2e3122f29f2d4ff7a">
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "780"  "4896" "1380" "7153" "1917" "7438" "4306" "6874" "586"  "736" </code></pre>
-</div>
-</div>
-<p>and critically acclaimed movies on the other:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-19_3302f4f31131667b6d324841308ab282">
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "1206" "2997" "1258" "924"  "1732" "47"   "4226" "231"  "2502" "1213"</code></pre>
-</div>
-</div>
-<p>While the second PC seems to be related to nerd favorites or violent movies on one side</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-20_ab924cb4d34838c2c78f06cfb77af786">
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "231"  "344"  "2502" "2706" "2174" "1923" "2011" "2012" "293"  "380" </code></pre>
-</div>
-</div>
-<p>and romantic movies on the other:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-21_9870fe93177763104b7fb230643c8977">
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "7153" "924"  "2396" "527"  "6377" "3897" "590"  "858"  "5952" "1393"</code></pre>
-</div>
-</div>
-<p>Fitting a model that incorporates these estimates is complicated. For those interested in implementing an approach that incorporates these ideas, we recommend trying the <strong>recommenderlab</strong> package. The details are beyond the scope of this book.</p>
-</section>
-<section id="exercises" class="level2" data-number="30.3">
-<h2 data-number="30.3" class="anchored" data-anchor-id="exercises"><span class="header-section-number">30.3</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="30.2">
+<h2 data-number="30.2" class="anchored" data-anchor-id="exercises"><span class="header-section-number">30.2</span> Exercises</h2>
 <p>In this exercise set, we will be covering a topic useful for understanding matrix factorization: the singular value decomposition (SVD). SVD is a mathematical result that is widely used in machine learning, both in practice and to understand the mathematical properties of some algorithms. This is a rather advanced topic and to complete this exercise set you will have to be familiar with linear algebra concepts such as matrix multiplication, orthogonal matrices, and diagonal matrices.</p>
 <p>The SVD tells us that we can <em>decompose</em> an <span class="math inline">\(N\times p\)</span> matrix <span class="math inline">\(Y\)</span> with <span class="math inline">\(p &lt; N\)</span> as</p>
 <p><span class="math display">\[ Y = U D V^{\top} \]</span></p>
 <p>With <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> <em>orthogonal</em> of dimensions <span class="math inline">\(N\times p\)</span> and <span class="math inline">\(p\times p\)</span>, respectively, and <span class="math inline">\(D\)</span> a <span class="math inline">\(p \times p\)</span> <em>diagonal</em> matrix with the values of the diagonal decreasing:</p>
 <p><span class="math display">\[d_{1,1} \geq d_{2,2} \geq \dots d_{p,p}.\]</span></p>
 <p>In this exercise, we will see one of the ways that this decomposition can be useful. To do this, we will construct a dataset that represents grade scores for 100 students in 24 different subjects. The overall average has been removed so this data represents the percentage point each student received above or below the average test score. So a 0 represents an average grade (C), a 25 is a high grade (A+), and a -25 represents a low grade (F). You can simulate the data like this:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-22_dce6115b33283018c3014b137716a30b">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1987</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="dv">64</span>  <span class="sc">*</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">75</span>, .<span class="dv">5</span>, .<span class="dv">75</span>, <span class="dv">1</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="dv">3</span>) </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(n, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>), Sigma)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> m[<span class="fu">order</span>(<span class="fu">rowMeans</span>(m), <span class="at">decreasing =</span> <span class="cn">TRUE</span>),]</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> m <span class="sc">%x%</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>, k), <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">matrix</span>(n <span class="sc">*</span> k <span class="sc">*</span> <span class="dv">3</span>)), n, k <span class="sc">*</span> <span class="dv">3</span>)</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"Math"</span>,k), <span class="dv">1</span><span class="sc">:</span>k, <span class="at">sep=</span><span class="st">"_"</span>),</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"Science"</span>,k), <span class="dv">1</span><span class="sc">:</span>k, <span class="at">sep=</span><span class="st">"_"</span>),</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"Arts"</span>,k), <span class="dv">1</span><span class="sc">:</span>k, <span class="at">sep=</span><span class="st">"_"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-15_cd13601d1671a2b5dc52b6e171f0c15c">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1987</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>Sigma <span class="ot">&lt;-</span> <span class="dv">64</span>  <span class="sc">*</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">75</span>, .<span class="dv">5</span>, .<span class="dv">75</span>, <span class="dv">1</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, <span class="dv">1</span>), <span class="dv">3</span>, <span class="dv">3</span>) </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(n, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">3</span>), Sigma)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> m[<span class="fu">order</span>(<span class="fu">rowMeans</span>(m), <span class="at">decreasing =</span> <span class="cn">TRUE</span>),]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> m <span class="sc">%x%</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>, k), <span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">matrix</span>(n <span class="sc">*</span> k <span class="sc">*</span> <span class="dv">3</span>)), n, k <span class="sc">*</span> <span class="dv">3</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(y) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"Math"</span>,k), <span class="dv">1</span><span class="sc">:</span>k, <span class="at">sep=</span><span class="st">"_"</span>),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"Science"</span>,k), <span class="dv">1</span><span class="sc">:</span>k, <span class="at">sep=</span><span class="st">"_"</span>),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"Arts"</span>,k), <span class="dv">1</span><span class="sc">:</span>k, <span class="at">sep=</span><span class="st">"_"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our goal is to describe the student performances as succinctly as possible. For example, we want to know if these test results are all just random independent numbers. Are all students just about as good? Does being good in one subject imply you will be good in another? How does the SVD help with all this? We will go step by step to show that with just three relatively small pairs of vectors we can explain much of the variability in this <span class="math inline">\(100 \times 24\)</span> dataset.</p>
 <p>You can visualize the 24 test scores for the 100 students by plotting an image:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-23_f8760960cf63c78a4186bc223ab6c822">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>my_image <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">zlim =</span> <span class="fu">range</span>(x), ...){</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  colors <span class="ot">=</span> <span class="fu">rev</span>(RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"RdBu"</span>))</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  cols <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  rows <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(cols, rows, <span class="fu">t</span>(x[<span class="fu">rev</span>(rows),,<span class="at">drop=</span><span class="cn">FALSE</span>]), <span class="at">xaxt =</span> <span class="st">"n"</span>, <span class="at">yaxt =</span> <span class="st">"n"</span>,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>,  <span class="at">col =</span> colors, <span class="at">zlim =</span> zlim, ...)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h=</span>rows <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">v =</span> cols <span class="sc">+</span> <span class="fl">0.5</span>)</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, cols, <span class="fu">colnames</span>(x), <span class="at">las =</span> <span class="dv">2</span>)</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-16_a2eed2d82e8adf4907cbe30e4bf7126f">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>my_image <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">zlim =</span> <span class="fu">range</span>(x), ...){</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  colors <span class="ot">=</span> <span class="fu">rev</span>(RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">9</span>, <span class="st">"RdBu"</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  cols <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(x)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  rows <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(cols, rows, <span class="fu">t</span>(x[<span class="fu">rev</span>(rows),,<span class="at">drop=</span><span class="cn">FALSE</span>]), <span class="at">xaxt =</span> <span class="st">"n"</span>, <span class="at">yaxt =</span> <span class="st">"n"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab=</span><span class="st">""</span>,  <span class="at">col =</span> colors, <span class="at">zlim =</span> zlim, ...)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h=</span>rows <span class="sc">+</span> <span class="fl">0.5</span>, <span class="at">v =</span> cols <span class="sc">+</span> <span class="fl">0.5</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">1</span>, cols, <span class="fu">colnames</span>(x), <span class="at">las =</span> <span class="dv">2</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>1. How would you describe the data based on this figure?</p>
+<ol class="example" type="1">
+<li>How would you describe the data based on this figure?</li>
+</ol>
 <ol type="a">
 <li>The test scores are all independent of each other.</li>
 <li>The students that test well are at the top of the image and there seem to be three groupings by subject.</li>
 <li>The students that are good at math are not good at science.</li>
 <li>The students that are good at math are not good at humanities.</li>
 </ol>
-<p>2. You can examine the correlation between the test scores directly like this:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-24_e84e24be674fd2f77acb2cf3c2437f9a">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(<span class="fu">cor</span>(y), <span class="at">zlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(<span class="fu">cor</span>(y))</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y), <span class="fu">rev</span>(<span class="fu">colnames</span>(y)), <span class="at">las =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" class="example" type="1">
+<li>You can examine the correlation between the test scores directly like this:</li>
+</ol>
+<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-17_815c174bfbb7aa1a6e18778ad9eefb5b">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(<span class="fu">cor</span>(y), <span class="at">zlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(<span class="fu">cor</span>(y))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y), <span class="fu">rev</span>(<span class="fu">colnames</span>(y)), <span class="at">las =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Which of the following best describes what you see?</p>
 <ol type="a">
@@ -706,78 +632,6 @@ r_{u,i} = p_{u,1} q_{1,i} + p_{u,2} q_{2,i} + \dots + p_{u,n} q_{n,i}
 <li>There is high correlation between tests in the same subject but no correlation across subjects.</li>
 <li>There is a correlation among all tests, but higher if the tests are in science and math and even higher within each subject.</li>
 </ol>
-<p>3. Remember that orthogonality means that <span class="math inline">\(U^{\top}U\)</span> and <span class="math inline">\(V^{\top}V\)</span> are equal to the identity matrix. This implies that we can also rewrite the decomposition as</p>
-<p><span class="math display">\[ Y V = U D \mbox{ or } U^{\top}Y = D V^{\top}\]</span></p>
-<p>We can think of <span class="math inline">\(YV\)</span> and <span class="math inline">\(U^{\top}V\)</span> as two transformations of Y that preserve the total variability of <span class="math inline">\(Y\)</span> since <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> are orthogonal.</p>
-<p>Use the function <code>svd</code> to compute the SVD of <code>y</code>. This function will return <span class="math inline">\(U\)</span>, <span class="math inline">\(V\)</span> and the diagonal entries of <span class="math inline">\(D\)</span>.</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-25_8bb53d9b2135e78c8a479e7690c3765b">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">svd</span>(y)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>You can check that the SVD works by typing:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-26_c0a6af039f090236a7e177bca4afe271">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>y_svd <span class="ot">&lt;-</span> s<span class="sc">$</span>u <span class="sc">%*%</span> <span class="fu">diag</span>(s<span class="sc">$</span>d) <span class="sc">%*%</span> <span class="fu">t</span>(s<span class="sc">$</span>v)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(y <span class="sc">-</span> y_svd))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Compute the sum of squares of the columns of <span class="math inline">\(Y\)</span> and store them in <code>ss_y</code>. Then compute the sum of squares of columns of the transformed <span class="math inline">\(YV\)</span> and store them in <code>ss_yv</code>. Confirm that <code>sum(ss_y)</code> is equal to <code>sum(ss_yv)</code>.</p>
-<p>4. We see that the total sum of squares is preserved. This is because <span class="math inline">\(V\)</span> is orthogonal. Now to start understanding how <span class="math inline">\(YV\)</span> is useful, plot <code>ss_y</code> against the column number and then do the same for <code>ss_yv</code>. What do you observe?</p>
-<p>5. We see that the variability of the columns of <span class="math inline">\(YV\)</span> is decreasing. Furthermore, we see that, relative to the first three, the variability of the columns beyond the third is almost 0. Now notice that we didn’t have to compute <code>ss_yv</code> because we already have the answer. How? Remember that <span class="math inline">\(YV = UD\)</span> and because <span class="math inline">\(U\)</span> is orthogonal, we know that the sum of squares of the columns of <span class="math inline">\(UD\)</span> are the diagonal entries of <span class="math inline">\(D\)</span> squared. Confirm this by plotting the square root of <code>ss_yv</code> versus the diagonal entries of <span class="math inline">\(D\)</span>.</p>
-<p>6. From the above we know that the sum of squares of the columns of <span class="math inline">\(Y\)</span> (the total sum of squares) add up to the sum of <code>s$d^2</code> and that the transformation <span class="math inline">\(YV\)</span> gives us columns with sums of squares equal to <code>s$d^2</code>. Now compute what percent of the total variability is explained by just the first three columns of <span class="math inline">\(YV\)</span>.</p>
-<p>7. We see that almost 99% of the variability is explained by the first three columns of <span class="math inline">\(YV = UD\)</span>. So we get the sense that we should be able to explain much of the variability and structure we found while exploring the data with a few columns. Before we continue, let’s show a useful computational trick to avoid creating the matrix <code>diag(s$d)</code>. To motivate this, we note that if we write <span class="math inline">\(U\)</span> out in its columns <span class="math inline">\([U_1, U_2, \dots, U_p]\)</span> then <span class="math inline">\(UD\)</span> is equal to</p>
-<p><span class="math display">\[UD = [U_1 d_{1,1}, U_2 d_{2,2}, \dots, U_p d_{p,p}]\]</span></p>
-<p>Use the <code>sweep</code> function to compute <span class="math inline">\(UD\)</span> without constructing <code>diag(s$d)</code> nor matrix multiplication.</p>
-<p>8. We know that <span class="math inline">\(U_1 d_{1,1}\)</span>, the first column of <span class="math inline">\(UD\)</span>, has the most variability of all the columns of <span class="math inline">\(UD\)</span>. Earlier we saw an image of <span class="math inline">\(Y\)</span>:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-27_1ec81794f9e929d97256c7b0ec1cfc59">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>in which we can see that the student to student variability is quite large and that it appears that students that are good in one subject are good in all. This implies that the average (across all subjects) for each student should explain a lot of the variability. Compute the average score for each student and plot it against <span class="math inline">\(U_1 d_{1,1}\)</span> and describe what you find.</p>
-<p>9. We note that the signs in SVD are arbitrary because:</p>
-<p><span class="math display">\[ U D V^{\top} = (-U) D (-V)^{\top} \]</span></p>
-<p>With this in mind we see that the first column of <span class="math inline">\(UD\)</span> is almost identical to the average score for each student except for the sign.</p>
-<p>This implies that multiplying <span class="math inline">\(Y\)</span> by the first column of <span class="math inline">\(V\)</span> must be performing a similar operation to taking the average. Make an image plot of <span class="math inline">\(V\)</span> and describe the first column relative to others and how this relates to taking an average.</p>
-<p>10. We already saw that we can rewrite <span class="math inline">\(UD\)</span> as</p>
-<p><span class="math display">\[U_1 d_{1,1} + U_2 d_{2,2} + \dots + U_p d_{p,p}\]</span></p>
-<p>with <span class="math inline">\(U_j\)</span> the j-th column of <span class="math inline">\(U\)</span>. This implies that we can rewrite the entire SVD as:</p>
-<p><span class="math display">\[Y = U_1 d_{1,1} V_1 ^{\top} + U_2 d_{2,2} V_2 ^{\top} + \dots + U_p d_{p,p} V_p ^{\top}\]</span></p>
-<p>with <span class="math inline">\(V_j\)</span> the jth column of <span class="math inline">\(V\)</span>. Plot <span class="math inline">\(U_1\)</span>, then plot <span class="math inline">\(V_1^{\top}\)</span> using the same range for the y-axis limits, then make an image of <span class="math inline">\(U_1 d_{1,1} V_1 ^{\top}\)</span> and compare it to the image of <span class="math inline">\(Y\)</span>. Hint: use the <code>my_image</code> function defined above and use the <code>drop=FALSE</code> argument to assure the subsets of matrices are matrices.</p>
-<p>11. We see that with just a vector of length 100, a scalar, and a vector of length 24, we actually come close to reconstructing the original <span class="math inline">\(100 \times 24\)</span> matrix. This is our first matrix factorization:</p>
-<p><span class="math display">\[ Y \approx d_{1,1} U_1 V_1^{\top}\]</span> We know it explains <code>s$d[1]^2/sum(s$d^2) * 100</code> percent of the total variability. Our approximation only explains the observation that good students tend to be good in all subjects. But another aspect of the original data that our approximation does not explain was the higher similarity we observed within subjects. We can see this by computing the difference between our approximation and original data and then computing the correlations. You can see this by running this code:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-28_954beb1bef11fd9bc30241b10503e7db">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> y <span class="sc">-</span> <span class="fu">with</span>(s,(u[,<span class="dv">1</span>, <span class="at">drop=</span><span class="cn">FALSE</span>]<span class="sc">*</span>d[<span class="dv">1</span>]) <span class="sc">%*%</span> <span class="fu">t</span>(v[,<span class="dv">1</span>, <span class="at">drop=</span><span class="cn">FALSE</span>]))</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(<span class="fu">cor</span>(resid), <span class="at">zlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y), <span class="fu">rev</span>(<span class="fu">colnames</span>(y)), <span class="at">las =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now that we have removed the overall student effect, the correlation plot reveals that we have not yet explained the within subject correlation nor the fact that math and science are closer to each other than to the arts. So let’s explore the second column of the SVD. Repeat the previous exercise but for the second column: Plot <span class="math inline">\(U_2\)</span>, then plot <span class="math inline">\(V_2^{\top}\)</span> using the same range for the y-axis limits, then make an image of <span class="math inline">\(U_2 d_{2,2} V_2 ^{\top}\)</span> and compare it to the image of <code>resid</code>.</p>
-<p>12. The second column clearly relates to a student’s difference in ability in math/science versus the arts. We can see this most clearly from the plot of <code>s$v[,2]</code>. Adding the matrix we obtain with these two columns will help with our approximation:</p>
-<p><span class="math display">\[ Y \approx d_{1,1} U_1 V_1^{\top} + d_{2,2} U_2 V_2^{\top} \]</span></p>
-<p>We know it will explain</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-29_63f4bbf42739f2789ccb2f4d6f62675b">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(s<span class="sc">$</span>d[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>(s<span class="sc">$</span>d<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>percent of the total variability. We can compute new residuals like this:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-30_c3fbf9f189467efd13c48440c76be923">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> y <span class="sc">-</span> <span class="fu">with</span>(s,<span class="fu">sweep</span>(u[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">2</span>, d[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="at">FUN=</span><span class="st">"*"</span>) <span class="sc">%*%</span> <span class="fu">t</span>(v[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]))</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(<span class="fu">cor</span>(resid), <span class="at">zlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y), <span class="fu">rev</span>(<span class="fu">colnames</span>(y)), <span class="at">las =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>and see that the structure that is left is driven by the differences between math and science. Confirm this by plotting <span class="math inline">\(U_3\)</span>, then plot <span class="math inline">\(V_3^{\top}\)</span> using the same range for the y-axis limits, then make an image of <span class="math inline">\(U_3 d_{3,3} V_3 ^{\top}\)</span> and compare it to the image of <code>resid</code>.</p>
-<p>13. The third column clearly relates to a student’s difference in ability in math and science. We can see this most clearly from the plot of <code>s$v[,3]</code>. Adding the matrix we obtain with these two columns will help with our approximation:</p>
-<p><span class="math display">\[ Y \approx d_{1,1} U_1 V_1^{\top} + d_{2,2} U_2 V_2^{\top} + d_{3,3} U_3 V_3^{\top}\]</span></p>
-<p>We know it will explain:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-31_f7491b968fce93a97565b0ec08f347d5">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(s<span class="sc">$</span>d[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>(s<span class="sc">$</span>d<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>percent of the total variability. We can compute new residuals like this:</p>
-<div class="cell" data-hash="30-matrix-factorization_cache/html/unnamed-chunk-32_135427e56427f2006627723728d87ebb">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> y <span class="sc">-</span> <span class="fu">with</span>(s,<span class="fu">sweep</span>(u[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="dv">2</span>, d[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">FUN=</span><span class="st">"*"</span>) <span class="sc">%*%</span> <span class="fu">t</span>(v[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]))</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">my_image</span>(<span class="fu">cor</span>(resid), <span class="at">zlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="at">side =</span> <span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(y), <span class="fu">rev</span>(<span class="fu">colnames</span>(y)), <span class="at">las =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We no longer see structure in the residuals: they seem to be independent of each other. This implies that we can describe the data with the following model:</p>
-<p><span class="math display">\[ Y =  d_{1,1} U_1 V_1^{\top} + d_{2,2} U_2 V_2^{\top} + d_{3,3} U_3 V_3^{\top} + \varepsilon\]</span></p>
-<p>with <span class="math inline">\(\varepsilon\)</span> a matrix of independent identically distributed errors. This model is useful because we summarize of <span class="math inline">\(100 \times 24\)</span> observations with <span class="math inline">\(3 \times (100+24+1) = 375\)</span> numbers. Furthermore, the three components of the model have useful interpretations: 1) the overall ability of a student, 2) the difference in ability between the math/sciences and arts, and 3) the remaining differences between the three subjects. The sizes <span class="math inline">\(d_{1,1}, d_{2,2}\)</span> and <span class="math inline">\(d_{3,3}\)</span> tell us the variability explained by each component. Finally, note that the components <span class="math inline">\(d_{j,j} U_j V_j^{\top}\)</span> are equivalent to the jth principal component.</p>
-<p>Finish the exercise by plotting an image of <span class="math inline">\(Y\)</span>, an image of <span class="math inline">\(d_{1,1} U_1 V_1^{\top} + d_{2,2} U_2 V_2^{\top} + d_{3,3} U_3 V_3^{\top}\)</span> and an image of the residuals, all with the same <code>zlim</code>.</p>
-<p>14. Advanced. The <code>movielens</code> dataset included in the <strong>dslabs</strong> package is a small subset of a larger dataset with millions of ratings. You can find the entire latest dataset here <a href="https://grouplens.org/datasets/movielens/20m/">https://grouplens.org/datasets/movielens/20m/</a>. Create your own recommendation system using all the tools we have shown you.</p>
 
 
 </section>
@@ -1023,6 +877,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./31-ml-intro.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

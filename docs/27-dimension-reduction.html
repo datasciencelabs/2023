@@ -353,6 +353,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -923,15 +929,19 @@ Cumulative Proportion    0.09705   0.16801   0.22970   0.28359   0.33228</code><
 </section>
 <section id="exercises" class="level2" data-number="27.8">
 <h2 data-number="27.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">27.8</span> Exercises</h2>
-<p>1. We want to explore the <code>tissue_gene_expression</code> predictors by plotting them.</p>
+<ol class="example" type="1">
+<li>We want to explore the <code>tissue_gene_expression</code> predictors by plotting them.</li>
+</ol>
 <div class="cell" data-hash="27-dimension-reduction_cache/html/unnamed-chunk-27_00d1c52e8cca7ff2edac99d95166b227">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(tissue_gene_expression<span class="sc">$</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We want to get an idea of which observations are close to each other, but the predictors are 500-dimensional so plotting is difficult. Plot the first two principal components with color representing tissue type.</p>
-<p>2. The predictors for each observation are measured on the same measurement device (a gene expression microarray) after an experimental procedure. A different device and procedure is used for each observation. This may introduce biases that affect all predictors for each observation in the same way. To explore the effect of this potential bias, for each observation, compute the average across all predictors and then plot this against the first PC with color representing tissue. Report the correlation.</p>
-<p>3. We see an association with the first PC and the observation averages. Redo the PCA but only after removing the center.</p>
-<p>4. For the first 10 PCs, make a boxplot showing the values for each tissue.</p>
-<p>5. Plot the percent variance explained by PC number. Hint: use the <code>summary</code> function.</p>
+<ol start="2" class="example" type="1">
+<li><p>The predictors for each observation are measured on the same measurement device (a gene expression microarray) after an experimental procedure. A different device and procedure is used for each observation. This may introduce biases that affect all predictors for each observation in the same way. To explore the effect of this potential bias, for each observation, compute the average across all predictors and then plot this against the first PC with color representing tissue. Report the correlation.</p></li>
+<li><p>We see an association with the first PC and the observation averages. Redo the PCA but only after removing the center.</p></li>
+<li><p>For the first 10 PCs, make a boxplot showing the values for each tissue.</p></li>
+<li><p>Plot the percent variance explained by PC number. Hint: use the <code>summary</code> function.</p></li>
+</ol>
 
 
 </section>

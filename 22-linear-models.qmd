@@ -369,7 +369,6 @@ In this book, we do not provide the details for how we compute this p-value. The
 :::
 
 
-## Exercises
 
 
 ## Exercises 
@@ -391,7 +390,28 @@ $$
 
 (@) Find least square estimates for the $\beta$s using `lm`. Show a plot of $y_i$ versus $t_i$ with a curve on the same plot showing $\hat{Y}_i$ versus $t_i$.
 
+```{r}
+y <- as.vector(co2)[1:12]
+tt <- seq_along(y)
+plot(tt,y)
+x1 <- sin(2*pi*tt/12)
+x2 <- cos(2*pi*tt/12)
+fit <- lm(y~x1+x2)
+lines(tt, fit$fitted)
+```
+
 (@) Now fit a measurement error model to the entire `co2` dataset that includes a trend term that is a parabola as well as the sine wave model.
+
+```{r}
+y <- as.vector(co2)
+tt <- seq_along(y)
+x1 <- sin(2*pi*tt/12)
+x2 <- cos(2*pi*tt/12)
+fit <- lm(y~x1+x2+poly(tt,2))
+plot(tt, y)
+lines(tt, fit$fitted, col = 2)
+summary(fit)
+```
 
 (@) Run diagnostic plots for the fitted model and describe the results.
 
@@ -456,14 +476,13 @@ Compute the average and standard deviation for groups having more than 10 observ
 
 (@) The dataset also includes a variable indicating which litter the mice came from. Create a boxplot showing weights by litter. Use faceting to make separate plots for each diet and sex combination.
 
-
 (@) Use a linear model to test for a litter effect. Account for sex and diet. Use ANOVA to compare the variability explained by litter to other factors.
 
 (@) The `mouse_weights` data includes two other outcomes: bone density and percent fat. Make a boxplot showing bone density by sex and diet. Compare what the visualizations shows for the diet effect by sex.
 
 (@) Fit a linear model and test for the diet effect on bone density separately for each sex. Note that the diet effect is statistically significant for females but not for males. Then fit the model to the entire dataset that includes diet, sex and their interaction. Note that the diet effect is significant, yet the interaction effect is not. Explain how this can happen? Hint: To fit a model to the entire dataset that fit a separate effect for males and females you can use the formula ` ~ sex + diet:sex`
 
-(@) We previously talkedabout pollster bias. We used visualization to motivate the presence of such bias. Here we will give it a more rigorous treatment. We will consider two pollsters that conducted daily polls. We will look at national polls for the month before the election.
+(@) We previously talked about pollster bias. We used visualization to motivate the presence of such bias. Here we will give it a more rigorous treatment. We will consider two pollsters that conducted daily polls. We will look at national polls for the month before the election.
 
 ```{r, eval=FALSE}
 polls <- polls_us_election_2016 |> 
@@ -478,7 +497,7 @@ We want to answer the question: is there pollsetr bias? Make a plot showing the 
 
 (@) The data does seem to suggest there is a difference. However, these data are subject to variability. Perhaps the differences we observe are due to chance.
 
-The urn model theory says nothing about pollster effect. Under the urn model, both pollsters have the same expected value: the election day difference, that we call $\mu$. Use a linear model approach to answer thestion "is there an urn model?",
+The urn model theory says nothing about pollster effect. Under the urn model, both pollsters have the same expected value: the election day difference, that we call $\mu$. Use a linear model to answer "is there an pollster effect?"
 
 
 

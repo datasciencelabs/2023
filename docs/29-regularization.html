@@ -356,6 +356,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -639,10 +645,10 @@ Y_{u,i} = \mu + \varepsilon_{u,i}
 <ul>
 <li>Keep in mind that if you plug in any other number, you get a higher RMSE. For example:</li>
 </ul>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-12_29966cc9a4eace805376ffd3ac523fe7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(y_test <span class="sc">-</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-12_78376a952839fee570bdaafa903d7d3a">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(y_test <span class="sc">-</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.191159</code></pre>
+<pre><code>[1] 1.13857</code></pre>
 </div>
 </div>
 <ul>
@@ -748,12 +754,12 @@ Y_{u,i} = \mu + b_i + b_u + \varepsilon_{u,i}
 <ul>
 <li>If we look at the top movies, based on our estimates of the movie effect <span class="math inline">\(b_i\)</span> we find that they are all movies rated three or less times:</li>
 </ul>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-21_31cfc16a95315b9fd6458d2ffd339700">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(y_test[, mu <span class="sc">+</span> b_i <span class="sc">==</span> <span class="dv">5</span>])) <span class="sc">|&gt;</span> <span class="fu">table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-21_13a5a335de237903e5c223aa60ea7805">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(y_train[, mu <span class="sc">+</span> b_i <span class="sc">==</span> <span class="dv">5</span>])) <span class="sc">|&gt;</span> <span class="fu">table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  1  2  3 
-28  6  3 </code></pre>
+32  3  2 </code></pre>
 </div>
 </div>
 <ul>
@@ -848,12 +854,38 @@ Y_{u,i} = \mu + b_i + \varepsilon_{u,i}
 <ul>
 <li>Now, let’s look at the top 5 best movies based on the penalized estimates <span class="math inline">\(\hat{b}_i(\lambda)\)</span>:</li>
 </ul>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-25_9ff0931581064d874ab01dd3562e0faa">
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-25_9b86867766639a847de5a0eadabbedf2">
 <div class="cell-output cell-output-stdout">
-<pre><code>Shawshank Redemption, The            Godfather, The                Roger &amp; Me 
-                 4.432836                  4.500000                  3.571429 
-            Thin Man, The        African Queen, The 
-                 4.346154                  4.142857 </code></pre>
+<pre><code>                           Wild Wild West 
+                                 0.750000 
+          Charlie's Angels: Full Throttle 
+                                 2.100000 
+                                 Jaws 3-D 
+                                 1.000000 
+                  Speed 2: Cruise Control 
+                                 2.166667 
+                        Battlefield Earth 
+                                 2.500000 
+       Police Academy 6: City Under Siege 
+                                 2.000000 
+                                 Bio-Dome 
+                                 2.333333 
+                                10,000 BC 
+                                 2.000000 
+  Mighty Morphin Power Rangers: The Movie 
+                                 3.000000 
+                        Super Mario Bros. 
+                                 2.045455 
+       Police Academy 3: Back in Training 
+                                 2.000000 
+Police Academy 5: Assignment: Miami Beach 
+                                 2.071429 
+                           102 Dalmatians 
+                                 2.250000 
+                                Max Payne 
+                                 1.750000 
+                          Joe's Apartment 
+                                 3.000000 </code></pre>
 </div>
 </div>
 <ul>
@@ -862,10 +894,36 @@ Y_{u,i} = \mu + b_i + \varepsilon_{u,i}
 <div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-26_d9a464b0f6b299a1f48d59da7312e035">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setNames</span>(<span class="fu">colSums</span>(<span class="sc">!</span><span class="fu">is.na</span>(y_test[,ind])), titles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Shawshank Redemption, The            Godfather, The                Roger &amp; Me 
-                       67                        37                         7 
-            Thin Man, The        African Queen, The 
-                       13                         7 </code></pre>
+<pre><code>                           Wild Wild West 
+                                        2 
+          Charlie's Angels: Full Throttle 
+                                        5 
+                                 Jaws 3-D 
+                                        2 
+                  Speed 2: Cruise Control 
+                                        3 
+                        Battlefield Earth 
+                                        2 
+       Police Academy 6: City Under Siege 
+                                        1 
+                                 Bio-Dome 
+                                        3 
+                                10,000 BC 
+                                        4 
+  Mighty Morphin Power Rangers: The Movie 
+                                        1 
+                        Super Mario Bros. 
+                                       11 
+       Police Academy 3: Back in Training 
+                                        1 
+Police Academy 5: Assignment: Miami Beach 
+                                        7 
+                           102 Dalmatians 
+                                        4 
+                                Max Payne 
+                                        2 
+                          Joe's Apartment 
+                                        1 </code></pre>
 </div>
 </div>
 <ul>

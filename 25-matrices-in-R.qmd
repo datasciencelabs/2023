@@ -458,14 +458,14 @@ does not result in matrix multiplication. Instead, the entry in row $i$ and colu
 
 ## Exercises
 
-1\. Create a 100 by 10 matrix of randomly generated normal numbers. Put the result in `x`.
+(@) Create a 100 by 10 matrix of randomly generated normal numbers. Put the result in `x`.
 
 ```{r}
 x <- matrix(rnorm(100*10), nrow = 100, ncol = 10)
 ```
 
 
-2\. Apply the three R functions that give you the dimension of `x`, the number of rows of `x`, and the number of columns of `x`, respectively.
+(@) Apply the three R functions that give you the dimension of `x`, the number of rows of `x`, and the number of columns of `x`, respectively.
 
 ```{r}
 dim(x)
@@ -474,7 +474,7 @@ ncol(x)
 ```
 
 
-3\. Add the scalar 1 to row 1, the scalar 2 to row 2, and so on, to the matrix `x`.
+(@) Add the scalar 1 to row 1, the scalar 2 to row 2, and so on, to the matrix `x`.
 
 ```{r}
 #x <- sweep(x, 1, 1:nrow(x), FUN = "+")
@@ -482,27 +482,27 @@ x <- x + 1:nrow(x)
 ```
 
 
-4\. Add the scalar 1 to column 1, the scalar 2 to column 2, and so on, to the matrix `x`. Hint: use `sweep` with `FUN = "+"`.
+(@) Add the scalar 1 to column 1, the scalar 2 to column 2, and so on, to the matrix `x`. Hint: use `sweep` with `FUN = "+"`.
 
 ```{r}
 x <- sweep(x, 2, 1:ncol(x), FUN = "+")
 ```
 
 
-5\. Compute the average of each row of `x`.
+(@) Compute the average of each row of `x`.
 
 ```{r}
 rowMeans(x)
 ```
 
 
-6\. Compute the average of each column of `x`.
+(@) Compute the average of each column of `x`.
 
 ```{r}
 colMeans(x)
 ```
 
-7\. For each digit in the MNIST training data, compute the proportion of pixels that are in a *grey area*, defined as values between 50 and 205. Make boxplot by digit class. Hint: use logical operators and `rowMeans`.
+(@) For each digit in the MNIST training data, compute the proportion of pixels that are in a *grey area*, defined as values between 50 and 205. Make boxplot by digit class. Hint: use logical operators and `rowMeans`.
 
 ```{r}
 ga <- rowMeans(mnist$train$images > 50 & mnist$train$images < 205)

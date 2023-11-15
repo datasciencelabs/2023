@@ -222,7 +222,7 @@ rmse0 <- rmse(y_test - mu)
 * Keep in mind that if you plug in any other number, you get a higher RMSE. For example:
 
 ```{r}
-rmse(y_test - 3)
+rmse(y_test - 4)
 ```
 
 * From looking at the distribution of ratings, we can visualize that this is the standard deviation of that distribution. 
@@ -334,7 +334,7 @@ rmse2 <- rmse(sweep(y_test - mu, 2, b_i) - b_u)
 * If we look at the top movies, based on our estimates of the movie effect $b_i$ we find that they are all movies rated three or less times:
 
 ```{r}
-colSums(!is.na(y_test[, mu + b_i == 5])) |> table()
+colSums(!is.na(y_train[, mu + b_i == 5])) |> table()
 ```
 
 * These are the names of those rated more than three times along with the score in the test set:
@@ -444,7 +444,7 @@ data.frame(Original = b_i, Regularized = b_i_reg) |>
 * Now, let's look at the top 5 best movies based on the penalized estimates $\hat{b}_i(\lambda)$:
 
 ```{r, echo=FALSE}
-ind <- order(b_i_reg, decreasing = TRUE)[1:5]
+ind <- order(b_i_reg, decreasing = FALSE)[1:15]
 titles <- filter(movie_map, movieId %in% colnames(y_train)[ind]) |> pull(title)
 setNames(colMeans(y_test[,ind], na.rm = TRUE), titles)
 ```

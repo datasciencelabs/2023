@@ -297,6 +297,8 @@ b.  Fisher's exact and the Chi-square are different names for the same test.
 c.  Because the sum of the rows and columns of the two-by-two table are not fixed so the hypergeometric distribution is not an appropriate assumption for the null hypothesis. For this reason, Fisher's exact test is rarely applicable with observational data.
 d.  Because the Chi-square test runs faster.
 
+**Answer**: c
+
 (@) Compute the odds ratio of "losing under pressure" along with a confidence interval.
 
 4\. Notice that the p-value is larger than 0.05 but the 95% confidence interval does not include 1. What explains this?
@@ -306,10 +308,12 @@ b.  These are based on t-statistics so the connection between p-value and confid
 c.  Different approximations are used for the p-value and the confidence interval calculation. If we had a larger sample size the match would be better.
 d.  We should use the Fisher exact test to get confidence intervals.
 
+**Answer**: c
+
 (@) Multiply the two-by-two table by 2 and see if the p-value and confidence retrieval are a better match.
 
 
-## Optional exercises
+## Optional exercises (win't appear in the midterm)
 
 (@) When analyzing the trump tweets we computed `sentiment_counts` like this:
 

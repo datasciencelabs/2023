@@ -307,7 +307,7 @@ The schedule is subject to change.
             <td style="width: 23.7497%; height: 83px;">
                 <p>Wed, Nov 15</p>
             </td>
-            <td style="width: 21.4355%; height: 83px;"><span>High dimensional data </span></td>
+            <td style="width: 21.4355%; height: 83px;"><span>Machine Learning </span></td>
             <td style="width: 54.6901%; height: 83px;">
                 <ul>
                     <li><span>Introduction, definition of concepts, accuracy, test, training and validation sets</span></li>
