@@ -359,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
   </div>
 </li>
     </ul>
@@ -983,6 +983,20 @@ Police Academy 5: Assignment: Miami Beach
 <li><p>From the table constructed in the previous example, we see that the most rated movies tend to have above average ratings. This is not surprising: more people watch popular movies. To confirm this, stratify the post 1993 movies by ratings per year and compute their average ratings. Make a plot of average rating versus ratings per year and show an estimate of the trend.</p></li>
 <li><p>The <code>movielens</code> dataset also includes a time stamp. This variable represents the time and data in which the rating was provided. The units are seconds since January 1, 1970. Create a new column <code>date</code> with the date. Hint: use the <code>as_datetime</code> function in the <strong>lubridate</strong> package.</p></li>
 <li><p>Compute the average rating for each week and plot this average against day. Hint: use the <code>round_date</code> function before you <code>group_by</code>.</p></li>
+</ol>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-31_358bb4888bd1c5c9e0b22d80fdaecc94">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>movielens <span class="sc">|&gt;</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">week =</span> <span class="fu">round_date</span>(<span class="fu">as_datetime</span>(movielens<span class="sc">$</span>timestamp), <span class="at">unit =</span> <span class="st">"week"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(week) <span class="sc">|&gt;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(rating)) <span class="sc">|&gt;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(week, avg)) <span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="29-regularization_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="6" class="example" type="1">
 <li><p>The <code>movielens</code> data also has a <code>genres</code> column. This column includes every genre that applies to the movie. Some movies fall under several genres. Define a category as whatever combination appears in this column. Keep only categories with more than 1,000 ratings. Then compute the average and standard error for each category. Plot these as error bar plots.</p></li>
 <li><p>The plot shows strong evidence of a genre effect. If we define <span class="math inline">\(g_{u,i}\)</span> as the genre for user’s <span class="math inline">\(u\)</span> rating of movie <span class="math inline">\(i\)</span>, which of the following models is most appropriate:</p></li>
 </ol>
@@ -993,30 +1007,30 @@ Police Academy 5: Assignment: Miami Beach
 <li><span class="math inline">\(Y_{u,i} = \mu + b_i + b_u + f(d_{u,i}) + \varepsilon_{u,i}\)</span>, with <span class="math inline">\(f\)</span> a smooth function of <span class="math inline">\(d_{u,i}\)</span>.</li>
 </ol>
 <p>An education expert is advocating for smaller schools. The expert bases this recommendation on the fact that among the best performing schools, many are small schools. Let’s simulate a dataset for 100 schools. First, let’s simulate the number of students in each school.</p>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-31_287f458217c0b3b4d9b5f010c67d5501">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1986</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span><span class="sc">^</span><span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">8</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-32_2585d043d9922cdb78246a93fb5d4bb8">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1986</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">2</span><span class="sc">^</span><span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">8</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s assign a <em>true</em> quality for each school completely independent from size. This is the parameter we want to estimate.</p>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-32_dfb21ea38ff6a929e0b2dc9920e46365">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">80</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">rt</span>(<span class="dv">1000</span>, <span class="dv">5</span>))</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(mu)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>schools <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">paste</span>(<span class="st">"PS"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>), </span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">size =</span> n, </span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">quality =</span> mu,</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">rank =</span> <span class="fu">rank</span>(<span class="sc">-</span>mu))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-33_13c9a97c16a1fd533bf4ef2fb7e3f4a6">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">80</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">rt</span>(<span class="dv">1000</span>, <span class="dv">5</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(mu)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>schools <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">paste</span>(<span class="st">"PS"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>), </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">size =</span> n, </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">quality =</span> mu,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">rank =</span> <span class="fu">rank</span>(<span class="sc">-</span>mu))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see that the top 10 schools are:</p>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-33_b1e8a486290d831e8ee7d3083aaa82fd">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>schools <span class="sc">|&gt;</span> <span class="fu">top_n</span>(<span class="dv">10</span>, quality) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(quality))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-34_e9726b0c8c8609861484e77a1e7b53f9">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>schools <span class="sc">|&gt;</span> <span class="fu">top_n</span>(<span class="dv">10</span>, quality) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(quality))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now let’s have the students in the school take a test. There is random variability in test taking so we will simulate the test scores as normally distributed with the average determined by the school quality and standard deviations of 30 percentage points:</p>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-34_e4e4d352fdee6fe1f901d2d4fe923be5">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(schools), <span class="cf">function</span>(i){</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  scores <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(schools<span class="sc">$</span>size[i], schools<span class="sc">$</span>quality[i], <span class="dv">30</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  scores</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>schools <span class="ot">&lt;-</span> schools <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">score =</span> <span class="fu">sapply</span>(scores, mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-35_c27312745839d6934ca4d803c0f1d446">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(schools), <span class="cf">function</span>(i){</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  scores <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(schools<span class="sc">$</span>size[i], schools<span class="sc">$</span>quality[i], <span class="dv">30</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  scores</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>schools <span class="ot">&lt;-</span> schools <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">score =</span> <span class="fu">sapply</span>(scores, mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="8" class="example" type="1">
 <li><p>What are the top schools based on the average score? Show just the ID, size, and the average score.</p></li>
@@ -1026,14 +1040,41 @@ Police Academy 5: Assignment: Miami Beach
 <li><p>We can see that the standard error of the score has larger variability when the school is smaller. This is a basic statistical reality we learned in the probability and inference sections. In fact, note that 4 of the top 10 schools are in the top 10 schools based on the exam score.</p></li>
 </ol>
 <p>Let’s use regularization to pick the best schools. Remember regularization <em>shrinks</em> deviations from the average towards 0. So to apply regularization here, we first need to define the overall average for all schools:</p>
-<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-35_4bc56beef849b8420ad8abd76d60a823">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sapply</span>(scores, mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-36_585d020e000bf26fe109837d599009fe">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>overall <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">unlist</span>(scores))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and then define, for each school, how it deviates from that average. Write code that estimates the score above average for each school but dividing by <span class="math inline">\(n + \lambda\)</span> instead of <span class="math inline">\(n\)</span>, with <span class="math inline">\(n\)</span> the school size and <span class="math inline">\(\lambda\)</span> a regularization parameter. Try <span class="math inline">\(\lambda = 3\)</span>.</p>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-37_579e4198d4e8db82ddfd249df2dfd456">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>schools <span class="ot">&lt;-</span> schools <span class="sc">|&gt;</span> </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum =</span> <span class="fu">sapply</span>(scores, sum)) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">score_reg =</span> mu <span class="sc">+</span> (sum <span class="sc">-</span> size<span class="sc">*</span>mu)<span class="sc">/</span>(size <span class="sc">+</span> lambda))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ol start="13" class="example" type="1">
-<li><p>Notice that this improves things a bit. The number of small schools that are not highly ranked is now 4. Is there a better <span class="math inline">\(\lambda\)</span>? Find the <span class="math inline">\(\lambda\)</span> that minimizes the RMSE = <span class="math inline">\(1/100 \sum_{i=1}^{100} (\mbox{quality} - \mbox{estimate})^2\)</span>.</p></li>
-<li><p>Rank the schools based on the average obtained with the best <span class="math inline">\(\alpha\)</span>. Note that no small school is incorrectly included.</p></li>
-<li><p>A common mistake to make when using regularization is shrinking values towards 0 that are not centered around 0. For example, if we don’t subtract the overall average before shrinking, we actually obtain a very similar result. Confirm this by re-running the code from exercise 6 but without removing the overall mean.</p></li>
+<li>Notice that this improves things a bit. The number of small schools that are not highly ranked is now 4. Is there a better <span class="math inline">\(\lambda\)</span>? Find the <span class="math inline">\(\lambda\)</span> that minimizes the RMSE = <span class="math inline">\(1/100 \sum_{i=1}^{100} (\mbox{quality} - \mbox{estimate})^2\)</span>.</li>
+</ol>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-38_a72e1071b1f322db1cac71e12c926cb8">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>lambdas <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="fl">0.1</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>rmses <span class="ot">&lt;-</span> <span class="fu">sapply</span>(lambdas, <span class="cf">function</span>(lambda){</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  schools <span class="sc">|&gt;</span> </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum =</span> <span class="fu">sapply</span>(scores, sum)) <span class="sc">|&gt;</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">score_reg =</span> mu <span class="sc">+</span> (sum <span class="sc">-</span> size<span class="sc">*</span>mu)<span class="sc">/</span>(size <span class="sc">+</span> lambda)) <span class="sc">|&gt;</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(score_reg <span class="sc">-</span> quality)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lambdas, rmses, <span class="at">type =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="14" class="example" type="1">
+<li>Rank the schools based on the average obtained with the best <span class="math inline">\(\lambda\)</span>. Note that few small schools are incorrectly included in the top.</li>
+</ol>
+<div class="cell" data-hash="29-regularization_cache/html/unnamed-chunk-39_1c6eedec49d6f5fb913b5e90fcaf3408">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> lambdas[<span class="fu">which.min</span>(rmses)]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>schools <span class="ot">&lt;-</span> schools <span class="sc">|&gt;</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum =</span> <span class="fu">sapply</span>(scores, sum)) <span class="sc">|&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">score_reg =</span> mu <span class="sc">+</span> (sum <span class="sc">-</span> size<span class="sc">*</span>mu)<span class="sc">/</span>(size <span class="sc">+</span> lambda))</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>schools <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="15" class="example" type="1">
+<li>A common mistake to make when using regularization is shrinking values towards 0 that are not centered around 0. For example, if we don’t subtract the overall average before shrinking, we actually obtain a very similar result. Confirm this by re-running the code from exercise 6 but without removing the overall mean.</li>
 </ol>
 
 

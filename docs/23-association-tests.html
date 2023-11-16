@@ -359,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
   </div>
 </li>
     </ul>
@@ -726,8 +726,21 @@ Warning
 <section id="exercises" class="level2" data-number="23.5">
 <h2 data-number="23.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">23.5</span> Exercises</h2>
 <ol class="example" type="1">
-<li><p>A famous athlete has an impressive career, winning 70% of her 500 career matches. However, this athlete gets criticized because in important events, such as the Olympics, she has a losing record of 8 wins and 9 losses. Perform a Chi-square test to determine if this losing record can be simply due to chance as opposed to not performing well under pressure.</p></li>
-<li><p>Why did we use the Chi-square test instead of Fisher’s exact test in the previous exercise?</p></li>
+<li>A famous athlete has an impressive career, winning 70% of her 500 career matches. However, this athlete gets criticized because in important events, such as the Olympics, she has a losing record of 8 wins and 9 losses. Perform a Chi-square test to determine if this losing record can be simply due to chance as opposed to not performing well under pressure.</li>
+</ol>
+<div class="cell" data-hash="23-association-tests_cache/html/unnamed-chunk-19_809f93f38fff0becfcaedac45d566abb">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">500</span><span class="sc">*</span>.<span class="dv">3</span>, <span class="dv">500</span><span class="sc">*</span>.<span class="dv">7</span>, <span class="dv">9</span>,<span class="dv">8</span>), <span class="dv">2</span>, <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(mat, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  mat
+X-squared = 4.0631, df = 1, p-value = 0.04383</code></pre>
+</div>
+</div>
+<ol start="2" class="example" type="1">
+<li>Why did we use the Chi-square test instead of Fisher’s exact test in the previous exercise?</li>
 </ol>
 <ol type="a">
 <li>It actually does not matter, since they give the exact same p-value.</li>
@@ -739,7 +752,21 @@ Warning
 <ol start="3" class="example" type="1">
 <li>Compute the odds ratio of “losing under pressure” along with a confidence interval.</li>
 </ol>
-<p>4. Notice that the p-value is larger than 0.05 but the 95% confidence interval does not include 1. What explains this?</p>
+<div class="cell" data-hash="23-association-tests_cache/html/unnamed-chunk-20_bd0a81822314e3a0cb83808588bc01aa">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>lor <span class="ot">&lt;-</span> <span class="fu">log</span>((mat[<span class="dv">1</span>,<span class="dv">1</span>]<span class="sc">*</span>mat[<span class="dv">2</span>,<span class="dv">2</span>])<span class="sc">/</span>(mat[<span class="dv">1</span>,<span class="dv">2</span>]<span class="sc">*</span>mat[<span class="dv">2</span>,<span class="dv">1</span>]))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="dv">1</span><span class="sc">/</span>mat))</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(lor <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span><span class="fl">1.96</span><span class="sc">*</span>se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1442096 1.0063459</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span><span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(lor<span class="sc">/</span>se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.05150641</code></pre>
+</div>
+</div>
+<ol start="4" class="example" type="1">
+<li>Notice that the p-value is larger than 0.05 but the 95% confidence interval does not include 1. What explains this?</li>
+</ol>
 <ol type="a">
 <li>We made a mistake in our code.</li>
 <li>These are based on t-statistics so the connection between p-value and confidence intervals does not apply.</li>
@@ -747,41 +774,41 @@ Warning
 <li>We should use the Fisher exact test to get confidence intervals.</li>
 </ol>
 <p><strong>Answer</strong>: c</p>
-<ol start="4" class="example" type="1">
+<ol start="5" class="example" type="1">
 <li>Multiply the two-by-two table by 2 and see if the p-value and confidence retrieval are a better match.</li>
 </ol>
 </section>
 <section id="optional-exercises-wint-appear-in-the-midterm" class="level2" data-number="23.6">
 <h2 data-number="23.6" class="anchored" data-anchor-id="optional-exercises-wint-appear-in-the-midterm"><span class="header-section-number">23.6</span> Optional exercises (win’t appear in the midterm)</h2>
-<ol start="5" class="example" type="1">
+<ol start="6" class="example" type="1">
 <li>When analyzing the trump tweets we computed <code>sentiment_counts</code> like this:</li>
 </ol>
-<div class="cell" data-hash="23-association-tests_cache/html/unnamed-chunk-19_64383973863eb67a961d58fb16c9f4b9">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="st">"https://t.co/[A-Za-z</span><span class="sc">\\</span><span class="st">d]+|&amp;amp;"</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>nrc <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(word, sentiment)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>android_iphone <span class="ot">&lt;-</span> trump_tweets <span class="sc">|&gt;</span> </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract</span>(source, <span class="st">"source"</span>, <span class="st">"Twitter for (.*)"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Android"</span>, <span class="st">"iPhone"</span>) <span class="sc">&amp;</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>           created_at <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">"2015-06-17"</span>) <span class="sc">&amp;</span> </span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>           created_at <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">"2016-11-08"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>is_retweet) <span class="sc">|&gt;</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(created_at) <span class="sc">|&gt;</span> </span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_replace_all</span>(text, links, <span class="st">""</span>))  <span class="sc">|&gt;</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">|&gt;</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word <span class="sc">&amp;</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>           <span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"^</span><span class="sc">\\</span><span class="st">d+$"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">str_replace</span>(word, <span class="st">"^'"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word)</span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>sentiment_counts <span class="ot">&lt;-</span> android_iphone <span class="sc">|&gt;</span></span>
-<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nrc, <span class="at">by =</span> <span class="st">"word"</span>, <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(source, sentiment) <span class="sc">|&gt;</span></span>
-<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"source"</span>, <span class="at">values_from =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="fu">replace_na</span>(sentiment, <span class="at">replace =</span> <span class="st">"none"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="23-association-tests_cache/html/unnamed-chunk-21_6e31cca5081fc272e318233d0cb52581">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>links <span class="ot">&lt;-</span> <span class="st">"https://t.co/[A-Za-z</span><span class="sc">\\</span><span class="st">d]+|&amp;amp;"</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>nrc <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(word, sentiment)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>android_iphone <span class="ot">&lt;-</span> trump_tweets <span class="sc">|&gt;</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract</span>(source, <span class="st">"source"</span>, <span class="st">"Twitter for (.*)"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Android"</span>, <span class="st">"iPhone"</span>) <span class="sc">&amp;</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>           created_at <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="st">"2015-06-17"</span>) <span class="sc">&amp;</span> </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>           created_at <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="st">"2016-11-08"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>is_retweet) <span class="sc">|&gt;</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(created_at) <span class="sc">|&gt;</span> </span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_replace_all</span>(text, links, <span class="st">""</span>))  <span class="sc">|&gt;</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">|&gt;</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word <span class="sc">&amp;</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>           <span class="sc">!</span><span class="fu">str_detect</span>(word, <span class="st">"^</span><span class="sc">\\</span><span class="st">d+$"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">str_replace</span>(word, <span class="st">"^'"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word)</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>sentiment_counts <span class="ot">&lt;-</span> android_iphone <span class="sc">|&gt;</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nrc, <span class="at">by =</span> <span class="st">"word"</span>, <span class="at">relationship =</span> <span class="st">"many-to-many"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(source, sentiment) <span class="sc">|&gt;</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"source"</span>, <span class="at">values_from =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="fu">replace_na</span>(sentiment, <span class="at">replace =</span> <span class="st">"none"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Compute an odds ratio comparing Android to iPhone for each sentiment and add it to the table.</p>
-<ol start="6" class="example" type="1">
+<ol start="7" class="example" type="1">
 <li><p>Compute a 95% confidence interval for each odds ratio.</p></li>
 <li><p>Generate a plot showing the estimated odds ratios along with their confidence intervals.</p></li>
 <li><p>Test the null hypothesis that there is no difference between tweets from Android and iPhone and report the sentiments with p-values less than 0.05 and more likely to come from Android.</p></li>

@@ -432,6 +432,13 @@ Generate a boxplot showing the distances for the second row of `d` stratified by
 
 (@) Use the `apply` function and matrix algebra to compute the distance between the fourth digit `mnist$train$images[4,]` and all other digits represented in `mnist$train$images`. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.
 
+```{r}
+my_dist <- apply(mnist$train$image[-4,], 1, function(x){
+  sqrt(sum((mnist$train$image[4,] - x)^2))
+})
+boxplot(my_dist~mnist$train$labels[-4])
+```
+
 
 (@) Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.
 

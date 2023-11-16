@@ -1,4 +1,4 @@
-#  Machine learning basic soncepts and evaluation metrics
+#  Machine learning basic concepts and evaluation metrics
 
 * Machine learning has achieved remarkable successes, ranging from the postal service's handwritten zip code readers to voice recognition systems like Apple's Siri. 
 

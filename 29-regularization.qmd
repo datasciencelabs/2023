@@ -500,6 +500,16 @@ Among movies that came out in 1993 or later, what are the 25 movies with the mos
 
 (@) Compute the average rating for each week and plot this average against day. Hint: use the `round_date` function before you `group_by`.
 
+```{r}
+library(lubridate)
+movielens |> 
+  mutate(week = round_date(as_datetime(movielens$timestamp), unit = "week")) |>
+  group_by(week) |>
+  summarize(avg = mean(rating)) |>
+  ggplot(aes(week, avg)) +
+  geom_line()
+```
+
 
 
 (@) The `movielens` data also has a `genres` column. This column includes every genre that applies to the movie. Some movies fall under several genres. Define a category as whatever combination appears in this column. Keep only categories with more than 1,000 ratings. Then compute the average and standard error for each category. Plot these as error bar plots.
@@ -568,15 +578,42 @@ schools <- schools |> mutate(score = sapply(scores, mean))
 Let's use regularization to pick the best schools. Remember regularization _shrinks_ deviations from the average towards 0. So to apply regularization here, we first need to define the overall average for all schools:
 
 ```{r, eval=FALSE}
-overall <- mean(sapply(scores, mean))
+overall <- mean(unlist(scores))
 ```
 
 and then define, for each school, how it deviates from that average. Write code that estimates the score above average for each school but dividing by $n + \lambda$ instead of $n$, with $n$ the school size and $\lambda$ a regularization parameter. Try $\lambda = 3$.
 
+```{r, eval=FALSE}
+lambda <- 3
+schools <- schools |> 
+  mutate(sum = sapply(scores, sum)) |>
+  mutate(score_reg = mu + (sum - size*mu)/(size + lambda))
+```
+
+
 (@) Notice that this improves things a bit. The number of small schools that are not highly ranked is now 4.  Is there a better $\lambda$? Find the $\lambda$ that minimizes the RMSE = $1/100 \sum_{i=1}^{100} (\mbox{quality} - \mbox{estimate})^2$.
 
+```{r, eval=FALSE}
+lambdas <- seq(0, 50, 0.1)
+rmses <- sapply(lambdas, function(lambda){
+  schools |> 
+  mutate(sum = sapply(scores, sum)) |>
+  mutate(score_reg = mu + (sum - size*mu)/(size + lambda)) |>
+  summarize(mean(score_reg - quality)^2)
+})
+plot(lambdas, rmses, type = "l")
+```
 
-(@) Rank the schools based on the average obtained with the best $\alpha$. Note that no small school is incorrectly included.
+
+(@) Rank the schools based on the average obtained with the best $\lambda$. Note that few small schools are incorrectly included in the top.
+
+```{r, eval=FALSE}
+lambda <- lambdas[which.min(rmses)]
+schools <- schools |> 
+  mutate(sum = sapply(scores, sum)) |>
+  mutate(score_reg = mu + (sum - size*mu)/(size + lambda))
+schools |> arrange(desc(score))
+```
 
 
 (@)  A common mistake to make when using regularization is shrinking values towards 0 that are not centered around 0. For example, if we don't subtract the overall average before shrinking, we actually obtain a very similar result. Confirm this by re-running the code from exercise 6 but without removing the overall mean. 

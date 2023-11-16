@@ -290,6 +290,12 @@ Note that the log odds ratio is not defined if any of the cells of the two-by-tw
 
 (@) A famous athlete has an impressive career, winning 70% of her 500 career matches. However, this athlete gets criticized because in important events, such as the Olympics, she has a losing record of 8 wins and 9 losses. Perform a Chi-square test to determine if this losing record can be simply due to chance as opposed to not performing well under pressure.
 
+```{r}
+mat <- matrix(c(500*.3, 500*.7, 9,8), 2, 2, byrow = TRUE)
+chisq.test(mat, correct = FALSE)
+```
+
+
 (@) Why did we use the Chi-square test instead of Fisher's exact test in the previous exercise?
 
 a.  It actually does not matter, since they give the exact same p-value.
@@ -301,7 +307,15 @@ d.  Because the Chi-square test runs faster.
 
 (@) Compute the odds ratio of "losing under pressure" along with a confidence interval.
 
-4\. Notice that the p-value is larger than 0.05 but the 95% confidence interval does not include 1. What explains this?
+```{r}
+lor <- log((mat[1,1]*mat[2,2])/(mat[1,2]*mat[2,1]))
+se <- sqrt(sum(1/mat))
+exp(lor + c(-1,1)*1.96*se)
+2*pnorm(-abs(lor/se))
+```
+
+
+(@) Notice that the p-value is larger than 0.05 but the 95% confidence interval does not include 1. What explains this?
 
 a.  We made a mistake in our code.
 b.  These are based on t-statistics so the connection between p-value and confidence intervals does not apply.

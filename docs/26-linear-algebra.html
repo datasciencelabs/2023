@@ -356,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic soncepts and evaluation metrics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
   </div>
 </li>
     </ul>
@@ -757,8 +757,19 @@ x + y + z + w &amp;= 10\\
 </div>
 <p>Generate a boxplot showing the distances for the second row of <code>d</code> stratified by digits. Do not include the distance to itself which we know it is 0. Can you predict what digit is represented by the second row of <code>x</code>?</p>
 <ol start="4" class="example" type="1">
-<li><p>Use the <code>apply</code> function and matrix algebra to compute the distance between the fourth digit <code>mnist$train$images[4,]</code> and all other digits represented in <code>mnist$train$images</code>. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.</p></li>
-<li><p>Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.</p></li>
+<li>Use the <code>apply</code> function and matrix algebra to compute the distance between the fourth digit <code>mnist$train$images[4,]</code> and all other digits represented in <code>mnist$train$images</code>. Then generate as boxplot as in exercise 2 and predict what digit is the fourth row.</li>
+</ol>
+<div class="cell" data-hash="26-linear-algebra_cache/html/unnamed-chunk-19_0b16c1695cc3a485e05f8da3fcca32e2">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>my_dist <span class="ot">&lt;-</span> <span class="fu">apply</span>(mnist<span class="sc">$</span>train<span class="sc">$</span>image[<span class="sc">-</span><span class="dv">4</span>,], <span class="dv">1</span>, <span class="cf">function</span>(x){</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>((mnist<span class="sc">$</span>train<span class="sc">$</span>image[<span class="dv">4</span>,] <span class="sc">-</span> x)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(my_dist<span class="sc">~</span>mnist<span class="sc">$</span>train<span class="sc">$</span>labels[<span class="sc">-</span><span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="26-linear-algebra_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="5" class="example" type="1">
+<li>Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.</li>
 </ol>
 
 
