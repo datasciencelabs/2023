@@ -440,9 +440,25 @@ boxplot(my_dist~mnist$train$labels[-4])
 ```
 
 
-(@) Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is showns with color in the pixel position.
+(@) Compute the distance between each feature and the feature representing the middle pixel (row 14 column 14). Create an image plot of where the distance is shown with color in the pixel position.
 
 
+```{r}
+i <- 13*28+14
+x_0 <- mnist$train$images[,i]
+
+# my_dist <- apply(mnist$train$image, 2, function(x){
+#   sqrt(sum((x - x_0)^2))
+# })
+
+my_dist <- sqrt(matrix(x_0, nrow=1) %*% mnist$train$images)
+
+#check if it's 0
+my_dist[i]
+mat <- matrix(my_dist, 28, 28)
+image(mat[,28:1])
+
+```
 
 
 
