@@ -315,7 +315,16 @@ exp(lor + c(-1,1)*1.96*se)
 ```
 
 
-(@) Notice that the p-value is larger than 0.05 but the 95% confidence interval does not include 1. What explains this?
+(@) Notice that p-values obtained with the four approaches that produce three different p-values:
+
+```{r}
+chisq.test(mat)$p.value
+chisq.test(mat, correct = FALSE)$p.value
+2*pnorm(-abs(lor/se))
+summary(glm(mat ~ c(1,0), family = "binomial"))$coef[2,4]
+```
+
+Why is this?
 
 a.  We made a mistake in our code.
 b.  These are based on t-statistics so the connection between p-value and confidence intervals does not apply.
@@ -327,7 +336,7 @@ d.  We should use the Fisher exact test to get confidence intervals.
 (@) Multiply the two-by-two table by 2 and see if the p-value and confidence retrieval are a better match.
 
 
-## Optional exercises (win't appear in the midterm)
+## Optional exercises (won't appear in the midterm)
 
 (@) When analyzing the trump tweets we computed `sentiment_counts` like this:
 
