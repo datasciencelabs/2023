@@ -390,6 +390,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#beware-of-default-smoothing-parameters" id="toc-beware-of-default-smoothing-parameters" class="nav-link" data-scroll-target="#beware-of-default-smoothing-parameters"><span class="header-section-number">34.5.2</span> Beware of default smoothing parameters</a></li>
   </ul></li>
   <li><a href="#sec-smoothing-ml-connection" id="toc-sec-smoothing-ml-connection" class="nav-link" data-scroll-target="#sec-smoothing-ml-connection"><span class="header-section-number">34.6</span> Connecting smoothing to machine learning</a></li>
+  <li><a href="#case-study-estimating-indirect-effects-of-natural-dissasters" id="toc-case-study-estimating-indirect-effects-of-natural-dissasters" class="nav-link" data-scroll-target="#case-study-estimating-indirect-effects-of-natural-dissasters"><span class="header-section-number">34.7</span> Case Study: Estimating indirect effects of Natural Dissasters</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/33-smoothing.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -828,6 +829,12 @@ p(x_1, x_2) = \mbox{Pr}(Y=1 \mid X_1=x_1 , X_2 = x_2).
 <li><p>We saw that linear regression was not flexible enough to capture the non-linear nature of <span class="math inline">\(p(x_1, x_2)\)</span>, thus smoothing approaches provide an improvement.</p></li>
 <li><p>In a future lecture we describe a popular machine learning algorithm, k-nearest neighbors, which is based on bin smoothing.</p></li>
 </ul>
+</section>
+<section id="case-study-estimating-indirect-effects-of-natural-dissasters" class="level2" data-number="34.7">
+<h2 data-number="34.7" class="anchored" data-anchor-id="case-study-estimating-indirect-effects-of-natural-dissasters"><span class="header-section-number">34.7</span> Case Study: Estimating indirect effects of Natural Dissasters</h2>
+<div class="cell" data-hash="33-smoothing_cache/html/unnamed-chunk-4_723154c76e938bc69641b89ca170d608">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pr_death_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>

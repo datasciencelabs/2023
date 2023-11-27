@@ -567,3 +567,11 @@ $$
 *  In a future lecture we describe a popular machine learning algorithm, k-nearest neighbors, which is based on bin smoothing.
 
 
+## Case Study: Estimating indirect effects of Natural Dissasters
+
+
+```{r, eval=FALSE}
+head(pr_death_counts)
+```
+
+
