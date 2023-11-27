@@ -574,4 +574,60 @@ $$
 head(pr_death_counts)
 ```
 
+Explore the data and notice we should remove missing or incomplete values
 
+```{r}
+pr_death_counts |>
+  ggplot(aes(date, deaths)) +
+  geom_point()
+
+dat <- pr_death_counts |> filter(date < make_date(2018, 4, 1))
+```
+
+
+We start by fitting a seasonal model. We will fit the model to 2015-2016 and then obtain residulas for 2017-2018
+
+```{r}
+dat <- mutate(dat, tt = as.numeric(date - make_date(2017, 9, 20))) |>
+  filter(!is.na(deaths)) |>
+  mutate(x1 = sin(2*pi*tt/365), x2 = cos(2*pi*tt/365),
+         x3 = sin(4*pi*tt/365), x4 = cos(4*pi*tt/365)) 
+
+seasonal_fit <- lm(deaths ~ x1 + x2 + x3 + x4, data = filter(dat, year(date) < 2017))
+```
+
+Check the fit
+
+```{r}
+with(dat, plot(tt, deaths))
+s <- predict(seasonal_fit, newdata = dat)
+lines(dat$tt, s, col = 2, lwd = 2)
+```
+
+
+Let's now fit smooth curve to the residuals
+
+```{r}
+dat <- mutate(dat, resid = deaths - s)
+fit <- loess(resid ~ tt, span = 1/20, degree = 1, data = dat)
+fit <- predict(fit, se = TRUE)
+dat <- mutate(dat, f = fit$fit) |>
+  mutate(lower = f - qnorm(0.995)*fit$se.fit, upper = f + qnorm(.995)*fit$se.fit)
+dat |> ggplot(aes(x = date)) +
+  geom_point(aes(y = resid)) +
+  geom_line(aes(y = f), color = "red")
+```
+
+Is there some evidence of indirect effect after the first week after landfall?
+
+```{r}
+dat |> 
+  filter(year(date) >= 2017) |>
+  ggplot(aes(date, f, ymin = lower, ymax = upper)) +
+  geom_ribbon(alpha = 0.5) +
+  geom_line(color = "red") +
+  geom_hline(yintercept = 0) +
+  theme_bw()
+```
+
+Note that this is only an exploratory analysis. A formal analysis would take into account changing demographics and perhaps fit a model with a discontinuity on the day the hurricane made landfall.
