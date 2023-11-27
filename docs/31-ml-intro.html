@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 31&nbsp; Machine learning basic concepts and evaluation metrics</title>
+<title>BST 260 Introduction to Data Science - 32&nbsp; Machine learning basic concepts and evaluation metrics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./32-conditional-expectations.html" rel="next">
 <link href="./30-matrix-factorization.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -112,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./31-ml-intro.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./31-ml-intro.html"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -286,79 +287,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pset2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Problem Set 2</span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Problem Set 2</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./20-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./22-linear-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./23-association-tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Association tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Association tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./24-corrleation-not-causation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Association is not causation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Association is not causation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./25-matrices-in-R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Matrices in R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Matrices in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./26-linear-algebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./27-dimension-reduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Dimension reduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dimension reduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./28-gene-expression-case-study.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32-conditional-expectations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./33-smoothing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Smoothing</span></span></a>
   </div>
 </li>
     </ul>
@@ -371,15 +384,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-training-test" id="toc-sec-training-test" class="nav-link active" data-scroll-target="#sec-training-test"><span class="header-section-number">31.1</span> Training and test sets</a></li>
-  <li><a href="#overall-accuracy" id="toc-overall-accuracy" class="nav-link" data-scroll-target="#overall-accuracy"><span class="header-section-number">31.2</span> Overall accuracy</a></li>
-  <li><a href="#the-confusion-matrix" id="toc-the-confusion-matrix" class="nav-link" data-scroll-target="#the-confusion-matrix"><span class="header-section-number">31.3</span> The confusion matrix</a></li>
-  <li><a href="#sensitivity-and-specificity" id="toc-sensitivity-and-specificity" class="nav-link" data-scroll-target="#sensitivity-and-specificity"><span class="header-section-number">31.4</span> Sensitivity and specificity</a></li>
-  <li><a href="#balanced-accuracy-and-f_1-score" id="toc-balanced-accuracy-and-f_1-score" class="nav-link" data-scroll-target="#balanced-accuracy-and-f_1-score"><span class="header-section-number">31.5</span> Balanced accuracy and <span class="math inline">\(F_1\)</span> score</a></li>
-  <li><a href="#prevalence-matters-in-practice" id="toc-prevalence-matters-in-practice" class="nav-link" data-scroll-target="#prevalence-matters-in-practice"><span class="header-section-number">31.6</span> Prevalence matters in practice</a></li>
-  <li><a href="#roc-and-precision-recall-curves" id="toc-roc-and-precision-recall-curves" class="nav-link" data-scroll-target="#roc-and-precision-recall-curves"><span class="header-section-number">31.7</span> ROC and precision-recall curves</a></li>
-  <li><a href="#sec-loss-function" id="toc-sec-loss-function" class="nav-link" data-scroll-target="#sec-loss-function"><span class="header-section-number">31.8</span> The loss function</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">31.9</span> Exercises</a></li>
+  <li><a href="#sec-training-test" id="toc-sec-training-test" class="nav-link active" data-scroll-target="#sec-training-test"><span class="header-section-number">32.1</span> Training and test sets</a></li>
+  <li><a href="#overall-accuracy" id="toc-overall-accuracy" class="nav-link" data-scroll-target="#overall-accuracy"><span class="header-section-number">32.2</span> Overall accuracy</a></li>
+  <li><a href="#the-confusion-matrix" id="toc-the-confusion-matrix" class="nav-link" data-scroll-target="#the-confusion-matrix"><span class="header-section-number">32.3</span> The confusion matrix</a></li>
+  <li><a href="#sensitivity-and-specificity" id="toc-sensitivity-and-specificity" class="nav-link" data-scroll-target="#sensitivity-and-specificity"><span class="header-section-number">32.4</span> Sensitivity and specificity</a></li>
+  <li><a href="#balanced-accuracy-and-f_1-score" id="toc-balanced-accuracy-and-f_1-score" class="nav-link" data-scroll-target="#balanced-accuracy-and-f_1-score"><span class="header-section-number">32.5</span> Balanced accuracy and <span class="math inline">\(F_1\)</span> score</a></li>
+  <li><a href="#prevalence-matters-in-practice" id="toc-prevalence-matters-in-practice" class="nav-link" data-scroll-target="#prevalence-matters-in-practice"><span class="header-section-number">32.6</span> Prevalence matters in practice</a></li>
+  <li><a href="#roc-and-precision-recall-curves" id="toc-roc-and-precision-recall-curves" class="nav-link" data-scroll-target="#roc-and-precision-recall-curves"><span class="header-section-number">32.7</span> ROC and precision-recall curves</a></li>
+  <li><a href="#sec-loss-function" id="toc-sec-loss-function" class="nav-link" data-scroll-target="#sec-loss-function"><span class="header-section-number">32.8</span> The loss function</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">32.9</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/31-ml-intro.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -388,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></h1>
+<h1 class="title"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></h1>
 </div>
 
 
@@ -430,8 +443,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>We know that we will not be able to predict <span class="math inline">\(Y\)</span> very accurately based on <span class="math inline">\(X\)</span> because male and female average heights are not that different relative to within group variability.</p></li>
 <li><p>But can we do better than guessing? To answer this question, we need a quantitative definition of better.</p></li>
 </ul>
-<section id="sec-training-test" class="level2" data-number="31.1">
-<h2 data-number="31.1" class="anchored" data-anchor-id="sec-training-test"><span class="header-section-number">31.1</span> Training and test sets</h2>
+<section id="sec-training-test" class="level2" data-number="32.1">
+<h2 data-number="32.1" class="anchored" data-anchor-id="sec-training-test"><span class="header-section-number">32.1</span> Training and test sets</h2>
 <ul>
 <li><p>Ultimately, a machine learning algorithm is evaluated on how it performs in the real world with completely new datasets.</p></li>
 <li><p>However, when developing an algorithm, we usually have a dataset for which we know the outcomes, as we do with the heights: we know the sex of every student in our dataset.</p></li>
@@ -459,8 +472,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>This metric is usually referred to as <em>overall accuracy</em>.</p></li>
 </ul>
 </section>
-<section id="overall-accuracy" class="level2" data-number="31.2">
-<h2 data-number="31.2" class="anchored" data-anchor-id="overall-accuracy"><span class="header-section-number">31.2</span> Overall accuracy</h2>
+<section id="overall-accuracy" class="level2" data-number="32.2">
+<h2 data-number="32.2" class="anchored" data-anchor-id="overall-accuracy"><span class="header-section-number">32.2</span> Overall accuracy</h2>
 <ul>
 <li><p>To demonstrate the use of overall accuracy, we will build two competing algorithms and compare them.</p></li>
 <li><p>Let’s start by developing the simplest possible machine algorithm: guessing the outcome.</p></li>
@@ -569,8 +582,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>And by testing on a dataset that we did not train on, we know our result is not due to cherry-picking a good result.</p></li>
 </ul>
 </section>
-<section id="the-confusion-matrix" class="level2" data-number="31.3">
-<h2 data-number="31.3" class="anchored" data-anchor-id="the-confusion-matrix"><span class="header-section-number">31.3</span> The confusion matrix</h2>
+<section id="the-confusion-matrix" class="level2" data-number="32.3">
+<h2 data-number="32.3" class="anchored" data-anchor-id="the-confusion-matrix"><span class="header-section-number">32.3</span> The confusion matrix</h2>
 <ul>
 <li><p>The prediction rule we developed in the previous section predicts <code>Male</code> if the student is taller than 64 inches.</p></li>
 <li><p>Given that the average female is about 64 inches, this prediction rule seems wrong. What happened?</p></li>
@@ -627,8 +640,8 @@ predicted Female Male
 <li><p>A general improvement to using overall accuracy is to study <em>sensitivity</em> and <em>specificity</em> separately.</p></li>
 </ul>
 </section>
-<section id="sensitivity-and-specificity" class="level2" data-number="31.4">
-<h2 data-number="31.4" class="anchored" data-anchor-id="sensitivity-and-specificity"><span class="header-section-number">31.4</span> Sensitivity and specificity</h2>
+<section id="sensitivity-and-specificity" class="level2" data-number="32.4">
+<h2 data-number="32.4" class="anchored" data-anchor-id="sensitivity-and-specificity"><span class="header-section-number">32.4</span> Sensitivity and specificity</h2>
 <ul>
 <li><p>To define sensitivity and specificity, we need a binary outcome.</p></li>
 <li><p>When the outcomes are categorical, we can define these terms for a specific category.</p></li>
@@ -758,8 +771,8 @@ predicted Female Male
 <li><p>Before applying this algorithm to general datasets, we need to ask ourselves if prevalence will be the same.</p></li>
 </ul>
 </section>
-<section id="balanced-accuracy-and-f_1-score" class="level2" data-number="31.5">
-<h2 data-number="31.5" class="anchored" data-anchor-id="balanced-accuracy-and-f_1-score"><span class="header-section-number">31.5</span> Balanced accuracy and <span class="math inline">\(F_1\)</span> score</h2>
+<section id="balanced-accuracy-and-f_1-score" class="level2" data-number="32.5">
+<h2 data-number="32.5" class="anchored" data-anchor-id="balanced-accuracy-and-f_1-score"><span class="header-section-number">32.5</span> Balanced accuracy and <span class="math inline">\(F_1\)</span> score</h2>
 <ul>
 <li><p>Although we usually recommend studying both specificity and sensitivity, very often it is useful to have a one-number summary, for example for optimization purposes.</p></li>
 <li><p>One metric that is preferred over overall accuracy is the average of specificity and sensitivity, referred to as <em>balanced accuracy</em>.</p></li>
@@ -845,8 +858,8 @@ predicted Female Male
 <li><p>It takes height as a predictor and predicts female if you are 65 inches or shorter.</p></li>
 </ul>
 </section>
-<section id="prevalence-matters-in-practice" class="level2" data-number="31.6">
-<h2 data-number="31.6" class="anchored" data-anchor-id="prevalence-matters-in-practice"><span class="header-section-number">31.6</span> Prevalence matters in practice</h2>
+<section id="prevalence-matters-in-practice" class="level2" data-number="32.6">
+<h2 data-number="32.6" class="anchored" data-anchor-id="prevalence-matters-in-practice"><span class="header-section-number">32.6</span> Prevalence matters in practice</h2>
 <ul>
 <li><p>A machine learning algorithm with very high sensitivity and specificity may not be useful in practice when prevalence is close to either 0 or 1.</p></li>
 <li><p>To see this, consider the case of a doctor that specializes in a rare disease and is interested in developing an algorithm for predicting who has the disease.</p></li>
@@ -861,8 +874,8 @@ predicted Female Male
 <li>The doctor knows that the prevalence of the disease is 5 in 1,000, which implies that <span class="math inline">\(\mbox{Pr}(Y=1) \, / \,\mbox{Pr}(\hat{Y}=1) = 1/100\)</span> and therefore the precision of your algorithm is less than 0.01. The doctor does not have much use for your algorithm.</li>
 </ul>
 </section>
-<section id="roc-and-precision-recall-curves" class="level2" data-number="31.7">
-<h2 data-number="31.7" class="anchored" data-anchor-id="roc-and-precision-recall-curves"><span class="header-section-number">31.7</span> ROC and precision-recall curves</h2>
+<section id="roc-and-precision-recall-curves" class="level2" data-number="32.7">
+<h2 data-number="32.7" class="anchored" data-anchor-id="roc-and-precision-recall-curves"><span class="header-section-number">32.7</span> ROC and precision-recall curves</h2>
 <ul>
 <li><p>When comparing the two methods (guessing versus using a height cutoff), we looked at accuracy and <span class="math inline">\(F_1\)</span>. The second method clearly outperformed the first.</p></li>
 <li><p>However, while we considered several cutoffs for the second method, for the first we only considered one approach: guessing with equal probability.</p></li>
@@ -922,8 +935,8 @@ predicted Female Male
 <li><p>This is because the prevalence is low. We also see that if we change positives to mean Male instead of Female, the ROC curve remains the same, but the precision recall plot changes.</p></li>
 </ul>
 </section>
-<section id="sec-loss-function" class="level2" data-number="31.8">
-<h2 data-number="31.8" class="anchored" data-anchor-id="sec-loss-function"><span class="header-section-number">31.8</span> The loss function</h2>
+<section id="sec-loss-function" class="level2" data-number="32.8">
+<h2 data-number="32.8" class="anchored" data-anchor-id="sec-loss-function"><span class="header-section-number">32.8</span> The loss function</h2>
 <ul>
 <li>Up to now we have described evaluation metrics that apply exclusively to categorical data.</li>
 </ul>
@@ -961,8 +974,8 @@ predicted Female Male
 <li><p>Note that there are loss functions other than the squared loss. For example, the <em>Mean Absolute Error</em> uses absolute values, <span class="math inline">\(|\hat{Y}_i - Y_i|\)</span> instead of squaring the errors <span class="math inline">\((\hat{Y}_i - Y_i)^2\)</span>. However, in this book we focus on minimizing square loss since it is the most widely used.</p></li>
 </ul>
 </section>
-<section id="exercises" class="level2" data-number="31.9">
-<h2 data-number="31.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">31.9</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="32.9">
+<h2 data-number="32.9" class="anchored" data-anchor-id="exercises"><span class="header-section-number">32.9</span> Exercises</h2>
 <p>The <code>reported_height</code> and <code>height</code> datasets were collected from three classes taught in the Departments of Computer Science and Biostatistics, as well as remotely through the Extension School. The biostatistics class was taught in 2016 along with an online version offered by the Extension School. On 2016-01-25 at 8:15 AM, during one of the lectures, the instructors asked students to fill in the sex and height questionnaire that populated the <code>reported_height</code> dataset. The online students filled the survey during the next few days, after the lecture was posted online. We can use this insight to define a variable, call it <code>type</code>, to denote the type of student: <code>inclass</code> or <code>online</code>:</p>
 <div class="cell" data-hash="31-ml-intro_cache/html/unnamed-chunk-27_3704c225812c1cfa983b5b79c95c697e">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
@@ -1228,10 +1241,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./30-matrix-factorization.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./32-conditional-expectations.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

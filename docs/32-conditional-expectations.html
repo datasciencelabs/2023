@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 15&nbsp; Locales</title>
+<title>BST 260 Introduction to Data Science - 33&nbsp; Conditional probabilities and expectations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -64,8 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./16-text-mining.html" rel="next">
-<link href="./14-web-scraping.html" rel="prev">
+<link href="./33-smoothing.html" rel="next">
+<link href="./31-ml-intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -95,6 +61,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -108,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./15-locales.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./32-conditional-expectations.html"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -251,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./15-locales.html" class="sidebar-item-text sidebar-link active">
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
   </div>
 </li>
@@ -359,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./32-conditional-expectations.html" class="sidebar-item-text sidebar-link">
+  <a href="./32-conditional-expectations.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span></a>
   </div>
 </li>
@@ -375,14 +343,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#conditional-probabilities" id="toc-conditional-probabilities" class="nav-link active" data-scroll-target="#conditional-probabilities"><span class="header-section-number">33.1</span> Conditional probabilities</a></li>
+  <li><a href="#conditional-expectations" id="toc-conditional-expectations" class="nav-link" data-scroll-target="#conditional-expectations"><span class="header-section-number">33.2</span> Conditional expectations</a></li>
+  <li><a href="#conditional-expectations-minimizes-squared-loss-function" id="toc-conditional-expectations-minimizes-squared-loss-function" class="nav-link" data-scroll-target="#conditional-expectations-minimizes-squared-loss-function"><span class="header-section-number">33.3</span> Conditional expectations minimizes squared loss function</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/32-conditional-expectations.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></h1>
+<h1 class="title"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></h1>
 </div>
 
 
@@ -397,175 +373,113 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Notice the character on this file.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-1_374498014e097a9f018206f51839de6b">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"dslabs"</span>), <span class="st">"calificaciones.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "\"nombre\",\"f.n.\",\"estampa\",\"puntuaci\xf3n\""                       
-[2] "\"Beyonc\xe9\",\"04 de septiembre de 1981\",2023-09-22 02:11:02,\"87,5\""
-[3] "\"Bl\xfcmchen\",\"20 de abril de 1980\",2023-09-22 03:23:05,\"99,0\""    
-[4] "\"Jo\xe3o\",\"10 de junio de 1931\",2023-09-21 22:43:28,\"98,9\""        
-[5] "\"L\xf3pez\",\"24 de julio de 1969\",2023-09-22 01:06:59,\"88,7\""       
-[6] "\"\xd1engo\",\"15 de diciembre de 1981\",2023-09-21 23:35:37,\"93,1\""   
-[7] "\"Pl\xe1cido\",\"24 de enero de 1941\",2023-09-21 23:17:21,\"88,7\""     
-[8] "\"Thal\xeda\",\"26 de agosto de 1971\",2023-09-21 23:08:02,\"83,0\""     </code></pre>
+<ul>
+<li><p>In machine learning applications, we rarely can predict outcomes perfectly. For example,</p>
+<ul>
+<li>spam detectors often miss emails that are clearly spam,</li>
+<li>Siri often misunderstands the words we are saying, and</li>
+<li>your bank at times thinks your card was stolen when it was not.</li>
+</ul></li>
+<li><p>The most common reason for not being able to build perfect algorithms is that it is impossible.</p></li>
+<li><p>To see this, note that most datasets will include groups of observations with the same exact observed values for all predictors, but with different outcomes.</p></li>
+<li><p>Because our prediction rules are functions, equal inputs (the predictors) implies equal outputs (the predictions).</p></li>
+<li><p>Therefore, for a challenge in which the same predictors are associated with different outcomes across different individual observations, it is impossible to predict correctly for all these cases.</p></li>
+</ul>
+<section id="conditional-probabilities" class="level2" data-number="33.1">
+<h2 data-number="33.1" class="anchored" data-anchor-id="conditional-probabilities"><span class="header-section-number">33.1</span> Conditional probabilities</h2>
+<ul>
+<li><p>We use the notation <span class="math inline">\((X_1 = x_1,\dots,X_p=x_p)\)</span> to represent the fact that we have observed values <span class="math inline">\(x_1,\dots,x_p\)</span> for features <span class="math inline">\(X_1, \dots, X_p\)</span>.</p></li>
+<li><p>This does not imply that the outcome <span class="math inline">\(Y\)</span> will take a specific value. Instead, it implies a specific probability.</p></li>
+<li><p>We denote the <em>conditional probabilities</em> for each class <span class="math inline">\(k\)</span> with:</p></li>
+</ul>
+<p><span class="math display">\[
+\mbox{Pr}(Y=k \mid X_1 = x_1,\dots,X_p=x_p), \, \mbox{for}\,k=1,\dots,K
+\]</span></p>
+<ul>
+<li>We will use the bold letters like this: <span class="math inline">\(\mathbf{X} \equiv (X_1,\dots,X_p)^\top\)</span> and <span class="math inline">\(\mathbf{x} \equiv (x_1,\dots,x_p)^\top\)</span>.</li>
+<li>We will also use the following notation for the conditional probability of being class <span class="math inline">\(k\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+p_k(\mathbf{x}) = \mbox{Pr}(Y=k \mid \mathbf{X}=\mathbf{x}), \, \mbox{for}\, k=1,\dots,K
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
 </div>
 </div>
-<p>The unrecognizable characters actually lead to <code>read.csv</code> failing:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-2_9c9f2975a182984bcad3ef688ff4b3a8">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({x <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(fn)})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Error in make.names(col.names, unique = TRUE) : 
-  invalid multibyte string 4</code></pre>
+<div class="callout-body-container callout-body">
+<p>WDo not confuse this with the <span class="math inline">\(p\)</span> that represents the number of predictors.</p>
 </div>
 </div>
-<p>This is because it is not UTF encoding, which is the default:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-3_bace47023f0324c753a39619ddb0845d">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getlocale</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8"</code></pre>
-</div>
-</div>
-<p>The <code>locale</code> is a group of information about your system. This includes the encoding, the language, and the time zone. This can affect how data is read into R. A mismatch of encodings creates weird problems often without warning or error.</p>
-<p>You can use the <code>stri_enc_detect</code> function in the <strong>stringi</strong> package to predict the encoding of a character:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-4_065d14c7117d3a9ac0539411c1657445">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringi)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">readLines</span>(fn, <span class="at">n =</span> <span class="dv">1</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stri_enc_detect</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-    Encoding Language Confidence
-1 ISO-8859-1       es       0.75
-2 ISO-8859-2       cs       0.18
-3   UTF-16BE                0.10
-4   UTF-16LE                0.10
-5  Shift_JIS       ja       0.10
-6    GB18030       zh       0.10
-7       Big5       zh       0.10</code></pre>
-</div>
-</div>
-<p>We can also use this <strong>readr</strong> function to detect encoding of files:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-5_91b14518aec4ee582d6b498a0c236c24">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">guess_encoding</span>(fn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  encoding   confidence
-  &lt;chr&gt;           &lt;dbl&gt;
-1 ISO-8859-1       0.92
-2 ISO-8859-2       0.72
-3 ISO-8859-9       0.53</code></pre>
-</div>
-</div>
-<p>The <code>read_csv</code> permits us to define elements of the encoding through the <code>locale</code> argument. It switches the local only temporarily, while running the parser <em>read_csv</em>. The locale for R remains the same after calling this.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-6_e2c00939f618438b14ee398931cff9f8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 7 Columns: 4
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (2): nombre, f.n.
-num  (1): puntuación
-dttm (1): estampa
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 4
-  nombre   f.n.                     estampa             puntuación
-  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
-1 Beyoncé  04 de septiembre de 1981 2023-09-22 02:11:02        875
-2 Blümchen 20 de abril de 1980      2023-09-22 03:23:05        990
-3 João     10 de junio de 1931      2023-09-21 22:43:28        989
-4 López    24 de julio de 1969      2023-09-22 01:06:59        887
-5 Ñengo    15 de diciembre de 1981  2023-09-21 23:35:37        931
-6 Plácido  24 de enero de 1941      2023-09-21 23:17:21        887
-7 Thalía   26 de agosto de 1971     2023-09-21 23:08:02        830</code></pre>
-</div>
-</div>
-<p>Now notice the last column. Compare it to what we saw with <code>readLines</code>. They were numbers that used the European decimal point. This confuses <code>read_csv</code>. We can also change the encoding so the Europearn decimals are used.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-7_bfb98eaa3e1794d6768f78f6ed15cf9b">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(fn, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"ISO-8859-1"</span>, <span class="at">decimal_mark =</span> <span class="st">","</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 7 Columns: 4
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (2): nombre, f.n.
-dbl  (1): puntuación
-dttm (1): estampa
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7 × 4
-  nombre   f.n.                     estampa             puntuación
-  &lt;chr&gt;    &lt;chr&gt;                    &lt;dttm&gt;                   &lt;dbl&gt;
-1 Beyoncé  04 de septiembre de 1981 2023-09-22 02:11:02       87.5
-2 Blümchen 20 de abril de 1980      2023-09-22 03:23:05       99  
-3 João     10 de junio de 1931      2023-09-21 22:43:28       98.9
-4 López    24 de julio de 1969      2023-09-22 01:06:59       88.7
-5 Ñengo    15 de diciembre de 1981  2023-09-21 23:35:37       93.1
-6 Plácido  24 de enero de 1941      2023-09-21 23:17:21       88.7
-7 Thalía   26 de agosto de 1971     2023-09-21 23:08:02       83  </code></pre>
-</div>
-</div>
-<p>Now let’s try to change the dates to date format:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-8_b69e38cb8d7504e55bca41964f229348">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'lubridate'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    date, intersect, setdiff, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dmy</span>(x<span class="sc">$</span>f.n.)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: All formats failed to parse. No formats found.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] NA NA NA NA NA NA NA</code></pre>
-</div>
-</div>
-<p>Nothing gets correctly converted. This is because the dates are in Spanish. You can change the locale to use Spanish as the language:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-9_3cbc72b98235ca3410383f4e07d7d9e2">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_date</span>(x<span class="sc">$</span>f.n., <span class="at">format =</span> <span class="st">"%d de %B de %Y"</span>, <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">date_names =</span> <span class="st">"es"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "1981-09-04" "1980-04-20" "1931-06-10" "1969-07-24" "1981-12-15"
-[6] "1941-01-24" "1971-08-26"</code></pre>
-</div>
-</div>
-<p>Finally notice that two students turned in the homework past the deadline of September 21</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-10_a70529f2d5dfcadb4e01422bd2ace553">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>estampa <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE</code></pre>
-</div>
-</div>
-<p>However, with times we have to be particularly careful as some functions default to UTC.</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-11_cdb1c9d40644d114d2d9a0e61092999c">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tz</span>(x<span class="sc">$</span>estampa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "UTC"</code></pre>
-</div>
-</div>
-<p>But these times are in the default GMT. If we change to out timezone:</p>
-<div class="cell" data-hash="15-locales_cache/html/unnamed-chunk-12_743fda5e4a966a75932df4fefe278fd4">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with_tz</span>(x<span class="sc">$</span>estampa, <span class="at">tz =</span>  <span class="fu">Sys.timezone</span>()) <span class="sc">&gt;=</span> <span class="fu">make_date</span>(<span class="dv">2023</span>, <span class="dv">9</span>, <span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
-</div>
-</div>
-<p>we see everybody turned it in on time.</p>
+<ul>
+<li><p>These probabilities guide the construction of an algorithm that makes the best prediction: for any given <span class="math inline">\(\mathbf{x}\)</span>, we will predict the class <span class="math inline">\(k\)</span> with the largest probability among <span class="math inline">\(p_1(x), p_2(x), \dots p_K(x)\)</span>.</p></li>
+<li><p>In mathematical notation, we write it like this:</p></li>
+</ul>
+<p><span class="math display">\[\hat{Y} = \max_k p_k(\mathbf{x})\]</span></p>
+<ul>
+<li><p>In machine learning, we refer to this as <em>Bayes’ Rule</em>.</p></li>
+<li><p>But this is a theoretical rule since, in practice, we don’t know <span class="math inline">\(p_k(\mathbf{x}), k=1,\dots,K\)</span>.</p></li>
+<li><p>Estimating these conditional probabilities can be thought of as the main challenge of machine learning.</p></li>
+<li><p>The better our probability estimates <span class="math inline">\(\hat{p}_k(\mathbf{x})\)</span>, the better our predictor <span class="math inline">\(\hat{Y}\)</span>.</p></li>
+<li><p>So how well we predict depends on two things:</p>
+<ol type="1">
+<li>how close are the <span class="math inline">\(\max_k p_k(\mathbf{x})\)</span> to 1 or 0 (perfect certainty) and</li>
+<li>how close our estimates <span class="math inline">\(\hat{p}_k(\mathbf{x})\)</span> are to <span class="math inline">\(p_k(\mathbf{x})\)</span>.</li>
+</ol></li>
+<li><p>We can’t do anything about the first restriction as it is determined by the nature of the problem, so</p></li>
+<li><p>our energy goes into finding ways to best estimate conditional probabilities.</p></li>
+<li><p>The first restriction does imply that we have limits as to how well even the best possible algorithm can perform.</p></li>
+<li><p>in some challenges we will be able to achieve almost perfect accuracy, with digit readers for example,</p></li>
+<li><p>in others our success is restricted by the randomness of the process, with movie recommendations for example.</p></li>
+<li><p>It is important to remember that defining our prediction by maximizing the probability is not always optimal in practice and depends on the context.</p></li>
+<li><p>As discussed above, sensitivity and specificity may differ in importance.</p></li>
+<li><p>But even in these cases, having a good estimate of the <span class="math inline">\(p_k(x), k=1,\dots,K\)</span> will suffice for us to build optimal prediction models, since we can control the balance between specificity and sensitivity however we wish.</p></li>
+</ul>
+</section>
+<section id="conditional-expectations" class="level2" data-number="33.2">
+<h2 data-number="33.2" class="anchored" data-anchor-id="conditional-expectations"><span class="header-section-number">33.2</span> Conditional expectations</h2>
+<ul>
+<li><p>For binary data, you can think of the probability <span class="math inline">\(\mbox{Pr}(Y=1 \mid \mathbf{X}=\mathbf{x})\)</span> as the proportion of 1s in the stratum of the population for which <span class="math inline">\(\mathbf{X}=\mathbf{x}\)</span>.</p></li>
+<li><p>Many of the algorithms we will learn can be applied to both categorical and continuous data due to the connection between <em>conditional probabilities</em> and <em>conditional expectations</em>.</p></li>
+<li><p>Because the expectation is the average of values <span class="math inline">\(y_1,\dots,y_n\)</span> in the population, in the case in which the <span class="math inline">\(y\)</span>s are 0 or 1:</p></li>
+</ul>
+<p><span class="math display">\[
+\mbox{E}(Y \mid \mathbf{X}=\mathbf{x})=\mbox{Pr}(Y=1 \mid \mathbf{X}=\mathbf{x}).
+\]</span></p>
+<ul>
+<li><p>As a result, we often only use the expectation to denote both the conditional probability and conditional expectation.</p></li>
+<li><p>We assume that the outcome follows the same conditional distribution.</p></li>
+</ul>
+</section>
+<section id="conditional-expectations-minimizes-squared-loss-function" class="level2" data-number="33.3">
+<h2 data-number="33.3" class="anchored" data-anchor-id="conditional-expectations-minimizes-squared-loss-function"><span class="header-section-number">33.3</span> Conditional expectations minimizes squared loss function</h2>
+<ul>
+<li><p>Why do we care about the conditional expectation in machine learning?</p></li>
+<li><p>This is because the expected value has an attractive mathematical property: it minimizes the MSE. Specifically, of all possible predictions <span class="math inline">\(\hat{Y}\)</span>,</p></li>
+</ul>
+<p><span class="math display">\[
+\hat{Y} = \mbox{E}(Y \mid \mathbf{X}=\mathbf{x}) \, \mbox{ minimizes } \, \mbox{E}\{ (\hat{Y} - Y)^2  \mid  \mathbf{X}=\mathbf{x} \}
+\]</span></p>
+<ul>
+<li>Due to this property, a succinct description of the main task of machine learning is that we use data to estimate:</li>
+</ul>
+<p><span class="math display">\[
+f(\mathbf{x}) \equiv \mbox{E}( Y  \mid  \mathbf{X}=\mathbf{x} )
+\]</span></p>
+<p>for any set of features <span class="math inline">\(\mathbf{x} = (x_1, \dots, x_p)^\top\)</span>.</p>
+<ul>
+<li><p>This is easier said than done, since this function can take any shape and <span class="math inline">\(p\)</span> can be very large.</p></li>
+<li><p>Consider a case in which we only have one predictor <span class="math inline">\(x\)</span>. The expectation <span class="math inline">\(\mbox{E}\{ Y \mid X=x \}\)</span> can be any function of <span class="math inline">\(x\)</span>: a line, a parabola, a sine wave, a step function, anything.</p></li>
+<li><p>It gets even more complicated when we consider instances with large <span class="math inline">\(p\)</span>, in which case <span class="math inline">\(f(\mathbf{x})\)</span> is a function of a multidimensional vector <span class="math inline">\(\mathbf{x}\)</span>. For example, in our digit reader example <span class="math inline">\(p = 784\)</span>!</p></li>
+<li><p>The main way in which competing machine learning algorithms differ is in their approach to estimating this conditional expectation.</p></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -803,13 +717,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./14-web-scraping.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span>
+      <a href="./31-ml-intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./16-text-mining.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./33-smoothing.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Smoothing</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -817,4 +731,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/15-locales.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
+</body></html>
