@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 34&nbsp; Smoothing</title>
+<title>BST 260 Introduction to Data Science - 33&nbsp; Smoothing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./34-cross-validation.html" rel="next">
 <link href="./32-conditional-expectations.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -109,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./33-smoothing.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Smoothing</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./33-smoothing.html"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Smoothing</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -283,91 +284,103 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pset2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Problem Set 2</span></span></a>
+ <span class="menu-text">Problem Set 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./20-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./22-linear-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./23-association-tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Association tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Association tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./24-corrleation-not-causation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Association is not causation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Association is not causation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./25-matrices-in-R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Matrices in R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Matrices in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./26-linear-algebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./27-dimension-reduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dimension reduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Dimension reduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./28-gene-expression-case-study.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./32-conditional-expectations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./33-smoothing.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Smoothing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Smoothing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./34-cross-validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Cross validation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./35-caret.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">The caret package</span></span></a>
   </div>
 </li>
     </ul>
@@ -380,17 +393,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-two-or-seven" id="toc-sec-two-or-seven" class="nav-link active" data-scroll-target="#sec-two-or-seven"><span class="header-section-number">34.1</span> Simplified MNIST: Is it a 2 or a 7?</a></li>
-  <li><a href="#signal-plus-noise-model" id="toc-signal-plus-noise-model" class="nav-link" data-scroll-target="#signal-plus-noise-model"><span class="header-section-number">34.2</span> Signal plus noise model</a></li>
-  <li><a href="#bin-smoothing" id="toc-bin-smoothing" class="nav-link" data-scroll-target="#bin-smoothing"><span class="header-section-number">34.3</span> Bin smoothing</a></li>
-  <li><a href="#kernels" id="toc-kernels" class="nav-link" data-scroll-target="#kernels"><span class="header-section-number">34.4</span> Kernels</a></li>
-  <li><a href="#local-weighted-regression-loess" id="toc-local-weighted-regression-loess" class="nav-link" data-scroll-target="#local-weighted-regression-loess"><span class="header-section-number">34.5</span> Local weighted regression (loess)</a>
+  <li><a href="#sec-two-or-seven" id="toc-sec-two-or-seven" class="nav-link active" data-scroll-target="#sec-two-or-seven"><span class="header-section-number">33.1</span> Simplified MNIST: Is it a 2 or a 7?</a></li>
+  <li><a href="#signal-plus-noise-model" id="toc-signal-plus-noise-model" class="nav-link" data-scroll-target="#signal-plus-noise-model"><span class="header-section-number">33.2</span> Signal plus noise model</a></li>
+  <li><a href="#bin-smoothing" id="toc-bin-smoothing" class="nav-link" data-scroll-target="#bin-smoothing"><span class="header-section-number">33.3</span> Bin smoothing</a></li>
+  <li><a href="#kernels" id="toc-kernels" class="nav-link" data-scroll-target="#kernels"><span class="header-section-number">33.4</span> Kernels</a></li>
+  <li><a href="#local-weighted-regression-loess" id="toc-local-weighted-regression-loess" class="nav-link" data-scroll-target="#local-weighted-regression-loess"><span class="header-section-number">33.5</span> Local weighted regression (loess)</a>
   <ul class="collapse">
-  <li><a href="#fitting-parabolas" id="toc-fitting-parabolas" class="nav-link" data-scroll-target="#fitting-parabolas"><span class="header-section-number">34.5.1</span> Fitting parabolas</a></li>
-  <li><a href="#beware-of-default-smoothing-parameters" id="toc-beware-of-default-smoothing-parameters" class="nav-link" data-scroll-target="#beware-of-default-smoothing-parameters"><span class="header-section-number">34.5.2</span> Beware of default smoothing parameters</a></li>
+  <li><a href="#fitting-parabolas" id="toc-fitting-parabolas" class="nav-link" data-scroll-target="#fitting-parabolas"><span class="header-section-number">33.5.1</span> Fitting parabolas</a></li>
+  <li><a href="#beware-of-default-smoothing-parameters" id="toc-beware-of-default-smoothing-parameters" class="nav-link" data-scroll-target="#beware-of-default-smoothing-parameters"><span class="header-section-number">33.5.2</span> Beware of default smoothing parameters</a></li>
   </ul></li>
-  <li><a href="#sec-smoothing-ml-connection" id="toc-sec-smoothing-ml-connection" class="nav-link" data-scroll-target="#sec-smoothing-ml-connection"><span class="header-section-number">34.6</span> Connecting smoothing to machine learning</a></li>
-  <li><a href="#case-study-estimating-indirect-effects-of-natural-dissasters" id="toc-case-study-estimating-indirect-effects-of-natural-dissasters" class="nav-link" data-scroll-target="#case-study-estimating-indirect-effects-of-natural-dissasters"><span class="header-section-number">34.7</span> Case Study: Estimating indirect effects of Natural Dissasters</a></li>
+  <li><a href="#sec-smoothing-ml-connection" id="toc-sec-smoothing-ml-connection" class="nav-link" data-scroll-target="#sec-smoothing-ml-connection"><span class="header-section-number">33.6</span> Connecting smoothing to machine learning</a></li>
+  <li><a href="#case-study-estimating-indirect-effects-of-natural-dissasters" id="toc-case-study-estimating-indirect-effects-of-natural-dissasters" class="nav-link" data-scroll-target="#case-study-estimating-indirect-effects-of-natural-dissasters"><span class="header-section-number">33.7</span> Case Study: Estimating indirect effects of Natural Dissasters</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/33-smoothing.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -399,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Smoothing</span></h1>
+<h1 class="title"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Smoothing</span></h1>
 </div>
 
 
@@ -428,8 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Part of what we explain in this section are the assumptions that permit us to extract the trend from the noise.</li>
 </ul>
-<section id="sec-two-or-seven" class="level2" data-number="34.1">
-<h2 data-number="34.1" class="anchored" data-anchor-id="sec-two-or-seven"><span class="header-section-number">34.1</span> Simplified MNIST: Is it a 2 or a 7?</h2>
+<section id="sec-two-or-seven" class="level2" data-number="33.1">
+<h2 data-number="33.1" class="anchored" data-anchor-id="sec-two-or-seven"><span class="header-section-number">33.1</span> Simplified MNIST: Is it a 2 or a 7?</h2>
 <ul>
 <li><p>we define the challenge as building an algorithm that can determine if a digit is a 2 or 7 from the proportion of dark pixels in the upper left quadrant (<span class="math inline">\(X_1\)</span>) and the lower right quadrant (<span class="math inline">\(X_2\)</span>).</p></li>
 <li><p>We also selected a random sample of 1,000 digits, 500 in the training set and 500 in the test set. We provide this dataset in the <code>dslabs</code> package:</p></li>
@@ -521,8 +534,8 @@ x_2 = (0.5-\hat{\beta}_0)/\hat{\beta}_2  -\hat{\beta}_1/\hat{\beta}_2 x_1
 <li><p>To understand why we cover this topic, remember that the concepts behind smoothing techniques are extremely useful in machine learning because conditional expectations/probabilities can be thought of as <em>trends</em> of unknown shapes that we need to estimate in the presence of uncertainty.</p></li>
 </ul>
 </section>
-<section id="signal-plus-noise-model" class="level2" data-number="34.2">
-<h2 data-number="34.2" class="anchored" data-anchor-id="signal-plus-noise-model"><span class="header-section-number">34.2</span> Signal plus noise model</h2>
+<section id="signal-plus-noise-model" class="level2" data-number="33.2">
+<h2 data-number="33.2" class="anchored" data-anchor-id="signal-plus-noise-model"><span class="header-section-number">33.2</span> Signal plus noise model</h2>
 <ul>
 <li><p>To explain these concepts, we will focus first on a problem with just one predictor.</p></li>
 <li><p>Specifically, we try to estimate the time trend in the 2008 US popular vote poll margin (difference between Obama and McCain). Later we will learn about methods such as k-nearest neighbors that can be used to smooth with higher dimensions.</p></li>
@@ -562,8 +575,8 @@ Y_i = f(x_i) + \varepsilon_i
 <li><p>We therefore need an alternative, more flexible approach.</p></li>
 </ul>
 </section>
-<section id="bin-smoothing" class="level2" data-number="34.3">
-<h2 data-number="34.3" class="anchored" data-anchor-id="bin-smoothing"><span class="header-section-number">34.3</span> Bin smoothing</h2>
+<section id="bin-smoothing" class="level2" data-number="33.3">
+<h2 data-number="33.3" class="anchored" data-anchor-id="bin-smoothing"><span class="header-section-number">33.3</span> Bin smoothing</h2>
 <ul>
 <li><p>The general idea of smoothing is to group data points into strata in which the value of <span class="math inline">\(f(x)\)</span> can be assumed to be constant.</p></li>
 <li><p>We can make this assumption when we think <span class="math inline">\(f(x)\)</span> changes slowly and, as a result, <span class="math inline">\(f(x)\)</span> is almost constant in small windows of <span class="math inline">\(x\)</span>. An example of this idea for the <code>poll_2008</code> data is to assume that public opinion remained approximately the same within a week’s time.</p></li>
@@ -616,8 +629,8 @@ E[Y_i | X_i = x_i ] \approx \mu \mbox{   if   }  |x_i - x_0| \leq 3.5
 </div>
 </div>
 </section>
-<section id="kernels" class="level2" data-number="34.4">
-<h2 data-number="34.4" class="anchored" data-anchor-id="kernels"><span class="header-section-number">34.4</span> Kernels</h2>
+<section id="kernels" class="level2" data-number="33.4">
+<h2 data-number="33.4" class="anchored" data-anchor-id="kernels"><span class="header-section-number">33.4</span> Kernels</h2>
 <ul>
 <li><p>The final result from the bin smoother is quite wiggly.</p></li>
 <li><p>One reason for this is that each time the window moves, two points change.</p></li>
@@ -660,8 +673,8 @@ E[Y_i | X_i = x_i ] \approx \mu \mbox{   if   }  |x_i - x_0| \leq 3.5
 <li><p>The final result above, for example, is still somewhat wiggly in parts we don’t expect it to be (between -125 and -75, for example). Methods such as <code>loess</code>, which we explain next, improve on this.</p></li>
 </ul>
 </section>
-<section id="local-weighted-regression-loess" class="level2" data-number="34.5">
-<h2 data-number="34.5" class="anchored" data-anchor-id="local-weighted-regression-loess"><span class="header-section-number">34.5</span> Local weighted regression (loess)</h2>
+<section id="local-weighted-regression-loess" class="level2" data-number="33.5">
+<h2 data-number="33.5" class="anchored" data-anchor-id="local-weighted-regression-loess"><span class="header-section-number">33.5</span> Local weighted regression (loess)</h2>
 <ul>
 <li><p>A limitation of the bin smoother approach just described is that we need small windows for the approximately constant assumptions to hold.</p></li>
 <li><p>As a result, we end up with a small number of data points to average and obtain imprecise estimates <span class="math inline">\(\hat{f}(x)\)</span>. Here we describe how <em>local weighted regression</em> (loess) permits us to consider larger window sizes.</p></li>
@@ -753,8 +766,8 @@ w_0(x_i) = W\left(\frac{x_i - x_0}{h}\right)
 </div>
 </div>
 <p>3. <code>loess</code> has the option of fitting the local model <em>robustly</em>. An iterative algorithm is implemented in which, after fitting a model in one iteration, outliers are detected and down-weighted for the next iteration. To use this option, we use the argument <code>family="symmetric"</code>.</p>
-<section id="fitting-parabolas" class="level3" data-number="34.5.1">
-<h3 data-number="34.5.1" class="anchored" data-anchor-id="fitting-parabolas"><span class="header-section-number">34.5.1</span> Fitting parabolas</h3>
+<section id="fitting-parabolas" class="level3" data-number="33.5.1">
+<h3 data-number="33.5.1" class="anchored" data-anchor-id="fitting-parabolas"><span class="header-section-number">33.5.1</span> Fitting parabolas</h3>
 <ul>
 <li><p>Taylor’s theorem also tells us that if you look at any mathematical function closely enough, it looks like a parabola.</p></li>
 <li><p>The theorem also states that you don’t have to look as closely when approximating with parabolas as you do when approximating with lines.</p></li>
@@ -788,8 +801,8 @@ E[Y_i | X_i = x_i ] = \beta_0 + \beta_1 (x_i-x_0) + \beta_2 (x_i-x_0)^2 \mbox{  
 <li><p>In general, we actually prefer <code>degree = 1</code> as it is less prone to this kind of noise.</p></li>
 </ul>
 </section>
-<section id="beware-of-default-smoothing-parameters" class="level3" data-number="34.5.2">
-<h3 data-number="34.5.2" class="anchored" data-anchor-id="beware-of-default-smoothing-parameters"><span class="header-section-number">34.5.2</span> Beware of default smoothing parameters</h3>
+<section id="beware-of-default-smoothing-parameters" class="level3" data-number="33.5.2">
+<h3 data-number="33.5.2" class="anchored" data-anchor-id="beware-of-default-smoothing-parameters"><span class="header-section-number">33.5.2</span> Beware of default smoothing parameters</h3>
 <p><code>ggplot</code> uses loess in its <code>geom_smooth</code> function:</p>
 <div class="cell" data-hash="33-smoothing_cache/html/ggplot-loess-default_a2f8b31e6b959b41349ba7fd652e1c2d">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>polls_2008 <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(day, margin)) <span class="sc">+</span></span>
@@ -813,10 +826,10 @@ E[Y_i | X_i = x_i ] = \beta_0 + \beta_1 (x_i-x_0) + \beta_2 (x_i-x_0)^2 \mbox{  
 </div>
 </section>
 </section>
-<section id="sec-smoothing-ml-connection" class="level2" data-number="34.6">
-<h2 data-number="34.6" class="anchored" data-anchor-id="sec-smoothing-ml-connection"><span class="header-section-number">34.6</span> Connecting smoothing to machine learning</h2>
+<section id="sec-smoothing-ml-connection" class="level2" data-number="33.6">
+<h2 data-number="33.6" class="anchored" data-anchor-id="sec-smoothing-ml-connection"><span class="header-section-number">33.6</span> Connecting smoothing to machine learning</h2>
 <ul>
-<li><p>To see how smoothing relates to machine learning with a concrete example, consider again our <a href="#sec-two-or-seven"><span>Section&nbsp;34.1</span></a> example.</p></li>
+<li><p>To see how smoothing relates to machine learning with a concrete example, consider again our <a href="#sec-two-or-seven"><span>Section&nbsp;33.1</span></a> example.</p></li>
 <li><p>If we define the outcome <span class="math inline">\(Y = 1\)</span> for digits that are seven and <span class="math inline">\(Y=0\)</span> for digits that are 2, then we are interested in estimating the conditional probability:</p></li>
 </ul>
 <p><span class="math display">\[
@@ -830,8 +843,8 @@ p(x_1, x_2) = \mbox{Pr}(Y=1 \mid X_1=x_1 , X_2 = x_2).
 <li><p>In a future lecture we describe a popular machine learning algorithm, k-nearest neighbors, which is based on bin smoothing.</p></li>
 </ul>
 </section>
-<section id="case-study-estimating-indirect-effects-of-natural-dissasters" class="level2" data-number="34.7">
-<h2 data-number="34.7" class="anchored" data-anchor-id="case-study-estimating-indirect-effects-of-natural-dissasters"><span class="header-section-number">34.7</span> Case Study: Estimating indirect effects of Natural Dissasters</h2>
+<section id="case-study-estimating-indirect-effects-of-natural-dissasters" class="level2" data-number="33.7">
+<h2 data-number="33.7" class="anchored" data-anchor-id="case-study-estimating-indirect-effects-of-natural-dissasters"><span class="header-section-number">33.7</span> Case Study: Estimating indirect effects of Natural Dissasters</h2>
 <div class="cell" data-hash="33-smoothing_cache/html/unnamed-chunk-4_723154c76e938bc69641b89ca170d608">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pr_death_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1135,10 +1148,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./32-conditional-expectations.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./34-cross-validation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Cross validation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

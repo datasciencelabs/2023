@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BST 260 Introduction to Data Science - 1&nbsp; Quarto</title>
+<title>BST 260 Introduction to Data Science - 35&nbsp; The caret package</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02-unix.html" rel="next">
-<link href="./schedule.html" rel="prev">
+<link href="./34-cross-validation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -110,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-quarto.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./35-caret.html"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">The caret package</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -163,7 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link active">
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
@@ -379,7 +378,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./35-caret.html" class="sidebar-item-text sidebar-link">
+  <a href="./35-caret.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">The caret package</span></span></a>
   </div>
 </li>
@@ -393,40 +392,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-and-rstudio" id="toc-r-and-rstudio" class="nav-link active" data-scroll-target="#r-and-rstudio"><span class="header-section-number">1.1</span> R and RStudio</a>
-  <ul class="collapse">
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="header-section-number">1.1.1</span> Installation</a></li>
-  <li><a href="#basics" id="toc-basics" class="nav-link" data-scroll-target="#basics"><span class="header-section-number">1.1.2</span> Basics</a></li>
-  <li><a href="#projects" id="toc-projects" class="nav-link" data-scroll-target="#projects"><span class="header-section-number">1.1.3</span> Projects</a></li>
-  </ul></li>
-  <li><a href="#markdown" id="toc-markdown" class="nav-link" data-scroll-target="#markdown"><span class="header-section-number">1.2</span> Markdown</a>
-  <ul class="collapse">
-  <li><a href="#type-of-editor" id="toc-type-of-editor" class="nav-link" data-scroll-target="#type-of-editor"><span class="header-section-number">1.2.1</span> Type of editor</a></li>
-  <li><a href="#the-header" id="toc-the-header" class="nav-link" data-scroll-target="#the-header"><span class="header-section-number">1.2.2</span> The header</a></li>
-  <li><a href="#text-formating" id="toc-text-formating" class="nav-link" data-scroll-target="#text-formating"><span class="header-section-number">1.2.3</span> Text formating</a></li>
-  <li><a href="#headings" id="toc-headings" class="nav-link" data-scroll-target="#headings"><span class="header-section-number">1.2.4</span> Headings</a></li>
-  <li><a href="#links" id="toc-links" class="nav-link" data-scroll-target="#links"><span class="header-section-number">1.2.5</span> Links</a></li>
-  <li><a href="#images" id="toc-images" class="nav-link" data-scroll-target="#images"><span class="header-section-number">1.2.6</span> Images</a></li>
-  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"><span class="header-section-number">1.2.7</span> Lists</a></li>
-  <li><a href="#equations" id="toc-equations" class="nav-link" data-scroll-target="#equations"><span class="header-section-number">1.2.8</span> Equations</a></li>
-  </ul></li>
-  <li><a href="#computations" id="toc-computations" class="nav-link" data-scroll-target="#computations"><span class="header-section-number">1.3</span> Computations</a>
-  <ul class="collapse">
-  <li><a href="#academic-reports" id="toc-academic-reports" class="nav-link" data-scroll-target="#academic-reports"><span class="header-section-number">1.3.1</span> Academic reports</a></li>
-  <li><a href="#global-execution-options" id="toc-global-execution-options" class="nav-link" data-scroll-target="#global-execution-options"><span class="header-section-number">1.3.2</span> Global execution options</a></li>
-  <li><a href="#more-on-markdown" id="toc-more-on-markdown" class="nav-link" data-scroll-target="#more-on-markdown"><span class="header-section-number">1.3.3</span> More on markdown</a></li>
-  </ul></li>
-  <li><a href="#sec-knitr" id="toc-sec-knitr" class="nav-link" data-scroll-target="#sec-knitr"><span class="header-section-number">1.4</span> knitR</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.5</span> Exercises</a></li>
+  <li><a href="#the-train-functon" id="toc-the-train-functon" class="nav-link active" data-scroll-target="#the-train-functon"><span class="header-section-number">35.1</span> The <code>train</code> functon</a></li>
+  <li><a href="#sec-caret-cv" id="toc-sec-caret-cv" class="nav-link" data-scroll-target="#sec-caret-cv"><span class="header-section-number">35.2</span> Cross validation</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/01-quarto.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/35-caret.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></h1>
+<h1 class="title"><span id="sec-caret" class="quarto-section-identifier"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">The caret package</span></span></h1>
 </div>
 
 
@@ -441,201 +417,179 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Your task is to produce a report in PDF that solves the quadratic equations <span class="math inline">\(ax^2+bx+c=0\)</span> for <span class="math inline">\(a=1, b=-1, c=-2\)</span> and shows a plot of the function to confirm the finding.</p>
-<p>But after you are done, I will discover I made a mistake and ask you to rewrite the report with <span class="math inline">\(a=1, b=3, c=-2\)</span> (or any number).</p>
-<p>Then once you are done, I will like the report so much I will ask you to make an html page displaying the result and showing and explaining the code you used.</p>
-<p>We will do all this using R, RStudio, Quarto, and knitr.</p>
-<section id="r-and-rstudio" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="r-and-rstudio"><span class="header-section-number">1.1</span> R and RStudio</h2>
-<p>Before introducing Quarto we need R installed. We highly recommend using RStudio as an IDE for this course. We will be using it in lectures.</p>
-<section id="installation" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="installation"><span class="header-section-number">1.1.1</span> Installation</h3>
 <ul>
-<li><a href="https://cloud.r-project.org/">Install the latest version (4.3.1) of R</a></li>
-<li><a href="https://posit.co/download/rstudio-desktop/">Install RStudio</a></li>
+<li><p>We have already learned about several machine learning algorithms.</p></li>
+<li><p>Many of these algorithms are implemented in R.</p></li>
+<li><p>However, they are distributed via different packages, developed by different authors, and often use different syntax.</p></li>
+<li><p>The <strong>caret</strong> package tries to consolidate these differences and provide consistency.</p></li>
+<li><p>It currently includes over 200 different methods which are summarized in the <strong>caret</strong> package manual<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Keep in mind that <strong>caret</strong> does not include the needed packages and, to implement a package through <strong>caret</strong>, you still need to install the library.</p></li>
+<li><p>The required packages for each method are described in the package manual.</p></li>
+<li><p>The <strong>caret</strong> package also provides a function that performs cross validation for us.</p></li>
+<li><p>Here we provide some examples showing how we use this incredibly helpful package.</p></li>
+<li><p>We will use the 2 or 7 example to illustrate and in later sections we use use the package to run algorithms on the larger MNIST datset.</p></li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="http://rafalab.dfci.harvard.edu/dsbook-part-1/R/img/rstudio.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">rstudio</figcaption>
-</figure>
+<section id="the-train-functon" class="level2" data-number="35.1">
+<h2 data-number="35.1" class="anchored" data-anchor-id="the-train-functon"><span class="header-section-number">35.1</span> The <code>train</code> functon</h2>
+<p>The <strong>caret</strong> <code>train</code> function lets us train different algorithms using similar syntax.</p>
+<ul>
+<li>So, for example, we can type:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>train_glm <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"glm"</span>, <span class="at">data =</span> mnist_27<span class="sc">$</span>train)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>train_qda <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"qda"</span>, <span class="at">data =</span> mnist_27<span class="sc">$</span>train)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>train_knn <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"knn"</span>, <span class="at">data =</span> mnist_27<span class="sc">$</span>train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="basics" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="basics"><span class="header-section-number">1.1.2</span> Basics</h3>
-<p>Let’s try a few things together:</p>
 <ul>
-<li>Open a new R script file</li>
-<li>Learn tab complete</li>
-<li>Run commands while editing scripts</li>
-<li>Run the entire script</li>
-<li>Make a plot</li>
-<li>Change options to never save workspace.</li>
+<li><p>To make predictions, we can use the output of this function directly without needing to look at the specifics of <code>predict.glm</code> and <code>predict.knn</code>.</p></li>
+<li><p>Instead, we can learn how to obtain predictions from <code>predict.train</code>.</p></li>
 </ul>
-</section>
-<section id="projects" class="level3" data-number="1.1.3">
-<h3 data-number="1.1.3" class="anchored" data-anchor-id="projects"><span class="header-section-number">1.1.3</span> Projects</h3>
-<ul>
-<li>Start new project in exciting directory.</li>
-<li>Start new project in new directory.</li>
-<li>Change projects.</li>
-</ul>
-</section>
-</section>
-<section id="markdown" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="markdown"><span class="header-section-number">1.2</span> Markdown</h2>
-<p>Start a new Quarto.</p>
-<section id="type-of-editor" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="type-of-editor"><span class="header-section-number">1.2.1</span> Type of editor</h3>
-<ul>
-<li>Source - See the actual code (WYSIWYG).</li>
-<li>Visual - Partial preview of final document.</li>
-</ul>
-</section>
-<section id="the-header" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="the-header"><span class="header-section-number">1.2.2</span> The header</h3>
-<p>At the top you see:</p>
-<pre><code>---
-title: "Untitled"
----</code></pre>
-<p>The things between the <code>---</code> is the <em>YAML</em> header.</p>
-<p>You will see it used throughout the <a href="https://quarto.org/docs/guide/">Quarto guide</a>.</p>
-</section>
-<section id="text-formating" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="text-formating"><span class="header-section-number">1.2.3</span> Text formating</h3>
-<p><em>italics</em>, <strong>bold</strong>, <strong><em>bold italics</em></strong></p>
-<p><sub>strikethrough</sub></p>
-<p><code>code</code></p>
-</section>
-<section id="headings" class="level3" data-number="1.2.4">
-<h3 data-number="1.2.4" class="anchored" data-anchor-id="headings"><span class="header-section-number">1.2.4</span> Headings</h3>
-<p><code># Header 1</code></p>
-<p><code>## Header 2</code></p>
-<p><code>### Header 3</code></p>
-<p>and so on</p>
-</section>
-<section id="links" class="level3" data-number="1.2.5">
-<h3 data-number="1.2.5" class="anchored" data-anchor-id="links"><span class="header-section-number">1.2.5</span> Links</h3>
-<p>Just the link: <a href="https://quarto.org/docs/guide/" class="uri">https://quarto.org/docs/guide/</a></p>
-<p>Linked text: <a href="https://quarto.org/docs/guide/">This is the link to Quarto Guide</a></p>
-</section>
-<section id="images" class="level3" data-number="1.2.6">
-<h3 data-number="1.2.6" class="anchored" data-anchor-id="images"><span class="header-section-number">1.2.6</span> Images</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://datasciencedojo.com/wp-content/uploads/11-1.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">First week of data science</figcaption>
-</figure>
+<p>The code looks the same for both methods:</p>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-2_c54ef0c0011d9a4bb3c3787fee62d34d">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>y_hat_glm <span class="ot">&lt;-</span> <span class="fu">predict</span>(train_glm, mnist_27<span class="sc">$</span>test, <span class="at">type =</span> <span class="st">"raw"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y_hat_qda <span class="ot">&lt;-</span> <span class="fu">predict</span>(train_qda, mnist_27<span class="sc">$</span>test, <span class="at">type =</span> <span class="st">"raw"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y_hat_knn <span class="ot">&lt;-</span> <span class="fu">predict</span>(train_knn, mnist_27<span class="sc">$</span>test, <span class="at">type =</span> <span class="st">"raw"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The image can also be a local file.</p>
-</section>
-<section id="lists" class="level3" data-number="1.2.7">
-<h3 data-number="1.2.7" class="anchored" data-anchor-id="lists"><span class="header-section-number">1.2.7</span> Lists</h3>
-<p>Bullets:</p>
 <ul>
-<li>bullet 1
-<ul>
-<li>sub-bullet 1</li>
-<li>sub-bullet 2</li>
-</ul></li>
-<li>bullet 2</li>
+<li><p>This permits us to quickly compare the algorithms.</p></li>
+<li><p>For example, we can compare the accuracy like this:</p></li>
 </ul>
-<p>Ordered list</p>
-<ol type="1">
-<li>Item 1</li>
-<li>Item 2</li>
-</ol>
-</section>
-<section id="equations" class="level3" data-number="1.2.8">
-<h3 data-number="1.2.8" class="anchored" data-anchor-id="equations"><span class="header-section-number">1.2.8</span> Equations</h3>
-<p>Inline: <span class="math inline">\(Y_i = \beta_0 + \beta_1 x_i + \varepsilon_i\)</span></p>
-<p>Display math:</p>
-<p><span class="math display">\[
-\mathbf{Y} = \mathbf{X\beta} + \mathbf{\varepsilon}
-\]</span></p>
-</section>
-</section>
-<section id="computations" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="computations"><span class="header-section-number">1.3</span> Computations</h2>
-<p>The main reason we use Quarto is because we can include code and execute the code when compiling the document. In R we refer to them as R chunks.</p>
-<p>To add your own R chunks, you can type the characters above quickly with the key binding command-option-I on the Mac and Ctrl-Alt-I on Windows.</p>
-<p>This applies to plots as well; the plot will be placed in that position. We can write something like this:</p>
-<div class="cell" data-hash="01-quarto_cache/html/unnamed-chunk-1_66999f46dcbf54e155119bb7b25bddfc">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-3_4935a8f59943773f80e586e16eb5e234">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">glm =</span> y_hat_glm, <span class="at">qda =</span> y_hat_qda, <span class="at">knn =</span> y_hat_knn)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(fits, <span class="cf">function</span>(fit) <span class="fu">confusionMatrix</span>(fit, mnist_27<span class="sc">$</span>test<span class="sc">$</span>y)<span class="sc">$</span>overall[[<span class="st">"Accuracy"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
+<pre><code> glm  qda  knn 
+0.75 0.82 0.84 </code></pre>
 </div>
 </div>
-<p>By default, the code will show up as well. To avoid having the code show up, you can use an argument, which are annotated with <code>|#</code> To avoid showing code in the final document, you can use the argument <code>echo: FALSE</code>. For example:</p>
-<div class="cell" data-hash="01-quarto_cache/html/unnamed-chunk-2_c5ef9bb036fd8e945942aadd52ed8283">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
-</div>
-</div>
-<p>We recommend getting into the habit of adding a label to the R code chunks. This will be very useful when debugging, among other situations. You do this by adding a descriptive word like this:</p>
-<div class="cell" data-hash="01-quarto_cache/html/one-plus-two_1f3587b75aab4073e836829c15435978">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3</code></pre>
-</div>
-</div>
-<section id="academic-reports" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="academic-reports"><span class="header-section-number">1.3.1</span> Academic reports</h3>
-<p>Quarto has many nice features that facilitates publishing academic reports in <a href="https://quarto.org/docs/authoring/front-matter.html">this guide</a></p>
 </section>
-<section id="global-execution-options" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="global-execution-options"><span class="header-section-number">1.3.2</span> Global execution options</h3>
-<p>If you want to apply an option globally, you can include in the header, under <code>execute</code>. For example adding the following line to the header make code not show up, by default:</p>
-<pre><code>execute:
-  echo: false</code></pre>
-</section>
-<section id="more-on-markdown" class="level3" data-number="1.3.3">
-<h3 data-number="1.3.3" class="anchored" data-anchor-id="more-on-markdown"><span class="header-section-number">1.3.3</span> More on markdown</h3>
-<p>There is a lot more you can do with R markdown. We highly recommend you continue learning as you gain more experience writing reports in R. There are many free resources on the internet including:</p>
+<section id="sec-caret-cv" class="level2" data-number="35.2">
+<h2 data-number="35.2" class="anchored" data-anchor-id="sec-caret-cv"><span class="header-section-number">35.2</span> Cross validation</h2>
 <ul>
-<li>RStudio’s tutorial: <a href="https://quarto.org/docs/get-started/hello/rstudio.html" class="uri">https://quarto.org/docs/get-started/hello/rstudio.html</a></li>
-<li>The knitR book: <a href="https://yihui.name/knitr/" class="uri">https://yihui.name/knitr/</a></li>
-<li>Pandoc’s Markdown <a href="https://pandoc.org/MANUAL.html#pandocs-markdown">in-depth documentation</a></li>
+<li><p>When an algorithm includes a tuning parameter, <code>train</code> automatically uses cross validation to decide among a few default values.</p></li>
+<li><p>To find out what parameter or parameters are optimized, you can read the manual <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> or study the output of:</p></li>
 </ul>
-</section>
-</section>
-<section id="sec-knitr" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sec-knitr"><span class="header-section-number">1.4</span> knitR</h2>
-<p>We use the <strong>knitR</strong> package to compile Quarto. The specific function used to compile is the <code>knit</code> function, which takes a file name as input. RStudio provides the <strong>Render</strong> button that makes it easier to compile the document.</p>
-<p>Note that the first time you click on the <em>Render</em> button, a dialog box may appear asking you to install packages you need. Once you have installed the packages, clicking <em>Render</em> will compile your Quarto file and the resulting document will pop up.</p>
-<p>This particular example produces an html document which you can see in your working directory. To view it, open a terminal and list the files. You can open the file in a browser and use this to present your analysis. You can also produce a PDF or Microsoft document by changing:</p>
-<p><code>format: html</code> to <code>format: pdf</code> or <code>format: docx</code>. We can also produce documents that render on GitHub using <code>format: gfm</code>, which stands for GitHub flavored markdown, a convenient way to share your reports.</p>
-</section>
-<section id="exercises" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.5</span> Exercises</h2>
-<ol class="example" type="1">
-<li><p>Write a Quarto document that defines variables <span class="math inline">\(a=1, b=-1, c=-2\)</span> and print out the solutions to <span class="math inline">\(f(x) = ax^2+bx+c=0\)</span>. Do not report complex solutions, only real numbers.</p></li>
-<li><p>Include a graph of <span class="math inline">\(f(x)\)</span> versus <span class="math inline">\(x\)</span> for <span class="math inline">\(x \in (-5,5)\)</span>.</p></li>
-</ol>
-<p>This is how you make a plot of a quadratic function:</p>
-<div class="cell" data-hash="01-quarto_cache/html/unnamed-chunk-4_ef1992df9003e9233f981e1d2ed5d0e0">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="at">length =</span> <span class="dv">300</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, a<span class="sc">*</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> b<span class="sc">*</span>x <span class="sc">+</span> c, <span class="at">type =</span> <span class="st">"l"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-4_df9fb1efc0ceca4c1f2ae01d95c1e059">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getModelInfo</span>(<span class="st">"knn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We can also use a quick lookup like this:</li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-5_50a06cf8e33129e9bfd94293b6f94db8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelLookup</span>(<span class="st">"knn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>If we run it with default values:</li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-6_b9854a40dadcb222b689e71e8aeb0684">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>train_knn <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"knn"</span>, <span class="at">data =</span> mnist_27<span class="sc">$</span>train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>you can quickly see the results of the cross validation using the <code>ggplot</code> function.</p>
+<ul>
+<li>The argument <code>highlight</code> highlights the max:</li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/caret-highlight_2ffd7f381f0aba6191eef7c465c3b0f4">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train_knn, <span class="at">highlight =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="01-quarto_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="35-caret_files/figure-html/caret-highlight-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<ol start="3" class="example" type="1">
-<li><p>Generate a PDF report using knitr. Do not show the R code, only the solutions and explanations of what the reader is seeing.</p></li>
-<li><p>Erase the PDF report and reproduce it but this time using <span class="math inline">\(a=1, b=2, c=5\)</span>.</p></li>
-<li><p>Erase the PDF report and reproduce it but this time using <span class="math inline">\(a=1, b=3, c=2\)</span>.</p></li>
-<li><p>Create an HTML page with the results for this last set of values, but this time showing the code.</p></li>
+<ul>
+<li><p>By default, the cross validation is performed by taking 25 bootstrap samples comprised of 25% of the observations.</p></li>
+<li><p>For the <code>kNN</code> method, the default is to try <span class="math inline">\(k=5,7,9\)</span>. We change this using the <code>tuneGrid</code> parameter.</p></li>
+<li><p>The grid of values must be supplied by a data frame with the parameter names as specified in the <code>modelLookup</code> output.</p></li>
+<li><p>Here, we present an example where we try out 30 values between 9 and 67.</p></li>
+<li><p>To do this with <strong>caret</strong>, we need to define a column named <code>k</code>, so we use this: <code>data.frame(k = seq(9, 67, 2))</code>.</p></li>
+<li><p>Note that when running this code, we are fitting 30 versions of kNN to 25 bootstrapped samples.</p></li>
+<li><p>Since we are fitting <span class="math inline">\(30 \times 25 = 750\)</span> kNN models, running this code will take several seconds.</p></li>
+<li><p>We set the seed because cross validation is a random procedure and we want to make sure the result here is reproducible.</p></li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/train-knn-plot_a5dc3b1a82b8ece99b14d93f9e715f8d">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2008</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_knn <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"knn"</span>, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> mnist_27<span class="sc">$</span>train,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="fu">seq</span>(<span class="dv">9</span>, <span class="dv">71</span>, <span class="dv">2</span>)))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train_knn, <span class="at">highlight =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="35-caret_files/figure-html/train-knn-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>To access the parameter that maximized the accuracy, you can use this:</li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-7_41c52b2bf4edec3970d7743cea9e71bd">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>train_knn<span class="sc">$</span>bestTune</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    k
+10 27</code></pre>
+</div>
+</div>
+<p>and the best performing model like this:</p>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-8_f7bd44b1a0632989eac5b1a51bb106cc">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>train_knn<span class="sc">$</span>finalModel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>27-nearest neighbor model
+Training set outcome distribution:
+
+  2   7 
+379 421 </code></pre>
+</div>
+</div>
+<ul>
+<li><p>The function <code>predict</code> will use this best performing model.</p></li>
+<li><p>Here is the accuracy of the best model when applied to the test set, which we have not used at all yet because the cross validation was done on the training set:</p></li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-9_c2d9db3e0c679632c27cbf7a7e61523f">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(<span class="fu">predict</span>(train_knn, mnist_27<span class="sc">$</span>test, <span class="at">type =</span> <span class="st">"raw"</span>),</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                mnist_27<span class="sc">$</span>test<span class="sc">$</span>y)<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy 
+   0.835 </code></pre>
+</div>
+</div>
+<ul>
+<li><p>If we want to change how we perform cross validation, we can use the <code>trainControl</code> function.</p></li>
+<li><p>We can make the code above go a bit faster by using, for example, 10-fold cross validation.</p></li>
+<li><p>This means we have 10 samples using 10% of the observations each.</p></li>
+<li><p>We accomplish this using the following code:</p></li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/cv-10-fold-accuracy-estimate_c805c4238a2af035b084f76cd6b9a942">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">10</span>, <span class="at">p =</span> .<span class="dv">9</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>train_knn_cv <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">method =</span> <span class="st">"knn"</span>, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> mnist_27<span class="sc">$</span>train,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">tuneGrid =</span> <span class="fu">data.frame</span>(<span class="at">k =</span> <span class="fu">seq</span>(<span class="dv">9</span>, <span class="dv">71</span>, <span class="dv">2</span>)),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">trControl =</span> control)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train_knn_cv, <span class="at">highlight =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="35-caret_files/figure-html/cv-10-fold-accuracy-estimate-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>We notice that the accuracy estimates are more variable, which is expected since we changed the number of samples used to estimate accuracy.</p></li>
+<li><p>Note that <code>results</code> component of the <code>train</code> output includes several summary statistics related to the variability of the cross validation estimates:</p></li>
+</ul>
+<div class="cell" data-hash="35-caret_cache/html/unnamed-chunk-10_86ce7256e1e65964df3eed5e574bb7b3">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(train_knn<span class="sc">$</span>results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k"          "Accuracy"   "Kappa"      "AccuracySD" "KappaSD"   </code></pre>
+</div>
+</div>
+<ul>
+<li><p>We have only covered the basics.</p></li>
+<li><p>The <strong>caret</strong> package manual <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> includes many more details.</p></li>
+</ul>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>https://topepo.github.io/caret/available-models.html<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>http://topepo.github.io/caret/available-models.html<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>https://topepo.github.io/caret/available-models.html<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-
-
 </section>
 
 </main> <!-- /main -->
@@ -874,14 +828,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./schedule.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Schedule</span>
+      <a href="./34-cross-validation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Cross validation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-unix.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

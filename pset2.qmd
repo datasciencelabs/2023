@@ -1,9 +1,4 @@
----
-title: "Problem Set 2"
-format: html
-figure:
-  align: center
----
+# Problem Set 2 {.unnumbered}
 
 ## Introduction {.unnumbered}
 
