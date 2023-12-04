@@ -51,7 +51,7 @@ book:
     - 33-smoothing.qmd
     - 34-cross-validation.qmd
     - 35-caret.qmd
-    
+    - 36-algorithms.qmd 
   reader-mode: true
   site-url: http://datasciencelabs.github.io/2023
   repo-url: https://github.com/datasciencelabs/2023

@@ -2,162 +2,166 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://datasciencelabs.github.io/2023/index.html</loc>
-    <lastmod>2023-11-28T21:50:39.830Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.487Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/intro.html</loc>
-    <lastmod>2023-11-28T21:50:39.833Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.490Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/schedule.html</loc>
-    <lastmod>2023-11-28T21:50:39.839Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.496Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/01-quarto.html</loc>
-    <lastmod>2023-11-28T21:50:39.845Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.502Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/02-unix.html</loc>
-    <lastmod>2023-11-28T21:50:39.859Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.515Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/03-git.html</loc>
-    <lastmod>2023-11-28T21:50:39.864Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.521Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/04-r-basics.html</loc>
-    <lastmod>2023-11-28T21:50:39.880Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.537Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/05-vectorization.html</loc>
-    <lastmod>2023-11-28T21:50:39.889Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.547Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/06-tidyverse.html</loc>
-    <lastmod>2023-11-28T21:50:39.901Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.559Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/07-dates-and-times.html</loc>
-    <lastmod>2023-11-28T21:50:39.916Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.570Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/08-importing-data.html</loc>
-    <lastmod>2023-11-28T21:50:39.929Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.581Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/09-data-table.html</loc>
-    <lastmod>2023-11-28T21:50:39.938Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.593Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/pset1.html</loc>
-    <lastmod>2023-11-28T21:50:39.956Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.611Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/10-distributions.html</loc>
-    <lastmod>2023-11-28T21:50:39.965Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.618Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/11-ggplot2.html</loc>
-    <lastmod>2023-11-28T21:50:39.983Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.636Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/12-dataviz-principles.html</loc>
-    <lastmod>2023-11-28T21:50:39.999Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.651Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/13-wrangling.html</loc>
-    <lastmod>2023-11-28T21:50:40.032Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.685Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/14-web-scraping.html</loc>
-    <lastmod>2023-11-28T21:50:40.041Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.695Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/15-locales.html</loc>
-    <lastmod>2023-11-28T21:50:40.047Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.700Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/16-text-mining.html</loc>
-    <lastmod>2023-11-28T21:50:40.060Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.712Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/17-probability.html</loc>
-    <lastmod>2023-11-28T21:50:40.075Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.727Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/18-inference.html</loc>
-    <lastmod>2023-11-28T21:50:40.087Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.740Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/19-models.html</loc>
-    <lastmod>2023-11-28T21:50:40.114Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.764Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/pset2.html</loc>
-    <lastmod>2023-11-28T21:50:40.139Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.789Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/20-regression.html</loc>
-    <lastmod>2023-11-28T21:50:40.160Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.809Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/21-multivariate-regression.html</loc>
-    <lastmod>2023-11-28T21:50:40.177Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.826Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/22-linear-models.html</loc>
-    <lastmod>2023-11-28T21:50:40.190Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.838Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/23-association-tests.html</loc>
-    <lastmod>2023-11-28T21:50:40.202Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.851Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/24-corrleation-not-causation.html</loc>
-    <lastmod>2023-11-28T21:50:40.213Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.862Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/25-matrices-in-R.html</loc>
-    <lastmod>2023-11-28T21:50:40.235Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.874Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/26-linear-algebra.html</loc>
-    <lastmod>2023-11-28T21:50:40.261Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.885Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/27-dimension-reduction.html</loc>
-    <lastmod>2023-11-28T21:50:40.273Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.900Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/28-gene-expression-case-study.html</loc>
-    <lastmod>2023-11-28T21:50:40.283Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.933Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/29-regularization.html</loc>
-    <lastmod>2023-11-28T21:50:40.300Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.965Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/30-matrix-factorization.html</loc>
-    <lastmod>2023-11-28T21:50:40.307Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.965Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/31-ml-intro.html</loc>
-    <lastmod>2023-11-28T21:50:40.322Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.972Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/32-conditional-expectations.html</loc>
-    <lastmod>2023-11-28T21:50:40.326Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.983Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/33-smoothing.html</loc>
-    <lastmod>2023-11-28T21:50:40.341Z</lastmod>
+    <lastmod>2023-12-03T22:32:34.991Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/34-cross-validation.html</loc>
-    <lastmod>2023-11-28T21:59:44.333Z</lastmod>
+    <lastmod>2023-12-03T22:32:35.003Z</lastmod>
   </url>
   <url>
     <loc>http://datasciencelabs.github.io/2023/35-caret.html</loc>
-    <lastmod>2023-11-28T22:01:52.723Z</lastmod>
+    <lastmod>2023-12-03T22:32:35.010Z</lastmod>
+  </url>
+  <url>
+    <loc>http://datasciencelabs.github.io/2023/36-algorithms.html</loc>
+    <lastmod>2023-12-03T22:32:35.026Z</lastmod>
   </url>
 </urlset>

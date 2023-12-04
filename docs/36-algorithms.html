@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>BST 260 Introduction to Data Science - 36&nbsp; Examples of algorithms</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./35-caret.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./36-algorithms.html"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Examples of algorithms</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BST 260 Introduction to Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/datasciencelabs/2023" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course description</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-unix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unix</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Git and GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-r-basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Vectorization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Tidyverse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-dates-and-times.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dates and times</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-importing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Importing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-data-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">data.table</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-distributions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Distributions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">ggplot2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-dataviz-principles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Data visualization principles</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-web-scraping.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Web scraping</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-locales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Locales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-text-mining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Text mining</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Probability</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Inference</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pset2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Problem Set 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./21-multivariate-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./22-linear-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Linear models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./23-association-tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Association tests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24-corrleation-not-causation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Association is not causation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./25-matrices-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Matrices in R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26-linear-algebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Applied Linear Algebra</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./27-dimension-reduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Dimension reduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./28-gene-expression-case-study.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Case Study: Differential expression between ethnicity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./29-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30-matrix-factorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Matrix factorization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./31-ml-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Machine learning basic concepts and evaluation metrics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32-conditional-expectations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Conditional probabilities and expectations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./33-smoothing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Smoothing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./34-cross-validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Cross validation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./35-caret.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">The caret package</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./36-algorithms.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Examples of algorithms</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link active" data-scroll-target="#logistic-regression"><span class="header-section-number">36.1</span> Logistic regression</a></li>
+  <li><a href="#k-nearest-neighbors" id="toc-k-nearest-neighbors" class="nav-link" data-scroll-target="#k-nearest-neighbors"><span class="header-section-number">36.2</span> k-nearest neighbors</a></li>
+  <li><a href="#generative-models" id="toc-generative-models" class="nav-link" data-scroll-target="#generative-models"><span class="header-section-number">36.3</span> Generative models</a>
+  <ul class="collapse">
+  <li><a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes"><span class="header-section-number">36.3.1</span> Naive Bayes</a></li>
+  <li><a href="#controlling-prevalence" id="toc-controlling-prevalence" class="nav-link" data-scroll-target="#controlling-prevalence"><span class="header-section-number">36.3.2</span> Controlling prevalence</a></li>
+  <li><a href="#quadratic-discriminant-analysis" id="toc-quadratic-discriminant-analysis" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis"><span class="header-section-number">36.3.3</span> Quadratic discriminant analysis</a></li>
+  <li><a href="#linear-discriminant-analysis" id="toc-linear-discriminant-analysis" class="nav-link" data-scroll-target="#linear-discriminant-analysis"><span class="header-section-number">36.3.4</span> Linear discriminant analysis</a></li>
+  <li><a href="#connection-to-distance" id="toc-connection-to-distance" class="nav-link" data-scroll-target="#connection-to-distance"><span class="header-section-number">36.3.5</span> Connection to distance</a></li>
+  </ul></li>
+  <li><a href="#sec-trees" id="toc-sec-trees" class="nav-link" data-scroll-target="#sec-trees"><span class="header-section-number">36.4</span> Classification and regression trees (CART)</a>
+  <ul class="collapse">
+  <li><a href="#the-curse-of-dimensionality" id="toc-the-curse-of-dimensionality" class="nav-link" data-scroll-target="#the-curse-of-dimensionality"><span class="header-section-number">36.4.1</span> The curse of dimensionality</a></li>
+  <li><a href="#cart-motivation" id="toc-cart-motivation" class="nav-link" data-scroll-target="#cart-motivation"><span class="header-section-number">36.4.2</span> CART motivation</a></li>
+  <li><a href="#regression-trees" id="toc-regression-trees" class="nav-link" data-scroll-target="#regression-trees"><span class="header-section-number">36.4.3</span> Regression trees</a></li>
+  <li><a href="#classification-decision-trees" id="toc-classification-decision-trees" class="nav-link" data-scroll-target="#classification-decision-trees"><span class="header-section-number">36.4.4</span> Classification (decision) trees</a></li>
+  </ul></li>
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests"><span class="header-section-number">36.5</span> Random forests</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/datasciencelabs/2023/blob/main/36-algorithms.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/datasciencelabs/2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-example-alogirhms" class="quarto-section-identifier"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Examples of algorithms</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<ul>
+<li><p>There are hundreds of machine learning algorithms.</p></li>
+<li><p>Here we provide a few examples spanning rather different approaches.</p></li>
+<li><p>Throughout the chapter we will be using the two predictor digits data introduced previously to demonstrate how the algorithms work.</p></li>
+<li><p>We focus on the concepts and ideas behind the algorithms using illustrative datasets from the <strong>dslabs</strong> package:</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We previously showed an efficient way to implement these ideas using the <strong>caret</strong> package.</li>
+</ul>
+<section id="logistic-regression" class="level2" data-number="36.1">
+<h2 data-number="36.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">36.1</span> Logistic regression</h2>
+<ul>
+<li>We previously used linear regression to predict classes by fitting the model</li>
+</ul>
+<p><span class="math display">\[
+p(\mathbf{x}) = \mbox{Pr}(Y=1 \mid X_1=x_1 , X_2 = x_2) =
+\beta_0 + \beta_1 x_1 + \beta_2 x_2
+\]</span> using least squares after assigning numeric values of 0 and 1 to the outcomes <span class="math inline">\(y\)</span>, and applied regression as if the data were continuous.</p>
+<ul>
+<li>A obvious problem with this approach is that <span class="math inline">\(\hat{p}(\mathbf{x})\)</span> can be negative and larger than 1:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-2_656a89f5ccf0d2d53b1374b3b9235533">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x_1 <span class="sc">+</span> x_2, <span class="at">data =</span> <span class="fu">mutate</span>(mnist_27<span class="sc">$</span>train,<span class="at">y =</span> <span class="fu">ifelse</span>(y <span class="sc">==</span> <span class="dv">7</span>, <span class="dv">1</span>, <span class="dv">0</span>)))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(fit_lm<span class="sc">$</span>fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.2196035  1.9220528</code></pre>
+</div>
+</div>
+<ul>
+<li><p>To avoid this we can apply the approach described in <a href="23-association-tests.html#sec-glm"><span>Section&nbsp;23.3</span></a> that is more appropriate for binary data.</p></li>
+<li><p>We write the model like this:</p></li>
+</ul>
+<p><span class="math display">\[
+\log \frac{p(\mathbf{x})}{1-p(\mathbf{x})} = \beta_0 + \beta_1 x_1 + \beta_2 x_2
+\]</span></p>
+<ul>
+<li><p>We can then find the the <em>maximum likelihood estimates</em> (MLE) of the model parameters and predict using the estimate <span class="math inline">\(p(\mathbf{x})\)</span> to obtain an accuracy of 0.775.</p></li>
+<li><p>We see that logistic regression performs similarly to regression.</p></li>
+<li><p>This is not surprising, given that the estimate of <span class="math inline">\(\hat{p}(\mathbf{x})\)</span> looks similar as well:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/logistic-p-hat_3d79ec71f1e4b6826ff4cd20205259f0">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/logistic-p-hat-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Just like regression, the decision rule is a line, a fact that can be corroborated mathematically, definint <span class="math inline">\(g(x) = \log \{x/(1-x)\}\)</span>, we have:</li>
+</ul>
+<p><span class="math display">\[
+g^{-1}(\hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2) = 0.5 \implies
+\hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 = g(0.5) = 0 \implies
+x_2 = -\hat{\beta}_0/\hat{\beta}_2 -\hat{\beta}_1/\hat{\beta}_2 x_1
+\]</span></p>
+<ul>
+<li><p>Thus, just like with regression, <span class="math inline">\(x_2\)</span> is a linear function of <span class="math inline">\(x_1\)</span>. This implies that our logistic regression approach has no chance of capturing the non-linear nature of the true <span class="math inline">\(p(\mathbf{x})\)</span>.</p></li>
+<li><p>We now described some techniques that estimate the conditional probability in a way that is more flexible.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You are ready to do exercises 1 - 11.</p>
+</div>
+</div>
+</section>
+<section id="k-nearest-neighbors" class="level2" data-number="36.2">
+<h2 data-number="36.2" class="anchored" data-anchor-id="k-nearest-neighbors"><span class="header-section-number">36.2</span> k-nearest neighbors</h2>
+<ul>
+<li><p>We previously introduced the kNN algorithm.</p></li>
+<li><p>We noted that <span class="math inline">\(k=31\)</span> provided the highest accuracy in the test set.</p></li>
+<li><p>Using <span class="math inline">\(k=31\)</span> we obtain an accuracy 0.825, an improvement over regression.</p></li>
+<li><p>A plot of the estimated conditional probability shows that the kNN estimate is flexible enough and does indeed capture the shape of the true conditional probability.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/best-knn-fit_e9dd074bc6c45cebf03c80dcffd4ddac">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/best-knn-fit-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You are ready to do exercises 12 - 13.</p>
+</div>
+</div>
+</section>
+<section id="generative-models" class="level2" data-number="36.3">
+<h2 data-number="36.3" class="anchored" data-anchor-id="generative-models"><span class="header-section-number">36.3</span> Generative models</h2>
+<ul>
+<li><p>We have described how, when using squared loss, the conditional expectation provide the best approach to developing a decision rule.</p></li>
+<li><p>In a binary case, the smallest true error we can achieve is determined by Bayes’ rule, which is a decision rule based on the true conditional probability:</p></li>
+</ul>
+<p><span class="math display">\[
+p(\mathbf{x}) = \mbox{Pr}(Y = 1 \mid \mathbf{X}=\mathbf{x})
+\]</span></p>
+<ul>
+<li><p>We have described several approaches to estimating <span class="math inline">\(p(\mathbf{x})\)</span>.</p></li>
+<li><p>In all these approaches, we estimate the conditional probability directly and do not consider the distribution of the predictors.</p></li>
+<li><p>In machine learning, these are referred to as <em>discriminative</em> approaches.</p></li>
+<li><p>However, Bayes’ theorem tells us that knowing the distribution of the predictors <span class="math inline">\(\mathbf{X}\)</span> may be useful.</p></li>
+<li><p>Methods that model the joint distribution of <span class="math inline">\(Y\)</span> and <span class="math inline">\(\mathbf{X}\)</span> are referred to as <em>generative models</em> (we model how the entire data, <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(Y\)</span>, are generated).</p></li>
+<li><p>We start by describing the most general generative model, Naive Bayes, and then proceed to describe two specific cases, quadratic discriminant analysis (QDA) and linear discriminant analysis (LDA).</p></li>
+</ul>
+<section id="naive-bayes" class="level3" data-number="36.3.1">
+<h3 data-number="36.3.1" class="anchored" data-anchor-id="naive-bayes"><span class="header-section-number">36.3.1</span> Naive Bayes</h3>
+<ul>
+<li>Recall that Bayes rule tells us that we can rewrite <span class="math inline">\(p(\mathbf{x})\)</span> like this:</li>
+</ul>
+<p><span class="math display">\[
+p(\mathbf{x}) = \mbox{Pr}(Y = 1|\mathbf{X}=\mathbf{x}) = \frac{f_{\mathbf{X}|Y = 1}(\mathbf{x}) \mbox{Pr}(Y = 1)}
+{ f_{\mathbf{X}|Y = 0}(\mathbf{x})\mbox{Pr}(Y = 0)  + f_{\mathbf{X}|Y = 1}(\mathbf{x})\mbox{Pr}(Y = 1) }
+\]</span></p>
+<p>with <span class="math inline">\(f_{\mathbf{X}|Y = 1}\)</span> and <span class="math inline">\(f_{\mathbf{X}|Y = 0}\)</span> representing the distribution functions of the predictor <span class="math inline">\(\mathbf{X}\)</span> for the two classes <span class="math inline">\(Y = 1\)</span> and <span class="math inline">\(Y = 0\)</span>.</p>
+<ul>
+<li><p>The formula implies that if we can estimate these conditional distributions of the predictors, we can develop a powerful decision rule.</p></li>
+<li><p>However, this is a big <em>if</em>.</p></li>
+<li><p>As we go forward, we will encounter examples in which <span class="math inline">\(\mathbf{X}\)</span> has many dimensions and we do not have much information about the distribution.</p></li>
+<li><p>In these cases, Naive Bayes will be practically impossible to implement.</p></li>
+<li><p>However, there are instances in which we have a small number of predictors (not much more than 2) and many categories in which generative models can be quite powerful.</p></li>
+<li><p>We describe two specific examples and use our previously described case studies to illustrate them.</p></li>
+<li><p>Let’s start with a very simple and uninteresting, yet illustrative, case: the example related to predicting sex from height.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-6_80cc38bb24c5d49e3b49a5e47a3312d6">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1995</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> heights<span class="sc">$</span>height</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>test_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(y, <span class="at">times =</span> <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>train_set <span class="ot">&lt;-</span> heights <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="sc">-</span>test_index)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>test_set <span class="ot">&lt;-</span> heights <span class="sc">|&gt;</span> <span class="fu">slice</span>(test_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>In this case, the Naive Bayes approach is particularly appropriate because we know that the normal distribution is a good approximation for the conditional distributions of height given sex for both classes <span class="math inline">\(Y = 1\)</span> (female) and <span class="math inline">\(Y = 0\)</span> (male).</p></li>
+<li><p>This implies that we can approximate the conditional distributions <span class="math inline">\(f_{X|Y = 1}\)</span> and <span class="math inline">\(f_{X|Y = 0}\)</span> by simply estimating averages and standard deviations from the data:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-7_c0e20b7680f01d2b34fdba8866f33aee">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> train_set <span class="sc">|&gt;</span> <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">avg =</span> <span class="fu">mean</span>(height), <span class="at">sd =</span> <span class="fu">sd</span>(height))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  sex      avg    sd
+  &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 Female  64.8  4.14
+2 Male    69.2  3.57</code></pre>
+</div>
+</div>
+<ul>
+<li>The prevalence, which we will denote with <span class="math inline">\(\pi = \mbox{Pr}(Y = 1)\)</span>, can be estimated from the data with:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-8_50e5eac041da937b45689b55f34e3bbb">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pi <span class="ot">&lt;-</span> train_set <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">pi =</span> <span class="fu">mean</span>(sex <span class="sc">==</span> <span class="st">"Female"</span>)) <span class="sc">|&gt;</span> <span class="fu">pull</span>(pi)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2118321</code></pre>
+</div>
+</div>
+<ul>
+<li>Now we can use our estimates of average and standard deviation to get an actual rule:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-9_9961654a921532a134a74814f8f07c49">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> test_set<span class="sc">$</span>height</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f0 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x, params<span class="sc">$</span>avg[<span class="dv">2</span>], params<span class="sc">$</span>sd[<span class="dv">2</span>])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(x, params<span class="sc">$</span>avg[<span class="dv">1</span>], params<span class="sc">$</span>sd[<span class="dv">1</span>])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>p_hat_bayes <span class="ot">&lt;-</span> f1<span class="sc">*</span>pi <span class="sc">/</span> (f1<span class="sc">*</span>pi <span class="sc">+</span> f0<span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> pi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Our Naive Bayes estimate <span class="math inline">\(\hat{p}(x)\)</span> looks a lot like a logistic regression estimate:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/conditional-prob-glm-fit-2_e6f10d37f3c5374242db93a61492f916">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/conditional-prob-glm-fit-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>In fact, we can show that the Naive Bayes approach is similar to the logistic regression prediction mathematically.</p></li>
+<li><p>However, we leave the demonstration to a more advanced text, such as the Elements of Statistical Learning<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. We can see that they are similar empirically by comparing the two resulting curves.</p></li>
+</ul>
+</section>
+<section id="controlling-prevalence" class="level3" data-number="36.3.2">
+<h3 data-number="36.3.2" class="anchored" data-anchor-id="controlling-prevalence"><span class="header-section-number">36.3.2</span> Controlling prevalence</h3>
+<ul>
+<li><p>One useful feature of the Naive Bayes approach is that it includes a parameter to account for differences in prevalence.</p></li>
+<li><p>Using our sample, we estimated <span class="math inline">\(f_{X|Y = 1}\)</span>, <span class="math inline">\(f_{X|Y = 0}\)</span> and <span class="math inline">\(\pi\)</span>. If we use hats to denote the estimates, we can write <span class="math inline">\(\hat{p}(x)\)</span> as:</p></li>
+</ul>
+<p><span class="math display">\[
+\hat{p}(x)= \frac{\hat{f}_{X|Y = 1}(x) \hat{\pi}}
+{ \hat{f}_{X|Y = 0}(x)(1-\hat{\pi}) + \hat{f}_{X|Y = 1}(x)\hat{\pi} }
+\]</span></p>
+<ul>
+<li><p>As we discussed earlier, our sample has a much lower prevalence, 0.21, than the general population.</p></li>
+<li><p>So if we use the rule <span class="math inline">\(\hat{p}(x) &gt; 0.5\)</span> to predict females, our accuracy will be affected due to the low sensitivity:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-10_fc2e9e1848d4a036eca0f711ab32e3d0">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>y_hat_bayes <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p_hat_bayes <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Female"</span>, <span class="st">"Male"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sensitivity</span>(<span class="at">data =</span> <span class="fu">factor</span>(y_hat_bayes), <span class="at">reference =</span> <span class="fu">factor</span>(test_set<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2125984</code></pre>
+</div>
+</div>
+<ul>
+<li>Again, this is because the algorithm gives more weight to specificity to account for the low prevalence:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-11_d6d46be3a470dd1e60da8b811cb439d6">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">specificity</span>(<span class="at">data =</span> <span class="fu">factor</span>(y_hat_bayes), <span class="at">reference =</span> <span class="fu">factor</span>(test_set<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9674185</code></pre>
+</div>
+</div>
+<ul>
+<li><p>This is due mainly to the fact that <span class="math inline">\(\hat{\pi}\)</span> is substantially less than 0.5, so we tend to predict <code>Male</code> more often.</p></li>
+<li><p>It makes sense for a machine learning algorithm to do this in our sample because we do have a higher percentage of males.</p></li>
+<li><p>But if we were to extrapolate this to a general population, our overall accuracy would be affected by the low sensitivity.</p></li>
+<li><p>The Naive Bayes approach gives us a direct way to correct this since we can simply force <span class="math inline">\(\hat{\pi}\)</span> to be whatever value we want it to be.</p></li>
+<li><p>So to balance specificity and sensitivity, instead of changing the cutoff in the decision rule, we could simply change <span class="math inline">\(\hat{\pi}\)</span> to 0.5 like this:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-12_6232f9bca016aaa21aea8f5a481e1f67">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p_hat_bayes_unbiased <span class="ot">&lt;-</span> f1 <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">/</span> (f1 <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">+</span> f0 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.5</span>)) </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>y_hat_bayes_unbiased <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(p_hat_bayes_unbiased <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Female"</span>, <span class="st">"Male"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Note the difference in sensitivity with a better balance:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-13_d3f6a7717f7023e1e1c40886b88d6dbe">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sensitivity</span>(<span class="fu">factor</span>(y_hat_bayes_unbiased), <span class="fu">factor</span>(test_set<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6929134</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">specificity</span>(<span class="fu">factor</span>(y_hat_bayes_unbiased), <span class="fu">factor</span>(test_set<span class="sc">$</span>sex))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8320802</code></pre>
+</div>
+</div>
+<ul>
+<li>The new rule also gives us a very intuitive cutoff between 66-67, which is about the middle of the female and male average heights:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/naive-with-good-prevalence_af5ebc57c031ec4ae164cb7bdd76244d">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, p_hat_bayes_unbiased)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">67</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/naive-with-good-prevalence-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>integer(0)</code></pre>
+</div>
+</div>
+</section>
+<section id="quadratic-discriminant-analysis" class="level3" data-number="36.3.3">
+<h3 data-number="36.3.3" class="anchored" data-anchor-id="quadratic-discriminant-analysis"><span class="header-section-number">36.3.3</span> Quadratic discriminant analysis</h3>
+<ul>
+<li><p>Quadratic Discriminant Analysis (QDA) is a version of Naive Bayes in which we assume that the distributions <span class="math inline">\(p_{\mathbf{X}|Y = 1}(x)\)</span> and <span class="math inline">\(p_{\mathbf{X}|Y = 0}(\mathbf{x})\)</span> are multivariate normal.</p></li>
+<li><p>The simple example we described in the previous section is actually QDA. Let’s now look at a slightly more complicated case: the 2 or 7 example.</p></li>
+<li><p>In this case, we have two predictors so we assume each one is bivariate normal.</p></li>
+<li><p>This implies that we need to estimate two averages, two standard deviations, and a correlation for each case <span class="math inline">\(Y = 1\)</span> and <span class="math inline">\(Y = 0\)</span>.</p></li>
+<li><p>Once we have these, we can approximate the distributions <span class="math inline">\(f_{X_1,X_2|Y = 1}\)</span> and <span class="math inline">\(f_{X_1, X_2|Y = 0}\)</span>.</p></li>
+<li><p>We can easily estimate parameters from the data:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-14_70a02197f55176cc9b4f9ee1f8a3a745">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> mnist_27<span class="sc">$</span>train <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y) <span class="sc">|&gt;</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_1 =</span> <span class="fu">mean</span>(x_1), <span class="at">avg_2 =</span> <span class="fu">mean</span>(x_2), </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_1=</span> <span class="fu">sd</span>(x_1), <span class="at">sd_2 =</span> <span class="fu">sd</span>(x_2), </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">r =</span> <span class="fu">cor</span>(x_1, x_2))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  y     avg_1 avg_2   sd_1   sd_2     r
+  &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 2     0.136 0.287 0.0670 0.0600 0.415
+2 7     0.238 0.290 0.0745 0.104  0.468</code></pre>
+</div>
+</div>
+<ul>
+<li>With these estimates in place, all we need are the prevalence <span class="math inline">\(\pi\)</span> to to compute</li>
+</ul>
+<p><span class="math display">\[
+\hat{p}(\mathbf{x})= \frac{\hat{f}_{\mathbf{X}|Y = 1}(\mathbf{x}) \hat{\pi}}
+{ \hat{f}_{\mathbf{X}|Y = 0}(x)(1-\hat{\pi}) + \hat{f}_{\mathbf{X}|Y = 1}(\mathbf{x})\hat{\pi} }
+\]</span></p>
+<ul>
+<li><p>Note that the densities <span class="math inline">\(f\)</span> are bivariate normal distributions.</p></li>
+<li><p>Here we provide a visual way of showing the approach.</p></li>
+<li><p>We plot the data and use contour plots to give an idea of what the two estimated normal densities look like (we show the curve representing a region that includes 95% of the points):</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/qda-explained_5d349e56505007ff64143e3a03eea649">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/qda-explained-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>We can fit QDA using the <code>qda</code> function the <strong>MASS</strong> package:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>train_qda <span class="ot">&lt;-</span> <span class="fu">qda</span>(y <span class="sc">~</span> ., <span class="at">data =</span> mnist_27<span class="sc">$</span>train)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>y_hat <span class="ot">&lt;-</span> <span class="fu">predict</span>(train_qda, mnist_27<span class="sc">$</span>test)<span class="sc">$</span>class</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We see that we obtain relatively good accuracy</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-16_f34429bc446b205b9c4d111a63e600ab">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(y_hat, mnist_27<span class="sc">$</span>test<span class="sc">$</span>y)<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy 
+   0.815 </code></pre>
+</div>
+</div>
+<ul>
+<li>The conditional probability looks relatively good, although it does not fit as well as the kernel smoothers:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/qda-estimate_586072ba6314e525380bfc9cd6c2d42e">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/qda-estimate-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>One reason QDA does not work as well as the kernel methods is because the assumption of normality do not quite hold.</p></li>
+<li><p>Although for the 2s it seems reasonable, for the 7s it does seem to be off.</p></li>
+<li><p>Notice the slight curvature in the points for the 7s:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/qda-does-not-fit_efab2c48bf65da22c2e9fade9f19257b">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mnist_27<span class="sc">$</span>train <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fu">factor</span>(y)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x_1, x_2, <span class="at">fill =</span> y, <span class="at">color =</span> y)) <span class="sc">+</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ellipse</span>(<span class="at">type =</span> <span class="st">"norm"</span>) <span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/qda-does-not-fit-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>QDA can work well here, but it becomes harder to use as the number of predictors increases.</p></li>
+<li><p>Here we have 2 predictors and had to compute 4 means, 4 SDs, and 2 correlations.</p></li>
+<li><p>Notice that if we have 10 predictors, we have 45 correlations for each class.</p></li>
+<li><p>In general, the formula is <span class="math inline">\(K\times p(p-1)/2\)</span>, which gets big fast.</p></li>
+<li><p>Once the number of parameters approaches the size of our data, the method becomes impractical due to overfitting.</p></li>
+</ul>
+</section>
+<section id="linear-discriminant-analysis" class="level3" data-number="36.3.4">
+<h3 data-number="36.3.4" class="anchored" data-anchor-id="linear-discriminant-analysis"><span class="header-section-number">36.3.4</span> Linear discriminant analysis</h3>
+<ul>
+<li><p>A relatively simple solution to QDA’s problem of having too many parameters is to assume that the correlation structure is the same for all classes, which reduces the number of parameters we need to estimate.</p></li>
+<li><p>In this case the the distributions looks like this:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/lda-explained_a59d330689066b5c91cef7dd145019bd">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/lda-explained-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>We can LDA using the <strong>MASS</strong> <code>lda</code> function:</li>
+</ul>
+<ul>
+<li><p>Now the size of the ellipses as well as the angles are the same.</p></li>
+<li><p>This is because they are assumed to have the same standard deviations and correlations.</p></li>
+<li><p>Although this added constrain lowers the number of parameters, the rigidity lowers our accuracy to:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-18_a2654189eb4698018e8f912b94d0ff46">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(y_hat, mnist_27<span class="sc">$</span>test<span class="sc">$</span>y)<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy 
+   0.775 </code></pre>
+</div>
+</div>
+<ul>
+<li><p>When we force this assumption, we can show mathematically that the boundary is a line, just as with logistic regression.</p></li>
+<li><p>For this reason, we call the method <em>linear</em> discriminant analysis (LDA). Similarly, for QDA, we can show that the boundary must be a quadratic function.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/lda-estimate_c21ee8fc1ade63bac0fbe2c55be0bf96">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/lda-estimate-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<ul>
+<li>In the case of LDA, the lack of flexibility does not permit us to capture the non-linearity in the true conditional probability function.</li>
+</ul>
+</section>
+<section id="connection-to-distance" class="level3" data-number="36.3.5">
+<h3 data-number="36.3.5" class="anchored" data-anchor-id="connection-to-distance"><span class="header-section-number">36.3.5</span> Connection to distance</h3>
+<ul>
+<li>The normal density is:</li>
+</ul>
+<p><span class="math display">\[
+f(x) = \frac{1}{\sqrt{2\pi} \sigma} \exp\left\{ - \frac{(x-\mu)^2}{\sigma^2}\right\}
+\]</span></p>
+<ul>
+<li>If we remove the constant <span class="math inline">\(1/(\sqrt{2\pi} \sigma)\)</span> and then take the log, we get:</li>
+</ul>
+<p><span class="math display">\[
+- \frac{(x-\mu)^2}{\sigma^2}
+\]</span></p>
+<p>which is the negative of a distance squared scaled by the standard deviation.</p>
+<ul>
+<li>For higher dimensions, the same is true except the scaling is more complex and involves correlations.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You are now ready to do exercises 14-22.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-trees" class="level2" data-number="36.4">
+<h2 data-number="36.4" class="anchored" data-anchor-id="sec-trees"><span class="header-section-number">36.4</span> Classification and regression trees (CART)</h2>
+<section id="the-curse-of-dimensionality" class="level3" data-number="36.4.1">
+<h3 data-number="36.4.1" class="anchored" data-anchor-id="the-curse-of-dimensionality"><span class="header-section-number">36.4.1</span> The curse of dimensionality</h3>
+<ul>
+<li><p>We described how methods such as LDA and QDA are not meant to be used with many predictors <span class="math inline">\(p\)</span> because the number of parameters that we need to estimate becomes too large.</p></li>
+<li><p>For example, with the digits example <span class="math inline">\(p = 784\)</span>, we would have over 600,000 parameters with LDA, and we would multiply that by the number of classes for QDA.</p></li>
+<li><p>Kernel methods such as kNN or local regression do not have model parameters to estimate.</p></li>
+<li><p>However, they also face a challenge when multiple predictors are used due to what is referred to as the <em>curse of dimensionality</em>. The <em>dimension</em> here refers to the fact that when we have <span class="math inline">\(p\)</span> predictors, the distance between two observations is computed in <span class="math inline">\(p\)</span>-dimensional space.</p></li>
+<li><p>A useful way of understanding the curse of dimensionality is by considering how large we have to make a span/neighborhood/window to include a given percentage of the data.</p></li>
+<li><p>Remember that with larger neighborhoods, our methods lose flexibility, and to be flexible we need to keep the neighborhoods small.</p></li>
+<li><p>To see how this becomes an issue for higher dimensions, suppose we have one continuous predictor with equally spaced points in the [0,1] interval and we want to create windows that include 1/10th of data.</p></li>
+<li><p>Then it’s easy to see that our windows have to be of size 0.1:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/curse-of-dim_4f14c7e0720585fc09e3f0a5ab8bb5be">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/curse-of-dim-1.png" class="img-fluid" style="width:50.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>Now, for two predictors, if we decide to keep the neighborhood just as small, 10% for each dimension, we include only 1 point.</p></li>
+<li><p>If we want to include 10% of the data, then we need to increase the size of each side of the square to <span class="math inline">\(\sqrt{.10} \approx .316\)</span>:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/curse-of-dim-2_a076f2b3c5499fd81109d463b3e317bb">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/curse-of-dim-2-1.png" class="img-fluid" style="width:50.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>Using the same logic, if we want to include 10% of the data in a three-dimensional space, then the side of each cube is <span class="math inline">\(\sqrt[3]{.10} \approx 0.464\)</span>. In general, to include 10% of the data in a case with <span class="math inline">\(p\)</span> dimensions, we need an interval with each side of size <span class="math inline">\(\sqrt[p]{.10}\)</span> of the total.</p></li>
+<li><p>This proportion gets close to 1 quickly, and if the proportion is 1 it means we include all the data and are no longer smoothing.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/curse-of-dim-4_064598ac8e15a4b2420143413a2038dc">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/curse-of-dim-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>By the time we reach 100 predictors, the neighborhood is no longer very local, as each side covers almost the entire dataset.</p></li>
+<li><p>Here we look at a set of elegant and versatile methods that adapt to higher dimensions and also allow these regions to take more complex shapes while still producing models that are interpretable.</p></li>
+<li><p>These are very popular, well-known and studied methods.</p></li>
+<li><p>We will concentrate on regression and decision trees and their extension to random forests.</p></li>
+</ul>
+</section>
+<section id="cart-motivation" class="level3" data-number="36.4.2">
+<h3 data-number="36.4.2" class="anchored" data-anchor-id="cart-motivation"><span class="header-section-number">36.4.2</span> CART motivation</h3>
+<ul>
+<li>To motivate this section, we will use a new dataset that includes the breakdown of the composition of olive oil into 8 fatty acids:</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-20_478ff11c04769fe977c9454406fc6955">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(olive)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "region"      "area"        "palmitic"    "palmitoleic" "stearic"    
+ [6] "oleic"       "linoleic"    "linolenic"   "arachidic"   "eicosenoic" </code></pre>
+</div>
+</div>
+<ul>
+<li>For illustrative purposes, we will try to predict the region using the fatty acid composition values as predictors.</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-21_d571cb0912735694fb11e4df5b8ef579">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(olive<span class="sc">$</span>region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Northern Italy       Sardinia Southern Italy 
+           151             98            323 </code></pre>
+</div>
+</div>
+<ul>
+<li>We remove the <code>area</code> column because we won’t use it as a predictor.</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-22_5ee2922b35a694d47a738bfe3cb1f57b">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>olive <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(olive, <span class="sc">-</span>area)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Using kNN we can achieve a test set accuracy of 0.9717332. However, a bit of data exploration reveals that we should be able to do even better.</p></li>
+<li><p>For example, if we look at the distribution of each predictor stratified by region we see that eicosenoic is only present in Southern Italy and that linoleic separates Northern Italy from Sardinia.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/olive-eda_25225bc8b5014683d26a7e4e7b8358d0">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/olive-eda-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<ul>
+<li><p>This implies that we should be able to build an algorithm that predicts perfectly!</p></li>
+<li><p>We can see this clearly by plotting the values for eicosenoic and linoleic.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/olive-two-predictors_55d0eb83d2548b43f9a1e35dad8b61a2">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/olive-two-predictors-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>We previously defined <em>predictor spaces</em>.</p></li>
+<li><p>The predictor space here consists of eight-dimensional points with values between 0 and 100.</p></li>
+<li><p>In the plot above, we show the space defined by the two predictors eicosenoic and linoleic, and, by eye, we can construct a prediction rule that partitions the predictor space so that each partition contains only outcomes of a one category.</p></li>
+<li><p>This in turn can be used to define an algorithm with perfect accuracy.</p></li>
+<li><p>Specifically, we define the following decision rule: if eicosenoic is larger than 0.065, predict Southern Italy.</p></li>
+<li><p>If not, then if linoleic is larger than <span class="math inline">\(10.535\)</span>, predict Sardinia, and if lower, predict Northern Italy.</p></li>
+<li><p>We can draw this decision tree like this:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/olive-tree_6b7183661507def800b466c9392a4fd3">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/olive-tree-1.png" class="img-fluid" style="width:50.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>Decision trees like this are often used in practice.</p></li>
+<li><p>For example, to decide on a person’s risk of poor outcome after having a heart attack, doctors use the following:</p></li>
+</ul>
+<p><img src="img/Decision-Tree-for-Heart-Attack-Victim-adapted-from-Gigerenzer-et-al-1999-4.png" class="img-fluid"></p>
+<p>(Source: Walton 2010 Informal Logic, Vol. 30, No.&nbsp;2, pp.&nbsp;159-184<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.)</p>
+<ul>
+<li><p>A tree is basically a flow chart of yes or no questions.</p></li>
+<li><p>The general idea of the methods we are describing is to define an algorithm that uses data to create these trees with predictions at the ends, referred to as <em>nodes</em>. Regression and decision trees operate by predicting an outcome variable <span class="math inline">\(y\)</span> by partitioning the predictors.</p></li>
+</ul>
+</section>
+<section id="regression-trees" class="level3" data-number="36.4.3">
+<h3 data-number="36.4.3" class="anchored" data-anchor-id="regression-trees"><span class="header-section-number">36.4.3</span> Regression trees</h3>
+<ul>
+<li><p>When using trees, and the outcome is continuous, we call the approach a <em>regression</em> tree.</p></li>
+<li><p>To introduce regression trees, we will use the 2008 poll data used in previous sections to describe the basic idea of how we build these algorithms.</p></li>
+<li><p>As with other machine learning algorithms, we will try to estimate the conditional expectation <span class="math inline">\(f(x) = \mbox{E}(Y | X = x)\)</span> with <span class="math inline">\(Y\)</span> the poll margin and <span class="math inline">\(x\)</span> the day.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-again_4da308de7ac62673e836bbcacfee140e">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/polls-2008-again-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>( The general idea here is to build a decision tree and, at the end of each <em>node</em>, obtain a predictor <span class="math inline">\(\hat{y}\)</span>.</p>
+<ul>
+<li><p>A mathematical way to describe this is: we are partitioning the predictor space into <span class="math inline">\(J\)</span> non-overlapping regions, <span class="math inline">\(R_1, R_2, \ldots, R_J\)</span>, and then for any predictor <span class="math inline">\(x\)</span> that falls within region <span class="math inline">\(R_j\)</span>, estimate <span class="math inline">\(f(x)\)</span> with the average of the training observations <span class="math inline">\(y_i\)</span> for which the associated predictor <span class="math inline">\(x_i\)</span> is also in <span class="math inline">\(R_j\)</span>.</p></li>
+<li><p>But how do we decide on the partition <span class="math inline">\(R_1, R_2, \ldots, R_J\)</span> and how do we choose <span class="math inline">\(J\)</span>? Here is where the algorithm gets a bit complicated.</p></li>
+<li><p>Regression trees create partitions recursively.</p></li>
+<li><p>We start the algorithm with one partition, the entire predictor space.</p></li>
+<li><p>In our simple first example, this space is the interval [-155, 1]. But after the first step we will have two partitions.</p></li>
+<li><p>After the second step we will split one of these partitions into two and will have three partitions, then four, and so on.</p></li>
+<li><p>We describe how we pick the partition to further partition, and when to stop, later.</p></li>
+<li><p>For each existing partition, we find a predictor <span class="math inline">\(j\)</span> and value <span class="math inline">\(s\)</span> that define two new partitions, which we will call <span class="math inline">\(R_1(j,s)\)</span> and <span class="math inline">\(R_2(j,s)\)</span>, that split our observations in the current partition by asking if <span class="math inline">\(x_j\)</span> is bigger than <span class="math inline">\(s\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[
+R_1(j,s) = \{\mathbf{x} \mid x_j &lt; s\} \mbox{  and  } R_2(j,s) = \{\mathbf{x} \mid x_j \geq s\}
+\]</span></p>
+<ul>
+<li><p>In our current example we only have one predictor, so we will always choose <span class="math inline">\(j = 1\)</span>, but in general this will not be the case.</p></li>
+<li><p>Now, after we define the new partitions <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>, and we decide to stop the partitioning, we compute predictors by taking the average of all the observations <span class="math inline">\(y\)</span> for which the associated <span class="math inline">\(\mathbf{x}\)</span> is in <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>.</p></li>
+<li><p>We refer to these two as <span class="math inline">\(\hat{y}_{R_1}\)</span> and <span class="math inline">\(\hat{y}_{R_2}\)</span> respectively.</p></li>
+<li><p>But how do we pick <span class="math inline">\(j\)</span> and <span class="math inline">\(s\)</span>? Basically we find the pair that minimizes the residual sum of squares (RSS):</p></li>
+</ul>
+<p><span class="math display">\[
+\sum_{i:\, x_i \in R_1(j,s)} (y_i - \hat{y}_{R_1})^2 +
+\sum_{i:\, x_i \in R_2(j,s)} (y_i - \hat{y}_{R_2})^2
+\]</span></p>
+<ul>
+<li><p>This is then applied recursively to the new regions <span class="math inline">\(R_1\)</span> and <span class="math inline">\(R_2\)</span>. We describe how we stop later, but once we are done partitioning the predictor space into regions, in each region a prediction is made using the observations in that region.</p></li>
+<li><p>Let’s take a look at what this algorithm does on the 2008 presidential election poll data.</p></li>
+<li><p>We will use the <code>rpart</code> function in the <strong>rpart</strong> package.</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-23_026bce92eef4bcfc5b637dc2bbe26299">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">rpart</span>(margin <span class="sc">~</span> ., <span class="at">data =</span> polls_2008)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Here, there is only one predictor.</p></li>
+<li><p>Thus we do not have to decide which predictor <span class="math inline">\(j\)</span> to split by, we simply have to decide what value <span class="math inline">\(s\)</span> we use to split.</p></li>
+<li><p>We can visually see where the splits were made:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-24_9e8a735c0180a1d4f93073f13d28b745">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">margin =</span> <span class="fl">0.1</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(fit, <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-tree_07acc31659fa252a1faa01b7b0f146ef">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/polls-2008-tree-1.png" class="img-fluid" style="width:60.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>The first split is made on day 39.5.</p></li>
+<li><p>One of those regions is then split at day 86.5.</p></li>
+<li><p>The two resulting new partitions are split on days 49.5 and 117.5, respectively, and so on.</p></li>
+<li><p>We end up with 8 partitions.</p></li>
+<li><p>The final estimate <span class="math inline">\(\hat{f}(x)\)</span> looks like this:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-tree-fit_36a6d7aae36a550621986fb935c3db2e">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>polls_2008 <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y_hat =</span> <span class="fu">predict</span>(fit)) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(day, margin)) <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(day, y_hat), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/polls-2008-tree-fit-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>Note that the algorithm stopped partitioning at 8.</p></li>
+<li><p>The decision is made based on a measure referred to as <em>complexity parameter</em> (cp). Every time we split and define two new partitions, our training set RSS decreases.</p></li>
+<li><p>This is because with more partitions, our model has more flexibility to adapt to the training data.</p></li>
+<li><p>In fact, if you split until every point is its own partition, then RSS goes all the way down to 0 since the average of one value is that same value.</p></li>
+<li><p>To avoid this, the algorithm sets a minimum for how much the RSS must improve for another partition to be added.</p></li>
+<li><p>This parameter is referred to as the <em>complexity parameter</em> (cp). The RSS must improve by a factor of cp for the new partition to be added.</p></li>
+<li><p>Large values of cp will therefore force the algorithm to stop earlier which results in fewer nodes.</p></li>
+</ul>
+<p>However, cp is not the only parameter used to decide if we should partition a current partition or not.</p>
+<ul>
+<li><p>Another common parameter is the minimum number of observations required in a partition before partitioning it further.</p></li>
+<li><p>The argument used in the <code>rpart</code> function is <code>minsplit</code> and the default is 20.</p></li>
+<li><p>The <code>rpart</code> implementation of regression trees also permits users to determine a minimum number of observations in each node.</p></li>
+<li><p>The argument is <code>minbucket</code> and defaults to <code>round(minsplit/3)</code>.</p></li>
+<li><p>As expected, if we set <code>cp = 0</code> and <code>minsplit = 2</code>, then our prediction is as flexible as possible and our predictor is our original data:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-tree-over-fit_395c8ab8c25ff8d54f8c4c9cd0c76c92">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/polls-2008-tree-over-fit-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>Intuitively we know that this is not a good approach as it will generally result in over-training.</p></li>
+<li><p>These <code>cp</code>, <code>minsplit</code>, and <code>minbucket</code>, three parameters can be used to control the variability of the final predictors.</p></li>
+<li><p>The larger these values are the more data is averaged to compute a predictor and thus reduce variability.</p></li>
+<li><p>The drawback is that it restricts flexibility.</p></li>
+</ul>
+<ul>
+<li><p>So how do we pick these parameters? We can use cross validation, just like with any tuning parameter.</p></li>
+<li><p>Here is the resulting tree when we use cross validation to choose cp:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-final-fit_921ce631a784bbc206370db4e4f0e33a">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/polls-2008-final-fit-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>Note that if we already have a tree and want to apply a higher cp value, we can use the <code>prune</code> function.</p></li>
+<li><p>We call this <em>pruning</em> a tree because we are snipping off partitions that do not meet a <code>cp</code> criterion.</p></li>
+<li><p>Here is an example where we create a tree that used a <code>cp = 0</code> and then we prune it back:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-prune_ecf9b52922fd2db820bbc3e2b620aaec">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">rpart</span>(margin <span class="sc">~</span> ., <span class="at">data =</span> polls_2008, <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="dv">0</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>pruned_fit <span class="ot">&lt;-</span> <span class="fu">prune</span>(fit, <span class="at">cp =</span> <span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="classification-decision-trees" class="level3" data-number="36.4.4">
+<h3 data-number="36.4.4" class="anchored" data-anchor-id="classification-decision-trees"><span class="header-section-number">36.4.4</span> Classification (decision) trees</h3>
+<ul>
+<li><p>Classification trees, or decision trees, are used in prediction problems where the outcome is categorical.</p></li>
+<li><p>We use the same partitioning principle with some differences to account for the fact that we are now working with a categorical outcome.</p></li>
+<li><p>The first difference is that we form predictions by calculating which class is the most common among the training set observations within the partition, rather than taking the average in each partition (as we can’t take the average of categories).</p></li>
+<li><p>The second is that we can no longer use RSS to choose the partition.</p></li>
+<li><p>While we could use the naive approach of looking for partitions that minimize training error, better performing approaches use more sophisticated metrics.</p></li>
+<li><p>Two of the more popular ones are the <em>Gini Index</em> and <em>Entropy</em>.</p></li>
+<li><p>In a perfect scenario, the outcomes in each of our partitions are all of the same category since this will permit perfect accuracy.</p></li>
+<li><p>The <em>Gini Index</em> is going to be 0 in this scenario, and become larger the more we deviate from this scenario.</p></li>
+<li><p>To define the Gini Index, we define <span class="math inline">\(\hat{p}_{j,k}\)</span> as the proportion of observations in partition <span class="math inline">\(j\)</span> that are of class <span class="math inline">\(k\)</span>. The Gini Index is defined as</p></li>
+</ul>
+<p><span class="math display">\[
+\mbox{Gini}(j) = \sum_{k = 1}^K \hat{p}_{j,k}(1-\hat{p}_{j,k})
+\]</span></p>
+<ul>
+<li>If you study the formula carefully you will see that it is in fact 0 in the perfect scenario described above.</li>
+</ul>
+<p><em>Entropy</em> is a very similar quantity, defined as</p>
+<p><span class="math display">\[
+\mbox{entropy}(j) = -\sum_{k = 1}^K \hat{p}_{j,k}\log(\hat{p}_{j,k}), \mbox{ with } 0 \times \log(0) \mbox{ defined as }0
+\]</span></p>
+<ul>
+<li><p>If we use classification tree performs on the 2 or 7 example we achieve an accuracy of 0.81 which is better than regression, but is not as good as what we achieved with kernel methods.</p></li>
+<li><p>The plot of the estimated conditional probability shows us the limitations of classification trees:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/rf-cond-prob_6776ffbf79f0d97d19c819df4ae1a053">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/rf-cond-prob-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>Note that with decision trees, it is difficult to make the boundaries smooth since each partition creates a discontinuity.</p></li>
+<li><p>Classification trees have certain advantages that make them very useful.</p></li>
+<li><p>They are highly interpretable, even more so than linear models.</p></li>
+<li><p>They are easy to visualize (if small enough). Finally, they can model human decision processes and don’t require use of dummy predictors for categorical variables.</p></li>
+<li><p>On the other hand, the approach via recursive partitioning can easily over-train and is therefore a bit harder to train than, for example, linear regression or kNN.</p></li>
+<li><p>Furthermore, in terms of accuracy, it is rarely the best performing method since it is not very flexible and is highly unstable to changes in training data.</p></li>
+<li><p>Random forests, explained next, improve on several of these shortcomings.</p></li>
+</ul>
+</section>
+</section>
+<section id="random-forests" class="level2" data-number="36.5">
+<h2 data-number="36.5" class="anchored" data-anchor-id="random-forests"><span class="header-section-number">36.5</span> Random forests</h2>
+<ul>
+<li><p>Random forests are a <strong>very popular</strong> machine learning approach that addresses the shortcomings of decision trees using a clever idea.</p></li>
+<li><p>The goal is to improve prediction performance and reduce instability by <em>averaging</em> multiple decision trees (a forest of trees constructed with randomness). It has two features that help accomplish this.</p></li>
+<li><p>The first step is <em>bootstrap aggregation</em> or <em>bagging</em>. The general idea is to generate many predictors, each using regression or classification trees, and then forming a final prediction based on the average prediction of all these trees.</p></li>
+<li><p>To assure that the individual trees are not the same, we use the bootstrap to induce randomness.</p></li>
+<li><p>These two features combined explain the name: the bootstrap makes the individual trees <strong>randomly</strong> different, and the combination of trees is the <strong>forest</strong>. The specific steps are as follows.</p></li>
+</ul>
+<p>1. Build <span class="math inline">\(B\)</span> decision trees using the training set. We refer to the fitted models as <span class="math inline">\(T_1, T_2, \dots, T_B\)</span>.</p>
+<p>2. For every observation in the test set, form a prediction <span class="math inline">\(\hat{y}_j\)</span> using tree <span class="math inline">\(T_j\)</span>.</p>
+<p>3. For continuous outcomes, form a final prediction with the average <span class="math inline">\(\hat{y} = \frac{1}{B} \sum_{j = 1}^B \hat{y}_j\)</span>. For categorical data classification, predict <span class="math inline">\(\hat{y}\)</span> with majority vote (most frequent class among <span class="math inline">\(\hat{y}_1, \dots, \hat{y}_T\)</span>).</p>
+<ul>
+<li><p>So how do we get different decision trees from a single training set? For this, we use randomness in two ways which we explain in the steps below.</p></li>
+<li><p>Let <span class="math inline">\(N\)</span> be the number of observations in the training set.</p></li>
+<li><p>To create <span class="math inline">\(T_j, \, j = 1,\ldots,B\)</span> from the training set we do the following:</p></li>
+</ul>
+<p>1. Create a bootstrap training set by sampling <span class="math inline">\(N\)</span> observations from the training set <strong>with replacement</strong>. This is the first way to induce randomness.</p>
+<p>2. A large number of features is typical in machine learning challenges. Often, many features can be informative but including them all in the model may result in overfitting. The second way random forests induce randomness is by randomly selecting features to be included in the building of each tree. A different random subset is selected for each tree. This reduces correlation between trees in the forest, thereby improving prediction accuracy.</p>
+<ul>
+<li>To illustrate how the first steps can result in smoother estimates we will demonstrate by fitting a random forest to the 2008 polls data.</li>
+</ul>
+<p>*We will use the <code>randomForest</code> function in the <strong>randomForest</strong> package:</p>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-rf_acb4b5c74dc18a9d871e181dcd940836">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(margin <span class="sc">~</span> ., <span class="at">data =</span> polls_2008) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Note that if we apply the function <code>plot</code> to the resulting object, stored in <code>fit</code>, we see how the error rate of our algorithm changes as we add trees.</li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/unnamed-chunk-26_ec1d9329d5f016728832c44135fa03f6">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>rafalib<span class="sc">::</span><span class="fu">mypar</span>()</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="36-algorithms_cache/html/more-trees-better-fit_8ee3a070f9d99a765c383c392aff6c3b">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/more-trees-better-fit-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>We can see that in this case, the accuracy improves as we add more trees until about 30 trees where accuracy stabilizes.</p></li>
+<li><p>The resulting estimate for this random forest can be seen like this:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/polls-2008-rf-fit_1e2c1353e0820ca78edfc8d4a0039762">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/polls-2008-rf-fit-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>Notice that the random forest estimate is much smoother than what we achieved with the regression tree in the previous section.</p></li>
+<li><p>This is possible because the average of many step functions can be smooth.</p></li>
+<li><p>We can see this by visually examining how the estimate changes as we add more trees.</p></li>
+<li><p>In the following figure you see each of the bootstrap samples for several values of <span class="math inline">\(b\)</span> and for each one we see the tree that is fitted in grey, the previous trees that were fitted in lighter grey, and the result of averaging all the trees estimated up to that point.</p></li>
+</ul>
+<p><img src="https://rafalab.dfci.harvard.edu/dsbook-part-2/ml/img/rf.gif" class="img-fluid"></p>
+<div class="cell" data-hash="36-algorithms_cache/html/mnits-27-rf-fit_9aef8a484cf9ffaf403fa786d988eb57">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>train_rf <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(y <span class="sc">~</span> ., <span class="at">data =</span> mnist_27<span class="sc">$</span>train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>The accuracy for the random forest fit for our 2 or 7 example is <code>confusionMatrix(predict(train_rf, mnist_27$test), mnist_27$test$y)$overall["Accuracy"</code>.</p></li>
+<li><p>Here is what the conditional probabilities look like:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/cond-prob-rf_5c7848aaab61776da60336d323c328a6">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/cond-prob-rf-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>Visualizing the estimate shows that, although we obtain high accuracy, it appears that there is room for improvement by making the estimate smoother.</p></li>
+<li><p>This could be achieved by changing the parameter that controls the minimum number of data points in the nodes of the tree.</p></li>
+<li><p>The larger this minimum, the smoother the final estimate will be.</p></li>
+<li><p>If we use a nodeize of 31, the number of neighbors we used with knn, we get an accuracy of <code>confusionMatrix(predict(train_rf_2, mnist_27$test), mnist_27$test$y)$overall["Accuracy"]</code>. The selected model improves accuracy and provides a smoother estimate:</p></li>
+</ul>
+<div class="cell" data-hash="36-algorithms_cache/html/cond-prob-final-rf_d841c1a923a00d3ab28551ad15d27350">
+<div class="cell-output-display">
+<p><img src="36-algorithms_files/figure-html/cond-prob-final-rf-1.png" class="img-fluid" style="width:100.0%"></p>
+</div>
+</div>
+<ul>
+<li><p>Random forest performs better than trees in all the examples we have considered.</p></li>
+<li><p>However, a disadvantage of random forests is that we lose interpretability.</p></li>
+<li><p>An approach that helps with interpretability is to examine <em>variable importance</em>. To define <em>variable importance</em> we count how often a predictor is used in the individual trees.</p></li>
+<li><p>You can learn more about <em>variable importance</em> in <a href="https://web.stanford.edu/~hastie/Papers/ESLII.pdf">an advanced machine learning book</a>. The <strong>caret</strong> package includes the function <code>varImp</code> that extracts variable importance from any model in which the calculation is implemented.</p></li>
+<li><p>We give an example on how we use variable importance in the next section.</p></li>
+</ul>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>https://web.stanford.edu/~hastie/Papers/ESLII.pdf<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>https://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID1759289_code1486039.pdf?abstractid = 1759289&amp;mirid = 1&amp;type = 2<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./35-caret.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">The caret package</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
