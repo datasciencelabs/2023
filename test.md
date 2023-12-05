@@ -13,4 +13,4 @@ x <- rnorm(100)
 hist(x)
 ```
 
-![](test_files/figure-commonmark/unnamed-chunk-1-1.png)
+![](test.markdown_strict_files/figure-markdown_strict/unnamed-chunk-1-1.png)
