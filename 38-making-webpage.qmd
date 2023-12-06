@@ -1,0 +1,164 @@
+# Making a web page
+
+
+## HTML 
+
+It's worth learning HTML and CSS
+
+Here a very basic HTML page:
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic HTML Page</title>
+</head>
+<body>
+    <h1>Hello BST 260!</h1>
+    <p>This is a very basic HTML page.</p>
+</body>
+</html>
+```
+
+On most web servers, the URL will default to the file `index.html`
+
+CSS is used to change the style, whle keeping the HTML the same:
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic HTML Page with CSS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: navy;
+            text-align: center;
+        }
+
+        p {
+            color: #333333;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello BST 260!</h1>
+    <p>This is a very basic HTML page with some CSS styling.</p>
+</body>
+</html>
+```
+
+
+Usually, we keep the CSS in a separate file, as they can be quite long. You can Typically we call the file `sytle.css`.
+
+```
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: navy;
+    text-align: center;
+}
+
+p {
+    color: #333333;
+    margin-left: 20px;
+}
+```
+
+Then we add a line to the html file to make let the browser know to use the style:
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic HTML Page with External CSS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Hello Hello BST 260!!</h1>
+    <p>This is a very basic HTML page with external CSS styling.</p>
+</body>
+</html>
+```
+
+There are many css file you can borrow to make the page follow different styles.
+
+## Markdown
+
+* To avoid learning HTML syntax you can instead use markdown to create pages. 
+
+* Markdown is what Quarto is based on. If you remove the runable code from quarto it becomes a markdown document.
+
+* GitHub uses markdown for the README files shown in repositores.
+
+        - Example: <https://github.com/datasciencelabs/2023>
+        - Code: <https://raw.githubusercontent.com/datasciencelabs/2023/main/README.md>
+
+* GitHub converts it to HTML for you so it looks _pretty_.
+
+## Making a GitHub ready markdown in Quarto
+
+If you use the header
+
+``` 
+---
+format: gfm
+---
+```
+## GitHub Welcome page
+
+You can easily have a nice introductory page like this one:
+
+https://github.com/rafalab
+
+* Go to your GitHub account. 
+
+* Create a repo with the same name as your username. For example, I created a repo called `rafalab`
+
+* Add a README.md file like this:
+
+```
+### Hi there 👋
+
+- I am NAME. I am a student at HSPH.
+- I am studying Biostatistics.
+- I keep examples of my work in this GitHub repo
+- Follow me @handle
+```
+
+## GitHub pages
+
+You can use GitHub pages to create a webpage using only markdown.
+
+You can create a homw page with URL `http://username.github.io/`
+
+But also webpages for projects with URLs `http://username.github.io/project-name`
+
+
+Try it out:
+
+<https://docs.github.com/en/pages/quickstart>
+
+
+## Bookdown
+
+The R package bookdown makes it very easy to create books with quarto. We can easily share these on GitHub.
+
+## Blogdown
+
+Similarly, the bloogdown pacakge lets you write a blog with quarto.
+
+
+
