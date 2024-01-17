@@ -410,7 +410,7 @@ cd projects/murders
 
 In the course we will be using RStudio to edit files. But there will be situations in where this is not the most efficient approach. You might also need to write R code on a server that does not have RStudio installed. For this reason you need to learn to use a _command-line text editors_ or _terminal-based text editors_. A key feature of these is that you can do everything you need on a terminal without the need for graphical interface. This is often necessary when using remote servers or computers you are not sitting in front off. 
 
-Certainly! Command-line text editors are essential tools, especially for system administrators, developers, and other users who frequently work in a terminal environment. Here are some of the most popular command-line text editors:
+Command-line text editors are essential tools, especially for system administrators, developers, and other users who frequently work in a terminal environment. Here are some of the most popular command-line text editors:
 
 * Nano - Easy to use and beginner-friendly.
    - **Features**: Simple interface, easy-to-use command prompts at the bottom of the screen, syntax highlighting.
